@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wormy McWormface — PharmD.ca</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:           #f5f2ec;
+      --surface:      #ffffff;
+      --surface-2:    #f0ede6;
+      --border:       #ddd8ce;
+      --text:         #111111;
+      --text-sub:     #444444;
+      --accent:       #1d6b4e;
+      --accent-light: #e6f2ed;
+      --accent-text:  #ffffff;
+      --shadow:       0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-hover: 0 2px 6px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.09);
+      --radius:       14px;
+      --nav-h:        52px;
+    }
+    [data-theme="dark"] {
+      --bg:           #111210;
+      --surface:      #1b1c1a;
+      --surface-2:    #232420;
+      --border:       #2e2f2b;
+      --text:         #f0ede6;
+      --text-sub:     #a8a49b;
+      --accent:       #2e9c72;
+      --accent-light: #0e2b1f;
+      --accent-text:  #f0ede6;
+      --shadow:       0 1px 3px rgba(0,0,0,0.30), 0 4px 16px rgba(0,0,0,0.25);
+      --shadow-hover: 0 2px 8px rgba(0,0,0,0.40), 0 8px 28px rgba(0,0,0,0.30);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+      padding-top: var(--nav-h);
+    }
+
+    /* ── STICKY NAV ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      background: rgba(245,242,236,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 14px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] .nav { background: rgba(17,18,16,0.90); }
+
+    .nav-home {
+      display: flex; align-items: center; gap: 7px;
+      text-decoration: none; color: var(--text);
+      font-size: 14px; font-weight: 600; letter-spacing: 0.01em;
+      transition: opacity 0.2s; flex-shrink: 0;
+    }
+    .nav-home:hover { opacity: 0.6; }
+    .nav-pill { font-size: 17px; transform: rotate(-35deg); display: inline-block; }
+
+    .nav-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+
+    .nav-title {
+      flex: 1; text-align: center;
+      font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
+    }
+
+    .theme-toggle { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .theme-icon { font-size: 13px; line-height: 1; }
+
+    .toggle-track {
+      position: relative; width: 40px; height: 22px;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: 11px; cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] .toggle-track { background: var(--accent); border-color: var(--accent); }
+
+    .toggle-thumb {
+      position: absolute; top: 2px; left: 2px;
+      width: 14px; height: 14px;
+      background: var(--accent); border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), background 0.3s;
+    }
+    [data-theme="dark"] .toggle-thumb { transform: translateX(18px); background: #fff; }
+    .toggle-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 860px; margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header { margin-bottom: 32px; }
+    .breadcrumb {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--text-sub); margin-bottom: 10px;
+    }
+    .page-header h1 {
+      font-size: clamp(30px, 5vw, 42px);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1;
+      margin-bottom: 7px;
+    }
+    .tagline { font-size: 14px; color: var(--text-sub); }
+    .tagline strong { font-weight: 600; color: var(--text); }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.2s, transform 0.2s;
+      margin-bottom: 20px;
+    }
+    .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+
+    .card-head {
+      background: var(--accent);
+      padding: 13px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-head-title {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase; color: #fff;
+    }
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+      background: rgba(255,255,255,0.18); color: #fff;
+      padding: 3px 10px; border-radius: 20px;
+    }
+
+    .card-body { padding: 24px 20px; }
+
+    /* ── FORM ── */
+    .field-row {
+      display: flex; align-items: center;
+      gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .field-label {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text); min-width: 48px;
+    }
+    .weight-input {
+      font-family: 'DM Mono', monospace;
+      font-size: 22px; font-weight: 500;
+      width: 110px; padding: 9px 14px;
+      background: var(--bg); color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 8px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;
+    }
+    .weight-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .unit-toggle {
+      display: flex; border: 1.5px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .unit-toggle input[type="radio"] { display: none; }
+    .unit-toggle label {
+      padding: 9px 16px;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--text-sub); background: transparent;
+      cursor: pointer; user-select: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .unit-toggle input:checked + label { background: var(--accent); color: #fff; }
+    .unit-toggle label:hover { background: var(--surface-2); color: var(--text); }
+    .unit-toggle input:checked + label:hover { background: var(--accent); color: #fff; }
+
+    .btn-calc {
+      width: 100%; padding: 14px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-calc:hover { opacity: 0.87; }
+    .btn-calc:active { transform: scale(0.98); }
+
+    /* ── RESULT ── */
+    .result-card { display: none; animation: fadeUp 0.4s ease both; }
+    .result-card.visible { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+    .result-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-sub);
+    }
+    .copy-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px;
+      background: transparent;
+      border: 1.5px solid var(--border); border-radius: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+      color: var(--text-sub); cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+    .result-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 500px) { .result-grid { grid-template-columns: 1fr; } }
+
+    .result-cell {
+      padding: 18px 20px;
+      border-right: 1px dashed var(--border);
+    }
+    .result-cell:last-child { border-right: none; }
+
+    .rcell-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--text-sub); margin-bottom: 7px;
+    }
+    .rcell-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 26px; font-weight: 500;
+      color: var(--accent); line-height: 1; margin-bottom: 4px;
+    }
+    .rcell-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--text-sub);
+    }
+
+    .result-note {
+      padding: 10px 20px;
+      font-size: 12px; font-weight: 600;
+      color: var(--accent); background: var(--accent-light);
+      display: none;
+    }
+    .result-note.visible { display: block; }
+
+    .error-state {
+      padding: 16px 20px;
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: #c0392b;
+    }
+    [data-theme="dark"] .error-state { color: #e57373; }
+
+    /* ── INDICATIONS ── */
+    .indications-card .card-body { padding: 0; }
+
+    .ind-table-head {
+      display: grid; grid-template-columns: 1.2fr 1fr 0.8fr;
+      padding: 10px 20px; gap: 8px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+    .ind-table-head span {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-sub);
+    }
+    .ind-table-head span:last-child { text-align: right; }
+
+    .ind-row {
+      display: grid; grid-template-columns: 1.2fr 1fr 0.8fr;
+      padding: 14px 20px; gap: 8px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+      transition: background 0.15s;
+    }
+    .ind-row:last-child { border-bottom: none; }
+    .ind-row:hover { background: var(--surface-2); }
+
+    .ind-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .ind-sci  { font-size: 11px; font-weight: 500; color: var(--text-sub); font-style: italic; }
+    .ind-dose { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: var(--accent); }
+    .ind-max  { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    .ind-note { font-size: 12px; font-weight: 500; color: var(--text-sub); text-align: right; }
+  </style>
+</head>
+<body onkeypress="isEnter(event)">
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-home">
+    <span class="nav-pill">💊</span>
+    PharmD.ca
+  </a>
+  <div class="nav-sep"></div>
+  <div class="nav-title">Wormy McWormface</div>
+  <div class="theme-toggle">
+    <span class="theme-icon">☀️</span>
+    <div class="toggle-track" role="button" tabindex="0"
+      aria-label="Basculer mode sombre"
+      onclick="toggleTheme()"
+      onkeypress="if(event.key==='Enter'||event.key===' ')toggleTheme()">
+      <div class="toggle-thumb"></div>
+    </div>
+    <span class="theme-icon">🌙</span>
+  </div>
+</nav>
+
+<main>
+
+  <div class="page-header">
+    <div class="breadcrumb">PharmD.ca › Calculateurs › Antiparasitaires</div>
+    <h1>Wormy McWormface</h1>
+    <p class="tagline">Pyrantel pamoate &mdash; <strong>125 mg / comprimé</strong> &mdash; 11 mg/kg/dose</p>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-title">Calculateur de dose</span>
+      <span class="badge">Pyrantel pamoate</span>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <span class="field-label">Poids</span>
+        <input class="weight-input" id="htmlweight" type="text" inputmode="decimal"
+          placeholder="—"
+          oninput="this.value=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');"
+          autofocus>
+        <div class="unit-toggle">
+          <input type="radio" name="unit" id="htmllbs" checked>
+          <label for="htmllbs">lbs</label>
+          <input type="radio" name="unit" id="htmlkg">
+          <label for="htmlkg">kg</label>
+        </div>
+      </div>
+      <button class="btn-calc" onclick="getDose()">Calculer la dose</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="card result-card" id="resultCard">
+    <div id="resultError" class="error-state" style="display:none;"></div>
+    <div id="resultMain" style="display:none;">
+      <div class="result-meta">
+        <span class="result-date" id="resultDate"></span>
+        <button class="copy-btn" onclick="copyResult()">
+          <span>⎘</span><span id="copyLabel">Copier</span>
+        </button>
+      </div>
+      <div class="result-grid">
+        <div class="result-cell">
+          <div class="rcell-label">Poids</div>
+          <div class="rcell-value" id="rKg">—</div>
+          <div class="rcell-sub" id="rLbs">—</div>
+        </div>
+        <div class="result-cell">
+          <div class="rcell-label">Dose</div>
+          <div class="rcell-value" id="rDose">—</div>
+          <div class="rcell-sub">mg par dose</div>
+        </div>
+        <div class="result-cell">
+          <div class="rcell-label">Comprimés</div>
+          <div class="rcell-value" id="rTablets">—</div>
+          <div class="rcell-sub" id="rTabletsSub">par dose</div>
+        </div>
+      </div>
+      <div class="result-note" id="resultNote">
+        ⚠ Dose maximale atteinte — 1 000 mg indépendamment du poids.
+      </div>
+    </div>
+  </div>
+
+  <!-- INDICATIONS -->
+  <div class="card indications-card">
+    <div class="card-head">
+      <span class="card-head-title">Indications &amp; Posologie</span>
+      <span class="badge">Adulte / Enfant</span>
+    </div>
+    <div class="card-body">
+      <div class="ind-table-head">
+        <span>Indication</span>
+        <span>Posologie</span>
+        <span>Notes</span>
+      </div>
+      <div class="ind-row">
+        <div>
+          <div class="ind-name">Oxyurose</div>
+          <div class="ind-sci">Enterobius vermicularis</div>
+        </div>
+        <div>
+          <div class="ind-dose">11 mg/kg</div>
+          <div class="ind-max">Max 1 g — dose unique</div>
+        </div>
+        <div class="ind-note">Répéter<br>dans 2 semaines</div>
+      </div>
+      <div class="ind-row">
+        <div>
+          <div class="ind-name">Ankylostomiase</div>
+          <div class="ind-sci">Ancylostoma / Necator</div>
+        </div>
+        <div>
+          <div class="ind-dose">11 mg/kg/jour</div>
+          <div class="ind-max">Max 1 g/j × 3 jours</div>
+        </div>
+        <div class="ind-note">Traitement<br>3 jours</div>
+      </div>
+      <div class="ind-row">
+        <div>
+          <div class="ind-name">Ascaridiase</div>
+          <div class="ind-sci">Ascaris lumbricoides</div>
+        </div>
+        <div>
+          <div class="ind-dose">11 mg/kg</div>
+          <div class="ind-max">Max 1 g</div>
+        </div>
+        <div class="ind-note">Dose unique</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleTheme() {
+    const h = document.documentElement;
+    h.setAttribute('data-theme', h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
+  function getDose() {
+    const val = document.getElementById('htmlweight').value.trim();
+    const card    = document.getElementById('resultCard');
+    const errEl   = document.getElementById('resultError');
+    const mainEl  = document.getElementById('resultMain');
+    const noteEl  = document.getElementById('resultNote');
+
+    // Re-trigger animation
+    card.classList.remove('visible');
+    void card.offsetWidth;
+    card.classList.add('visible');
+
+    if (!val) {
+      errEl.style.display = 'block';
+      mainEl.style.display = 'none';
+      errEl.textContent = '⚠ Veuillez entrer un poids.';
+      return;
+    }
+
+    errEl.style.display = 'none';
+    mainEl.style.display = 'block';
+
+    let weight_kg, weight_lbs;
+    if (document.getElementById('htmllbs').checked) {
+      weight_lbs = parseFloat(val);
+      weight_kg  = Math.round(weight_lbs / 2.20462 * 100) / 100;
+    } else {
+      weight_kg  = parseFloat(val);
+      weight_lbs = Math.round(weight_kg * 2.20462 * 10) / 10;
+    }
+
+    let dose = Math.round(11 * weight_kg * 100) / 100;
+    const maxed = dose > 1000;
+    if (maxed) dose = 1000;
+
+    const exact = dose / 125;
+    const before_round = Math.round(exact * 10) / 10;
+    const dec = Math.round((exact - Math.floor(exact)) * 10) / 10;
+    const full = Math.floor(exact);
+    let tabs;
+    if (dec >= 0.3 && dec <= 0.6) tabs = full + 0.5;
+    else if (dec < 0.3) tabs = full;
+    else tabs = full + 1;
+
+    const n = new Date();
+    document.getElementById('resultDate').textContent =
+      String(n.getDate()).padStart(2,'0') + '/' +
+      String(n.getMonth()+1).padStart(2,'0') + '/' +
+      n.getFullYear();
+
+    document.getElementById('rKg').textContent      = weight_kg + ' kg';
+    document.getElementById('rLbs').textContent     = weight_lbs + ' lbs';
+    document.getElementById('rDose').textContent    = dose + ' mg';
+    document.getElementById('rTablets').textContent = tabs;
+    document.getElementById('rTabletsSub').textContent = 'par dose (' + before_round + ' calculés)';
+    noteEl.classList.toggle('visible', maxed);
+  }
+
+  function copyResult() {
+    const date = document.getElementById('resultDate').textContent;
+    const kg   = document.getElementById('rKg').textContent;
+    const lbs  = document.getElementById('rLbs').textContent;
+    const dose = document.getElementById('rDose').textContent;
+    const tabs = document.getElementById('rTablets').textContent;
+    const sub  = document.getElementById('rTabletsSub').textContent;
+    const text = `${date}\nPoids: ${kg} = ${lbs}\nDose: ${dose} par dose\nPostologie: ${tabs} comprimés ${sub}`;
+
+    navigator.clipboard.writeText(text).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+    });
+
+    const lbl = document.getElementById('copyLabel');
+    lbl.textContent = '✓ Copié';
+    setTimeout(() => lbl.textContent = 'Copier', 1800);
+  }
+
+  function isEnter(e) {
+    if ((e.which || e.keyCode) === 13) getDose();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmD.ca</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+
+  <style>
+    :root {
+      --bg: #f5f2ec;
+      --surface: #ffffff;
+      --border: #ddd8ce;
+      --ink: #111111;
+      --muted: #5a5650;
+      --accent: #1d6b4e;
+      --accent-pale: #e8f4ef;
+      --accent-mid: #c2ddd4;
+      --shadow: 0 2px 10px rgba(0,0,0,0.07);
+      --shadow-hover: 0 6px 20px rgba(29,107,78,0.13);
+    }
+
+    [data-theme="dark"] {
+      --bg: #111210;
+      --surface: #1a1c19;
+      --border: #2a2e28;
+      --ink: #f0ece3;
+      --muted: #8a9087;
+      --accent: #3daa7a;
+      --accent-pale: #0e2a1e;
+      --accent-mid: #1a4535;
+      --shadow: 0 2px 10px rgba(0,0,0,0.4);
+      --shadow-hover: 0 6px 20px rgba(61,170,122,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Subtle grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 28px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+
+    .header-left {
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .logo {
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      font-size: 50px;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: color 0.3s;
+    }
+
+    .logo-pill { font-size: 38px; }
+
+    .tagline {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+      font-family: 'DM Mono', monospace;
+      transition: color 0.3s;
+    }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.1s ease forwards;
+      margin-top: 10px;
+    }
+
+    .toggle-icon { font-size: 13px; }
+
+    .toggle-switch {
+      position: relative;
+      width: 38px;
+      height: 21px;
+      cursor: pointer;
+      display: block;
+    }
+
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 11px;
+      transition: background 0.3s;
+    }
+
+    [data-theme="dark"] .toggle-track { background: var(--accent-mid); }
+
+    .toggle-knob {
+      position: absolute;
+      top: 2.5px;
+      left: 2.5px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.25s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    .toggle-switch input:checked ~ .toggle-knob { transform: translateX(17px); }
+
+    /* ── Easter egg ── */
+    .easter-zone {
+      margin-bottom: 44px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.15s ease forwards;
+    }
+
+    #easterInput {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      padding: 7px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--ink);
+      width: 210px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+    }
+
+    #easterInput:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(29,107,78,0.12);
+    }
+
+    #easterInput::placeholder { color: var(--accent-mid); }
+
+    .loop-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .loop-label input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 13px;
+      height: 13px;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 12px;
+      margin-top: 32px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.2s ease forwards;
+      transition: color 0.3s;
+    }
+
+    /* ── Nav grid ── */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 15px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s, background 0.18s, color 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.45s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 0.18s ease;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .nav-link:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-1px);
+      background: var(--accent-pale);
+    }
+
+    .nav-link:hover::before { transform: scaleY(1); }
+
+    .nav-link.placeholder {
+      opacity: 0;
+      animation: fadeUp 0.45s ease forwards;
+    }
+
+    .nav-link.placeholder .nav-label {
+      color: var(--muted);
+    }
+
+    .nav-link.placeholder .nav-sub {
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      color: var(--accent-mid);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-icon {
+      font-size: 17px;
+      width: 22px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .nav-text { display: flex; flex-direction: column; gap: 1px; }
+    .nav-label { line-height: 1.2; }
+
+    /* stagger */
+    .nav-link:nth-child(1)  { animation-delay: 0.22s; }
+    .nav-link:nth-child(2)  { animation-delay: 0.27s; }
+    .nav-link:nth-child(3)  { animation-delay: 0.32s; }
+    .nav-link:nth-child(4)  { animation-delay: 0.37s; }
+    .nav-link:nth-child(5)  { animation-delay: 0.42s; }
+    .nav-link:nth-child(6)  { animation-delay: 0.47s; }
+    .nav-link:nth-child(7)  { animation-delay: 0.52s; }
+    .nav-link:nth-child(8)  { animation-delay: 0.57s; }
+    .nav-link:nth-child(9)  { animation-delay: 0.62s; }
+    .nav-link:nth-child(10) { animation-delay: 0.67s; }
+    .nav-link:nth-child(11) { animation-delay: 0.72s; }
+    .nav-link:nth-child(12) { animation-delay: 0.77s; }
+    .nav-link:nth-child(13) { animation-delay: 0.82s; }
+    .nav-link:nth-child(14) { animation-delay: 0.87s; }
+
+    /* ── Footer ── */
+    .footer-hint {
+      margin-top: 44px;
+      font-size: 11px;
+      color: var(--accent-mid);
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.95s ease forwards;
+      transition: color 0.3s;
+    }
+
+    /* ── Emoji ── */
+    .emoji {
+      position: fixed;
+      animation: floatUp 4s linear forwards;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(-100vh) scale(1.5) rotate(360deg); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .nav-grid { grid-template-columns: 1fr; }
+      .logo { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-left">
+      <div class="logo"><span class="logo-pill">💊</span> PharmD.ca</div>
+      <div class="tagline">Outils pour pharmaciens</div>
+    </div>
+    <div class="theme-toggle">
+      <span class="toggle-icon">☀️</span>
+      <label class="toggle-switch" title="Mode sombre">
+        <input type="checkbox" id="themeToggle" />
+        <div class="toggle-track"></div>
+        <div class="toggle-knob"></div>
+      </label>
+      <span class="toggle-icon">🌙</span>
+    </div>
+  </header>
+
+  <div class="easter-zone">
+    <input id="easterInput" type="text" placeholder="Search..." />
+    <label class="loop-label">
+      <input type="checkbox" id="loopCheckbox" /> :)
+    </label>
+  </div>
+
+  <!-- Calcul & Dosage -->
+  <div class="section-label">Calcul &amp; Dosage</div>
+  <div class="nav-grid">
+
+    <a href="2/insuline.html" class="nav-link">
+      <span class="nav-icon">💉</span>
+      <div class="nav-text"><span class="nav-label">Insuline</span></div>
+    </a>
+
+    <a href="2/inr-calculator.html" class="nav-link">
+      <span class="nav-icon">🩸</span>
+      <div class="nav-text"><span class="nav-label">INR</span></div>
+    </a>
+
+    <a href="2/abx-calculator.html" class="nav-link">
+      <span class="nav-icon">🦠</span>
+      <div class="nav-text"><span class="nav-label">Antibiotique Pédiatrique</span></div>
+    </a>
+
+    <a href="2/mvl-pediatrique.html" class="nav-link">
+      <span class="nav-icon">👶</span>
+      <div class="nav-text"><span class="nav-label">MVL Pédiatrique</span></div>
+    </a>
+
+    <a href="2/combantrin.html" class="nav-link">
+      <span class="nav-icon">🐛</span>
+      <div class="nav-text"><span class="nav-label">Pyrantel Pamoate</span></div>
+    </a>
+
+    <a href="Calc/methadone.html" class="nav-link placeholder">
+      <span class="nav-icon">🧪</span>
+      <div class="nav-text">
+        <span class="nav-label">Méthadone</span>
+        <span class="nav-sub">ancienne page</span>
+      </div>
+    </a>
+
+    <a href="Calc/PIQ.html" class="nav-link placeholder">
+      <span class="nav-icon">📌</span>
+      <div class="nav-text">
+        <span class="nav-label">PIQ</span>
+        <span class="nav-sub">ancienne page</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Gestion & Suivi -->
+  <div class="section-label">Gestion &amp; Suivi</div>
+  <div class="nav-grid">
+
+    <a href="2/pharmacy-inventory.html" class="nav-link">
+      <span class="nav-icon">🔢</span>
+      <div class="nav-text"><span class="nav-label">NarCount</span></div>
+    </a>
+
+    <a href="2/dispill.html" class="nav-link">
+      <span class="nav-icon">📅</span>
+      <div class="nav-text"><span class="nav-label">Dispill</span></div>
+    </a>
+
+    <a href="2/agenda.html" class="nav-link">
+      <span class="nav-icon">&#128197;</span>
+      <div class="nav-text"><span class="nav-label">Agenda</span></div>
+    </a>
+
+    <a href="2/rpa-tracker.html" class="nav-link">
+      <span class="nav-icon">🔄</span>
+      <div class="nav-text"><span class="nav-label">RPA</span></div>
+    </a>
+
+    <a href="http://reclamacie.com/" class="nav-link">
+      <span class="nav-icon">📋</span>
+      <div class="nav-text"><span class="nav-label">Réclamacie</span></div>
+    </a>
+
+  </div>
+
+  <!-- Outils -->
+  <div class="section-label">Outils</div>
+  <div class="nav-grid">
+
+    <a href="2/pharma_prompts.html" class="nav-link">
+      <span class="nav-icon">💬</span>
+      <div class="nav-text"><span class="nav-label">Prompts</span></div>
+    </a>
+
+    <a href="https://friday.mxlogin.com:2096/" class="nav-link">
+      <span class="nav-icon">✉️</span>
+      <div class="nav-text"><span class="nav-label">Email</span></div>
+    </a>
+
+    <a href="Calc/index.html" class="nav-link">
+      <span class="nav-icon">🕰️</span>
+      <div class="nav-text">
+        <span class="nav-label">Ancien site</span>
+        <span class="nav-sub">pharmd.ca/Calc</span>
+      </div>
+    </a>
+
+    <a href="https://pharmd.ca/2/fuel.html" class="nav-link" style="visibility:hidden;" tabindex="-1" aria-hidden="true">
+      <span class="nav-icon">⛽</span>
+      <div class="nav-text"><span class="nav-label">FUEL</span></div>
+    </a>
+
+  </div>
+
+  <p class="footer-hint">Appuyez sur W ♥</p>
+</div>
+
+<script>
+  // Theme
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+  if (localStorage.getItem('pharmd-theme') === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+    themeToggle.checked = true;
+  }
+  themeToggle.addEventListener('change', () => {
+    const isDark = themeToggle.checked;
+    html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('pharmd-theme', isDark ? 'dark' : 'light');
+  });
+
+  // Easter eggs
+  const emojiPresets = {
+    love:    ['❤️','💖','💘','💕','💓'],
+    wilson:  ['❤️','💖','💘','💕','💓'],
+    victor:  ['💪','🍖','🥩','🍗'],
+    marie:   ['🐱','🐾','🪶','🐰'],
+    devonteh:['🏀','🥡','🍚'],
+    elijah:  ['🍆','🍑','🍉','🧃'],
+    vanessa: ['🧸','👜','👛','🎀'],
+    michael: ['🌮','🍗','🍔','🍕','🍟'],
+    eric:    ['🧔🏿','👨🏿','👱🏿‍♂️','🙎🏿‍♂️','🕵🏿‍♂️'],
+    lucia:   ['🍫','🍩','🍬','🍭','🍰','☕','🧁'],
+    'shi hao':['🃏','🎴','💠','✨','🧠','🧩','🔷','👁️','🌀'],
+    aida:    ['🧴','💅','🧖‍♀️','💄','🛁','🧼','🪮','🪞'],
+    oanh:    ['🍜','🥢','🥖','☀️','🏮','👧','📏','🐥']
+  };
+
+  const loopCheckbox = document.getElementById('loopCheckbox');
+  let loopInterval = null;
+
+  function launchEmojis(list, count = 30) {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'emoji';
+      el.style.left = Math.random() * window.innerWidth + 'px';
+      el.style.top = window.innerHeight + 'px';
+      el.style.fontSize = 20 + Math.random() * 20 + 'px';
+      el.style.animationDuration = (3 + Math.random() * 2) + 's';
+      el.textContent = list[Math.floor(Math.random() * list.length)];
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 5000);
+    }
+  }
+
+  const easterInput = document.getElementById('easterInput');
+  easterInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const val = easterInput.value.trim().toLowerCase();
+      const emojis = emojiPresets[val];
+      if (emojis) {
+        if (loopInterval) { clearInterval(loopInterval); loopInterval = null; }
+        launchEmojis(emojis, 30);
+        if (loopCheckbox.checked) loopInterval = setInterval(() => launchEmojis(emojis, 20), 2000);
+        easterInput.value = '';
+        return;
+      }
+
+      // fallback: search homepage links and open first match
+      if (val) {
+        const links = [...document.querySelectorAll('.nav-link')];
+        const match = links.find(a => (a.textContent || '').toLowerCase().includes(val));
+        if (match && match.getAttribute('href')) {
+          window.location.href = match.getAttribute('href');
+          return;
+        }
+      }
+
+      easterInput.value = '';
+    }
+  });
+
+  loopCheckbox.addEventListener('change', () => {
+    if (!loopCheckbox.checked && loopInterval) { clearInterval(loopInterval); loopInterval = null; }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key.toLowerCase() === 'w' && document.activeElement !== easterInput) launchEmojis(['❤️'], 20);
+  });
+</script>
+
+</body>
+</html>

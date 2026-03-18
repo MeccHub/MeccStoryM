@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combantrin</title>
+    <style>
+        body
+        {
+            font-family:courier,sans-serif;
+            font-size: 11px;
+            position: absolute;
+            top:  50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        table{
+            border: 1px solid black;
+            table-layout: fixed;
+        }
+        td
+        {
+            border: 1px solid black;
+            width: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body onkeypress="isEnter(event)">
+
+<script type="text/javascript">
+
+    //function to copy text
+    function copyToClipboard(){
+        document.getElementById("printout").focus();
+        document.execCommand("Copy");
+    }
+
+    function getDose(){
+
+        var n =  new Date();
+        var yyyy = n.getFullYear();
+        var mm = n.getMonth() + 1;
+        var dd = n.getDate();
+
+        var resultprint = dd + "/" + mm + "/" + yyyy + "<br>";
+
+        var weight_input = document.getElementById("htmlweight").value;
+
+        if (document.getElementById("htmllbs").checked){
+                var weight_lbs = document.getElementById("htmlweight").value;
+                var weight_kg = Math.floor(Math.round(document.getElementById("htmlweight").value / 0.0220462)) / 100;
+        }
+
+        if (document.getElementById("htmlkg").checked){
+                var weight_kg = document.getElementById("htmlweight").value;
+                var weight_lbs = Math.round(document.getElementById("htmlweight").value * 2.20462);
+        }
+
+        var dose = Math.round(11 * weight_kg * 100) / 100;
+        if (dose > 1000) {
+            dose = 1000;
+        }
+
+        var tablets = dose / 125;
+        var before_round = Math.round(tablets * 10) / 10;
+        var decimal_tablets = Math.round((tablets - Math.floor(tablets)) * 10) / 10;
+        var full_tablets = Math.floor(tablets);
+
+        if (decimal_tablets >= 0.3 && decimal_tablets <= 0.6){
+            var print_tablets = full_tablets + 0.5;
+        }
+        if (decimal_tablets < 0.3){
+            var print_tablets = full_tablets;
+        }
+        if (decimal_tablets > 0.6){
+            var print_tablets = full_tablets +1;
+        }
+
+        resultprint += "Poids: " + weight_kg + " kg = " + weight_lbs + " lbs<br>";
+
+        if (dose == 1000){
+            resultprint += "Dose: " + dose + "mg par dose (dose maximale)<br>";
+        }
+        else {
+            resultprint += "Dose: " + dose + "mg par dose<br>";
+        }
+
+        resultprint += "Posologie: " + print_tablets + " comprimés par dose (" + before_round + " comprimés)<br>";
+
+        if (weight_input.length === 0)
+        {
+            resultprint = "Poids vide";
+        }
+
+        document.getElementById("printout").innerHTML = resultprint;
+    }
+
+    function isEnter(event){
+
+        var x = event.which || event.keyCode;
+        if (x == 13){
+            getDose();
+        }
+    }
+
+</script>
+
+<p style="font-size:24px" contenteditable="true" id="printout" onfocus="document.execCommand('selectAll',false,null);"></p>
+<br>Poids: <input id="htmlweight" type="text" size="4" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" autofocus><br>
+<input name="weight_radio" type="radio" checked="checked" id="htmllbs">lbs<br>
+<input name="weight_radio" type="radio" id="htmlkg">kg<br>
+<input onClick="getDose()" type="button" value="Soumettre">
+<button onClick="copyToClipboard()">Copier</button><br>
+    <pre>
+    Oxyurose (adult/enfant):
+        11 mg/kg Max : 1 g - répéter dans 2 semaines<br>
+    Ankylostomiase (adulte/enfant):
+        11 mg/kg/jour Max : 1 g X 3 jours<br>
+    Ascaridiase (adulte/enfant):
+        11 mg/kg Max : 1 g en DOSE UNIQUE<br>
+    </pre>
+</body>
+</html>

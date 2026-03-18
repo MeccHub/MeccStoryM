@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PédiaXtique — PharmD.ca</title>
+
+<style>
+  :root {
+    --teal-50: #f0fdfb;
+    --teal-100: #ccfbf3;
+    --teal-200: #99f4e6;
+    --teal-400: #2dd4bf;
+    --teal-500: #14b8a6;
+    --teal-600: #0d9488;
+    --teal-700: #0f766e;
+    --green-400: #4ade80;
+    --green-500: #22c55e;
+
+    --bg: #f5f9f8;
+    --surface: #ffffff;
+    --surface-2: #f0fdfb;
+    --border: #d1ede9;
+    --border-strong: #a7d8d2;
+    --text-primary: #0f2e2a;
+    --text-secondary: #1a504a;
+    --text-muted: #7ecfc8;
+    --accent: var(--teal-600);
+    --accent-hover: var(--teal-700);
+    --accent-subtle: var(--teal-100);
+    --shadow-sm: 0 1px 3px rgba(14,116,104,0.08), 0 1px 2px rgba(14,116,104,0.04);
+    --shadow-md: 0 4px 16px rgba(14,116,104,0.10), 0 2px 6px rgba(14,116,104,0.06);
+    --shadow-lg: 0 8px 32px rgba(14,116,104,0.13), 0 4px 12px rgba(14,116,104,0.07);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0a1a18;
+    --surface: #102420;
+    --surface-2: #152e29;
+    --border: #1e3d38;
+    --border-strong: #256b62;
+    --text-primary: #e0f5f2;
+    --text-secondary: #a8ddd8;
+    --text-muted: #7ecfc8;
+    --accent: var(--teal-400);
+    --accent-hover: #5eead4;
+    --accent-subtle: #0f2e2a;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.35);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.45);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    padding-bottom: 60px;
+  }
+
+  /* UTILITY BAR */
+  .utility-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .home-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    transition: all 0.2s;
+    letter-spacing: -0.01em;
+  }
+  .home-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-subtle);
+    box-shadow: var(--shadow-sm);
+  }
+  .home-btn svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .utility-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .site-badge {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  /* THEME TOGGLE */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 8px;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .theme-icon { font-size: 14px; line-height: 1; transition: opacity 0.2s; }
+  .toggle-track {
+    width: 32px; height: 18px;
+    background: var(--border-strong);
+    border-radius: 9px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  [data-theme="dark"] .toggle-track { background: var(--teal-600); }
+  .toggle-thumb {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  [data-theme="dark"] .toggle-thumb { transform: translateX(14px); }
+
+  /* LAYOUT */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 36px 20px 0;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .page-header h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .page-header h1 em {
+    
+    color: var(--accent);
+  }
+  .page-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 0.03em;
+  }
+
+  .accent-line {
+    width: 48px; height: 3px;
+    background: linear-gradient(90deg, var(--teal-500), var(--green-500));
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+    margin-bottom: 16px;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-family: 'Courier New', Courier, monospace;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .form-grid.full { grid-template-columns: 1fr; }
+  @media (max-width: 520px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.01em;
+  }
+
+  input[type="text"], input[type="number"] {
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text-primary);
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus, input[type="number"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(20,184,166,0.12);
+    background: var(--surface);
+  }
+  input::placeholder { color: var(--text-muted); }
+  input:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  /* CONCENTRATION ROW */
+  .conc-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .conc-row input { flex: 1; }
+  .conc-sep {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 300;
+    flex-shrink: 0;
+    padding: 0 2px;
+  }
+  .conc-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: 'Courier New', Courier, monospace;
+    white-space: nowrap;
+  }
+
+  /* WEIGHT ROW */
+  .weight-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .weight-row input { flex: 1; }
+  .weight-divider {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: 'Courier New', Courier, monospace;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* DOSE TYPE */
+  .dose-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dose-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .radio-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  input[type="radio"] {
+    appearance: none;
+    width: 16px; height: 16px;
+    border: 2px solid var(--border-strong);
+    border-radius: 50%;
+    background: var(--surface-2);
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+  }
+  input[type="radio"]:checked {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: inset 0 0 0 3px var(--surface-2);
+  }
+  .dose-row label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    min-width: 90px;
+  }
+  .dose-row input[type="text"] { max-width: 90px; }
+
+  /* FREQ CHIPS */
+  .freq-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .freq-chip {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+  }
+  .freq-chip input[type="radio"] {
+    display: none;
+  }
+  .chip-label {
+    padding: 7px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .freq-chip input[type="radio"]:checked + .chip-label {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(20,184,166,0.3);
+  }
+  .chip-label:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .freq-chip input[type="radio"]:checked + .chip-label:hover {
+    color: white;
+  }
+
+  /* DURATION */
+  .duration-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .duration-row input { max-width: 90px; }
+  .duration-label {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  /* BUTTONS */
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: 12px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: -0.01em;
+    box-shadow: 0 2px 8px rgba(20,184,166,0.3);
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 14px rgba(20,184,166,0.4);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    padding: 12px 16px;
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-subtle);
+  }
+
+  /* RESULT CARD */
+  .result-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 16px;
+    display: none;
+    animation: slideIn 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .result-card.visible { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .result-header {
+    background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  [data-theme="dark"] .result-header {
+    background: linear-gradient(135deg, var(--teal-700), #0a4f49);
+  }
+  .result-header-title {
+    font-size: 13px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .result-date {
+    font-size: 13px;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .result-body {
+    padding: 20px;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 440px) { .result-grid { grid-template-columns: 1fr; } }
+
+  .result-item {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .result-item-label {
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .result-item-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .result-item-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 3px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .result-posologie {
+    background: var(--accent-subtle);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .result-posologie-main {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .result-posologie-sub {
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--text-primary);
+  }
+
+  .result-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #fff1f1;
+    border: 1.5px solid #fca5a5;
+    border-radius: var(--radius-sm);
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  [data-theme="dark"] .result-error {
+    background: #2d0f0f;
+    border-color: #7f1d1d;
+    color: #f87171;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: auto;
+    width: fit-content;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-subtle); }
+  .copy-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--teal-700);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+    z-index: 999;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* DATALIST styling workaround */
+  datalist { display: none; }
+
+  .field-hint {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- UTILITY BAR -->
+<div class="utility-bar">
+  <a href="../index.html" class="home-btn">
+💊 PharmD.ca
+  </a>
+  <div class="utility-right">
+    <span class="site-badge">PédiaXtique</span>
+    <div class="theme-toggle" onclick="toggleTheme()" role="button" aria-label="Basculer le thème" tabindex="0">
+      <span class="theme-icon">☀️</span>
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <span class="theme-icon">🌙</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="page-header">
+    <h1>PédiaXtique</h1>
+    <div class="accent-line"></div>
+    <p>Calcul de posologie • Suspension orale</p>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="result-card">
+    <div class="result-header">
+      <span class="result-header-title">Résultat</span>
+      <span class="result-date" id="result-date"></span>
+    </div>
+    <div class="result-body" id="result-body"></div>
+  </div>
+
+  <!-- DRUG & CONCENTRATION -->
+  <div class="card">
+    <div class="card-title">Médicament</div>
+    <div class="form-grid">
+      <div class="field">
+        <label for="med_name">Nom du médicament</label>
+        <input id="med_name" type="text" list="meds" placeholder="Amoxicilline…" autocomplete="off">
+        <datalist id="meds">
+          <option>Amoxicilline</option>
+          <option>Amoxicilline-Clavulanate</option>
+          <option>Zithromycine</option>
+          <option>Clarithromycine</option>
+          <option>Clindamycine</option>
+          <option>Cefprozil</option>
+        </datalist>
+      </div>
+      <div class="field">
+        <label>Concentration (mg/ml)</label>
+        <div class="conc-row">
+          <input id="format_mg" type="text" value="250" placeholder="250" onkeypress="return isNumberKey(event)">
+          <span class="conc-sep">/</span>
+          <input id="format_ml" type="text" value="5" placeholder="5" onkeypress="return isNumberKey(event)" style="max-width:70px">
+          <span class="conc-label">ml</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATIENT & INDICATION -->
+  <div class="card">
+    <div class="card-title">Patient</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Poids</label>
+        <div class="weight-row">
+          <input id="poids_kg" type="text" placeholder="— kg" onkeypress="return isNumberKey(event)" oninput="syncWeight('kg')">
+          <span class="weight-divider">↔</span>
+          <input id="poids_lbs" type="text" placeholder="— lbs" onkeypress="return isNumberKey(event)" oninput="syncWeight('lbs')">
+        </div>
+        <span class="field-hint">Saisir kg ou lbs — l'autre se calcule automatiquement</span>
+      </div>
+      <div class="field">
+        <label for="indication_reason">Indication</label>
+        <input id="indication_reason" type="text" list="inds" placeholder="Otite…" autocomplete="off">
+        <datalist id="inds">
+          <option>Otite</option>
+          <option>Pharyngite</option>
+          <option>Abcès</option>
+          <option>Abcès dentaire</option>
+          <option>Bronchite</option>
+          <option>Cellulite</option>
+          <option>Infection urinaire</option>
+          <option>Pneumonie</option>
+          <option>Sinusite</option>
+        </datalist>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOSE & FREQUENCY -->
+  <div class="card">
+    <div class="card-title">Posologie</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Type de dose</label>
+        <div class="dose-options">
+          <div class="dose-row">
+            <label class="radio-wrapper" for="type_mg">
+              <input name="dosing_type" type="radio" id="type_mg" checked onchange="disableUnused()">
+            </label>
+            <input id="dose_value1" type="text" placeholder="0" onkeypress="return isNumberKey(event)">
+            <label for="type_mg" style="min-width:auto;cursor:pointer">mg fixe</label>
+          </div>
+          <div class="dose-row">
+            <label class="radio-wrapper" for="type_mgkgjr">
+              <input name="dosing_type" type="radio" id="type_mgkgjr" onchange="disableUnused()">
+            </label>
+            <input id="dose_value2" type="text" placeholder="0" onkeypress="return isNumberKey(event)">
+            <label for="type_mgkgjr" style="min-width:auto;cursor:pointer">mg/kg/jr</label>
+          </div>
+          <div class="dose-row">
+            <label class="radio-wrapper" for="type_mgkgdose">
+              <input name="dosing_type" type="radio" id="type_mgkgdose" onchange="disableUnused()">
+            </label>
+            <input id="dose_value3" type="text" placeholder="0" onkeypress="return isNumberKey(event)">
+            <label for="type_mgkgdose" style="min-width:auto;cursor:pointer">mg/kg/dose</label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Fréquence</label>
+        <div class="freq-chips">
+          <label class="freq-chip">
+            <input name="dose_freq" type="radio" id="DIE_selected">
+            <span class="chip-label">DIE</span>
+          </label>
+          <label class="freq-chip">
+            <input name="dose_freq" type="radio" id="BID_selected" checked>
+            <span class="chip-label">BID</span>
+          </label>
+          <label class="freq-chip">
+            <input name="dose_freq" type="radio" id="TID_selected">
+            <span class="chip-label">TID</span>
+          </label>
+          <label class="freq-chip">
+            <input name="dose_freq" type="radio" id="QID_selected">
+            <span class="chip-label">QID</span>
+          </label>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label>Durée du traitement</label>
+          <div class="duration-row">
+            <input id="duration" type="text" value="10" onkeypress="return isNumberKey(event)">
+            <span class="duration-label">jours</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn-primary" onclick="abxify()">Calculer la posologie</button>
+    <button class="btn-secondary" onclick="eraseAll()">Effacer</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copié dans le presse-papiers</div>
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') abxify();
+  });
+
+  function eraseAll() {
+    ['med_name','format_mg','format_ml','indication_reason',
+     'poids_kg','poids_lbs','dose_value1','dose_value2','dose_value3','duration']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    document.getElementById('format_mg').value = '250';
+    document.getElementById('format_ml').value = '5';
+    document.getElementById('duration').value = '10';
+    document.getElementById('result-card').classList.remove('visible');
+    document.getElementById('med_name').focus();
+  }
+
+  function isNumberKey(evt) {
+    var c = (evt.which) ? evt.which : evt.keyCode;
+    if (c != 46 && c > 31 && (c < 48 || c > 57)) return false;
+    return true;
+  }
+
+  function disableUnused() {
+    const mg = document.getElementById('type_mg').checked;
+    const kgjr = document.getElementById('type_mgkgjr').checked;
+    const kgdose = document.getElementById('type_mgkgdose').checked;
+    document.getElementById('dose_value1').disabled = !mg;
+    document.getElementById('dose_value2').disabled = !kgjr;
+    document.getElementById('dose_value3').disabled = !kgdose;
+    if (!mg) document.getElementById('dose_value1').value = '';
+    if (!kgjr) document.getElementById('dose_value2').value = '';
+    if (!kgdose) document.getElementById('dose_value3').value = '';
+  }
+
+  disableUnused();
+
+  let _lastWeightEdited = null;
+
+  function syncWeight(from) {
+    _lastWeightEdited = from;
+    if (from === 'kg') {
+      const kg = parseFloat(document.getElementById('poids_kg').value);
+      const lbsEl = document.getElementById('poids_lbs');
+      if (!isNaN(kg) && kg > 0) {
+        lbsEl.value = Math.round(kg * 2.20462 * 10) / 10;
+      } else { lbsEl.value = ''; }
+    } else {
+      const lbs = parseFloat(document.getElementById('poids_lbs').value);
+      const kgEl = document.getElementById('poids_kg');
+      if (!isNaN(lbs) && lbs > 0) {
+        kgEl.value = Math.round(lbs / 2.20462 * 10) / 10;
+      } else { kgEl.value = ''; }
+    }
+  }
+
+  function getWeight() {
+    const kg = parseFloat(document.getElementById('poids_kg').value);
+    const lbs = parseFloat(document.getElementById('poids_lbs').value);
+    if (!kg && !lbs) return { error: 'Veuillez entrer un poids.' };
+    if (kg > 0) return { value: kg };
+    return { value: Math.round(lbs / 2.20462 * 10) / 10 };
+  }
+
+  function abxify() {
+    const card = document.getElementById('result-card');
+    const body = document.getElementById('result-body');
+
+    const n = new Date();
+    const dd = String(n.getDate()).padStart(2,'0');
+    const mm = String(n.getMonth()+1).padStart(2,'0');
+    const yyyy = n.getFullYear();
+    document.getElementById('result-date').textContent = `${dd}/${mm}/${yyyy}`;
+
+    const abxname = document.getElementById('med_name').value || '—';
+    const abxindication = document.getElementById('indication_reason').value || '—';
+    const conc_mg = parseFloat(document.getElementById('format_mg').value);
+    const conc_ml = parseFloat(document.getElementById('format_ml').value);
+    const courseduration = parseFloat(document.getElementById('duration').value);
+
+    // Validate
+    const errors = [];
+    const weightResult = getWeight();
+    if (weightResult.error) errors.push(weightResult.error);
+    if (!conc_mg || !conc_ml) errors.push('Concentration manquante ou invalide.');
+    if (!courseduration || courseduration <= 0) errors.push('Durée invalide ou manquante.');
+
+    if (errors.length) {
+      body.innerHTML = errors.map(e => `<div class="result-error">⚠ ${e}</div>`).join('');
+      card.classList.add('visible');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    const weight = weightResult.value;
+
+    let dosingfreq, dosingcode;
+    if (document.getElementById('DIE_selected').checked)  { dosingfreq = 1; dosingcode = 'DIE'; }
+    if (document.getElementById('BID_selected').checked)  { dosingfreq = 2; dosingcode = 'BID'; }
+    if (document.getElementById('TID_selected').checked)  { dosingfreq = 3; dosingcode = 'TID'; }
+    if (document.getElementById('QID_selected').checked)  { dosingfreq = 4; dosingcode = 'QID'; }
+
+    let singledose, dailydose, dosekgjr;
+    if (document.getElementById('type_mg').checked) {
+      singledose = Math.round(parseFloat(document.getElementById('dose_value1').value));
+      dailydose = singledose * dosingfreq;
+      dosekgjr = Math.round(dailydose / weight);
+    }
+    if (document.getElementById('type_mgkgjr').checked) {
+      const v = parseFloat(document.getElementById('dose_value2').value);
+      singledose = Math.round(v * weight / dosingfreq);
+      dailydose = singledose * dosingfreq;
+      dosekgjr = Math.round(dailydose / weight);
+    }
+    if (document.getElementById('type_mgkgdose').checked) {
+      const v = parseFloat(document.getElementById('dose_value3').value);
+      singledose = Math.round(v * weight);
+      dailydose = singledose * dosingfreq;
+      dosekgjr = Math.round(dailydose / weight);
+    }
+
+    if (!singledose || isNaN(singledose)) {
+      body.innerHTML = `<div class="result-error">⚠ Valeur de dose manquante ou invalide.</div>`;
+      card.classList.add('visible');
+      return;
+    }
+
+    const mgperml = conc_mg / conc_ml;
+    const totaldose = dailydose * courseduration;
+    const mlperdose = Math.round(singledose / mgperml * 10) / 10;
+    const totalml = Math.ceil(totaldose / mgperml);
+
+    // Build formatted plain text for copy
+    const plainText =
+      `${dd}/${mm}/${yyyy}\n` +
+      `Médicament: ${abxname}\n` +
+      `Poids: ${weight} kg\n` +
+      `Indication: ${abxindication}\n` +
+      `Posologie: ${singledose}mg (${mlperdose}ml) ${dosingcode} x ${courseduration} jour(s)\n` +
+      `Dose quotidienne: ${dailydose}mg\n` +
+      `Dose/kg/jr: ${dosekgjr}mg/kg/jr\n` +
+      `Quantité totale: ${totalml}ml`;
+
+    body.innerHTML = `
+      <div class="result-posologie">
+        <div class="result-posologie-main">${abxname} — ${abxindication}</div>
+        <div class="result-posologie-sub">${singledose}mg (${mlperdose}ml) ${dosingcode} × ${courseduration} jour(s)</div>
+      </div>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="result-item-label">Dose unitaire</div>
+          <div class="result-item-value">${singledose}<span style="font-size:13px;font-weight:400"> mg</span></div>
+          <div class="result-item-sub">${mlperdose} ml / dose</div>
+        </div>
+        <div class="result-item">
+          <div class="result-item-label">Dose quotidienne</div>
+          <div class="result-item-value">${dailydose}<span style="font-size:13px;font-weight:400"> mg</span></div>
+          <div class="result-item-sub">${dosekgjr} mg/kg/jr</div>
+        </div>
+        <div class="result-item">
+          <div class="result-item-label">Poids du patient</div>
+          <div class="result-item-value">${weight}<span style="font-size:13px;font-weight:400"> kg</span></div>
+          <div class="result-item-sub">${dosingcode} — ${courseduration} jours</div>
+        </div>
+        <div class="result-item">
+          <div class="result-item-label">Quantité totale</div>
+          <div class="result-item-value">${totalml}<span style="font-size:13px;font-weight:400"> ml</span></div>
+          <div class="result-item-sub">${totaldose} mg au total</div>
+        </div>
+      </div>
+      <button class="copy-btn" onclick="copyResult(${JSON.stringify(plainText).replace(/"/g,'&quot;')})">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copier le résultat
+      </button>
+    `;
+
+    card.classList.add('visible');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function copyResult(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast();
+    }).catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast();
+    });
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+
+        body
+        {
+        font-family:courier,sans-serif;
+        font-size: 11px;
+        position: absolute;
+        top:  50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        }
+
+
+        table{
+            border: 1px solid black;
+            table-layout: fixed;
+        }
+        td
+        {
+            border: 1px solid black;
+            width: auto;
+            text-align: center;
+        }
+    </style>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>Insuline</title>
+</head>
+
+<body onkeypress="isEnter(event)">
+
+<script type="text/javascript">
+
+    function isEnter(event){
+        var x = event.which || event.keyCode;
+        if (x == 13){
+           getInsulin();
+        }
+    }
+
+    function copyToClipboard(){
+        document.getElementById('printout').focus();
+        document.execCommand("Copy");
+    }
+
+    function getInsulin(){
+
+        var n =  new Date();
+        var yyyy = n.getFullYear();
+        var mm = n.getMonth() + 1;
+        var dd = n.getDate();
+
+        var resultprint = dd + "/" + mm + "/" + yyyy + "<br>";
+
+        var duration = document.getElementById("htmlduration").value;
+
+        var doseAM = document.getElementById("htmldoseAM").value;
+        var doseMIDI = document.getElementById("htmldoseMIDI").value;
+        var doseSOUPER = document.getElementById("htmldoseSOUPER").value;
+        var doseHS = document.getElementById("htmldoseHS").value;
+
+        var totdose = +doseAM + +doseMIDI + +doseSOUPER + +doseHS;
+
+        var freq = 0;
+
+        if (doseAM != 0){
+            freq++;
+        }
+        if (doseMIDI != 0){
+            freq++;
+        }
+        if (doseSOUPER != 0){
+            freq++;
+        }
+        if (doseHS != 0){
+            freq++;
+        }
+
+        if(document.getElementById("htmlformat3").checked){
+            var format = 3;
+        }
+        if (document.getElementById("htmlformat10").checked){
+            var format = 10;
+        }
+
+        var billingInsulin = Math.round(totdose * duration / 100 / format * 100)/100;
+        var syringes = freq * duration;
+
+        resultprint += "Posologie: Injection SC de " + doseAM +"-"+ doseMIDI +"-"+ doseSOUPER +"-"+ doseHS + " UI<br>";
+        resultprint += "Facturation: " + billingInsulin + " insuline et " + syringes + " seringues <br>";
+        document.getElementById("printout").innerHTML = resultprint;
+
+    }
+
+</script>
+
+<a style="font-size:20px" contenteditable="true" id="printout" onfocus="document.execCommand('selectAll',false,null);"></a><br><br>
+<form>
+<table>
+    <tr>
+        <td>Dose</td>
+        <td>Durée: <input id="htmlduration" size="1" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" type="text" value="">jours</td>
+    </tr>
+    <tr>
+        <td style="text-align: left">
+            <input id="htmldoseAM" size="1" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" value="0">UI AM<br>
+            <input id="htmldoseMIDI" size="1" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" value="0">UI MIDI<br>
+            <input id="htmldoseSOUPER" size="1" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" value="0">UI SOUPER<br>
+            <input id="htmldoseHS" size="1" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" value="0">UI HS<br>
+        </td>
+        <td>
+            Format:<br>
+            <input name="format" id="htmlformat3" type="radio"> 3mL<br>
+            <input name="format" id="htmlformat10" type="radio" checked="checked"> 10mL
+        </td>
+    </tr>
+</table>
+<input onClick="copyToClipboard()" type="button" value="Copier">-----
+<input type="reset" value="Effacer">-----
+<input onClick="getInsulin()" type="button" value="Soumettre">
+</form>
+<pre style="font-size:15px">
+Selon <a href="http://www.ramq.gouv.qc.ca/SiteCollectionDocuments/professionnels/infolettres/2009/com141-9.pdf">RAMQ</a>:
+(UI total quotidien)
+    x (Durée totale)
+        ÷ (Concentration soit 100)
+            ÷ (Format soit 3mL ou 10mL)
+_______________________________________
+    = Quantité à facturer
+</pre>
+</body>
+</html>

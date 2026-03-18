@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<head>
+<style>
+	body
+	{
+		font-family:courier,sans-serif;
+		font-size: 14px;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+	}
+
+	table{
+		border: 1px solid black;
+		table-layout: fixed;
+	}
+	td
+	{
+		border: 1px solid black;
+		width: auto;
+    text-align: Right;
+	}
+</style>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>EV vs ICE</title>
+</head>
+<html lang="en">
+<body>
+
+    <!-- Fuel Cost Calculator -->
+    <h2>ICE</h2>
+    <table>
+    <tr>
+      <td><label for="fuelDistance">Distance (km):</label></td>
+      <td><input type="number" id="fuelDistance" size="6" placeholder="Enter distance" required></td>
+    </tr>
+    <tr>
+      <td><label for="fuelEfficiency">Efficiency (L/100km):</label></td>
+      <td><input type="number" id="fuelEfficiency" size="6" placeholder="8" required></td>
+    </tr>
+    <tr>
+      <td><label for="fuelPrice">Fuel Price (¢):</label></td>
+      <td><input type="number" id="fuelPrice" size="6" placeholder="200" required></td>
+    </tr>
+    </table>
+
+    <button onclick="calculateFuelCost()">Calculate Fuel Cost</button>
+
+    <div id="fuelResult"></div>
+
+    <!-- EV Cost Calculator -->
+    <h2>EV</h2>
+    <table>
+    <tr>
+      <td><label for="evDistance">Distance (km):</label></td>
+      <td><input type="number" id="evDistance" size="6" placeholder="Enter distance" required></td>
+    </tr>
+    <tr>
+      <td><label for="evConsumption">Efficiency (kWh/100km):</label></td>
+      <td><input type="number" id="evConsumption" size="6" placeholder="22" required></td>
+    </tr>
+    <tr>
+      <td><label for="evRate">Electricity Rate ($/kWh):</label></td>
+      <td><input type="number" id="evRate" size="6" placeholder="0.10" required></td>
+    </tr>
+    </table>
+    <button onclick="calculateEVCost()">Calculate EV Cost</button>
+
+    <div id="evResult"></div>
+
+    <script>
+        // Fuel Cost Calculator
+        function calculateFuelCost() {
+            var distance = parseFloat(document.getElementById('fuelDistance').value);
+            var fuelEfficiency = parseFloat(document.getElementById('fuelEfficiency').value);
+            var fuelPrice = parseFloat(document.getElementById('fuelPrice').value);
+
+            var fuelCost = (distance / 100) * fuelEfficiency * fuelPrice / 100;
+
+            document.getElementById('fuelResult').innerText = 'Estimated Fuel Cost: $' + fuelCost.toFixed(2);
+        }
+
+        // EV Cost Calculator
+        function calculateEVCost() {
+            var distance = parseFloat(document.getElementById('evDistance').value);
+            var evConsumption = parseFloat(document.getElementById('evConsumption').value);
+            var evRate = parseFloat(document.getElementById('evRate').value);
+
+            var evCost = (distance / 100) * evConsumption * evRate;
+
+            document.getElementById('evResult').innerText = 'Estimated EV Cost: $' + evCost.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>

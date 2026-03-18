@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalendRx | PharMD</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:       #0d9488;
+  --teal-hover: #0b8077;
+  --teal-light: #ccfbf1;
+  --teal-mid:   #5eead4;
+  --bg:         #f0f4f8;
+  --surface:    #ffffff;
+  --border:     #e2e8f0;
+  --text:       #0f172a;
+  --muted:      #64748b;
+  --row-alt:    #f0fdfa;
+  --input-bg:   #f8fafc;
+  --shadow:     0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] {
+  --bg:       #0f172a;
+  --surface:  #1e293b;
+  --border:   #334155;
+  --text:     #f1f5f9;
+  --muted:    #94a3b8;
+  --row-alt:  #1a2e2b;
+  --input-bg: #0f172a;
+  --shadow:   0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s, color 0.2s;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 48px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.topbar-left a {
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.topbar-left a:hover { text-decoration: underline; }
+
+.topbar-left .sep { color: var(--border); font-size: 1rem; line-height: 1; }
+.topbar-left .current { color: var(--text); font-weight: 500; }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.12s;
+}
+.theme-toggle:hover { background: var(--border); }
+
+.toggle-emoji { font-size: 0.95rem; line-height: 1; }
+
+.toggle-track {
+  width: 32px; height: 18px;
+  background: var(--border);
+  border-radius: 9px;
+  position: relative;
+  transition: background 0.2s;
+}
+.toggle-track.on { background: var(--teal); }
+.toggle-thumb {
+  width: 12px; height: 12px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px; left: 3px;
+  transition: left 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+.toggle-track.on .toggle-thumb { left: 17px; }
+
+/* ── CONTENT ── */
+.content {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1.25rem;
+}
+
+.page-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.card-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 0.85rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem 1.25rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.field label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+}
+
+input[type="text"],
+input[type="date"] {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.875rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 0.48rem 0.7rem;
+  width: 100%;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.2s;
+}
+input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.15);
+  background: var(--surface);
+}
+
+.radio-row {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 0.1rem;
+}
+.radio-row label {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.84rem; font-weight: 400;
+  color: var(--text); cursor: pointer;
+}
+input[type="radio"] { accent-color: var(--teal); }
+
+.btn-row {
+  display: flex; gap: 0.6rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+button {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.82rem; font-weight: 500;
+  border-radius: 6px; padding: 0.48rem 1.1rem;
+  cursor: pointer; border: 1.5px solid;
+  transition: background 0.12s;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.btn-primary { background: var(--teal); color: white; border-color: var(--teal); }
+.btn-primary:hover { background: var(--teal-hover); }
+.btn-secondary { background: var(--surface); color: var(--teal); border-color: var(--teal-mid); }
+.btn-secondary:hover { background: var(--teal-light); }
+
+/* ── PRINT DOCUMENT ── */
+#printCard { display: none; }
+#printCard.visible { display: block; }
+
+#printPage {
+  background: white;
+  color: #0f172a;
+}
+
+.doc-patient {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f172a;
+  margin-bottom: 0.45rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid #0d9488;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead tr { background: #0d9488; color: white; }
+thead th {
+  padding: 0.32rem 0.5rem;
+  font-weight: 500; font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border: 1px solid #0b8077; text-align: center;
+}
+
+tbody td {
+  padding: 0;
+  border: 1px solid #d0d0d0;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.88rem;
+  height: 26px;
+  line-height: 26px;
+  color: #0f172a;
+  background: white;
+}
+
+tbody tr:nth-child(even) td { background: #f0fdfa; }
+
+td.n { width: 24px; font-size: 0.62rem; color: #bbb; background: #f8f8f8 !important; border-right: 1px solid #ddd; }
+td.date-col { width: 56px; min-width: 56px; max-width: 56px; }
+
+/* ── PRINT ── */
+@media print {
+  html, body { height: 100%; overflow: hidden; background: white; }
+  .topbar, .page-title, .card:not(#printCard), #printCard > .card-label, .btn-row { display: none !important; }
+  .content { margin: 0; padding: 0; max-width: 100%; }
+  #printCard {
+    display: block !important;
+    box-shadow: none; border: none; border-radius: 0; margin: 0;
+    padding: 0.55cm 0.9cm 0;
+    height: 27.94cm; /* letter height */
+    max-height: 27.94cm;
+    overflow: hidden;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  thead tr { background: #0d9488 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  tbody tr:nth-child(even) td { background: #f0fdfa !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  tbody td { height: 21px; line-height: 21px; font-size: 0.8rem; }
+  thead th { padding: 0.28rem 0.5rem; }
+  .doc-patient { margin-bottom: 0.3rem; padding-bottom: 0.28rem; }
+  @page { size: letter portrait; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="../index.html">💊 PharmD.ca</a>
+    <span class="sep">›</span>
+    <span class="current">CalendRx</span>
+  </div>
+  <div class="topbar-right">
+    <div class="theme-toggle" onclick="toggleTheme()" title="Changer le thème">
+      <span class="toggle-emoji" id="themeEmoji">☀️</span>
+      <div class="toggle-track" id="toggleTrack">
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="toggle-emoji" id="themeEmoji2">🌙</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="page-title">CalendRx</div>
+
+  <!-- Form -->
+  <div class="card">
+    <div class="card-label">Paramètres</div>
+    <div class="form-grid">
+      <div class="field">
+        <label for="patient">Patient</label>
+        <input type="text" id="patient" placeholder="Nom du patient" />
+      </div>
+      <div class="field">
+        <label for="startDate">Date de début</label>
+        <input type="date" id="startDate" />
+      </div>
+      <div class="field" style="grid-column: 1 / -1;">
+        <label>Fréquence</label>
+        <div class="radio-row">
+          <label><input type="radio" name="freq" value="1" checked /> Hebdomadaire</label>
+          <label><input type="radio" name="freq" value="2" /> Aux 2 semaines</label>
+          <label><input type="radio" name="freq" value="4" /> Aux 4 semaines</label>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="generateCalendar()">⚙️ Soumettre</button>
+      <button class="btn-secondary" onclick="handlePrint()">🖨️ Impression</button>
+    </div>
+  </div>
+
+  <!-- Preview -->
+  <div class="card" id="printCard">
+    <div class="card-label">Aperçu</div>
+    <div id="printPage">
+      <div class="doc-patient" id="dispPatient"></div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:24px;"></th>
+            <th style="width:56px;">Début</th>
+            <th style="width:56px;">Fin</th>
+            <th>Impression</th>
+            <th>Fabrication</th>
+            <th>Vérification</th>
+          </tr>
+        </thead>
+        <tbody id="calBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
+
+  let dark = false;
+  function toggleTheme() {
+    dark = !dark;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.getElementById('toggleTrack').classList.toggle('on', dark);
+  }
+
+  function fmt(d) { return `${d.getDate()}/${d.getMonth()+1}`; }
+
+  function handlePrint() {
+    if (!document.getElementById('printCard').classList.contains('visible')) generateCalendar();
+    setTimeout(() => window.print(), 300);
+  }
+
+  function generateCalendar() {
+    const patient = document.getElementById('patient').value.trim() || '—';
+    const startVal = document.getElementById('startDate').value;
+    const freq = parseInt(document.querySelector('input[name="freq"]:checked').value);
+    if (!startVal) { alert('Veuillez sélectionner une date de début.'); return; }
+
+    document.getElementById('dispPatient').textContent = patient;
+
+    let html = '', cur = new Date(startVal + 'T00:00:00');
+    for (let i = 0; i < 36; i++) {
+      const s = new Date(cur), e = new Date(cur);
+      e.setDate(e.getDate() + freq * 7 - 1);
+      html += `<tr>
+        <td class="n">${i+1}</td>
+        <td class="date-col">${fmt(s)}</td>
+        <td class="date-col">${fmt(e)}</td>
+        <td></td><td></td><td></td>
+      </tr>`;
+      cur.setDate(cur.getDate() + freq * 7);
+    }
+
+    document.getElementById('calBody').innerHTML = html;
+    document.getElementById('printCard').classList.add('visible');
+  }
+</script>
+</body>
+</html>

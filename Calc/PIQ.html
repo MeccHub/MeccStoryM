@@ -1,0 +1,142 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta charset="utf-8">
+	<style type="text/css">body
+  {
+    font-family:courier,sans-serif;
+    font-size: 11px;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+	table{
+		border: 1px solid black;
+		table-layout: fixed;
+	}
+	td
+	{
+		border: 1px solid black;
+		width: auto;
+    text-align: center;
+	}
+	</style>
+	<title>PIQ Documentation</title>
+</head>
+<body onload="setDate();"><script type="text/javascript">
+
+  //function to restrict input to numbers and decimals
+  function isNumberKey(evt)
+  {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57))
+      return false;
+
+    return true;
+  }
+
+  //function to copy text
+  function copyToClipboard(){
+    document.getElementById('printout').focus();
+    document.execCommand("Copy");
+  }
+
+  //function to disable text fields
+    function setDate(){
+
+      var n =  new Date();
+      var yyyy = n.getFullYear();
+      var mm = n.getMonth() + 1;
+      var dd = n.getDate();
+
+      var today = dd + "/" + mm + "/" + yyyy;
+      var currentTime = n.getHours() + ':' + n.getMinutes();
+
+      document.getElementById("date_input").valueAsDate = new Date();
+      document.getElementById('time_input').value = currentTime;
+
+    }
+  //function to calculate abx
+    function generate(){
+
+      //start by printing out the date
+      var n =  new Date();
+      var yyyy = n.getFullYear();
+      var mm = n.getMonth() + 1;
+      var dd = n.getDate();
+
+      var resultprint = dd + "/" + mm + "/" + yyyy + "<br>";
+
+      //assign stuff to be printed
+      var result_date = document.getElementById("date_input").value;
+      var result_time = document.getElementById("time_input").value;
+      var result_med = document.getElementById("med_input").value;
+      var result_lot = document.getElementById("lot_input").value;
+      var result_poso = document.getElementById("poso_input").value;
+      var result_vaccinator = document.getElementById("vaccinator_input").value;
+      var result_location = document.getElementById("location_input").value;
+      var result_sideeffects = document.getElementById("sideeffects_input").value;
+
+      if(document.getElementById("consented_yes").checked){
+        var result_consent = "Consentement obtenu et renseignements sur risques et avantages donnés.";
+      }
+      else {
+        var result_consent = "Consentement refusé";
+      }
+
+
+      resultprint = "Vaccin fait le: " + result_date + " à " + result_time + "<br>" + result_med + " " + result_poso + "<br> Lot: " + result_lot + "<br> Vaccinateur: " + result_vaccinator + "<br> Lieu: " + result_location + "<br> Manifestations/commentaires: " +  result_sideeffects + "<br>" + result_consent;
+
+
+      document.getElementById("printout").innerHTML = resultprint;
+    }
+  </script>
+<p contenteditable="true" id="printout" onfocus="document.execCommand('selectAll',false,null);" style="font-size:15px"></p>
+
+<table>
+	<tbody>
+		<tr>
+			<td>Date d&#39;administration:</td>
+			<td><input id="date_input" size="auto" type="date" /></td>
+		</tr>
+		<tr>
+			<td>Heure d&#39;administration:</td>
+			<td><input id="time_input" size="auto" type="time" /></td>
+		</tr>
+		<tr>
+			<td>Nom du produit:</td>
+			<td><input id="med_input" list="meds" size="auto" type="text" /> <datalist id="meds"><option>Flulaval Tetra</option><option>Flumist Quadrivalent</option><option>Fluzone Quadrivalent</option><option>Fluzone HD</option><option>Agripflu</option> </datalist></td>
+		</tr>
+		<tr>
+			<td>Lot:</td>
+			<td><input id="lot_input" type="text" /></td>
+		</tr>
+		<tr>
+			<td>Posologie/site/voie:</td>
+			<td><input id="poso_input" size="auto" type="text" value="0.5ml IM dans le deltoïd gauche" /></td>
+		</tr>
+		<tr>
+			<td>Information vaccinateur:</td>
+			<td><input id="vaccinator_input" list="vaccinatorslist" size="auto" type="text" /> <datalist id="vaccinatorslist"><option>Michael Leung #215885</option><option>Shi Hao Lee #215953</option><option>Khoa Ngo #216849</option><option>Adam Leung #213704</option><option>Danny Ho #213605</option> </datalist></td>
+		</tr>
+		<tr>
+			<td>Lieu:</td>
+			<td><input id="location_input" list="locationlist" size="auto" type="text" /> <datalist id="locationlist"><option>M - Pharmacie Ly Thanh Tran - 5836 boul. Monk, MTL, QC, CA</option><option>R - Pharmacie Ly Thanh Tran - 12325 boul. Rolland, MTL-Nord, QC, CA</option><option>H - Pharmacie Adam Leung et Ly Thanh Tran - 3981 Hochelaga, MTL, QC, CA</option><option>L - Pharmacie Ly Thanh Tran et Adam Leung - 2680 Lacordaire, MTL, QC, CA</option> </datalist></td>
+		</tr>
+		<tr>
+			<td>Manifestations cliniques et consid&eacute;rations:</td>
+			<td><input id="sideeffects_input" type="text" value="aucun" /></td>
+		</tr>
+		<tr>
+			<td>Consentement obtenu et renseignements<br />
+			des risques/avantages donn&eacute;s:</td>
+			<td><input checked="checked" id="consented_yes" name="consent" type="radio" />OUI<br />
+			<input id="consented_no" name="consent" type="radio" />NON</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><input onclick="generate()" type="button" value="Soumettre" />----------------------------------------<button onclick="copyToClipboard()">Copier</button></p>
+</body>
+</html>

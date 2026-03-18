@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+	body
+	{
+		font-family:courier,sans-serif;
+		font-size: 11px;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+	}
+
+	table{
+		border: 1px solid black;
+		table-layout: fixed;
+	}
+	td
+	{
+		border: 1px solid black;
+		width: auto;
+    text-align: center;
+	}
+</style>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Hours</title>
+</head>
+
+<body onkeypress="isEnter(event)">
+
+  <script type="text/javascript">
+
+  function isEnter(event){
+    var x = event.which || event.keyCode;
+    if (x == 13){
+      var starttime = document.getElementById("starttime").value;
+      var endtime = document.getElementById("endtime").value;
+      var hoursdifference = (Math.floor(endtime / 100) - Math.floor(starttime / 100) ) * 60;
+      var minutesdifference = Math.round(( (endtime / 100) - Math.floor(endtime / 100) ) * 100 - ( (starttime / 100) - Math.floor(starttime / 100) ) * 100);
+      var totaldifference = hoursdifference + minutesdifference;
+      var paytimehours = Math.floor(totaldifference / 60);
+      var paytimeminutes = Math.round(((totaldifference / 60) - paytimehours) * 60);
+      if (paytimeminutes <= 9){
+        document.getElementById("printout").innerHTML = paytimehours + ":0" + paytimeminutes;
+        document.getElementById("starttime").focus(function() { $(this).select(); } );
+        document.getElementById("starttime").value = "";
+        document.getElementById("endtime").value = "";
+      }
+      else {
+      document.getElementById("printout").innerHTML = paytimehours + ":" + paytimeminutes;
+      document.getElementById("starttime").focus(function() { $(this).select(); } );
+      document.getElementById("starttime").value = "";
+      document.getElementById("endtime").value = "";
+      }
+    }
+  }
+
+  </script>
+
+  <a style="font-size:48px" id="printout"></a><br>
+  Début: <input id="starttime" size="4" type="text" autofocus>
+  Fin: <input id="endtime" size="4" type="text">
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arcane DPS Lab · PharmD.ca</title>
+  <style>
+    :root{--bg:#0b1220;--card:#111a2e;--muted:#94a3b8;--txt:#e5e7eb;--accent:#60a5fa;--ok:#34d399;--line:#24324a}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Arial;background:radial-gradient(1200px 700px at 70% -10%,#1d2a49 0%,var(--bg) 55%);color:var(--txt)}
+    .wrap{max-width:1100px;margin:28px auto;padding:0 16px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .title{font-size:28px;font-weight:800;letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:14px}
+    a{color:var(--accent)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+    .card{background:linear-gradient(180deg,#121d35,#0f172a);border:1px solid var(--line);border-radius:14px;padding:16px}
+    .card h3{margin:0 0 10px 0;font-size:16px}
+    .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    label{font-size:12px;color:var(--muted)}
+    input{width:100%;padding:10px;border-radius:10px;border:1px solid #30415f;background:#0b1324;color:var(--txt)}
+    .btns{display:flex;gap:10px;margin-top:12px}
+    button{padding:10px 14px;border-radius:10px;border:1px solid #33507b;background:#1f3b66;color:#fff;cursor:pointer;font-weight:700}
+    button.alt{background:transparent;border-color:#3b4f72;color:#cbd5e1}
+    .results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .kpi{background:#0a1324;border:1px solid #233350;border-radius:10px;padding:10px}
+    .kpi .k{font-size:12px;color:var(--muted)} .kpi .v{font-size:20px;font-weight:800;color:#e2e8f0}
+    .ok{color:var(--ok)}
+    @media (max-width:800px){.grid,.form,.results{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="title">⚔️ Arcane DPS Lab</div>
+        <div class="sub">Modern MapleStory M damage calculator (custom build for PharmD.ca)</div>
+      </div>
+      <a href="../index.html">← Back to PharmD</a>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h3>Stats input</h3>
+        <div class="form" id="form"></div>
+        <div class="btns">
+          <button id="calcBtn">Calculate</button>
+          <button class="alt" id="resetBtn">Reset</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Results <span class="sub">(per line + total skill)</span></h3>
+        <div class="results" id="results"></div>
+      </section>
+    </div>
+  </div>
+
+<script>
+const fields = [
+  ['atk','PHY/MAG ATK'],
+  ['atkIncrease','ATK Increase %'],
+  ['dmgIncrease','Damage Increase %'],
+  ['bossAtk','Boss ATK Increase %'],
+  ['skillDmg','Skill Damage %'],
+  ['skillHit','Skill Hit Count'],
+  ['critRate','Crit Rate %'],
+  ['critDmg','Crit Damage %'],
+  ['finalDmg','Final Damage %'],
+  ['skillFinalDmg','Skill Final Damage %'],
+];
+
+const rMap = [
+  ['totalDmg','Avg Total Damage'],
+  ['totalNonCritDmg','Non-Crit / line'],
+  ['totalCritDmg','Crit / line'],
+  ['totalBossDmg','Avg Boss Total'],
+  ['totalBossNonCritDmg','Boss Non-Crit / line'],
+  ['totalBossCritDmg','Boss Crit / line'],
+];
+
+const form = document.getElementById('form');
+const results = document.getElementById('results');
+for (const [key,label] of fields){
+  const w=document.createElement('div');
+  w.innerHTML=`<label>${label}</label><input id="${key}" type="number" step="any" />`;
+  form.appendChild(w);
+}
+for (const [key,label] of rMap){
+  const k=document.createElement('div');k.className='kpi';
+  k.innerHTML=`<div class='k'>${label}</div><div class='v' id='${key}'>—</div>`;
+  results.appendChild(k);
+}
+
+function n(id){ return Number(document.getElementById(id).value || 0); }
+function round(v){ return Math.round(v); }
+
+function calculate(){
+  const atk=n('atk'), atkIncrease=n('atkIncrease'), dmgIncrease=n('dmgIncrease');
+  const bossAtk=n('bossAtk'), skillDmg=n('skillDmg'), skillHit=n('skillHit');
+  const critRate=Math.min(100, n('critRate')), critDmg=n('critDmg');
+  const finalDmg=n('finalDmg'), skillFinalDmg=n('skillFinalDmg');
+
+  const base = atk*(skillDmg/100)*(1+dmgIncrease/100)*(1+finalDmg/100+skillFinalDmg/100)*(1+atkIncrease/100);
+  const nonCrit = base*skillHit;
+  const crit = base*(1.2+critDmg/100)*skillHit;
+  const avg = (1-critRate/100)*nonCrit + (critRate/100)*crit;
+
+  const bossBase = atk*(skillDmg/100)*(1+dmgIncrease/100)*(1+finalDmg/100+skillFinalDmg/100)*(1+atkIncrease/100 + (skillDmg/100)*(bossAtk/100));
+  const bossNonCrit = bossBase*skillHit;
+  const bossCrit = bossBase*(1.2+critDmg/100)*skillHit;
+  const bossAvg = (1-critRate/100)*bossNonCrit + (critRate/100)*bossCrit;
+
+  const out = {
+    totalDmg: round(avg),
+    totalNonCritDmg: round(nonCrit/Math.max(skillHit,1)),
+    totalCritDmg: round(crit/Math.max(skillHit,1)),
+    totalBossDmg: round(bossAvg),
+    totalBossNonCritDmg: round(bossNonCrit/Math.max(skillHit,1)),
+    totalBossCritDmg: round(bossCrit/Math.max(skillHit,1)),
+  };
+
+  for (const k in out) document.getElementById(k).textContent = out[k].toLocaleString();
+}
+
+document.getElementById('calcBtn').onclick = calculate;
+document.getElementById('resetBtn').onclick = () => {
+  fields.forEach(([k])=>document.getElementById(k).value='');
+  rMap.forEach(([k])=>document.getElementById(k).textContent='—');
+};
+</script>
+</body>
+</html>

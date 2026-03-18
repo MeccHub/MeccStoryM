@@ -1,0 +1,3439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeccStoryM — MSM Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL / SHARED
+═══════════════════════════════════════════════════════════ */
+:root {
+  --sky: #5ec8f0;
+  --green: #4ecb71;
+  --yellow: #ffd84d;
+  --orange: #ff9a3c;
+  --pink: #ff6eb4;
+  --pink-dark: #e04090;
+  --purple: #a06aff;
+  --purple-dark: #7040d0;
+  --red: #ff5555;
+  --teal: #3ecfcf;
+  --bg: #f0f8ff;
+  --text: #1a1a2e;
+  --text-dim: #5a5a7a;
+  --shadow: 0 4px 20px rgba(0,0,0,0.09);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Animated sky background ── */
+.sky-bg {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg, #c8eeff 0%, #e8f7ff 40%, #f0f8ff 100%);
+  z-index: 0; overflow: hidden;
+}
+.cloud {
+  position: absolute; background: white;
+  border-radius: 50px; opacity: 0.65;
+  animation: drift linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: ''; position: absolute;
+  background: white; border-radius: 50%;
+}
+.cloud-1 { width:120px;height:36px; top:6%;  animation-duration:65s; animation-delay:-10s; }
+.cloud-1::before { width:60px;height:60px; top:-30px; left:15px; }
+.cloud-1::after  { width:45px;height:45px; top:-20px; left:50px; }
+.cloud-2 { width:80px; height:24px; top:16%; animation-duration:85s; animation-delay:-30s; opacity:0.45; }
+.cloud-2::before { width:40px;height:40px; top:-20px; left:10px; }
+.cloud-2::after  { width:30px;height:30px; top:-15px; left:35px; }
+.cloud-3 { width:160px;height:44px; top:4%;  animation-duration:55s; animation-delay:-20s; opacity:0.5; }
+.cloud-3::before { width:80px;height:80px; top:-40px; left:20px; }
+.cloud-3::after  { width:60px;height:60px; top:-30px; left:70px; }
+.cloud-4 { width:100px;height:30px; top:24%; animation-duration:75s; animation-delay:-5s;  opacity:0.38; }
+.cloud-4::before { width:50px;height:50px; top:-25px; left:12px; }
+.cloud-4::after  { width:38px;height:38px; top:-18px; left:45px; }
+@keyframes drift { from{transform:translateX(-320px)} to{transform:translateX(110vw)} }
+
+.sparkle {
+  position: fixed; pointer-events: none;
+  animation: sparkle-float linear infinite; opacity: 0;
+}
+@keyframes sparkle-float {
+  0%  { opacity:0; transform:translateY(0) rotate(0deg) scale(0.5); }
+  20% { opacity:1; }
+  80% { opacity:0.8; }
+  100%{ opacity:0; transform:translateY(-110px) rotate(360deg) scale(1.2); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT SHELL
+═══════════════════════════════════════════════════════════ */
+.shell {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Top header bar ── */
+.topbar {
+  display: flex; align-items: center;
+  padding: 0 28px;
+  height: 64px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(255,255,255,0.9);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  position: sticky; top: 0; z-index: 100;
+  gap: 20px;
+}
+
+.topbar-brand {
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.topbar-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(255,154,60,0.35);
+  animation: bob 3s ease-in-out infinite;
+}
+@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+.topbar-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 22px;
+  background: linear-gradient(135deg, #ff6eb4, #a06aff, #5ec8f0);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.topbar-sub {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-dim); margin-top: 1px;
+}
+
+/* ── Tab nav ── */
+.tab-nav {
+  display: flex; gap: 4px; align-items: center;
+  flex: 1; overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: 10px;
+  background: transparent; border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--text-dim); cursor: pointer;
+  transition: all 0.18s; white-space: nowrap;
+  position: relative;
+}
+.tab-btn:hover { background: rgba(160,106,255,0.08); color: var(--purple); }
+.tab-btn.active {
+  background: white;
+  color: var(--purple);
+  box-shadow: var(--shadow);
+}
+.tab-btn.active::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 12px; right: 12px;
+  height: 3px; border-radius: 2px 2px 0 0;
+}
+.tab-btn[data-tab="home"].active::after   { background: linear-gradient(90deg,var(--pink),var(--purple)); }
+.tab-btn[data-tab="discord"].active::after{ background: linear-gradient(90deg,var(--pink),var(--purple)); }
+.tab-btn[data-tab="dmg"].active::after    { background: linear-gradient(90deg,var(--green),var(--teal)); }
+
+/* ═══════════════════════════════════════════════════════════
+   DMG CALCULATOR TAB
+═══════════════════════════════════════════════════════════ */
+.dmg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.dmg-panel {
+  background: white; border-radius: 18px;
+  padding: 22px 24px; box-shadow: var(--shadow);
+  margin-bottom: 18px;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.dmg-panel-title {
+  font-family: 'Fredoka One', cursive; font-size: 17px; color: var(--text);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+}
+.dmg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.dot-green-s { background: var(--green); }
+.dot-orange-s { background: var(--orange); }
+.dot-sky-s { background: var(--sky); }
+.dot-red-s { background: var(--red); }
+
+/* Input grid */
+.dmg-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.dmg-field { display: flex; flex-direction: column; gap: 4px; }
+.dmg-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.dmg-input {
+  background: #fafafa; border: 2px solid #e8f8e8; border-radius: 9px;
+  color: var(--text); font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 600; padding: 8px 12px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.dmg-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(78,203,113,0.12); }
+.dmg-select {
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234ecb71' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+
+/* Action buttons */
+.dmg-btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.dmg-btn {
+  padding: 11px 28px; border-radius: 11px; border: none;
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  color: white; font-family: 'Fredoka One', cursive; font-size: 16px;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(78,203,113,0.3);
+}
+.dmg-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(78,203,113,0.45); }
+.dmg-btn:active { transform: translateY(0); }
+.dmg-btn-alt {
+  padding: 11px 20px; border-radius: 11px;
+  border: 2px solid #d0f8dc; background: white;
+  color: var(--green); font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800; cursor: pointer;
+  transition: all 0.15s;
+}
+.dmg-btn-alt:hover { background: #f0fdf4; border-color: var(--green); }
+
+/* Results KPI cards */
+.dmg-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px; margin-bottom: 18px;
+}
+.dmg-kpi {
+  background: white; border: 2px solid #f0fdf4; border-radius: 16px;
+  padding: 16px 18px; box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+  transition: transform 0.15s, border-color 0.2s;
+}
+.dmg-kpi:hover { transform: translateY(-2px); border-color: var(--green); }
+.dmg-kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+.dmg-kpi.kpi-normal::before { background: linear-gradient(90deg, var(--sky), var(--teal)); }
+.dmg-kpi.kpi-boss::before   { background: linear-gradient(90deg, var(--orange), var(--red)); }
+.dmg-kpi-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+.dmg-kpi-value { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--text); word-break: break-all; }
+.dmg-kpi-value.is-boss { color: var(--orange); }
+.dmg-kpi-value.is-normal { color: var(--purple); }
+
+/* OCR upload */
+.dmg-upload {
+  margin-top: 14px; padding: 12px 16px;
+  border: 2px dashed #c8f0d8; border-radius: 12px;
+  background: #f6fef9;
+}
+.dmg-upload-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.dmg-upload input[type="file"] { font-size: 13px; color: var(--text-dim); }
+.dmg-ocr-status { font-size: 12px; color: var(--text-dim); font-weight: 600; margin-top: 6px; }
+
+/* Optimizer */
+.dmg-opt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; margin-bottom: 14px;
+}
+.dmg-opt-out {
+  background: #f6fef9; border: 2px solid #c8f0d8; border-radius: 12px;
+  padding: 14px 18px; font-size: 13px; font-weight: 600;
+  color: var(--text); line-height: 1.7;
+}
+.dmg-opt-out strong { color: var(--green); }
+.dmg-opt-highlight { color: var(--orange); font-weight: 800; }
+
+/* Formula box */
+.dmg-formula {
+  background: #f8f0ff; border: 2px solid #ede0ff;
+  border-radius: 12px; padding: 16px 18px;
+}
+.dmg-formula pre {
+  white-space: pre-wrap; margin: 0;
+  font-size: 12px; line-height: 1.7;
+  color: var(--purple-dark); font-family: 'Consolas', 'Courier New', monospace;
+}
+
+@media(max-width:600px) {
+  .dmg-form { grid-template-columns: 1fr; }
+  .dmg-opt-form { grid-template-columns: 1fr; }
+  .dmg-kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.tab-icon { font-size: 16px; }
+
+/* ── Content area ── */
+.content {
+  flex: 1;
+  padding: 36px 28px 60px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Tab sections */
+.tab-section { display: none; }
+.tab-section.active {
+  display: block;
+  animation: fade-up 0.35s ease forwards;
+}
+@keyframes fade-up {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HOME TAB
+═══════════════════════════════════════════════════════════ */
+.home-header {
+  text-align: center;
+  padding: 20px 0 40px;
+}
+.home-logo-icon {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; margin: 0 auto 16px;
+  box-shadow: 0 6px 24px rgba(255,154,60,0.4), 0 0 0 6px rgba(255,216,77,0.2);
+  animation: bob 3s ease-in-out infinite;
+}
+.home-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(36px,6vw,56px);
+  background: linear-gradient(135deg, #ff6eb4, #a06aff, #5ec8f0);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+.home-sub {
+  font-size: 15px; font-weight: 600; color: var(--text-dim);
+  margin-top: 8px; line-height: 1.6;
+}
+.rainbow-bar {
+  height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--green),var(--sky),var(--purple));
+  max-width: 220px; margin: 24px auto; opacity: 0.7;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+  gap: 18px;
+}
+.tool-card {
+  background: white; border-radius: 20px;
+  padding: 24px 20px; box-shadow: var(--shadow);
+  border: 2px solid transparent;
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; overflow: hidden;
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  text-decoration: none; color: inherit;
+}
+.tool-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-lg); }
+.tool-card::before {
+  content: ''; position: absolute;
+  top:0; left:0; right:0; height: 5px;
+  border-radius: 20px 20px 0 0;
+}
+.card-pink::before  { background: linear-gradient(90deg,var(--pink),var(--purple)); }
+.card-green::before { background: linear-gradient(90deg,var(--green),var(--teal)); }
+.card-sky::before   { background: linear-gradient(90deg,var(--sky),var(--purple)); }
+.tool-card:hover.card-pink  { border-color: var(--pink); }
+.tool-card:hover.card-green { border-color: var(--green); }
+.tool-card:hover.card-sky   { border-color: var(--sky); }
+
+/* ═══════════════════════════════════════════════════════════
+   RESET TRACKER TAB
+═══════════════════════════════════════════════════════════ */
+.rt-header {
+  text-align: center; padding: 4px 0 24px;
+}
+.rt-server-time {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: white; border-radius: 40px;
+  padding: 8px 20px; box-shadow: var(--shadow);
+  font-size: 14px; font-weight: 700; color: var(--text-dim);
+  margin-bottom: 24px;
+}
+.rt-server-time .rt-clock { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--purple); }
+
+/* Grid: 2 columns — daily+PoP top row, weeklies below */
+.rt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Reset card */
+.rt-card {
+  background: white; border-radius: 18px;
+  box-shadow: var(--shadow); overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.2s;
+  height: 100%;
+}
+.rt-card:hover { transform: translateY(-2px); }
+.rt-card-top { height: 5px; }
+.rt-card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 0; }
+
+/* Card colour themes */
+.rt-daily   .rt-card-top { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+.rt-weekly  .rt-card-top { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+.rt-weekly2 .rt-card-top { background: linear-gradient(90deg, var(--pink), var(--sky)); }
+.rt-monthly .rt-card-top { background: linear-gradient(90deg, var(--teal), var(--sky)); }
+.rt-daily:hover   { border-color: var(--orange); }
+.rt-weekly:hover  { border-color: var(--purple); }
+.rt-weekly2:hover { border-color: var(--pink); }
+.rt-monthly:hover { border-color: var(--teal); }
+
+/* Card header row: icon + label/name side by side */
+.rt-card-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.rt-card-icon {
+  width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.rt-daily   .rt-card-icon { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+.rt-weekly  .rt-card-icon { background: linear-gradient(135deg, #f3e5ff, #e1c4ff); }
+.rt-weekly2 .rt-card-icon { background: linear-gradient(135deg, #ffe0f0, #ffc0e0); }
+.rt-monthly .rt-card-icon { background: linear-gradient(135deg, #e0f8f8, #b0eeee); }
+
+.rt-card-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 2px;
+}
+.rt-daily   .rt-card-label { color: var(--orange); }
+.rt-weekly  .rt-card-label { color: var(--purple); }
+.rt-weekly2 .rt-card-label { color: var(--pink); }
+.rt-monthly .rt-card-label { color: var(--teal); }
+
+.rt-card-name {
+  font-family: 'Fredoka One', cursive; font-size: 18px;
+  color: var(--text); line-height: 1.2;
+}
+
+/* Countdown display */
+.rt-countdown {
+  display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.rt-unit {
+  display: flex; flex-direction: column; align-items: center;
+  border-radius: 9px; padding: 6px 10px; min-width: 46px;
+}
+.rt-daily   .rt-unit { background: #fff8f0; }
+.rt-weekly  .rt-unit { background: #f8f0ff; }
+.rt-weekly2 .rt-unit { background: #fff0f6; }
+.rt-monthly .rt-unit { background: #f0fbfb; }
+
+.rt-unit-val {
+  font-family: 'Fredoka One', cursive; font-size: 20px; line-height: 1;
+}
+.rt-daily   .rt-unit-val { color: var(--orange); }
+.rt-weekly  .rt-unit-val { color: var(--purple); }
+.rt-weekly2 .rt-unit-val { color: var(--pink); }
+.rt-monthly .rt-unit-val { color: var(--teal); }
+
+.rt-unit-label {
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+}
+
+/* Reset time row */
+.rt-reset-time {
+  font-size: 12px; font-weight: 700; color: var(--text-dim);
+  display: flex; align-items: flex-start; gap: 5px; flex-wrap: wrap;
+  padding-top: 10px; border-top: 1px solid #f0eeff; margin-bottom: 0;
+}
+.rt-reset-time .rt-tz-local { color: var(--text); font-weight: 800; }
+
+/* Urgency pulse */
+.rt-urgent .rt-unit-val { animation: urgency-pulse 1s ease-in-out infinite; }
+@keyframes urgency-pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+/* Path of Proof anchor setter */
+.rt-pop-settings {
+  background: white; border-radius: 18px;
+  padding: 20px 24px; box-shadow: var(--shadow);
+  margin-bottom: 16px; border: 2px solid #e0fbfb;
+}
+.rt-pop-title {
+  font-family: 'Fredoka One', cursive; font-size: 17px; color: var(--text);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+}
+.rt-pop-form {
+  display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+}
+.rt-pop-field { display: flex; flex-direction: column; gap: 4px; }
+.rt-pop-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.rt-pop-input {
+  background: #f0fbfb; border: 2px solid #b0eeee; border-radius: 9px;
+  color: var(--text); font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 600; padding: 8px 12px; outline: none;
+  transition: border-color 0.2s;
+}
+.rt-pop-input:focus { border-color: var(--teal); }
+.rt-save-btn {
+  padding: 10px 24px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, var(--teal), var(--sky));
+  color: white; font-family: 'Fredoka One', cursive; font-size: 15px;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 12px rgba(62,207,207,0.3);
+}
+.rt-save-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(62,207,207,0.45); }
+.rt-save-note { font-size: 12px; color: var(--text-dim); font-weight: 600; margin-top: 8px; }
+
+@media(max-width:600px) {
+  .rt-grid { grid-template-columns: 1fr; }
+}
+
+/* Tab indicator */
+.tab-btn[data-tab="resets"].active::after { background: linear-gradient(90deg, var(--sky), var(--purple)); }
+.tab-btn[data-tab="events"].active::after { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.tab-btn[data-tab="probs"].active::after  { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+
+.card-purple::before { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+.tool-card:hover.card-purple { border-color: var(--purple); }
+.icon-purple { background: linear-gradient(135deg, #ede0ff, #ccb0ff); box-shadow: 0 3px 10px rgba(160,106,255,0.3); }
+
+/* ═══════════════════════════════════════════════════════════
+   ITEM PROBABILITIES TAB
+═══════════════════════════════════════════════════════════ */
+.pr-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
+}
+.pr-title {
+  font-family: 'Fredoka One', cursive; font-size: 26px; color: var(--text); margin-bottom: 4px;
+}
+.pr-meta { font-size: 12px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
+.pr-meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple); box-shadow: 0 0 6px var(--purple); animation: pulse-dot 2s ease-in-out infinite; }
+
+/* Box selector */
+.pr-box-list {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+}
+.pr-box-btn {
+  padding: 8px 16px; border-radius: 20px; border: 2px solid #ede0ff;
+  background: white; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--text-dim);
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+.pr-box-btn:hover  { border-color: var(--purple); color: var(--purple); }
+.pr-box-btn.active {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border-color: transparent; color: white; box-shadow: 0 3px 12px rgba(160,106,255,0.35);
+}
+
+/* Controls bar */
+.pr-controls {
+  background: white; border-radius: 16px; box-shadow: var(--shadow);
+  padding: 16px 20px; margin-bottom: 16px;
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+}
+.pr-ctrl-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 160px; }
+.pr-ctrl-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); }
+.pr-ctrl-input {
+  background: #faf8ff; border: 2px solid #ede0ff; border-radius: 9px;
+  color: var(--text); font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 600; padding: 8px 12px; outline: none;
+  transition: border-color 0.2s;
+}
+.pr-ctrl-input:focus { border-color: var(--purple); }
+select.pr-ctrl-input {
+  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a06aff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.pr-clear-btn {
+  padding: 9px 18px; border-radius: 9px; border: 2px solid #ede0ff;
+  background: white; color: var(--text-dim); font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.pr-clear-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+/* Results summary */
+.pr-results-bar {
+  font-size: 12px; font-weight: 700; color: var(--text-dim);
+  margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.pr-results-bar strong { color: var(--purple); }
+
+/* Table */
+.pr-table-wrap {
+  background: white; border-radius: 16px; box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.pr-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+.pr-table thead tr {
+  background: #f8f4ff; border-bottom: 2px solid #ede0ff;
+}
+.pr-table th {
+  padding: 11px 14px; text-align: left;
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer;
+  user-select: none; white-space: nowrap; transition: color 0.15s;
+}
+.pr-table th:hover { color: var(--purple); }
+.pr-table th .sort-arrow { margin-left: 4px; opacity: 0.4; font-size: 10px; }
+.pr-table th.sorted .sort-arrow { opacity: 1; color: var(--purple); }
+.pr-table tbody tr {
+  border-bottom: 1px solid #f5f0ff;
+  transition: background 0.1s;
+}
+.pr-table tbody tr:last-child { border-bottom: none; }
+.pr-table tbody tr:hover { background: #fdf9ff; }
+.pr-table td { padding: 9px 14px; color: var(--text); font-weight: 600; }
+
+/* Rank colour pills */
+.pr-rank {
+  display: inline-block; padding: 2px 9px; border-radius: 12px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+}
+.pr-rank-Chaos     { background: #f3e0ff; color: #6a00c8; }
+.pr-rank-Ancient   { background: #dce8ff; color: #1a3a8a; }
+.pr-rank-Mythic    { background: #ffe0e0; color: #c02020; }
+.pr-rank-Legendary { background: #e0f5e0; color: #1a6e2a; }
+.pr-rank-Unique    { background: #fff9e0; color: #8a6500; }
+.pr-rank-Epic      { background: #e8e0ff; color: #4a20a0; }
+.pr-rank-Rare      { background: #e0eeff; color: #1a4a9a; }
+/* Master Label ranks */
+.pr-rank-M         { background: #f3e0ff; color: #6a00c8; }
+.pr-rank-Red       { background: #ffe0e0; color: #c02020; }
+.pr-rank-Black     { background: #2a2a2a; color: #ffffff; }
+.pr-rank-default   { background: #f0f0f0; color: #555; }
+
+/* Prob bar */
+.pr-prob-cell { display: flex; align-items: center; gap: 8px; }
+.pr-prob-bar-bg {
+  flex: 1; height: 6px; background: #f0eeff; border-radius: 3px; overflow: hidden;
+  min-width: 60px;
+}
+.pr-prob-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--pink)); border-radius: 3px; }
+.pr-prob-val { font-weight: 800; color: var(--purple); min-width: 52px; text-align: right; font-size: 12px; }
+
+/* Empty/loading states */
+.pr-state {
+  text-align: center; padding: 48px 20px;
+  color: var(--text-dim); font-size: 15px; font-weight: 600;
+}
+.pr-state-icon { font-size: 40px; margin-bottom: 10px; }
+.pr-state-title { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--text); margin-bottom: 4px; }
+
+/* Pagination */
+.pr-pagination {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 20px; border-top: 1px solid #f0eeff;
+  flex-wrap: wrap;
+}
+.pr-page-btn {
+  padding: 6px 13px; border-radius: 8px; border: 2px solid #ede0ff;
+  background: white; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--text-dim);
+  cursor: pointer; transition: all 0.15s;
+}
+.pr-page-btn:hover   { border-color: var(--purple); color: var(--purple); }
+.pr-page-btn.active  { background: var(--purple); border-color: var(--purple); color: white; }
+.pr-page-btn:disabled { opacity: 0.3; pointer-events: none; }
+.pr-page-info { font-size: 12px; font-weight: 700; color: var(--text-dim); }
+
+.pr-refresh-btn {
+  padding: 8px 18px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white; font-family: 'Fredoka One', cursive; font-size: 14px;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 12px rgba(160,106,255,0.3);
+  display: flex; align-items: center; gap: 6px;
+}
+.pr-refresh-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(160,106,255,0.45); }
+.pr-refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+
+/* Cube potential viewer */
+.pr-cube-wrap { display: flex; flex-direction: column; gap: 16px; }
+
+.pr-rank-section {
+  background: white; border-radius: 16px;
+  box-shadow: var(--shadow); overflow: hidden;
+  border: 2px solid transparent;
+}
+.pr-rank-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; cursor: pointer; user-select: none;
+  border-bottom: 2px solid #f5f0ff;
+  transition: background 0.15s;
+}
+.pr-rank-section-header:hover { background: #fdf9ff; }
+.pr-rank-section-title {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--text);
+}
+.pr-rank-section-chevron { font-size: 12px; color: var(--text-dim); transition: transform 0.2s; }
+.pr-rank-section-chevron.open { transform: rotate(180deg); }
+.pr-rank-section-body { display: none; padding: 0 20px 16px; }
+.pr-rank-section-body.open { display: block; }
+
+/* Cube table */
+.pr-cube-table-wrap { overflow-x: auto; margin-top: 12px; }
+.pr-cube-table {
+  width: 100%; border-collapse: collapse; font-size: 13px; min-width: 400px;
+}
+.pr-cube-table thead tr { background: #f8f4ff; }
+.pr-cube-table th {
+  padding: 8px 14px; text-align: left;
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim);
+  border-bottom: 2px solid #ede0ff; white-space: nowrap;
+}
+.pr-cube-table td {
+  padding: 8px 14px; border-bottom: 1px solid #f5f0ff;
+  color: var(--text); font-weight: 600;
+}
+.pr-cube-table tr:last-child td { border-bottom: none; }
+.pr-cube-table tr:hover td { background: #fdf9ff; }
+.pr-cube-stat { font-weight: 700; color: var(--text); }
+.pr-cube-val  { color: var(--purple); font-weight: 800; font-size: 13px; }
+.pr-cube-prob-1 { color: var(--orange); font-weight: 800; }
+.pr-cube-prob-23 { color: var(--teal); font-weight: 800; }
+
+/* Rank section border colours */
+.pr-rank-section.rank-Rare     { border-color: #c8dcff; }
+.pr-rank-section.rank-Epic     { border-color: #dcc8ff; }
+.pr-rank-section.rank-Unique   { border-color: #ffe8a0; }
+.pr-rank-section.rank-Legendary{ border-color: #c8f0c8; }
+.pr-rank-section.rank-Mythic   { border-color: #ffc8c8; }
+.pr-rank-section.rank-Ancient  { border-color: #c8d4ff; }
+.pr-rank-section.rank-Chaos    { border-color: #e8c8ff; }
+
+@media(max-width:600px) {
+  .pr-cube-table th:last-child,
+  .pr-cube-table td:last-child { display: none; }
+}
+
+/* Box list divider between box items and cube items */
+.pr-box-divider {
+  width: 1px; height: 28px; background: #ede0ff;
+  align-self: center; margin: 0 4px;
+  display: inline-block;
+}
+.pr-box-btn-cube { border-color: #e0d0ff; }
+.pr-box-btn-cube.active {
+  background: linear-gradient(135deg, var(--purple-dark), var(--purple));
+}
+
+/* ── Cube potential viewer ── */
+.pr-cube-wrap {
+  padding: 4px 0 8px;
+}
+.pr-cube-section {
+  border-bottom: 2px solid #f5f0ff;
+  padding-bottom: 4px; margin-bottom: 4px;
+}
+.pr-cube-section:last-child { border-bottom: none; }
+
+.pr-cube-section-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 20px 10px;
+  background: #faf8ff;
+  border-bottom: 1px solid #f0eeff;
+}
+.pr-cube-section-title {
+  font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--text);
+}
+
+.pr-cube-cols-header {
+  display: grid; grid-template-columns: 220px 1fr 1fr;
+  padding: 6px 20px;
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim);
+  background: #fdf9ff; border-bottom: 1px solid #f0eeff;
+}
+
+.pr-cube-option {
+  display: grid; grid-template-columns: 220px 1fr;
+  border-bottom: 1px solid #f8f4ff;
+  transition: background 0.1s;
+}
+.pr-cube-option:hover { background: #fdf9ff; }
+.pr-cube-option:last-child { border-bottom: none; }
+
+.pr-cube-option-name {
+  font-weight: 800; font-size: 14px; color: var(--text);
+  padding: 10px 20px; display: flex; align-items: flex-start;
+  border-right: 1px solid #f0eeff;
+  padding-top: 12px;
+}
+
+.pr-cube-variants { display: flex; flex-direction: column; }
+
+.pr-cube-variant-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  padding: 5px 16px; border-bottom: 1px solid #faf5ff;
+  font-size: 13px;
+}
+.pr-cube-variant-row:last-child { border-bottom: none; }
+
+.pr-cube-stat {
+  font-weight: 700; color: var(--text);
+}
+.pr-cube-prob23 {
+  font-weight: 700; color: var(--purple);
+}
+
+@media(max-width:600px) {
+  .pr-cube-cols-header { grid-template-columns: 140px 1fr 1fr; font-size: 9px; padding: 6px 12px; }
+  .pr-cube-option      { grid-template-columns: 140px 1fr; }
+  .pr-cube-option-name { padding: 10px 12px; font-size: 13px; }
+  .pr-cube-variant-row { padding: 5px 10px; }
+}
+
+/* Probability browser mobile layout */
+@media(max-width:980px){
+  #prLayout{grid-template-columns:1fr !important;}
+  #prLayout > .pr-panel{position:static !important;max-height:none !important;}
+  .pr-controls{grid-template-columns:1fr !important;display:grid;}
+  .pr-topbar{gap:8px;}
+}
+
+.card-yellow::before { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.tool-card:hover.card-yellow { border-color: var(--yellow); }
+.icon-yellow { background: linear-gradient(135deg, #fffde0, #fff3a0); box-shadow: 0 3px 10px rgba(255,216,77,0.35); }
+
+/* ═══════════════════════════════════════════════════════════
+   EVENT TRACKER TAB
+═══════════════════════════════════════════════════════════ */
+.ev-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+}
+.ev-meta {
+  font-size: 12px; font-weight: 700; color: var(--text-dim);
+  display: flex; align-items: center; gap: 6px;
+}
+.ev-meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.ev-refresh-btn {
+  padding: 8px 18px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  color: white; font-family: 'Fredoka One', cursive; font-size: 14px;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 12px rgba(255,154,60,0.3);
+  display: flex; align-items: center; gap: 6px;
+}
+.ev-refresh-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(255,154,60,0.45); }
+.ev-refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+.ev-refresh-btn .ev-spin { display: inline-block; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Event cards grid */
+.ev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.ev-card {
+  background: white; border-radius: 20px;
+  box-shadow: var(--shadow); overflow: hidden;
+  border: 2px solid transparent;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  display: flex; flex-direction: column;
+}
+.ev-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
+/* Urgency colouring */
+.ev-card.ev-urgent   { border-color: rgba(255,85,85,0.3); }
+.ev-card.ev-soon     { border-color: rgba(255,154,60,0.3); }
+.ev-card.ev-normal   { border-color: transparent; }
+
+.ev-card-stripe {
+  height: 5px; flex-shrink: 0;
+}
+.ev-urgent .ev-card-stripe   { background: linear-gradient(90deg, var(--red), var(--orange)); }
+.ev-soon   .ev-card-stripe   { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+.ev-normal .ev-card-stripe   { background: linear-gradient(90deg, var(--sky), var(--purple)); }
+
+.ev-card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+.ev-card-title {
+  font-family: 'Fredoka One', cursive; font-size: 17px;
+  color: var(--text); line-height: 1.3; text-decoration: none;
+}
+.ev-card-title:hover { color: var(--purple); }
+
+/* Progress bar */
+.ev-progress-wrap { margin-top: 2px; }
+.ev-progress-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; font-weight: 800; color: var(--text-dim);
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px;
+}
+.ev-progress-label .ev-pct { font-size: 12px; }
+.ev-progress-bar {
+  height: 7px; background: #f0eeff; border-radius: 4px; overflow: hidden;
+}
+.ev-progress-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.ev-urgent .ev-progress-fill   { background: linear-gradient(90deg, var(--red), var(--orange)); }
+.ev-soon   .ev-progress-fill   { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+.ev-normal .ev-progress-fill   { background: linear-gradient(90deg, var(--sky), var(--purple)); }
+
+/* Countdown chips */
+.ev-countdown {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.ev-unit {
+  display: flex; flex-direction: column; align-items: center;
+  background: #fafafa; border: 1px solid #f0eeff;
+  border-radius: 8px; padding: 6px 10px; min-width: 46px;
+}
+.ev-urgent .ev-unit   { background: #fff5f5; border-color: rgba(255,85,85,0.15); }
+.ev-soon   .ev-unit   { background: #fff9f0; border-color: rgba(255,154,60,0.15); }
+.ev-unit-val {
+  font-family: 'Fredoka One', cursive; font-size: 18px; line-height: 1;
+  color: var(--purple);
+}
+.ev-urgent .ev-unit-val { color: var(--red); }
+.ev-soon   .ev-unit-val { color: var(--orange); }
+.ev-unit-label { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-top: 1px; }
+
+/* Dates row */
+.ev-dates {
+  font-size: 12px; font-weight: 600; color: var(--text-dim);
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: 10px; border-top: 1px solid #f5f0ff;
+  margin-top: auto;
+}
+.ev-dates span { color: var(--text); font-weight: 700; }
+.ev-nexon-link {
+  font-size: 11px; font-weight: 800; color: var(--purple);
+  text-decoration: none; letter-spacing: 0.5px;
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 4px;
+}
+.ev-nexon-link:hover { color: var(--pink); }
+
+/* Urgency badge */
+.ev-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+  align-self: flex-start;
+}
+.ev-badge-urgent { background: #ffe5e5; color: var(--red); }
+.ev-badge-soon   { background: #fff3e0; color: var(--orange); }
+.ev-badge-normal { background: #ede0ff; color: var(--purple); }
+
+/* Empty / error states */
+.ev-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--text-dim); font-size: 15px; font-weight: 600;
+}
+.ev-state .ev-state-icon { font-size: 48px; margin-bottom: 12px; }
+.ev-state .ev-state-title { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--text); margin-bottom: 6px; }
+
+@media(max-width:600px) { .ev-grid { grid-template-columns: 1fr; } }
+
+/* ── Custom event add/manage panel ── */
+.ev-custom-panel {
+  background: white; border-radius: 18px;
+  box-shadow: var(--shadow); overflow: hidden;
+  margin-bottom: 20px;
+  border: 2px solid #f0e8ff;
+}
+.ev-custom-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.ev-custom-header:hover { background: #fdf8ff; }
+.ev-custom-header-left {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Fredoka One', cursive; font-size: 17px; color: var(--text);
+}
+.ev-custom-chevron {
+  font-size: 13px; color: var(--text-dim);
+  transition: transform 0.2s;
+}
+.ev-custom-chevron.open { transform: rotate(180deg); }
+
+.ev-custom-body {
+  padding: 0 20px 20px;
+  display: none;
+}
+.ev-custom-body.open { display: block; }
+
+.ev-custom-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 14px;
+}
+.ev-custom-form .ev-full { grid-column: 1 / -1; }
+.ev-cf-field { display: flex; flex-direction: column; gap: 4px; }
+.ev-cf-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.ev-cf-input {
+  background: #fafafa; border: 2px solid #ede0ff;
+  border-radius: 9px; color: var(--text);
+  font-family: 'Nunito', sans-serif; font-size: 14px;
+  font-weight: 600; padding: 8px 12px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.ev-cf-input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(160,106,255,0.1); }
+.ev-cf-hint { font-size: 11px; color: var(--text-dim); font-weight: 600; margin-top: 2px; }
+
+.ev-add-btn {
+  padding: 10px 24px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white; font-family: 'Fredoka One', cursive; font-size: 15px;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 12px rgba(160,106,255,0.3);
+}
+.ev-add-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(160,106,255,0.45); }
+
+/* Custom events list */
+.ev-custom-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.ev-custom-list:empty { display: none; }
+.ev-custom-list-title {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.ev-custom-item {
+  display: flex; align-items: center; gap: 10px;
+  background: #faf8ff; border: 1px solid #ede0ff;
+  border-radius: 10px; padding: 10px 14px;
+}
+.ev-custom-item-info { flex: 1; min-width: 0; }
+.ev-custom-item-name {
+  font-weight: 800; font-size: 14px; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ev-custom-item-date { font-size: 12px; color: var(--text-dim); font-weight: 600; margin-top: 1px; }
+.ev-custom-delete {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 7px;
+  border: none; background: #ffe5e5; color: var(--red);
+  font-size: 14px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.ev-custom-delete:hover { background: var(--red); color: white; }
+.ev-cf-error {
+  font-size: 12px; font-weight: 700; color: var(--red);
+  margin-top: 6px; display: none;
+}
+.ev-cf-error.show { display: block; }
+
+/* End time mode toggle */
+.ev-end-mode-toggle {
+  display: flex; gap: 0;
+  background: #f8f4ff; border: 2px solid #ede0ff;
+  border-radius: 10px; overflow: hidden;
+  width: fit-content; margin-top: 2px;
+}
+.ev-mode-btn {
+  padding: 8px 18px; border: none; background: transparent;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text-dim); cursor: pointer; transition: all 0.15s;
+  white-space: nowrap;
+}
+.ev-mode-btn:hover { color: var(--purple); background: rgba(160,106,255,0.06); }
+.ev-mode-btn.active { background: white; color: var(--purple); box-shadow: var(--shadow); }
+
+@media(max-width:600px) {
+  .ev-custom-form { grid-template-columns: 1fr; }
+}
+
+@media(max-width:600px) {
+  .rt-grid { grid-template-columns: 1fr; }
+  .rt-pop-form { flex-direction: column; }
+}
+
+.card-icon {
+  width: 48px; height: 48px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.icon-pink  { background: linear-gradient(135deg,#ffe0f0,#ffb3d9); box-shadow:0 3px 10px rgba(255,110,180,0.3); }
+.icon-green { background: linear-gradient(135deg,#d0f8dc,#a0e8b0); box-shadow:0 3px 10px rgba(78,203,113,0.3); }
+.icon-sky   { background: linear-gradient(135deg,#d0f0ff,#a0dcff); box-shadow:0 3px 10px rgba(94,200,240,0.3); }
+
+.card-name { font-family:'Fredoka One',cursive; font-size:19px; color:var(--text); }
+.card-desc { font-size:13px; font-weight:600; color:var(--text-dim); line-height:1.5; flex:1; }
+.card-badge {
+  display:inline-block; font-size:10px; font-weight:800;
+  letter-spacing:1.5px; text-transform:uppercase;
+  padding:3px 10px; border-radius:20px; align-self:flex-start;
+}
+.badge-new  { background:#ffe0f0; color:#c0306a; }
+.card-arrow {
+  position:absolute; right:18px; top:50%; transform:translateY(-50%);
+  font-size:18px; opacity:0.18; transition:opacity 0.2s,transform 0.2s;
+}
+.tool-card:hover .card-arrow { opacity:0.55; transform:translateY(-50%) translateX(3px); }
+
+
+/* ═══════════════════════════════════════════════════════════
+   DISCORD FORMATTER TAB
+═══════════════════════════════════════════════════════════ */
+.df-wrap {
+  --dc-bg: #313338;
+  --dc-bg2: #2b2d31;
+  --dc-text: #dbdee1;
+  --dc-text-dim: #949ba4;
+  --dc-link: #00a8fc;
+  --dc-spoiler: #202225;
+  --dc-spoiler-r: #3a3c42;
+}
+
+.df-panel {
+  background: white; border-radius: 18px;
+  padding: 22px 24px; box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+.df-panel-title {
+  font-family:'Fredoka One',cursive; font-size:17px; color:var(--text);
+  display:flex; align-items:center; gap:8px; margin-bottom:14px;
+}
+.df-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.dot-purple-s { background:var(--purple); }
+.dot-teal-s   { background:var(--teal); }
+.dot-pink-s   { background:var(--pink); }
+
+/* Toolbar */
+.df-toolbar {
+  display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;
+  padding:9px 11px; background:#f8f0ff;
+  border-radius:11px; border:2px solid #ede0ff;
+}
+.df-toolbar-group { display:flex; gap:3px; align-items:center; }
+.df-sep { width:1px; height:26px; background:#ddd; margin:0 3px; align-self:center; }
+.tb-btn {
+  display:flex; align-items:center; justify-content:center;
+  width:32px; height:32px; border-radius:7px;
+  background:white; border:2px solid #e0d0ff;
+  font-size:14px; font-weight:800; color:var(--purple-dark);
+  cursor:pointer; transition:all 0.15s;
+  font-family:'Nunito',sans-serif; position:relative;
+}
+.tb-btn:hover { background:var(--purple); color:white; border-color:var(--purple); transform:scale(1.08); }
+.tb-btn[title]:hover::after {
+  content:attr(title); position:absolute; bottom:-30px; left:50%; transform:translateX(-50%);
+  background:#222; color:white; font-size:10px; font-weight:600;
+  padding:2px 7px; border-radius:5px; white-space:nowrap; pointer-events:none; z-index:10;
+  font-family:'Nunito',sans-serif;
+}
+
+/* Timestamp row */
+.df-ts-row {
+  display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end;
+  padding:10px 12px; background:#f0faff;
+  border-radius:11px; border:2px solid #c8eeff; margin-bottom:10px;
+}
+.df-ts-field { display:flex; flex-direction:column; gap:3px; }
+.df-ts-label { font-size:10px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim); }
+.df-ts-input {
+  background:white; border:2px solid #c8eeff; border-radius:7px;
+  color:var(--text); font-family:'Nunito',sans-serif;
+  font-size:13px; font-weight:600; padding:6px 10px; outline:none;
+  transition:border-color 0.2s;
+}
+.df-ts-input:focus { border-color:var(--sky); }
+select.df-ts-input {
+  appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:26px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235ec8f0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 8px center;
+}
+.df-ts-style-btns { display:flex; flex-wrap:wrap; gap:5px; }
+.df-ts-btn {
+  padding:6px 11px; border-radius:7px; border:2px solid #c8eeff;
+  background:white; color:#2a9fd6; font-family:'Nunito',sans-serif;
+  font-size:11px; font-weight:800; cursor:pointer; transition:all 0.15s; white-space:nowrap;
+}
+.df-ts-btn:hover { background:var(--sky); color:white; border-color:var(--sky); }
+
+/* Editor textarea */
+#df-editor {
+  width:100%; min-height:140px; resize:vertical;
+  background:#fafafa; border:2px solid #ede0ff; border-radius:11px;
+  padding:12px 14px; font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:600; color:var(--text); outline:none; line-height:1.7;
+  transition:border-color 0.2s;
+}
+#df-editor:focus { border-color:var(--purple); }
+.df-char-count { text-align:right; font-size:11px; color:var(--text-dim); font-weight:700; margin-top:5px; }
+.df-char-over  { color:var(--red); }
+
+/* Discord preview */
+.dc-preview-box {
+  background:var(--dc-bg); border-radius:14px; padding:18px 20px;
+  font-family:'gg sans','Noto Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:15px; line-height:1.6; color:var(--dc-text);
+  min-height:70px; word-break:break-word;
+}
+.dc-msg-wrap { display:flex; gap:14px; align-items:flex-start; }
+.dc-avatar {
+  width:38px; height:38px; border-radius:50%;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px; flex-shrink:0;
+}
+.dc-meta { flex:1; min-width:0; }
+.dc-username { font-size:15px; font-weight:700; color:var(--pink); margin-bottom:1px; display:flex; align-items:center; gap:7px; }
+.dc-bot-tag { background:#5865f2; color:white; font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; letter-spacing:0.5px; }
+.dc-time-meta { font-size:10px; color:var(--dc-text-dim); }
+.dc-content { margin-top:2px; }
+.dc-content strong { font-weight:700; }
+.dc-content em { font-style:italic; }
+.dc-content u  { text-decoration:underline; }
+.dc-content s  { text-decoration:line-through; }
+.dc-content .dc-code { background:#2b2d31; color:#e0e0e0; padding:1px 5px; border-radius:4px; font-family:'Consolas','Courier New',monospace; font-size:13px; }
+.dc-content .dc-spoiler { background:#202225; color:transparent; border-radius:4px; padding:0 3px; cursor:pointer; transition:color 0.2s,background 0.2s; user-select:none; }
+.dc-content .dc-spoiler.revealed { background:#3a3c42; color:var(--dc-text); }
+.dc-content .dc-timestamp { background:rgba(88,101,242,0.18); color:#00a8fc; border-radius:4px; padding:0 4px; font-weight:600; display:inline-flex; align-items:center; gap:3px; white-space:nowrap; }
+.dc-content .dc-timestamp::before { content:'🕐'; font-size:11px; }
+.dc-content .dc-blockquote { border-left:4px solid #4e5058; padding-left:12px; margin:4px 0; }
+.dc-content .dc-heading { font-size:17px; font-weight:700; color:white; margin:4px 0 2px; }
+
+/* Output */
+.df-output-wrap { position:relative; }
+#df-output {
+  width:100%; min-height:90px; background:#1e1e2e; color:#c0c0e0;
+  border:2px solid #3a3a5a; border-radius:11px;
+  padding:12px 14px; font-family:'Consolas','Courier New',monospace;
+  font-size:13px; line-height:1.7; resize:vertical; outline:none;
+}
+.df-copy-btn {
+  position:absolute; top:9px; right:9px;
+  padding:6px 14px; border-radius:9px;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  color:white; border:none; font-family:'Nunito',sans-serif;
+  font-size:12px; font-weight:800; cursor:pointer;
+  transition:transform 0.15s,box-shadow 0.15s;
+  box-shadow:0 3px 10px rgba(160,106,255,0.3);
+}
+.df-copy-btn:hover { transform:translateY(-1px); box-shadow:0 5px 16px rgba(160,106,255,0.45); }
+.df-copy-btn.copied { background:linear-gradient(135deg,var(--green),var(--teal)); }
+.df-note { font-size:11px; color:var(--text-dim); font-weight:600; margin-top:8px; }
+.df-note code { background:#f0e8ff; padding:1px 4px; border-radius:4px; font-size:11px; }
+
+@media(max-width:600px) {
+  .df-ts-row { flex-direction:column; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE / HAMBURGER
+═══════════════════════════════════════════════════════════ */
+.hamburger-btn {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: white; border: 2px solid #ede0ff;
+  cursor: pointer; flex-shrink: 0; margin-left: auto;
+  box-shadow: var(--shadow);
+  flex-direction: column; gap: 5px; padding: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hamburger-btn:hover { background: #f8f0ff; border-color: var(--purple); }
+.hamburger-btn span {
+  display: block; width: 18px; height: 2px;
+  background: var(--purple); border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+.hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-btn.open span:nth-child(2) { opacity: 0; }
+.hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile nav drawer */
+.mobile-nav {
+  display: none;
+  position: fixed; top: 64px; left: 0; right: 0;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 2px solid rgba(255,255,255,0.9);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 99;
+  padding: 10px 16px 16px;
+  flex-direction: column; gap: 4px;
+  animation: slideDown 0.2s ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav .tab-btn {
+  width: 100%; justify-content: flex-start;
+  padding: 12px 16px; border-radius: 12px;
+  font-size: 15px;
+}
+.mobile-nav .tab-btn.active {
+  background: #f8f0ff; color: var(--purple);
+}
+.mobile-nav .tab-btn.active::after { display: none; }
+
+@media(max-width:700px) {
+  .topbar { padding: 0 14px; }
+  .topbar-sub { display: none; }
+  .tab-nav { display: none; }
+  .hamburger-btn { display: flex; }
+  .content { padding: 20px 14px 50px; }
+}
+
+/* Reset tracker checklist */
+.rt-checklist {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid #f0eeff;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.rt-check-item {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; user-select: none;
+  padding: 5px 8px; border-radius: 8px;
+  transition: background 0.15s;
+}
+.rt-check-item:hover { background: #faf7ff; }
+.rt-check-item input[type="checkbox"] { display: none; }
+.rt-check-box {
+  width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+  border: 2px solid #e0d0ff; background: white;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  font-size: 11px; color: white;
+}
+.rt-check-item.checked .rt-check-box {
+  background: var(--pink); border-color: var(--pink);
+}
+.rt-check-item.checked .rt-check-box::after { content: '✓'; }
+.rt-check-item.checked .rt-check-text {
+  text-decoration: line-through; opacity: 0.45;
+}
+.rt-check-text {
+  font-size: 13px; font-weight: 700; color: var(--text);
+  transition: opacity 0.15s;
+}
+.rt-check-reset {
+  margin-top: 8px; font-size: 11px; font-weight: 800;
+  color: var(--text-dim); cursor: pointer; letter-spacing: 1px;
+  text-transform: uppercase; text-align: right;
+  padding: 4px 8px; border-radius: 6px;
+  transition: color 0.15s;
+}
+.rt-check-reset:hover { color: var(--pink); }
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="sky-bg">
+  <div class="cloud cloud-1" style="left:-200px"></div>
+  <div class="cloud cloud-2" style="left:-100px"></div>
+  <div class="cloud cloud-3" style="left:-300px"></div>
+  <div class="cloud cloud-4" style="left:-150px"></div>
+</div>
+
+<div class="shell">
+
+  <!-- ── Top bar ── -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-icon">🍁</div>
+      <div>
+        <div class="topbar-name">MeccStoryM</div>
+        <div class="topbar-sub">Tools by Mecc</div>
+      </div>
+    </div>
+
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="home"    onclick="switchTab('home',this)">
+        <span class="tab-icon">🏠</span> Home
+      </button>
+      <button class="tab-btn" data-tab="discord" onclick="switchTab('discord',this)">
+        <span class="tab-icon">💬</span> Discord Formatter
+      </button>
+      <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this)">
+        <span class="tab-icon">💥</span> DMG Calculator
+      </button>
+      <button class="tab-btn" data-tab="resets" onclick="switchTab('resets',this)">
+        <span class="tab-icon">⏰</span> Reset Tracker
+      </button>
+      <button class="tab-btn" data-tab="events" onclick="switchTab('events',this)">
+        <span class="tab-icon">🎉</span> Events
+      </button>
+      <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this)">
+        <span class="tab-icon">🎲</span> Item Probabilities
+      </button>
+    </nav>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="tab-btn active" data-tab="home"    onclick="switchTab('home',this);closeMobileNav()">
+      <span class="tab-icon">🏠</span> Home
+    </button>
+    <button class="tab-btn" data-tab="discord" onclick="switchTab('discord',this);closeMobileNav()">
+      <span class="tab-icon">💬</span> Discord Formatter
+    </button>
+    <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this);closeMobileNav()">
+      <span class="tab-icon">💥</span> DMG Calculator
+    </button>
+    <button class="tab-btn" data-tab="resets" onclick="switchTab('resets',this);closeMobileNav()">
+      <span class="tab-icon">⏰</span> Reset Tracker
+    </button>
+    <button class="tab-btn" data-tab="events" onclick="switchTab('events',this);closeMobileNav()">
+      <span class="tab-icon">🎉</span> Events
+    </button>
+    <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this);closeMobileNav()">
+      <span class="tab-icon">🎲</span> Item Probabilities
+    </button>
+  </div>
+
+  <!-- ── Content ── -->
+  <div class="content">
+
+    <!-- ════════ HOME ════════ -->
+    <section class="tab-section active" id="tab-home">
+      <div class="home-header">
+        <div class="home-logo-icon">🍁</div>
+        <div class="home-title">MeccStoryM</div>
+        <div class="home-sub">MapleStory M tools made by Mecc.</div>
+        <div class="rainbow-bar"></div>
+      </div>
+
+      <div class="tools-grid">
+
+        <div class="tool-card card-pink" onclick="switchTab('discord', document.querySelector('[data-tab=discord]'))">
+          <div class="card-icon icon-pink">💬</div>
+          <div class="card-name">Discord Message Formatter</div>
+          <div class="card-desc">Format guild event messages with auto time-zone converting timestamps, bold, spoilers & more. Paste straight into Discord.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-green" onclick="switchTab('dmg', document.querySelector('[data-tab=dmg]'))">
+          <div class="card-icon icon-green">💥</div>
+          <div class="card-name">DMG Calculator</div>
+          <div class="card-desc">Calculate your average, crit and boss damage from your stats. Includes a stat swap optimizer to find your best upgrade path.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-sky" onclick="switchTab('resets', document.querySelector('[data-tab=resets]'))">
+          <div class="card-icon icon-sky">⏰</div>
+          <div class="card-name">Reset Tracker</div>
+          <div class="card-desc">Countdowns for all daily, weekly and 4-week resets — daily bosses, weekly bosses, weekly tasks, and Path of Proof.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-yellow" onclick="switchTab('events', document.querySelector('[data-tab=events]'))">
+          <div class="card-icon icon-yellow">🎉</div>
+          <div class="card-name">Event Tracker</div>
+          <div class="card-desc">Live feed of all active MSM events with end-time countdowns in your local timezone. Auto-updates daily.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))">
+          <div class="card-icon icon-purple">🎲</div>
+          <div class="card-name">Item Probabilities</div>
+          <div class="card-desc">Browse all active gacha & box drop rates. Search by item name, filter by rank, type or job — way better than Nexon's page.</div>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════ DISCORD FORMATTER ════════ -->
+    <section class="tab-section" id="tab-discord">
+
+      <!-- Editor -->
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-purple-s"></div> Message Editor</div>
+
+        <div class="df-toolbar">
+          <div class="df-toolbar-group">
+            <button class="tb-btn" title="Bold"          onclick="dfWrap('**','**')"><b>B</b></button>
+            <button class="tb-btn" title="Italic"        onclick="dfWrap('*','*')"><i>I</i></button>
+            <button class="tb-btn" title="Underline"     onclick="dfWrap('__','__')"><u>U</u></button>
+            <button class="tb-btn" title="Strikethrough" onclick="dfWrap('~~','~~')"><s>S</s></button>
+          </div>
+          <div class="df-sep"></div>
+          <div class="df-toolbar-group">
+            <button class="tb-btn" title="Spoiler"     onclick="dfWrap('||','||')" style="font-size:12px;">👁</button>
+            <button class="tb-btn" title="Inline code" onclick="dfWrap('`','`')"  style="font-size:11px;font-family:monospace;">&lt;/&gt;</button>
+            <button class="tb-btn" title="Block quote" onclick="dfInsertBlockquote()" style="font-size:14px;">❝</button>
+            <button class="tb-btn" title="Heading"     onclick="dfInsertHeading()"    style="font-size:12px;font-weight:900;">H</button>
+          </div>
+          <div class="df-sep"></div>
+          <div class="df-toolbar-group">
+            <button class="tb-btn" title="New line" onclick="dfInsert('\n')"    style="font-size:12px;">↵</button>
+            <button class="tb-btn" title="Clear"    onclick="dfClear()"         style="font-size:14px;color:#ff5555;">✕</button>
+          </div>
+        </div>
+
+        <div class="df-ts-row">
+          <div class="df-ts-field">
+            <div class="df-ts-label">Date</div>
+            <input class="df-ts-input" type="date" id="tsDate">
+          </div>
+          <div class="df-ts-field">
+            <div class="df-ts-label">Time</div>
+            <input class="df-ts-input" type="time" id="tsTime" value="21:00">
+          </div>
+          <div class="df-ts-field">
+            <div class="df-ts-label">Timezone</div>
+            <select class="df-ts-input" id="tsTz" style="min-width:200px;">
+              <optgroup label="North America">
+                <option value="Pacific/Honolulu">Hawaii (HST)</option>
+                <option value="America/Anchorage">Alaska (AKST/AKDT)</option>
+                <option value="America/Los_Angeles">Pacific — LA (PST/PDT)</option>
+                <option value="America/Denver">Mountain — Denver (MST/MDT)</option>
+                <option value="America/Phoenix">Mountain — Phoenix (MST, no DST)</option>
+                <option value="America/Chicago">Central — Chicago (CST/CDT)</option>
+                <option value="America/New_York" selected>Eastern — New York (EST/EDT)</option>
+                <option value="America/Halifax">Atlantic — Halifax (AST/ADT)</option>
+                <option value="America/St_Johns">Newfoundland (NST/NDT)</option>
+              </optgroup>
+              <optgroup label="Central &amp; South America">
+                <option value="America/Sao_Paulo">Brazil — São Paulo (BRT/BRST)</option>
+                <option value="America/Argentina/Buenos_Aires">Argentina (ART)</option>
+                <option value="America/Santiago">Chile (CLT/CLST)</option>
+                <option value="America/Bogota">Colombia (COT)</option>
+                <option value="America/Mexico_City">Mexico City (CST/CDT)</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="UTC">UTC / GMT</option>
+                <option value="Europe/London">London (GMT/BST)</option>
+                <option value="Europe/Paris">Paris / Berlin (CET/CEST)</option>
+                <option value="Europe/Helsinki">Helsinki / Kyiv (EET/EEST)</option>
+                <option value="Europe/Moscow">Moscow (MSK)</option>
+              </optgroup>
+              <optgroup label="Africa &amp; Middle East">
+                <option value="Africa/Cairo">Cairo (EET)</option>
+                <option value="Africa/Nairobi">Nairobi (EAT)</option>
+                <option value="Asia/Dubai">Dubai (GST)</option>
+              </optgroup>
+              <optgroup label="Asia">
+                <option value="Asia/Karachi">Karachi (PKT)</option>
+                <option value="Asia/Kolkata">India (IST)</option>
+                <option value="Asia/Dhaka">Dhaka (BST)</option>
+                <option value="Asia/Bangkok">Bangkok (ICT)</option>
+                <option value="Asia/Singapore">Singapore (SGT)</option>
+                <option value="Asia/Shanghai">China (CST)</option>
+                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                <option value="Asia/Seoul">Seoul (KST)</option>
+              </optgroup>
+              <optgroup label="Oceania">
+                <option value="Australia/Perth">Perth (AWST)</option>
+                <option value="Australia/Adelaide">Adelaide (ACST/ACDT)</option>
+                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                <option value="Pacific/Auckland">Auckland (NZST/NZDT)</option>
+                <option value="Pacific/Fiji">Fiji (FJT)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="df-ts-field" style="flex:1;min-width:180px;">
+            <div class="df-ts-label">Insert timestamp as</div>
+            <div class="df-ts-style-btns">
+              <button class="df-ts-btn" onclick="dfInsertTs('t')">🕐 Short Time</button>
+              <button class="df-ts-btn" onclick="dfInsertTs('T')">🕐 Long Time</button>
+              <button class="df-ts-btn" onclick="dfInsertTs('d')">📅 Short Date</button>
+              <button class="df-ts-btn" onclick="dfInsertTs('D')">📅 Long Date</button>
+              <button class="df-ts-btn" onclick="dfInsertTs('f')">📅 Date &amp; Time</button>
+              <button class="df-ts-btn" onclick="dfInsertTs('F')">🗓 Full</button>
+              <button class="df-ts-btn" onclick="dfInsertTs('R')">⏱ Relative</button>
+            </div>
+          </div>
+        </div>
+
+        <textarea id="df-editor"
+          placeholder="Type your event message here…&#10;&#10;Example: 🏰 Guild Scramble starts at &lt;insert timestamp&gt;! React with ✅ if you're joining."
+          oninput="dfOnEdit()"></textarea>
+        <div class="df-char-count" id="dfCharCount">0 / 2000</div>
+      </div>
+
+      <!-- Preview -->
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-teal-s"></div> Discord Preview</div>
+        <div class="dc-preview-box">
+          <div class="dc-msg-wrap">
+            <div class="dc-avatar">🍁</div>
+            <div class="dc-meta">
+              <div class="dc-username">
+                MeccStoryM Bot <span class="dc-bot-tag">BOT</span>
+                <span class="dc-time-meta" id="dfPreviewTime"></span>
+              </div>
+              <div class="dc-content" id="dfPreviewContent">
+                <span style="color:#4e5058;font-style:italic;">Your message will appear here…</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-pink-s"></div> Copy to Discord</div>
+        <div class="df-output-wrap">
+          <textarea id="df-output" readonly placeholder="Your formatted message will appear here…"></textarea>
+          <button class="df-copy-btn" id="dfCopyBtn" onclick="dfCopy()">📋 Copy</button>
+        </div>
+        <p class="df-note">⚠️ Discord renders <code>&lt;t:UNIX:flag&gt;</code> timestamps — they auto-convert to each viewer's local timezone.</p>
+
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid #f0e8ff;display:grid;gap:10px;">
+          <div style="font-weight:800;color:var(--text);font-size:13px;">Quick Messages</div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="df-ts-btn" onclick="dfCopyQuickGuildScramble(this)">📋 Guild scramble at 19:10 (UTC-8, server time)</button>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <span style="font-size:12px;color:var(--text-dim);font-weight:700;">Going:</span>
+            <button class="df-ts-btn" onclick="dfCopyQuickDelay('Going',5,this)">5m</button>
+            <button class="df-ts-btn" onclick="dfCopyQuickDelay('Going',10,this)">10m</button>
+            <button class="df-ts-btn" onclick="dfCopyQuickDelay('Going',20,this)">20m</button>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <span style="font-size:12px;color:var(--text-dim);font-weight:700;">Boss runs:</span>
+            <button class="df-ts-btn" onclick="dfCopyQuickDelay('Boss runs starting',5,this)">5m</button>
+            <button class="df-ts-btn" onclick="dfCopyQuickDelay('Boss runs starting',10,this)">10m</button>
+            <button class="df-ts-btn" onclick="dfCopyQuickDelay('Boss runs starting',20,this)">20m</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /content -->
+
+  <!-- ════════ RESET TRACKER (own content div, same pattern as DMG) ════════ -->
+  <div class="content" id="resets-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <section id="tab-resets" style="display:block;">
+
+    <!-- Server clock -->
+    <div class="rt-header">
+      <div class="rt-server-time">
+        🌍 Server time (UTC−8): <span class="rt-clock" id="rtServerClock">--:--:--</span>
+        &nbsp;|&nbsp; Your local time: <span class="rt-clock" id="rtLocalClock">--:--:--</span>
+      </div>
+    </div>
+
+    <!-- Path of Proof anchor date — hardcoded, hidden -->
+    <div class="rt-pop-settings" style="display:none;">
+      <div class="rt-pop-title"><span>🔵</span> Path of Proof — Anchor Date</div>
+      <div class="rt-pop-form">
+        <div class="rt-pop-field">
+          <div class="rt-pop-label">A known past reset date (UTC midnight)</div>
+          <input class="rt-pop-input" type="date" id="rtPopAnchor" />
+        </div>
+        <button class="rt-save-btn" onclick="rtSaveAnchor()">Save</button>
+      </div>
+      <div class="rt-save-note" id="rtPopNote">Set any past date when Path of Proof reset. The calculator will roll it forward in 28-day cycles automatically.</div>
+    </div>
+
+    <!-- Reset cards -->
+    <div class="rt-grid">
+
+      <!-- Daily Bosses -->
+      <div class="rt-card rt-daily" id="rtCard-daily">
+        <div class="rt-card-top"></div>
+        <div class="rt-card-body">
+          <div class="rt-card-header">
+            <div class="rt-card-icon">⚔️</div>
+            <div>
+              <div class="rt-card-label">Daily</div>
+              <div class="rt-card-name">Daily Bosses</div>
+            </div>
+          </div>
+          <div class="rt-countdown" id="rtCd-daily">
+            <div class="rt-unit"><div class="rt-unit-val" id="rtH-daily">--</div><div class="rt-unit-label">hrs</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtM-daily">--</div><div class="rt-unit-label">min</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtS-daily">--</div><div class="rt-unit-label">sec</div></div>
+          </div>
+          <div class="rt-reset-time">🕛 Midnight server time (08:00 UTC) &nbsp;·&nbsp; <span class="rt-tz-local" id="rtLocal-daily"></span> your time</div>
+        </div>
+      </div>
+
+      <!-- Path of Proof -->
+      <div class="rt-card rt-monthly" id="rtCard-pop">
+        <div class="rt-card-top"></div>
+        <div class="rt-card-body" style="flex-direction:column;">
+          <div class="rt-card-header">
+            <div class="rt-card-icon" style="width:36px;height:36px;font-size:18px;">🔵</div>
+            <div>
+              <div class="rt-card-label">Every 4 Weeks</div>
+              <div class="rt-card-name" style="font-size:17px;">Path of Proof</div>
+            </div>
+          </div>
+          <div class="rt-countdown" id="rtCd-pop">
+            <div class="rt-unit"><div class="rt-unit-val" id="rtD-pop">--</div><div class="rt-unit-label">days</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtH-pop">--</div><div class="rt-unit-label">hrs</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtM-pop">--</div><div class="rt-unit-label">min</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtS-pop">--</div><div class="rt-unit-label">sec</div></div>
+          </div>
+          <div class="rt-reset-time">📅 Next: <span class="rt-tz-local" id="rtLocal-pop">calculating…</span></div>
+        </div>
+      </div>
+
+      <!-- Weekly Bosses -->
+      <div class="rt-card rt-weekly" id="rtCard-wboss">
+        <div class="rt-card-top"></div>
+        <div class="rt-card-body">
+          <div class="rt-card-header">
+            <div class="rt-card-icon">👹</div>
+            <div>
+              <div class="rt-card-label">Weekly · Wed 23:59</div>
+              <div class="rt-card-name">Weekly Bosses</div>
+            </div>
+          </div>
+          <div class="rt-countdown" id="rtCd-wboss">
+            <div class="rt-unit"><div class="rt-unit-val" id="rtD-wboss">--</div><div class="rt-unit-label">days</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtH-wboss">--</div><div class="rt-unit-label">hrs</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtM-wboss">--</div><div class="rt-unit-label">min</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtS-wboss">--</div><div class="rt-unit-label">sec</div></div>
+          </div>
+          <div class="rt-reset-time" style="margin-bottom:10px;">📅 <span class="rt-tz-local" id="rtLocal-wboss"></span> your time</div>
+          <div class="rt-checklist" id="rtChecklist-wboss">
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Lotus')"><div class="rt-check-box"></div><span class="rt-check-text">Lotus</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Damien')"><div class="rt-check-box"></div><span class="rt-check-text">Damien</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Lucid')"><div class="rt-check-box"></div><span class="rt-check-text">Lucid</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Gloom')"><div class="rt-check-box"></div><span class="rt-check-text">Gloom</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Archon')"><div class="rt-check-box"></div><span class="rt-check-text">Archon</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Will')"><div class="rt-check-box"></div><span class="rt-check-text">Will</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Verus Hilla')"><div class="rt-check-box"></div><span class="rt-check-text">Verus Hilla</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Darknell')"><div class="rt-check-box"></div><span class="rt-check-text">Darknell</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wboss','Black Mage')"><div class="rt-check-box"></div><span class="rt-check-text">Black Mage</span></label>
+          </div>
+          <div class="rt-check-reset" onclick="rtResetChecks('wboss')">↺ Reset checks</div>
+        </div>
+      </div>
+
+      <!-- Weekly Tasks -->
+      <div class="rt-card rt-weekly2" id="rtCard-wtask">
+        <div class="rt-card-top"></div>
+        <div class="rt-card-body">
+          <div class="rt-card-header">
+            <div class="rt-card-icon">📋</div>
+            <div>
+              <div class="rt-card-label">Weekly · Sun 23:59</div>
+              <div class="rt-card-name">Weekly Tasks</div>
+            </div>
+          </div>
+          <div class="rt-countdown" id="rtCd-wtask">
+            <div class="rt-unit"><div class="rt-unit-val" id="rtD-wtask">--</div><div class="rt-unit-label">days</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtH-wtask">--</div><div class="rt-unit-label">hrs</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtM-wtask">--</div><div class="rt-unit-label">min</div></div>
+            <div class="rt-unit"><div class="rt-unit-val" id="rtS-wtask">--</div><div class="rt-unit-label">sec</div></div>
+          </div>
+          <div class="rt-reset-time" style="margin-bottom:10px;">📅 <span class="rt-tz-local" id="rtLocal-wtask"></span> your time</div>
+          <div class="rt-checklist" id="rtChecklist-wtask">
+            <label class="rt-check-item" onclick="rtToggleCheck('wtask','Pharaoh\'s Treasure')"><div class="rt-check-box"></div><span class="rt-check-text">Pharaoh's Treasure</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wtask','Arcane River Dungeon')"><div class="rt-check-box"></div><span class="rt-check-text">Arcane River Dungeon</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wtask','Monster Park')"><div class="rt-check-box"></div><span class="rt-check-text">Monster Park</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wtask','Legends')"><div class="rt-check-box"></div><span class="rt-check-text">Legends</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wtask','CRA')"><div class="rt-check-box"></div><span class="rt-check-text">CRA</span></label>
+            <label class="rt-check-item" onclick="rtToggleCheck('wtask','Sharenian Culvert')"><div class="rt-check-box"></div><span class="rt-check-text">Sharenian Culvert</span></label>
+          </div>
+          <div class="rt-check-reset" onclick="rtResetChecks('wtask')">↺ Reset checks</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  </div>
+
+  <!-- ════════ EVENT TRACKER ════════ -->
+  <div class="content" id="events-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <section id="tab-events" style="display:block;">
+
+    <div class="ev-topbar">
+      <div>
+        <div style="font-family:'Fredoka One',cursive;font-size:26px;color:var(--text);margin-bottom:4px;">🎉 Active Events</div>
+        <div class="ev-meta"><div class="ev-meta-dot"></div> <span id="evMetaText">Loading events…</span></div>
+      </div>
+      <button class="ev-refresh-btn" id="evRefreshBtn" onclick="evLoad(true)">
+        <span id="evRefreshIcon">🔄</span> Refresh
+      </button>
+    </div>
+
+    <!-- Custom Events Panel -->
+    <div class="ev-custom-panel">
+      <div class="ev-custom-header" onclick="evToggleCustomPanel()">
+        <div class="ev-custom-header-left">
+          <span>✏️</span> Add Custom Event
+        </div>
+        <span class="ev-custom-chevron" id="evCustomChevron">▼</span>
+      </div>
+      <div class="ev-custom-body" id="evCustomBody">
+        <div class="ev-custom-form">
+
+          <!-- Event name -->
+          <div class="ev-cf-field ev-full">
+            <div class="ev-cf-label">Event Name</div>
+            <input class="ev-cf-input" id="evCfName" type="text" placeholder="e.g. Guild Festival" maxlength="80" />
+          </div>
+
+          <!-- Start time (optional) -->
+          <div class="ev-cf-field ev-full">
+            <div class="ev-cf-label">Start Date &amp; Time <span style="font-weight:600;opacity:0.6;">(optional)</span></div>
+            <input class="ev-cf-input" id="evCfStart" type="datetime-local" />
+            <div class="ev-cf-hint">Leave blank to use right now</div>
+          </div>
+
+          <!-- End time mode toggle -->
+          <div class="ev-cf-field ev-full">
+            <div class="ev-cf-label">End Time</div>
+            <div class="ev-end-mode-toggle">
+              <button class="ev-mode-btn active" id="evModeExact" onclick="evSetEndMode('exact')">📅 Exact Date</button>
+              <button class="ev-mode-btn" id="evModeDuration" onclick="evSetEndMode('duration')">⏱ Ends In…</button>
+            </div>
+          </div>
+
+          <!-- Exact date picker -->
+          <div class="ev-cf-field ev-full" id="evEndExactWrap">
+            <input class="ev-cf-input" id="evCfEnd" type="datetime-local" />
+            <div class="ev-cf-hint">In your local timezone</div>
+          </div>
+
+          <!-- Duration picker -->
+          <div class="ev-cf-field ev-full" id="evEndDurationWrap" style="display:none;">
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <div class="ev-cf-hint">Days</div>
+                <input class="ev-cf-input" id="evCfDays" type="number" min="0" max="365" value="0" style="width:80px; text-align:center;" />
+              </div>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <div class="ev-cf-hint">Hours</div>
+                <input class="ev-cf-input" id="evCfHours" type="number" min="0" max="23" value="0" style="width:80px; text-align:center;" />
+              </div>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <div class="ev-cf-hint">Minutes</div>
+                <input class="ev-cf-input" id="evCfMinutes" type="number" min="0" max="59" value="0" style="width:80px; text-align:center;" />
+              </div>
+              <div class="ev-cf-hint" id="evDurationPreview" style="align-self:flex-end; padding-bottom:2px; color:var(--purple); font-weight:700;"></div>
+            </div>
+          </div>
+
+          <!-- Link -->
+          <div class="ev-cf-field ev-full">
+            <div class="ev-cf-label">Link <span style="font-weight:600;opacity:0.6;">(optional)</span></div>
+            <input class="ev-cf-input" id="evCfUrl" type="url" placeholder="https://…" />
+          </div>
+
+        </div>
+        <div class="ev-cf-error" id="evCfError"></div>
+        <button class="ev-add-btn" onclick="evAddCustom()">+ Add Event</button>
+
+        <!-- Saved custom events list -->
+        <div id="evCustomList" class="ev-custom-list"></div>
+      </div>
+    </div>
+
+    <div id="evGrid" class="ev-grid">
+      <div class="ev-state">
+        <div class="ev-state-icon">🍁</div>
+        <div class="ev-state-title">Loading events…</div>
+        <div>Fetching from the live feed</div>
+      </div>
+    </div>
+
+  </section>
+  </div>
+
+  <!-- ════════ ITEM PROBABILITIES ════════ -->
+  <div class="content" id="probs-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <section id="tab-probs" style="display:block;">
+
+    <div class="pr-topbar">
+      <div>
+        <div class="pr-title">🎲 Item Probabilities</div>
+        <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="prMetaText">Loading probability data…</span></div>
+      </div>
+      <button class="pr-refresh-btn" id="prRefreshBtn" onclick="prLoad(true)"><span id="prRefreshIcon">🔄</span> Refresh</button>
+    </div>
+
+    <div id="prLayout" style="display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start;">
+      <div class="pr-panel" style="border:1px solid var(--glass-border);border-radius:12px;background:var(--glass-1);padding:10px;position:sticky;top:16px;max-height:75vh;overflow:auto;">
+        <div class="pr-ctrl-label">Find category</div>
+        <input class="pr-ctrl-input" id="prCatalogSearch" type="text" placeholder="Search categories…" oninput="prBuildBoxList()" style="margin-bottom:8px;"/>
+        <div class="pr-ctrl-label">Sort</div>
+        <select class="pr-ctrl-input" id="prCatalogSort" onchange="prBuildBoxList()" style="margin-bottom:10px;">
+          <option value="changed">Recently changed</option>
+          <option value="az">Title A→Z</option>
+          <option value="rows">Largest table first</option>
+        </select>
+        <div class="pr-box-list" id="prBoxList"><div class="pr-state" style="padding:12px 0;"><span style="font-size:14px;">Loading categories…</span></div></div>
+      </div>
+
+      <div>
+        <div class="pr-controls">
+          <div class="pr-ctrl-field" style="flex:2; min-width:220px;">
+            <div class="pr-ctrl-label">Search rows</div>
+            <input class="pr-ctrl-input" id="prSearch" type="text" placeholder="Search row text…" oninput="prApplyFilters()" />
+          </div>
+          <div class="pr-ctrl-field">
+            <div class="pr-ctrl-label">Sort</div>
+            <select class="pr-ctrl-input" id="prRowSort" onchange="prApplyFilters()">
+              <option value="prob_desc">Probability ↓</option>
+              <option value="prob_asc">Probability ↑</option>
+              <option value="alpha">A→Z</option>
+            </select>
+          </div>
+          <button class="pr-clear-btn" onclick="prClearFilters()">✕ Clear</button>
+        </div>
+
+        <div id="prSummaryCard" style="display:none;border:1px solid var(--glass-border);border-radius:10px;padding:10px;margin-bottom:10px;background:var(--glass-1);"></div>
+        <div class="pr-results-bar" id="prResultsBar"></div>
+
+        <div class="pr-table-wrap" id="prTableWrap">
+          <div class="pr-state">
+            <div class="pr-state-icon">🎲</div>
+            <div class="pr-state-title">Select a category</div>
+            <div>Choose a probability table from the left panel.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  </div>
+
+    <!-- ════════ DMG CALCULATOR ════════ -->
+    <div class="content" id="dmg-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+    <section class="tab-section active" id="tab-dmg" style="display:block;">
+
+      <!-- Row 1: Stats input + Results -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px;">
+
+        <!-- Stats Input -->
+        <div class="dmg-panel" style="margin-bottom:0;">
+          <div class="dmg-panel-title"><div class="dmg-dot dot-green-s"></div> Stats Input</div>
+          <div class="dmg-form" id="dmgForm"></div>
+          <div class="dmg-btn-row">
+            <button class="dmg-btn" onclick="dmgCalculate()">Calculate</button>
+            <button class="dmg-btn-alt" onclick="dmgReset()">Reset</button>
+          </div>
+          <!-- OCR Upload -->
+          <div class="dmg-upload">
+            <div class="dmg-upload-title">📷 Auto-fill from screenshot <span style="font-size:11px;color:var(--text-dim);font-weight:600;">(beta)</span></div>
+            <input id="dmgSsInput" type="file" accept="image/*" />
+            <div class="dmg-btn-row" style="margin-top:8px;">
+              <button class="dmg-btn-alt" onclick="dmgRunOCR()">Extract Stats</button>
+              <button class="dmg-btn-alt" onclick="dmgUseSample()">Use Demo</button>
+            </div>
+            <div class="dmg-ocr-status" id="dmgOcrStatus">Tip: crop your screenshot tightly around stats for best OCR accuracy.</div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="dmg-panel" style="margin-bottom:0;">
+          <div class="dmg-panel-title"><div class="dmg-dot dot-sky-s"></div> Results <span style="font-size:13px;font-weight:600;color:var(--text-dim);">per line + skill total</span></div>
+          <div class="dmg-kpi-grid" id="dmgResults"></div>
+        </div>
+
+      </div>
+
+      <!-- Row 2: Optimizer -->
+      <div class="dmg-panel">
+        <div class="dmg-panel-title"><div class="dmg-dot dot-orange-s"></div> Stat Optimizer</div>
+        <div class="dmg-opt-form" id="dmgOptForm">
+          <div class="dmg-field">
+            <div class="dmg-label">Decrease this stat</div>
+            <select class="dmg-input dmg-select" id="dmgSwapFrom"></select>
+          </div>
+          <div class="dmg-field">
+            <div class="dmg-label">Increase this stat</div>
+            <select class="dmg-input dmg-select" id="dmgSwapTo"></select>
+          </div>
+          <div class="dmg-field">
+            <div class="dmg-label">Decrease amount (−X%)</div>
+            <input class="dmg-input" id="dmgSwapDownAmount" type="number" step="any" value="1" />
+          </div>
+          <div class="dmg-field">
+            <div class="dmg-label">Increase amount (+Y%)</div>
+            <input class="dmg-input" id="dmgSwapUpAmount" type="number" step="any" value="8" />
+          </div>
+          <div class="dmg-field">
+            <div class="dmg-label">Matrix swap amount (±X)</div>
+            <input class="dmg-input" id="dmgSwapAmount" type="number" step="any" value="1" />
+          </div>
+          <div class="dmg-field">
+            <div class="dmg-label">Step test amount (+X% per stat)</div>
+            <input class="dmg-input" id="dmgStepAmount" type="number" step="any" value="1" />
+          </div>
+        </div>
+        <div class="dmg-btn-row">
+          <button class="dmg-btn" onclick="dmgOptimize()">Run Full Comparison</button>
+        </div>
+        <div class="dmg-opt-out" id="dmgOptOut" style="margin-top:14px;">
+          Run a comparison to see the best upgrade per step and the full swap matrix.
+        </div>
+      </div>
+
+      <!-- Row 3: Formulas -->
+      <div class="dmg-panel">
+        <div class="dmg-panel-title"><div class="dmg-dot dot-red-s"></div> Calculation Formulas</div>
+        <div class="dmg-formula">
+<pre>base        = ATK × (SkillDMG/100) × (1 + DMG%/100) × (1 + FinalDMG%/100 + SkillFinalDMG%/100) × (1 + ATK%/100)
+nonCrit     = base × HitCount
+crit        = base × (1.2 + CritDMG%/100) × HitCount
+avg         = (1 − CritRate%/100) × nonCrit + (CritRate%/100) × crit
+
+bossBase    = ATK × (SkillDMG/100) × (1 + DMG%/100) × (1 + FinalDMG%/100 + SkillFinalDMG%/100) × (1 + ATK%/100 + (SkillDMG/100 × BossATK%/100))
+bossAvg     = (1 − CritRate%/100) × bossNonCrit + (CritRate%/100) × bossCrit
+
+Per-line    = Total ÷ HitCount</pre>
+        </div>
+      </div>
+
+    </section>
+    </div>
+</div><!-- /shell -->
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   TAB SWITCHING
+═══════════════════════════════════════════════════════ */
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const mainContent    = document.querySelector('.content');
+  const dmgContent     = document.getElementById('dmg-content');
+  const resetsContent  = document.getElementById('resets-content');
+  const eventsContent  = document.getElementById('events-content');
+  const probsContent   = document.getElementById('probs-content');
+  // Hide all
+  mainContent.style.display    = 'none';
+  dmgContent.style.display     = 'none';
+  resetsContent.style.display  = 'none';
+  eventsContent.style.display  = 'none';
+  probsContent.style.display   = 'none';
+  if      (id === 'dmg')     { dmgContent.style.display    = 'block'; }
+  else if (id === 'resets')  { resetsContent.style.display = 'block'; }
+  else if (id === 'events')  { eventsContent.style.display = 'block'; evLoad(); }
+  else if (id === 'probs')   { probsContent.style.display  = 'block'; prLoad(); }
+  else {
+    mainContent.style.display = '';
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+  if (btn) btn.classList.add('active');
+  // Sync mobile nav active state
+  document.querySelectorAll('.mobile-nav .tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPARKLES
+═══════════════════════════════════════════════════════ */
+const sparkleEmojis = ['✨','⭐','🌟','💫','★'];
+function spawnSparkle() {
+  const el = document.createElement('div');
+  el.className = 'sparkle';
+  el.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.top  = (20 + Math.random() * 70) + 'vh';
+  el.style.fontSize = (10 + Math.random() * 12) + 'px';
+  const dur = 3 + Math.random() * 4;
+  el.style.animationDuration = dur + 's';
+  el.style.animationDelay = Math.random() * 1.5 + 's';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), (dur + 2) * 1000);
+}
+setInterval(spawnSparkle, 900);
+for (let i = 0; i < 5; i++) spawnSparkle();
+
+/* ═══════════════════════════════════════════════════════
+   DISCORD FORMATTER
+═══════════════════════════════════════════════════════ */
+document.getElementById('tsDate').value = new Date().toISOString().slice(0,10);
+
+function dfGetEditor() { return document.getElementById('df-editor'); }
+
+function dfInsert(text) {
+  const ta = dfGetEditor();
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  ta.value = ta.value.slice(0,s) + text + ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = s + text.length;
+  ta.focus(); dfOnEdit();
+}
+
+function dfWrap(open, close) {
+  const ta = dfGetEditor();
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const sel = ta.value.slice(s,e) || 'text';
+  ta.value = ta.value.slice(0,s) + open + sel + close + ta.value.slice(e);
+  ta.selectionStart = s + open.length;
+  ta.selectionEnd   = s + open.length + sel.length;
+  ta.focus(); dfOnEdit();
+}
+
+function dfInsertBlockquote() {
+  const ta = dfGetEditor(); const s = ta.selectionStart;
+  const before = ta.value.slice(0,s);
+  const prefix = (!before.length || before.endsWith('\n')) ? '> ' : '\n> ';
+  ta.value = before + prefix + ta.value.slice(s);
+  ta.selectionStart = ta.selectionEnd = s + prefix.length;
+  ta.focus(); dfOnEdit();
+}
+
+function dfInsertHeading() {
+  const ta = dfGetEditor(); const s = ta.selectionStart;
+  const before = ta.value.slice(0,s);
+  const prefix = (!before.length || before.endsWith('\n')) ? '# ' : '\n# ';
+  ta.value = before + prefix + ta.value.slice(s);
+  ta.selectionStart = ta.selectionEnd = s + prefix.length;
+  ta.focus(); dfOnEdit();
+}
+
+function dfClear() {
+  if (confirm('Clear the message?')) { dfGetEditor().value = ''; dfOnEdit(); }
+}
+
+function dfGetUnix() {
+  const date = document.getElementById('tsDate').value;
+  const time = document.getElementById('tsTime').value;
+  const tz   = document.getElementById('tsTz').value;
+  if (!date || !time) return null;
+
+  // Use Intl to find the UTC offset for this exact date/time in the chosen
+  // IANA timezone — this correctly handles DST transitions automatically.
+  const [year, month, day]   = date.split('-').map(Number);
+  const [hour, minute]       = time.split(':').map(Number);
+
+  // Build a formatter that tells us what wall-clock fields UTC maps to in `tz`
+  const fmt = new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+  });
+
+  // Binary-search approach: start with a UTC guess, then correct for the offset
+  // Step 1 — naive guess: treat the input as UTC to get a rough epoch
+  let guessMs = Date.UTC(year, month - 1, day, hour, minute, 0);
+
+  // Step 2 — parse what that UTC instant looks like in the target timezone
+  function utcToTzFields(ms) {
+    const parts = {};
+    fmt.formatToParts(new Date(ms)).forEach(p => { parts[p.type] = p.value; });
+    return {
+      y: parseInt(parts.year), mo: parseInt(parts.month), d: parseInt(parts.day),
+      h: parseInt(parts.hour) % 24, mi: parseInt(parts.minute), s: parseInt(parts.second),
+    };
+  }
+
+  // Step 3 — compute delta and correct (one iteration is enough for DST)
+  const f = utcToTzFields(guessMs);
+  const tzMs = Date.UTC(f.y, f.mo - 1, f.d, f.h, f.mi, f.s);
+  const offsetMs = guessMs - tzMs;          // how far UTC is ahead of tz wall-clock
+  const correctedMs = guessMs + offsetMs;   // shift guess so tz wall-clock hits target
+
+  // Step 4 — verify and do one more correction pass for edge cases (DST crossover)
+  const f2 = utcToTzFields(correctedMs);
+  if (f2.h !== (hour % 24) || f2.mi !== minute) {
+    const tzMs2 = Date.UTC(f2.y, f2.mo - 1, f2.d, f2.h, f2.mi, f2.s);
+    const offsetMs2 = correctedMs - tzMs2;
+    return Math.floor((correctedMs + offsetMs2) / 1000);
+  }
+
+  return Math.floor(correctedMs / 1000);
+}
+
+function dfPreviewTs(unix, flag) {
+  const d = new Date(unix*1000);
+  const opts = { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone };
+  switch(flag) {
+    case 't': return d.toLocaleTimeString([],{...opts,hour:'2-digit',minute:'2-digit'});
+    case 'T': return d.toLocaleTimeString([],{...opts,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    case 'd': return d.toLocaleDateString([],{...opts,day:'2-digit',month:'2-digit',year:'numeric'});
+    case 'D': return d.toLocaleDateString([],{...opts,day:'numeric',month:'long',year:'numeric'});
+    case 'f': return d.toLocaleString([],{...opts,day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    case 'F': return d.toLocaleString([],{...opts,weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    case 'R': {
+      const diff=unix-Math.floor(Date.now()/1000), abs=Math.abs(diff), f=diff>0;
+      if(abs<60) return f?'in a few seconds':'just now';
+      if(abs<3600){const m=Math.round(abs/60);return f?`in ${m}m`:`${m}m ago`;}
+      if(abs<86400){const h=Math.round(abs/3600);return f?`in ${h}h`:`${h}h ago`;}
+      const dy=Math.round(abs/86400);return f?`in ${dy}d`:`${dy}d ago`;
+    }
+    default: return `<t:${unix}:${flag}>`;
+  }
+}
+
+function dfInsertTs(flag) {
+  const unix = dfGetUnix();
+  if (!unix) { alert('Please select a valid date and time first!'); return; }
+  dfInsert(`<t:${unix}:${flag}>`);
+}
+
+function dfEscape(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function dfRender(raw) {
+  if (!raw.trim()) return '<span style="color:#4e5058;font-style:italic;">Your message will appear here…</span>';
+  let h = dfEscape(raw);
+  // Timestamps
+  h = h.replace(/&lt;t:(\d+):([tTdDfFR])&gt;/g, (_,unix,flag) =>
+    `<span class="dc-timestamp">${dfPreviewTs(parseInt(unix),flag)}</span>`);
+  // Headings
+  h = h.replace(/^# (.+)$/gm, '<div class="dc-heading">$1</div>');
+  // Blockquote
+  h = h.replace(/^&gt; (.+)$/gm, '<div class="dc-blockquote">$1</div>');
+  // Bold+italic
+  h = h.replace(/\*\*\*(.+?)\*\*\*/gs, '<strong><em>$1</em></strong>');
+  // Bold
+  h = h.replace(/\*\*(.+?)\*\*/gs, '<strong>$1</strong>');
+  // Underline — must come BEFORE single _ italic so __ isn't consumed as two _italic_
+  h = h.replace(/__(.+?)__/gs, '<u>$1</u>');
+  // Italic * and single _ (negative lookahead ensures _ doesn't match __)
+  h = h.replace(/\*(.+?)\*/gs, '<em>$1</em>');
+  h = h.replace(/(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/gs, '<em>$1</em>');
+  // Strikethrough
+  h = h.replace(/~~(.+?)~~/gs, '<s>$1</s>');
+  // Spoiler
+  h = h.replace(/\|\|(.+?)\|\|/gs, '<span class="dc-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
+  // Code
+  h = h.replace(/\x60([^\x60]+)\x60/g, '<span class="dc-code">$1</span>');
+  // Newlines
+  h = h.replace(/\n/g, '<br>');
+  return h;
+}
+
+function dfOnEdit() {
+  const val = dfGetEditor().value;
+  const cc  = document.getElementById('dfCharCount');
+  cc.textContent = `${val.length} / 2000`;
+  cc.classList.toggle('df-char-over', val.length > 2000);
+  document.getElementById('dfPreviewContent').innerHTML = dfRender(val);
+  const now = new Date();
+  document.getElementById('dfPreviewTime').textContent =
+    'Today at ' + now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('df-output').value = val;
+}
+
+function dfCopy() {
+  const out = document.getElementById('df-output').value;
+  if (!out) return;
+  navigator.clipboard.writeText(out).then(() => {
+    const btn = document.getElementById('dfCopyBtn');
+    btn.textContent = '✅ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function dfFmtTime12(dateObj){
+  return dateObj.toLocaleTimeString([], { hour:'numeric', minute:'2-digit', hour12:true });
+}
+
+function dfCopyTextWithBtn(text, btn){
+  navigator.clipboard.writeText(text).then(() => {
+    if (!btn) return;
+    const old = btn.textContent;
+    btn.textContent = '✅ Copied';
+    setTimeout(() => { btn.textContent = old; }, 1400);
+  });
+}
+
+function dfNextServerUnix(hour24, minute, utcOffsetHours){
+  // Compute next occurrence of HH:MM in a fixed-offset server clock.
+  const nowMs = Date.now();
+  const shiftedNow = new Date(nowMs + utcOffsetHours * 3600 * 1000);
+  const y = shiftedNow.getUTCFullYear();
+  const mo = shiftedNow.getUTCMonth();
+  const d = shiftedNow.getUTCDate();
+
+  // UTC = server_time - offset
+  let targetUtcMs = Date.UTC(y, mo, d, hour24 - utcOffsetHours, minute, 0, 0);
+  if (targetUtcMs <= nowMs) targetUtcMs += 24 * 3600 * 1000;
+  return Math.floor(targetUtcMs / 1000);
+}
+
+function dfCopyQuickGuildScramble(btn){
+  const unix = dfNextServerUnix(19, 10, -8);
+  const msg = `Guild Scramble at <t:${unix}:t> (<t:${unix}:R>)`;
+  dfCopyTextWithBtn(msg, btn);
+}
+
+function dfCopyQuickDelay(prefix, minutes, btn){
+  const unix = Math.floor((Date.now() + minutes * 60000) / 1000);
+  const msg = `${prefix} at <t:${unix}:t> (<t:${unix}:R>)`;
+  dfCopyTextWithBtn(msg, btn);
+}
+
+/* ═══════════════════════════════════════════════════════
+   DMG CALCULATOR
+═══════════════════════════════════════════════════════ */
+const DMG_FIELDS = [
+  ['atk',          'PHY / MAG ATK'],
+  ['atkIncrease',  'ATK Increase %'],
+  ['dmgIncrease',  'Damage Increase %'],
+  ['bossAtk',      'Boss ATK Increase %'],
+  ['skillDmg',     'Skill Damage %'],
+  ['skillHit',     'Skill Hit Count'],
+  ['critRate',     'Crit Rate %'],
+  ['critDmg',      'Crit Damage %'],
+  ['finalDmg',     'Final Damage %'],
+  ['skillFinalDmg','Skill Final Damage %'],
+];
+
+const DMG_RESULTS = [
+  ['dmgAvg',          'Avg Total',     'is-normal', 'kpi-normal'],
+  ['dmgNonCritLine',  'Non-Crit / Line','is-normal', 'kpi-normal'],
+  ['dmgCritLine',     'Crit / Line',   'is-normal', 'kpi-normal'],
+  ['dmgBossAvg',      'Avg Boss Total','is-boss',   'kpi-boss'],
+  ['dmgBossNonCrit',  'Boss Non-Crit / Line','is-boss','kpi-boss'],
+  ['dmgBossCrit',     'Boss Crit / Line','is-boss', 'kpi-boss'],
+];
+
+const DMG_STAT_DEFS = [
+  ['ATK Increase %',    'atkIncrease'],
+  ['DMG Increase %',    'dmgIncrease'],
+  ['Boss ATK %',        'bossAtk'],
+  ['Final DMG %',       'finalDmg'],
+  ['Crit DMG %',        'critDmg'],
+  ['Skill Final DMG %', 'skillFinalDmg'],
+  ['Skill DMG %',       'skillDmg'],
+];
+
+// Build input fields
+(function dmgBuildForm() {
+  const form = document.getElementById('dmgForm');
+  DMG_FIELDS.forEach(([key, label]) => {
+    const d = document.createElement('div');
+    d.className = 'dmg-field';
+    d.innerHTML = `<div class="dmg-label">${label}</div><input class="dmg-input" id="di_${key}" type="number" step="any" placeholder="0" />`;
+    form.appendChild(d);
+  });
+
+  // Build results KPIs
+  const res = document.getElementById('dmgResults');
+  DMG_RESULTS.forEach(([key, label, valCls, cardCls]) => {
+    const k = document.createElement('div');
+    k.className = `dmg-kpi ${cardCls}`;
+    k.innerHTML = `<div class="dmg-kpi-label">${label}</div><div class="dmg-kpi-value ${valCls}" id="${key}">—</div>`;
+    res.appendChild(k);
+  });
+
+  // Build optimizer selects
+  const fromSel = document.getElementById('dmgSwapFrom');
+  const toSel   = document.getElementById('dmgSwapTo');
+  DMG_STAT_DEFS.forEach(([name, key]) => {
+    const o1 = document.createElement('option'); o1.value = key; o1.textContent = name; fromSel.appendChild(o1);
+    const o2 = document.createElement('option'); o2.value = key; o2.textContent = name; toSel.appendChild(o2);
+  });
+  fromSel.value = 'finalDmg';
+  toSel.value   = 'bossAtk';
+})();
+
+function dmgN(key) { return Number(document.getElementById('di_' + key).value || 0); }
+
+function dmgGetStats() {
+  const s = {};
+  DMG_FIELDS.forEach(([key]) => s[key] = dmgN(key));
+  if (!document.getElementById('di_skillDmg').value)     { s.skillDmg = 200; document.getElementById('di_skillDmg').value = 200; }
+  if (!document.getElementById('di_skillHit').value)     { s.skillHit = 1;   document.getElementById('di_skillHit').value = 1; }
+  if (!document.getElementById('di_skillFinalDmg').value){ s.skillFinalDmg = 0; }
+  s.critRate = Math.min(100, s.critRate);
+  return s;
+}
+
+function dmgCompute(s) {
+  const base     = s.atk * (s.skillDmg/100) * (1 + s.dmgIncrease/100) * (1 + s.finalDmg/100 + s.skillFinalDmg/100) * (1 + s.atkIncrease/100);
+  const nonCrit  = base * s.skillHit;
+  const crit     = base * (1.2 + s.critDmg/100) * s.skillHit;
+  const avg      = (1 - s.critRate/100) * nonCrit + (s.critRate/100) * crit;
+
+  const bossBase    = s.atk * (s.skillDmg/100) * (1 + s.dmgIncrease/100) * (1 + s.finalDmg/100 + s.skillFinalDmg/100) * (1 + s.atkIncrease/100 + (s.skillDmg/100) * (s.bossAtk/100));
+  const bossNonCrit = bossBase * s.skillHit;
+  const bossCrit    = bossBase * (1.2 + s.critDmg/100) * s.skillHit;
+  const bossAvg     = (1 - s.critRate/100) * bossNonCrit + (s.critRate/100) * bossCrit;
+
+  return { avg, nonCrit, crit, bossAvg, bossNonCrit, bossCrit, hits: Math.max(s.skillHit, 1) };
+}
+
+function dmgCalculate() {
+  const stats = dmgGetStats();
+  const d = dmgCompute(stats);
+  const fmt = v => Math.round(v).toLocaleString();
+  document.getElementById('dmgAvg').textContent         = fmt(d.avg);
+  document.getElementById('dmgNonCritLine').textContent = fmt(d.nonCrit / d.hits);
+  document.getElementById('dmgCritLine').textContent    = fmt(d.crit / d.hits);
+  document.getElementById('dmgBossAvg').textContent     = fmt(d.bossAvg);
+  document.getElementById('dmgBossNonCrit').textContent = fmt(d.bossNonCrit / d.hits);
+  document.getElementById('dmgBossCrit').textContent    = fmt(d.bossCrit / d.hits);
+  return { stats, d };
+}
+
+function dmgReset() {
+  DMG_FIELDS.forEach(([key]) => document.getElementById('di_' + key).value = '');
+  DMG_RESULTS.forEach(([key]) => document.getElementById(key).textContent = '—');
+}
+
+function dmgOptimize() {
+  const { stats, d } = dmgCalculate();
+  const base = d.bossAvg;
+  const stepAmt     = Number(document.getElementById('dmgStepAmount').value || 1);
+  const swapAmt     = Number(document.getElementById('dmgSwapAmount').value || 1);
+  const swapDown    = Number(document.getElementById('dmgSwapDownAmount').value || 1);
+  const swapUp      = Number(document.getElementById('dmgSwapUpAmount').value || 8);
+  const swapFromKey = document.getElementById('dmgSwapFrom').value;
+  const swapToKey   = document.getElementById('dmgSwapTo').value;
+
+  const pctGain = (a, b) => !a ? 0 : ((b - a) / a * 100);
+
+  // Step ranking: +stepAmt% to each stat
+  const ranked = DMG_STAT_DEFS.map(([name, key]) => {
+    const s2 = { ...stats, [key]: stats[key] + stepAmt };
+    return { name, gain: pctGain(base, dmgCompute(s2).bossAvg) };
+  }).sort((a, b) => b.gain - a.gain);
+
+  // Custom swap
+  const customStats = { ...stats, [swapFromKey]: stats[swapFromKey] - swapDown, [swapToKey]: stats[swapToKey] + swapUp };
+  const customGain  = pctGain(base, dmgCompute(customStats).bossAvg);
+  const fromName    = DMG_STAT_DEFS.find(s => s[1] === swapFromKey)?.[0] || swapFromKey;
+  const toName      = DMG_STAT_DEFS.find(s => s[1] === swapToKey)?.[0]   || swapToKey;
+
+  // Full swap matrix
+  const swaps = [];
+  for (const [fn, fk] of DMG_STAT_DEFS) {
+    for (const [tn, tk] of DMG_STAT_DEFS) {
+      if (fk === tk) continue;
+      const s2 = { ...stats, [fk]: stats[fk] - swapAmt, [tk]: stats[tk] + swapAmt };
+      swaps.push({ fn, tn, gain: pctGain(base, dmgCompute(s2).bossAvg) });
+    }
+  }
+  swaps.sort((a, b) => b.gain - a.gain);
+  const topSwaps = swaps.slice(0, 8);
+
+  const best = ranked[0];
+  const g = v => `<span class="dmg-opt-highlight">${v >= 0 ? '+' : ''}${v.toFixed(2)}%</span>`;
+
+  document.getElementById('dmgOptOut').innerHTML = `
+    <div><strong>Custom swap:</strong> −${swapDown}% ${fromName} → +${swapUp}% ${toName} = ${g(customGain)} boss avg change</div>
+    <div style="margin-top:8px"><strong>Best next upgrade:</strong> +${stepAmt}% ${best.name} → ${g(best.gain)} boss avg gain</div>
+    <div style="margin-top:6px;font-size:12px;color:var(--text-dim);">
+      Step ranking: ${ranked.map(s => `${s.name}: <strong style="color:var(--green)">${s.gain >= 0 ? '+' : ''}${s.gain.toFixed(2)}%</strong>`).join(' &nbsp;·&nbsp; ')}
+    </div>
+    <div style="margin-top:10px"><strong>Best swaps (−${swapAmt}% → +${swapAmt}% across all stats):</strong></div>
+    <div style="margin-top:6px;font-size:12px;color:var(--text-dim);">
+      ${topSwaps.map(s => `−${s.fn} → +${s.tn}: <strong style="color:var(--orange)">${s.gain >= 0 ? '+' : ''}${s.gain.toFixed(2)}%</strong>`).join(' &nbsp;·&nbsp; ')}
+    </div>`;
+}
+
+/* ── OCR for DMG calc ── */
+async function dmgPreprocessImage(file) {
+  const img = await new Promise((res, rej) => {
+    const i = new Image(); i.onload = () => res(i); i.onerror = rej;
+    i.src = URL.createObjectURL(file);
+  });
+  const scale = 2.2;
+  const c = document.createElement('canvas');
+  c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, c.width, c.height);
+  const id = ctx.getImageData(0, 0, c.width, c.height); const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const gray = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+    const v = gray > 145 ? 255 : Math.max(0, Math.min(255, (gray - 80) * 2.4));
+    d[i] = d[i+1] = d[i+2] = v;
+  }
+  ctx.putImageData(id, 0, 0);
+  return c;
+}
+
+function dmgParseNum(s) {
+  if (!s) return null;
+  const m = String(s).replace(/,/g,'').match(/-?\d+(?:\.\d+)?/);
+  return m ? Number(m[0]) : null;
+}
+
+function dmgExtract(text) {
+  const t = text.replace(/\u00A0/g,' ');
+  const out = {};
+  const put = (k, v, force=false) => { if (v == null || !Number.isFinite(v)) return; if (force || out[k] == null) out[k] = v; };
+  const lines = t.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  const pairs = [];
+  for (let i=0;i<lines.length;i++){
+    const line=lines[i]; const same=dmgParseNum(line);
+    if (same!=null && /[A-Za-z]/.test(line)){ pairs.push([line,same]); continue; }
+    if (/[A-Za-z]/.test(line) && i+1<lines.length){ const nxt=dmgParseNum(lines[i+1]); if(nxt!=null) pairs.push([line,nxt]); }
+  }
+  const findLine = (res) => { for(const [l,v] of pairs){ if(res.some(r=>r.test(l))) return v; } return null; };
+  const phyAtk = findLine([/phy\s*atk/i]) ?? dmgParseNum((t.match(/PHY\s*ATK\s*[:=]?\s*([\d,]+)/i)||[])[1]);
+  const magAtk = findLine([/mag\s*atk/i]) ?? dmgParseNum((t.match(/MAG\s*ATK\s*[:=]?\s*([\d,]+)/i)||[])[1]);
+  const pickMag = (magAtk??-1) > (phyAtk??-1);
+  put('atk', pickMag ? magAtk : phyAtk, true);
+  const atkType = pickMag ? 'MAG' : 'PHY';
+  put('atkIncrease', findLine([new RegExp(`${atkType}\\s*ATK\\s*Increase`,'i')]), true);
+  put('dmgIncrease', findLine([new RegExp(`${atkType}\\s*DMG\\s*Increase`,'i'), new RegExp(`${atkType}\\s*MG\\s*Increase`,'i')]), true);
+  const aliases = [
+    ['bossAtk',      [/boss\s*atk\s*increase/i, /boss\s*atk/i, /boss\s*dmg/i]],
+    ['critRate',     [/crit\s*rate/i]],
+    ['critDmg',      [/crit\s*dmg/i, /crit\s*damage/i]],
+    ['finalDmg',     [/final\s*dmg/i, /final\s*damage/i]],
+    ['skillDmg',     [/skill\s*dmg/i, /skill\s*damage/i]],
+    ['skillHit',     [/hit\s*count/i, /skill\s*hit/i]],
+    ['skillFinalDmg',[/skill\s*final\s*dmg/i, /skill\s*final\s*damage/i]],
+  ];
+  for (const [k,res] of aliases) put(k, findLine(res));
+  out.__atkType = atkType;
+  return out;
+}
+
+function dmgApply(obj) {
+  for (const [k,v] of Object.entries(obj)) {
+    const el = document.getElementById('di_' + k);
+    if (el && Number.isFinite(v)) el.value = v;
+  }
+}
+
+async function dmgRunOCR() {
+  const f = document.getElementById('dmgSsInput').files?.[0];
+  const status = document.getElementById('dmgOcrStatus');
+  if (!f) { status.textContent = 'Pick an image first.'; return; }
+  status.textContent = 'Running OCR… preprocessing image.';
+  try {
+    if (typeof Tesseract === 'undefined') {
+      status.textContent = 'Loading OCR engine…';
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    const processed = await dmgPreprocessImage(f);
+    const { data } = await Tesseract.recognize(processed, 'eng', {
+      tessedit_pageseg_mode: 6,
+      tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%.,() -'
+    });
+    const parsed = dmgExtract(data.text || '');
+    dmgApply(parsed); dmgCalculate();
+    const filled = Object.keys(parsed).filter(k => !k.startsWith('__')).length;
+    status.textContent = `OCR done. ATK type: ${parsed.__atkType || 'N/A'}. Filled ${filled} fields — please review.`;
+  } catch(e) {
+    status.textContent = 'OCR failed. Try a clearer or tighter-cropped screenshot.';
+  }
+}
+
+function dmgUseSample() {
+  const demo = `ATK 40231\nATK Increase 18%\nDamage Increase 12%\nBoss ATK 30%\nSkill Damage 210%\nHit Count 8\nCrit Rate 65%\nCrit Damage 120%\nFinal Damage 16%\nSkill Final Damage 8%`;
+  dmgApply(dmgExtract(demo)); dmgCalculate();
+  document.getElementById('dmgOcrStatus').textContent = 'Demo stats applied — feel free to edit.';
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESET TRACKER
+═══════════════════════════════════════════════════════ */
+
+// ── Helpers ──────────────────────────────────────────
+function rtPad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+// Given a target UTC Date, return {d,h,m,s} until it from now
+function rtCountdown(targetUTC) {
+  const diff = targetUTC - Date.now();
+  if (diff <= 0) return { d:0, h:0, m:0, s:0, urgent: true };
+  const s = Math.floor(diff / 1000);
+  return {
+    d: Math.floor(s / 86400),
+    h: Math.floor((s % 86400) / 3600),
+    m: Math.floor((s % 3600) / 60),
+    s: s % 60,
+    urgent: diff < 3600000, // < 1 hour
+  };
+}
+
+// Format a UTC Date as local time string
+function rtFmtLocal(utcDate) {
+  return utcDate.toLocaleString([], {
+    weekday: 'short', month: 'short', day: 'numeric',
+    hour: '2-digit', minute: '2-digit', timeZoneName: 'short',
+  });
+}
+
+// Render a countdown into an rt-card's elements (with or without days)
+function rtSetCountdown(prefix, cd, showDays) {
+  if (showDays) document.getElementById(`rtD-${prefix}`).textContent = rtPad(cd.d);
+  document.getElementById(`rtH-${prefix}`).textContent = rtPad(cd.h);
+  document.getElementById(`rtM-${prefix}`).textContent = rtPad(cd.m);
+  document.getElementById(`rtS-${prefix}`).textContent = rtPad(cd.s);
+  const card = document.getElementById(`rtCard-${prefix}`);
+  if (cd.urgent) card.classList.add('rt-urgent');
+  else           card.classList.remove('rt-urgent');
+}
+
+// ── Next reset calculators ────────────────────────────
+// Server is UTC-8. All resets defined in server local time are shifted +8h to UTC.
+
+// Daily: midnight server time (00:00 UTC-8) = 08:00 UTC
+function rtNextDaily() {
+  const now = new Date();
+  // Find the next 08:00 UTC (= 00:00 server)
+  const todayReset = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 8, 0, 0));
+  if (now < todayReset) return todayReset;
+  // Already past today's reset — use tomorrow's
+  return new Date(todayReset.getTime() + 86400000);
+}
+
+// Weekly: next occurrence of a given SERVER weekday at 23:59 server time.
+// 23:59 UTC-8 = 07:59 UTC the NEXT calendar day.
+// targetDay is the server-local weekday (0=Sun…6=Sat) when 23:59 occurs.
+// Because 23:59 server rolls into the next UTC day at 07:59, we look for
+// (targetDay + 1) % 7 in UTC at 07:59.
+function rtNextWeekday(serverDay) {
+  const utcDay = (serverDay + 1) % 7; // UTC calendar day of the reset
+  const now = new Date();
+  const nowUTCDay = now.getUTCDay();
+  let daysUntil = (utcDay - nowUTCDay + 7) % 7;
+  const todayReset = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + daysUntil, 7, 59, 59));
+  if (now >= todayReset) daysUntil += 7; // already passed this week
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + daysUntil, 7, 59, 59));
+}
+
+// Path of Proof: known next reset is 2026-03-15 19:00 UTC, then every 28 days
+function rtNextPoP(anchorDateStr) {
+  // Fixed known reset: March 15 23:59 server time (UTC-8) = March 16 07:59 UTC
+  const knownReset = new Date('2026-03-16T07:59:00Z');
+  const cycleMs = 28 * 24 * 3600 * 1000;
+  const now = Date.now();
+  let next = knownReset.getTime();
+  // Roll forward until we find the next future reset
+  while (next <= now) next += cycleMs;
+  return new Date(next);
+}
+
+// ── Anchor date persistence ───────────────────────────
+function rtLoadAnchor() {
+  const saved = localStorage.getItem('rt_pop_anchor');
+  if (saved) {
+    document.getElementById('rtPopAnchor').value = saved;
+    document.getElementById('rtPopNote').textContent = `Anchor set to ${saved}. Next reset auto-calculated.`;
+  }
+}
+
+function rtSaveAnchor() {
+  const val = document.getElementById('rtPopAnchor').value;
+  if (!val) return;
+  localStorage.setItem('rt_pop_anchor', val);
+  document.getElementById('rtPopNote').textContent = `Saved! Next Path of Proof reset auto-calculated from ${val}.`;
+}
+
+// ── Main tick ─────────────────────────────────────────
+function rtTick() {
+  const now = new Date();
+
+  // Server & local clocks — server is UTC-8 (fixed, no DST)
+  document.getElementById('rtServerClock').textContent =
+    now.toLocaleTimeString([], { timeZone: 'Etc/GMT+8', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  document.getElementById('rtLocalClock').textContent =
+    now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  // Daily bosses
+  const nextDaily = rtNextDaily();
+  rtSetCountdown('daily', rtCountdown(nextDaily), false);
+  document.getElementById('rtLocal-daily').textContent = rtFmtLocal(nextDaily);
+
+  // Weekly bosses — Wednesday (3)
+  const nextWBoss = rtNextWeekday(3);
+  rtSetCountdown('wboss', rtCountdown(nextWBoss), true);
+  document.getElementById('rtLocal-wboss').textContent = rtFmtLocal(nextWBoss);
+
+  // Weekly tasks — Sunday (0)
+  const nextWTask = rtNextWeekday(0);
+  rtSetCountdown('wtask', rtCountdown(nextWTask), true);
+  document.getElementById('rtLocal-wtask').textContent = rtFmtLocal(nextWTask);
+
+  // Path of Proof — auto-calculated, no input needed
+  const nextPoP = rtNextPoP();
+  rtSetCountdown('pop', rtCountdown(nextPoP), true);
+  document.getElementById('rtLocal-pop').textContent = rtFmtLocal(nextPoP);
+}
+
+// Init
+rtLoadAnchor();
+rtTick();
+setInterval(rtTick, 1000);
+
+/* ═══════════════════════════════════════════════════════
+   HAMBURGER MENU
+═══════════════════════════════════════════════════════ */
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburgerBtn');
+  const isOpen = nav.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+}
+
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+}
+
+// Close drawer when tapping outside
+document.addEventListener('click', e => {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburgerBtn');
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+    closeMobileNav();
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
+   RESET TRACKER CHECKLISTS
+   Checks persist in localStorage, auto-clear after reset
+═══════════════════════════════════════════════════════ */
+function rtCheckKey(group) { return `rt_checks_${group}`; }
+function rtCheckTimeKey(group) { return `rt_checks_${group}_ts`; }
+
+// Get next reset time for a group (reuses existing functions)
+function rtGetNextResetMs(group) {
+  if (group === 'wtask')  return rtNextWeekday(0).getTime();
+  if (group === 'wboss')  return rtNextWeekday(3).getTime();
+  return null;
+}
+
+// Previous reset = next reset minus one full cycle
+function rtGetPrevResetMs(group) {
+  const next = rtGetNextResetMs(group);
+  if (!next) return null;
+  return next - 7 * 24 * 3600 * 1000;
+}
+
+function rtLoadChecks(group) {
+  const savedTs  = parseInt(localStorage.getItem(rtCheckTimeKey(group)) || '0');
+  const prevReset = rtGetPrevResetMs(group);
+  // If saved before the last reset, wipe checks
+  if (prevReset && savedTs < prevReset) {
+    localStorage.removeItem(rtCheckKey(group));
+    localStorage.removeItem(rtCheckTimeKey(group));
+    return [];
+  }
+  try { return JSON.parse(localStorage.getItem(rtCheckKey(group)) || '[]'); } catch { return []; }
+}
+
+function rtSaveChecks(group, checked) {
+  localStorage.setItem(rtCheckKey(group), JSON.stringify(checked));
+  localStorage.setItem(rtCheckTimeKey(group), Date.now().toString());
+}
+
+function rtApplyChecks(group) {
+  const checked = rtLoadChecks(group);
+  const list = document.getElementById(`rtChecklist-${group}`);
+  if (!list) return;
+  list.querySelectorAll('.rt-check-item').forEach(item => {
+    const name = item.querySelector('.rt-check-text').textContent;
+    item.classList.toggle('checked', checked.includes(name));
+  });
+}
+
+function rtToggleCheck(group, name) {
+  const checked = rtLoadChecks(group);
+  const idx = checked.indexOf(name);
+  if (idx === -1) checked.push(name); else checked.splice(idx, 1);
+  rtSaveChecks(group, checked);
+  rtApplyChecks(group);
+}
+
+function rtResetChecks(group) {
+  localStorage.removeItem(rtCheckKey(group));
+  localStorage.removeItem(rtCheckTimeKey(group));
+  rtApplyChecks(group);
+}
+
+// Init checklists
+rtApplyChecks('wtask');
+rtApplyChecks('wboss');
+
+/* ═══════════════════════════════════════════════════════
+   EVENT TRACKER
+   Feed: https://pharmd.ca/Calc/MSMevents.html
+   The page embeds a JSON block inside a <pre> tag.
+   We fetch it, extract the JSON, and render cards.
+═══════════════════════════════════════════════════════ */
+const EV_FEED_URL = 'https://pharmd.ca/Calc/MSMevents.json';
+let evCacheTime = 0;
+let evCacheData = null;
+let evCardMap = {};
+// Only auto-load once per tab visit (not on every switchTab call)
+let evLoaded = false;
+
+async function evLoad(force = false) {
+  // Debounce: don't refetch within 5 minutes unless forced
+  if (!force && evLoaded && (Date.now() - evCacheTime < 300000)) return;
+
+  const btn  = document.getElementById('evRefreshBtn');
+  const icon = document.getElementById('evRefreshIcon');
+  btn.classList.add('loading');
+  icon.className = 'ev-spin'; icon.textContent = '⏳';
+
+  try {
+    const res  = await fetch(EV_FEED_URL + '?_=' + Date.now());
+    const data = await res.json();
+
+    evCacheData = data;
+    evCacheTime = Date.now();
+    evLoaded    = true;
+    evRender(data);
+  } catch (e) {
+    evShowError(e.message);
+  } finally {
+    btn.classList.remove('loading');
+    icon.className = ''; icon.textContent = '🔄';
+  }
+}
+
+function evRender(data) {
+  const grid    = document.getElementById('evGrid');
+  const metaEl  = document.getElementById('evMetaText');
+  const genAt   = data.generated_at_utc ? new Date(data.generated_at_utc).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'unknown';
+  const now     = Date.now();
+
+  // Strict: only show items with a valid future end time
+  const feedEvents = (data.events || []).filter(ev => {
+    const end = new Date(ev.end_utc).getTime();
+    return Number.isFinite(end) && end > now;
+  });
+
+  const customEvents = evGetCustomEvents().filter(ev => new Date(ev.end_utc).getTime() > now).map((ev,i) => ({ ...ev, type: 'event', board_id:'custom', thread_id:`custom-${i}` }));
+  const allEvents = [...feedEvents, ...customEvents];
+  evCardMap = {};
+  allEvents.forEach(ev => { evCardMap[evCardKey(ev)] = ev; });
+
+  const byType = { announcement: [], event: [], market: [] };
+  for (const ev of allEvents) {
+    const t = (ev.type || 'event').toLowerCase();
+    if (t === 'announcement' || t === 'event' || t === 'market') byType[t].push(ev);
+    else byType.event.push(ev);
+  }
+
+  const sortFn = (a, b) => {
+    const ae = a.end_utc ? new Date(a.end_utc).getTime() : Number.POSITIVE_INFINITY;
+    const be = b.end_utc ? new Date(b.end_utc).getTime() : Number.POSITIVE_INFINITY;
+    if (ae !== be) return ae - be;
+    const ap = a.posted_utc ? new Date(a.posted_utc).getTime() : 0;
+    const bp = b.posted_utc ? new Date(b.posted_utc).getTime() : 0;
+    return bp - ap;
+  };
+
+  ['announcement','event','market'].forEach(k => byType[k].sort(sortFn));
+
+  const feedCount   = feedEvents.length;
+  const customCount = customEvents.length;
+  metaEl.textContent = `${feedCount} feed items · ${customCount} custom · updated ${genAt}`;
+
+  const sections = [
+    ['announcement', '📢 Announcement'],
+    ['event', '🎉 Events'],
+    ['market', '🛒 Market'],
+  ];
+
+  let html = '';
+  for (const [k, label] of sections) {
+    if (!byType[k].length) continue;
+    html += `<div style="grid-column:1/-1;margin:10px 0 0;font-family:'Fredoka One',cursive;font-size:20px;color:var(--text);">${label} <span style="font-family:'Nunito',sans-serif;font-size:12px;color:var(--text-dim);font-weight:800;">(${byType[k].length})</span></div>`;
+    html += byType[k].map(ev => evBuildCard(ev)).join('');
+  }
+
+  if (!html) {
+    grid.innerHTML = `
+      <div class="ev-state" style="grid-column:1/-1;">
+        <div class="ev-state-icon">🍃</div>
+        <div class="ev-state-title">No active items</div>
+        <div>Check back later or add a custom event above.</div>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = html;
+  evTickAll(allEvents.filter(ev => ev.end_utc));
+}
+
+function evCardKey(ev){ return `${ev.board_id || 'x'}-${ev.thread_id || 'x'}`; }
+
+function evDiscordMessage(ev){
+  const title = (ev.title || 'Untitled').replace(/&amp;/g, '&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  const endMs = new Date(ev.end_utc).getTime();
+  if (!Number.isFinite(endMs)) return `**${title}**\nEnd time unavailable`;
+  const unix = Math.floor(endMs / 1000);
+  return `**${title}**\nEnds at <t:${unix}:t> in <t:${unix}:R>`;
+}
+
+async function evCopyDiscordMsg(key){
+  const ev = evCardMap[key];
+  if(!ev) return;
+  const text = evDiscordMessage(ev);
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById(`evCopyBtn-${key}`);
+    if(btn){ const old=btn.textContent; btn.textContent='✅ Copied'; setTimeout(()=>btn.textContent=old,1200); }
+  } catch {
+    prompt('Copy Discord message:', text);
+  }
+}
+
+function evBuildCard(ev) {
+  const now     = Date.now();
+  const endMs   = ev.end_utc ? new Date(ev.end_utc).getTime() : NaN;
+  const startMs = ev.start_utc ? new Date(ev.start_utc).getTime() : NaN;
+  const hasTimer = Number.isFinite(endMs);
+  const totalMs = (Number.isFinite(startMs) && hasTimer) ? Math.max(1, endMs - startMs) : 1;
+  const leftMs  = hasTimer ? (endMs - now) : Infinity;
+  const pct     = hasTimer ? Math.max(0, Math.min(100, ((totalMs - leftMs) / totalMs) * 100)) : 0;
+
+  // Urgency: <24h = urgent, <72h = soon, else normal
+  const urgency = hasTimer ? (leftMs < 86400000 ? 'urgent' : leftMs < 259200000 ? 'soon' : 'normal') : 'normal';
+  const type = (ev.type || '').toLowerCase();
+  const typeLabel = type === 'announcement' ? '📢 Announcement' : type === 'market' ? '🛒 Market' : '🎉 Event';
+
+  const badgeHtml = hasTimer
+    ? (urgency === 'urgent'
+      ? `<div class="ev-badge ev-badge-urgent">🔴 Ending soon</div>`
+      : urgency === 'soon'
+      ? `<div class="ev-badge ev-badge-soon">🟠 3 days left</div>`
+      : ev.custom
+      ? `<div class="ev-badge ev-badge-normal" style="background:#e8f8e8;color:#1a7a45;">🟢 Custom</div>`
+      : `<div class="ev-badge ev-badge-normal">${typeLabel}</div>`)
+    : `<div class="ev-badge ev-badge-normal">${typeLabel}</div>`;
+
+  const endLocal   = hasTimer ? new Date(ev.end_utc).toLocaleString([], { weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' }) : 'Not scheduled';
+  const startLocal = Number.isFinite(startMs) ? new Date(ev.start_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : (ev.posted_utc ? new Date(ev.posted_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '—');
+
+  const title = (ev.title || '').replace(/&amp;/g, '&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  const idSafe = evCardKey(ev);
+
+  return `
+    <div class="ev-card ev-${urgency}" id="evCard-${idSafe}">
+      <div class="ev-card-stripe"></div>
+      <div class="ev-card-body">
+        ${badgeHtml}
+        <a class="ev-card-title" href="${ev.url || '#'}" target="_blank" rel="noopener">${title}</a>
+
+        ${hasTimer ? `
+        <div class="ev-progress-wrap">
+          <div class="ev-progress-label">
+            <span>Progress</span>
+            <span class="ev-pct">${Math.round(pct)}% elapsed</span>
+          </div>
+          <div class="ev-progress-bar">
+            <div class="ev-progress-fill" style="width:${pct}%"></div>
+          </div>
+        </div>
+
+        <div class="ev-countdown" id="evCd-${idSafe}">
+          <div class="ev-unit"><div class="ev-unit-val" id="evD-${idSafe}">--</div><div class="ev-unit-label">days</div></div>
+          <div class="ev-unit"><div class="ev-unit-val" id="evH-${idSafe}">--</div><div class="ev-unit-label">hrs</div></div>
+          <div class="ev-unit"><div class="ev-unit-val" id="evM-${idSafe}">--</div><div class="ev-unit-label">min</div></div>
+          <div class="ev-unit"><div class="ev-unit-val" id="evS-${idSafe}">--</div><div class="ev-unit-label">sec</div></div>
+        </div>` : ''}
+
+        <div class="ev-dates">
+          <div>⏰ Ends: <span>${endLocal}</span></div>
+          <div>📅 Started/Posted: <span>${startLocal}</span></div>
+          ${ev.event_period_raw ? `<div>🧾 Source schedule: <span>${(ev.event_period_raw||'').replace(/</g,'&lt;')}</span></div>` : ''}
+          ${ev.end_inferred ? `<div>ℹ️ End time inferred: <span>auto-hide 7 days after scrape</span></div>` : ''}
+          <button id="evCopyBtn-${idSafe}" class="ev-nexon-link" style="border:none;cursor:pointer;text-align:left;display:inline-block;margin-top:6px;" onclick="evCopyDiscordMsg('${idSafe}')">📋 Copy Discord time message</button>
+          ${ev.url ? `<a class="ev-nexon-link" href="${ev.url}" target="_blank" rel="noopener">${ev.custom ? 'View link ↗' : 'View on Nexon forum ↗'}</a>` : ''}
+        </div>
+      </div>
+    </div>`;
+}
+
+// Tick all event countdowns every second
+let evTickInterval = null;
+function evTickAll(events) {
+  if (evTickInterval) clearInterval(evTickInterval);
+  evTickInterval = setInterval(() => {
+    const now = Date.now();
+    events.forEach(ev => {
+      const end = new Date(ev.end_utc).getTime();
+      if (!Number.isFinite(end)) return;
+      const leftMs = end - now;
+      if (leftMs <= 0) {
+        clearInterval(evTickInterval);
+        evLoad(true);
+        return;
+      }
+      const k = evCardKey(ev);
+      const s   = Math.floor(leftMs / 1000);
+      const dEl = document.getElementById(`evD-${k}`);
+      const hEl = document.getElementById(`evH-${k}`);
+      const mEl = document.getElementById(`evM-${k}`);
+      const sEl = document.getElementById(`evS-${k}`);
+      if (!dEl) return; // card no longer in DOM
+      dEl.textContent = rtPad(Math.floor(s / 86400));
+      hEl.textContent = rtPad(Math.floor((s % 86400) / 3600));
+      mEl.textContent = rtPad(Math.floor((s % 3600) / 60));
+      sEl.textContent = rtPad(s % 60);
+    });
+  }, 1000);
+}
+
+function evShowError(msg) {
+  document.getElementById('evGrid').innerHTML = `
+    <div class="ev-state" style="grid-column:1/-1;">
+      <div class="ev-state-icon">⚠️</div>
+      <div class="ev-state-title">Couldn't load events</div>
+      <div style="font-size:12px;margin-top:4px;color:var(--red);">${msg}</div>
+      <div style="margin-top:8px;">This may be a CORS issue when running locally. Try hosting the file or use the Refresh button.</div>
+    </div>`;
+  document.getElementById('evMetaText').textContent = 'Feed unavailable — click Refresh to retry';
+}
+
+/* ═══════════════════════════════════════════════════════
+   CUSTOM EVENTS
+═══════════════════════════════════════════════════════ */
+const EV_CUSTOM_KEY = 'msm_custom_events';
+
+function evGetCustomEvents() {
+  try { return JSON.parse(localStorage.getItem(EV_CUSTOM_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function evSaveCustomEvents(arr) {
+  localStorage.setItem(EV_CUSTOM_KEY, JSON.stringify(arr));
+}
+
+function evToggleCustomPanel() {
+  const body    = document.getElementById('evCustomBody');
+  const chevron = document.getElementById('evCustomChevron');
+  const isOpen  = body.classList.toggle('open');
+  chevron.classList.toggle('open', isOpen);
+  if (isOpen) evRenderCustomList();
+}
+
+function evRenderCustomList() {
+  const list   = document.getElementById('evCustomList');
+  const events = evGetCustomEvents();
+  if (!events.length) { list.innerHTML = ''; return; }
+
+  list.innerHTML = `<div class="ev-custom-list-title">Saved custom events</div>` +
+    events.map((ev, i) => {
+      const end = new Date(ev.end_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      return `
+        <div class="ev-custom-item">
+          <div class="ev-custom-item-info">
+            <div class="ev-custom-item-name">${ev.title}</div>
+            <div class="ev-custom-item-date">Ends ${end}</div>
+          </div>
+          <button class="ev-custom-delete" title="Delete" onclick="evDeleteCustom(${i})">✕</button>
+        </div>`;
+    }).join('');
+}
+
+let evEndMode = 'exact';
+
+function evDeleteCustom(index) {
+  const events = evGetCustomEvents();
+  events.splice(index, 1);
+  evSaveCustomEvents(events);
+  evRenderCustomList();
+  if (evCacheData) evRender(evCacheData);
+  else {
+    const customOnly = evGetCustomEvents().filter(ev => new Date(ev.end_utc).getTime() > Date.now());
+    document.getElementById('evGrid').innerHTML = customOnly.length
+      ? customOnly.map(ev => evBuildCard(ev)).join('')
+      : `<div class="ev-state" style="grid-column:1/-1;"><div class="ev-state-icon">🍃</div><div class="ev-state-title">No active events</div></div>`;
+    if (customOnly.length) evTickAll(customOnly);
+  }
+}
+
+function evSetEndMode(mode) {
+  evEndMode = mode;
+  document.getElementById('evModeExact').classList.toggle('active', mode === 'exact');
+  document.getElementById('evModeDuration').classList.toggle('active', mode === 'duration');
+  document.getElementById('evEndExactWrap').style.display    = mode === 'exact'    ? '' : 'none';
+  document.getElementById('evEndDurationWrap').style.display = mode === 'duration' ? '' : 'none';
+}
+
+function evUpdateDurationPreview() {
+  const d  = parseInt(document.getElementById('evCfDays').value)    || 0;
+  const h  = parseInt(document.getElementById('evCfHours').value)   || 0;
+  const m  = parseInt(document.getElementById('evCfMinutes').value) || 0;
+  const el = document.getElementById('evDurationPreview');
+  if (d === 0 && h === 0 && m === 0) { el.textContent = ''; return; }
+  const parts = [];
+  if (d) parts.push(`${d}d`);
+  if (h) parts.push(`${h}h`);
+  if (m) parts.push(`${m}m`);
+  const endDate = new Date(Date.now() + (d*86400 + h*3600 + m*60)*1000);
+  el.textContent = `→ ends ${endDate.toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })}`;
+}
+
+function evAddCustom() {
+  const name   = document.getElementById('evCfName').value.trim();
+  const start  = document.getElementById('evCfStart').value;
+  const url    = document.getElementById('evCfUrl').value.trim();
+  const errEl  = document.getElementById('evCfError');
+  errEl.classList.remove('show');
+
+  if (!name) { errEl.textContent = 'Please enter an event name.'; errEl.classList.add('show'); return; }
+
+  let endDate;
+  if (evEndMode === 'exact') {
+    const endVal = document.getElementById('evCfEnd').value;
+    if (!endVal) { errEl.textContent = 'Please set an end date and time.'; errEl.classList.add('show'); return; }
+    endDate = new Date(endVal);
+    if (isNaN(endDate)) { errEl.textContent = 'Invalid end date.'; errEl.classList.add('show'); return; }
+    if (endDate <= Date.now()) { errEl.textContent = 'End time must be in the future.'; errEl.classList.add('show'); return; }
+  } else {
+    const d = parseInt(document.getElementById('evCfDays').value)    || 0;
+    const h = parseInt(document.getElementById('evCfHours').value)   || 0;
+    const m = parseInt(document.getElementById('evCfMinutes').value) || 0;
+    const totalMs = (d*86400 + h*3600 + m*60) * 1000;
+    if (totalMs <= 0) { errEl.textContent = 'Please enter a duration greater than zero.'; errEl.classList.add('show'); return; }
+    endDate = new Date(Date.now() + totalMs);
+  }
+
+  const startDate = start ? new Date(start) : new Date();
+  if (start && endDate <= new Date(start)) {
+    errEl.textContent = 'End time must be after start time.'; errEl.classList.add('show'); return;
+  }
+
+  const newEvent = {
+    thread_id: 'custom_' + Date.now(),
+    title: name,
+    url: url || null,
+    start_utc: startDate.toISOString(),
+    end_utc: endDate.toISOString(),
+    custom: true,
+  };
+
+  const events = evGetCustomEvents();
+  events.push(newEvent);
+  evSaveCustomEvents(events);
+
+  document.getElementById('evCfName').value    = '';
+  document.getElementById('evCfStart').value   = '';
+  document.getElementById('evCfEnd').value     = '';
+  document.getElementById('evCfDays').value    = '0';
+  document.getElementById('evCfHours').value   = '0';
+  document.getElementById('evCfMinutes').value = '0';
+  document.getElementById('evCfUrl').value     = '';
+  document.getElementById('evDurationPreview').textContent = '';
+
+  evRenderCustomList();
+
+  if (evCacheData) evRender(evCacheData);
+  else {
+    const customOnly = evGetCustomEvents().filter(ev => new Date(ev.end_utc).getTime() > Date.now());
+    customOnly.sort((a, b) => new Date(a.end_utc) - new Date(b.end_utc));
+    document.getElementById('evGrid').innerHTML = customOnly.map(ev => evBuildCard(ev)).join('');
+    evTickAll(customOnly);
+    document.getElementById('evMetaText').textContent =
+      customOnly.length + ' custom event' + (customOnly.length !== 1 ? 's' : '');
+  }
+}
+
+function evDeleteCustom(index) {
+  const events = evGetCustomEvents();
+  events.splice(index, 1);
+  evSaveCustomEvents(events);
+  evRenderCustomList();
+  if (evCacheData) evRender(evCacheData);
+  else {
+    const customOnly = evGetCustomEvents().filter(ev => new Date(ev.end_utc).getTime() > Date.now());
+    document.getElementById('evGrid').innerHTML = customOnly.length
+      ? customOnly.map(ev => evBuildCard(ev)).join('')
+      : '<div class="ev-state" style="grid-column:1/-1;"><div class="ev-state-icon">🍃</div><div class="ev-state-title">No active events</div></div>';
+    if (customOnly.length) evTickAll(customOnly);
+  }
+}
+
+(function evSetDateMin() {
+  const now = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString().slice(0, 16);
+  document.getElementById('evCfStart').min = now;
+  document.getElementById('evCfEnd').min   = now;
+  ['evCfDays','evCfHours','evCfMinutes'].forEach(id => {
+    document.getElementById(id).addEventListener('input', evUpdateDurationPreview);
+  });
+})();
+
+/* ================================================================
+   ITEM PROBABILITIES  --  https://pharmd.ca/Calc/MSMprobabilities.json
+================================================================ */
+const PR_FEED_URL  = 'https://pharmd.ca/Calc/MSMprobabilities.json';
+const PR_PAGE_SIZE = 80;
+
+let prData         = null;
+let prActiveBox    = null;
+let prFilteredRows = [];
+let prPage         = 1;
+let prLoaded       = false;
+let prCacheTime    = 0;
+
+function prEsc(s){return String(s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
+function prNum(v){ const n=parseFloat(String(v??'').replace('%','').trim()); return Number.isFinite(n)?n:null; }
+function prIsCube(item){
+  const cols=item?.columns||[];
+  return cols.includes('Potential Rank') || /cube/i.test(String(item?.title||''));
+}
+
+async function prLoad(force) {
+  if (!force && prLoaded && (Date.now() - prCacheTime < 300000)) return;
+  const btn  = document.getElementById('prRefreshBtn');
+  const icon = document.getElementById('prRefreshIcon');
+  btn.classList.add('loading'); icon.textContent = '⏳';
+  try {
+    prData = await (await fetch(PR_FEED_URL + '?_=' + Date.now())).json();
+    prCacheTime = Date.now(); prLoaded = true;
+    const genAt = prData.generated_at_utc
+      ? new Date(prData.generated_at_utc).toLocaleString([], { dateStyle:'medium', timeStyle:'short' })
+      : 'unknown';
+    document.getElementById('prMetaText').textContent =
+      `${prData.active_count || (prData.items||[]).length} active tables · updated ${genAt}`;
+    prBuildBoxList();
+    if (!prActiveBox && prData.items && prData.items.length) prSelectBox(prData.items[0].id);
+  } catch(e) {
+    document.getElementById('prTableWrap').innerHTML =
+      '<div class="pr-state"><div class="pr-state-icon">⚠️</div><div class="pr-state-title">Couldn\'t load data</div><div>'+prEsc(e.message)+'</div></div>';
+    document.getElementById('prMetaText').textContent = 'Feed unavailable — click Refresh';
+  } finally {
+    btn.classList.remove('loading'); icon.textContent = '🔄';
+  }
+}
+
+function prBuildBoxList(){
+  const list=document.getElementById('prBoxList');
+  if(!prData||!Array.isArray(prData.items)){list.innerHTML='';return;}
+  const q=(document.getElementById('prCatalogSearch').value||'').toLowerCase().trim();
+  const sort=(document.getElementById('prCatalogSort').value||'changed');
+  let items=[...prData.items].filter(i=> (i.active!==false));
+  if(q) items=items.filter(i=>`${i.title||''} ${i.id||''}`.toLowerCase().includes(q));
+
+  if(sort==='az') items.sort((a,b)=>String(a.title||'').localeCompare(String(b.title||'')));
+  else if(sort==='rows') items.sort((a,b)=>(b.row_count||0)-(a.row_count||0));
+  else items.sort((a,b)=>String(b.last_changed_utc||'').localeCompare(String(a.last_changed_utc||'')));
+
+  list.innerHTML = items.map(i=>{
+    const active = String(i.id)===String(prActiveBox) ? 'active' : '';
+    const changed = i.last_changed_utc ? new Date(i.last_changed_utc).toLocaleDateString() : '—';
+    return `<button class="pr-box-btn ${active}" data-boxid="${prEsc(i.id)}" onclick="prSelectBox('${prEsc(i.id)}')" style="display:block;width:100%;text-align:left;">
+      <div style="font-weight:700;font-size:12px;">${prEsc(i.title)}</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:2px;">ID ${prEsc(i.id)} · ${i.row_count||0} rows · changed ${prEsc(changed)}</div>
+    </button>`;
+  }).join('') || '<div class="pr-state" style="padding:8px 0;">No matching categories.</div>';
+}
+
+function prSelectBox(id){
+  prActiveBox=id; prPage=1;
+  document.querySelectorAll('.pr-box-btn').forEach(b=>b.classList.toggle('active', b.dataset.boxid===String(id)));
+  const item=(prData?.items||[]).find(x=>String(x.id)===String(id));
+  if(!item) return;
+  prRenderSummary(item);
+  prApplyFilters();
+}
+
+function prRenderSummary(item){
+  const card=document.getElementById('prSummaryCard');
+  const changed=item.last_changed_utc ? new Date(item.last_changed_utc).toLocaleString() : '—';
+  const desc=item.description_text ? `<div style="margin-top:6px;color:var(--text-dim);font-size:12px;white-space:pre-wrap;">${prEsc(item.description_text).slice(0,900)}</div>` : '';
+  card.style.display='block';
+  card.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+    <div><div style="font-weight:800;">${prEsc(item.title)}</div><div style="font-size:12px;color:var(--text-dim);">ID ${prEsc(item.id)} · ${item.row_count||0} rows · changed ${prEsc(changed)}</div></div>
+    <a class="pr-refresh-btn" style="text-decoration:none;display:inline-flex;align-items:center;padding:6px 10px;" target="_blank" href="${prEsc(item.url||'#')}">Open source ↗</a>
+  </div>${desc}`;
+}
+
+function prRenderCube(item){
+  const wrap=document.getElementById('prTableWrap');
+  const q=(document.getElementById('prSearch').value||'').toLowerCase().trim();
+  const rows=(item.rows||[]).filter(r=>{
+    const opt=String(r['Potential Rank']||'');
+    const stat=String(r['Rare']||'');
+    const p23=String(r['']||'');
+    if(!opt||opt==='Option'||opt==='First Potential'||opt==='Potential Rank') return false;
+    if(q && !(opt.toLowerCase().includes(q)||stat.toLowerCase().includes(q)||p23.toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  const maxProb=Math.max(...rows.map(r=>prNum(r[''])||0),0.0001);
+  document.getElementById('prResultsBar').innerHTML=`Showing <strong>${rows.length}</strong> cube rows`;
+
+  if(!rows.length){
+    wrap.innerHTML='<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No cube rows match</div></div>';
+    return;
+  }
+
+  const htmlRows=rows.map(r=>{
+    const opt=prEsc(r['Potential Rank']||'');
+    const stat=prEsc(r['Rare']||'—');
+    const pRaw=String(r['']??'').trim();
+    const pNum=prNum(pRaw);
+    const bar = pNum!=null ? `<div class="pr-prob-cell"><div class="pr-prob-bar-bg"><div class="pr-prob-bar-fill" style="width:${Math.min(100,(pNum/maxProb)*100).toFixed(1)}%"></div></div><span class="pr-prob-val">${prEsc(pRaw)}</span></div>` : prEsc(pRaw||'—');
+    return `<tr><td>${opt}</td><td>${stat}</td><td>${bar}</td></tr>`;
+  }).join('');
+
+  wrap.innerHTML=`<div style="overflow:auto;max-height:60vh;"><table class="pr-table"><thead><tr><th>Option</th><th>Stat / Value</th><th>2nd/3rd Probability</th></tr></thead><tbody>${htmlRows}</tbody></table></div>`;
+}
+
+function prApplyFilters(){
+  const item=(prData?.items||[]).find(x=>String(x.id)===String(prActiveBox));
+  if(!item){
+    document.getElementById('prTableWrap').innerHTML='<div class="pr-state"><div class="pr-state-icon">🎲</div><div class="pr-state-title">Select a category</div></div>';
+    return;
+  }
+
+  const q=(document.getElementById('prSearch').value||'').toLowerCase().trim();
+  const sort=(document.getElementById('prRowSort').value||'prob_desc');
+
+  if(prIsCube(item)){
+    prRenderCube(item);
+    return;
+  }
+
+  const rawCols=(item.columns||[]);
+  const cols=rawCols.map((c,i)=> (String(c||'').trim()?c:`(Unnamed ${i+1})`));
+
+  let rows=[...(item.rows||[])].filter(r=>{
+    if(!q) return true;
+    return rawCols.some(c=>String(r[c]??'').toLowerCase().includes(q));
+  });
+
+  let probCol = rawCols.find(c=>/prob/i.test(String(c||''))) || null;
+  if(!probCol){
+    // fallback: choose column with most numeric percentages
+    let best={col:null,score:0};
+    for(const c of rawCols){
+      let s=0;
+      for(const r of rows.slice(0,500)) if(prNum(r[c])!=null) s++;
+      if(s>best.score){best={col:c,score:s};}
+    }
+    probCol = best.score>0 ? best.col : null;
+  }
+  rows.forEach(r=>{ r.__prob = probCol ? prNum(r[probCol]) : null; });
+
+  if(sort==='prob_asc') rows.sort((a,b)=>(a.__prob??Infinity)-(b.__prob??Infinity));
+  else if(sort==='prob_desc') rows.sort((a,b)=>(b.__prob??-Infinity)-(a.__prob??-Infinity));
+  else rows.sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)));
+
+  prFilteredRows=rows;
+  prRenderTable(item, rawCols, cols, probCol);
+}
+
+function prRenderTable(item, rawCols, cols, probCol){
+  const wrap=document.getElementById('prTableWrap');
+  const total=prFilteredRows.length;
+  const pages=Math.max(1, Math.ceil(total/PR_PAGE_SIZE));
+  if(prPage>pages) prPage=pages;
+  const start=(prPage-1)*PR_PAGE_SIZE;
+  const slice=prFilteredRows.slice(start,start+PR_PAGE_SIZE);
+  document.getElementById('prResultsBar').innerHTML=`Showing <strong>${total?start+1:0}–${Math.min(start+PR_PAGE_SIZE,total)}</strong> of <strong>${total}</strong> rows`;
+
+  if(!slice.length){
+    wrap.innerHTML='<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No rows match</div></div>';
+    return;
+  }
+
+  const maxProb = probCol ? Math.max(...prFilteredRows.map(r=>r.__prob||0),0.0001) : 1;
+  const thead='<thead><tr>'+cols.map(c=>`<th>${prEsc(c)}</th>`).join('')+'</tr></thead>';
+  const tbody=slice.map(r=>{
+    const tds=rawCols.map((rawKey,idx)=>{
+      const v=r[rawKey]??'';
+      if(probCol && rawKey===probCol && r.__prob!=null){
+        const pct=Math.min(100, (r.__prob/maxProb)*100).toFixed(1);
+        return `<td><div class="pr-prob-cell"><div class="pr-prob-bar-bg"><div class="pr-prob-bar-fill" style="width:${pct}%"></div></div><span class="pr-prob-val">${prEsc(v)}</span></div></td>`;
+      }
+      return `<td>${prEsc(v)}</td>`;
+    }).join('');
+    return `<tr>${tds}</tr>`;
+  }).join('');
+
+  let pager='';
+  if(pages>1){
+    pager=`<div class="pr-pagination"><button class="pr-page-btn" ${prPage===1?'disabled':''} onclick="prGoPage(${prPage-1})">‹</button><span class="pr-page-info">Page ${prPage}/${pages}</span><button class="pr-page-btn" ${prPage===pages?'disabled':''} onclick="prGoPage(${prPage+1})">›</button></div>`;
+  }
+
+  wrap.innerHTML=`<div style="overflow:auto;max-height:60vh;"><table class="pr-table">${thead}<tbody>${tbody}</tbody></table></div>${pager}`;
+}
+
+function prGoPage(p){
+  const pages=Math.max(1,Math.ceil(prFilteredRows.length/PR_PAGE_SIZE));
+  prPage=Math.max(1,Math.min(pages,p));
+  const item=(prData?.items||[]).find(x=>String(x.id)===String(prActiveBox));
+  if(!item) return;
+  if(prIsCube(item)){ prRenderCube(item); return; }
+  const rawCols=(item.columns||[]);
+  const cols=rawCols.map((c,i)=> (String(c||'').trim()?c:`(Unnamed ${i+1})`));
+  let probCol = rawCols.find(c=>/prob/i.test(String(c||''))) || null;
+  if(!probCol){
+    let best={col:null,score:0};
+    for(const c of rawCols){
+      let s=0;
+      for(const r of prFilteredRows.slice(0,500)) if(prNum(r[c])!=null) s++;
+      if(s>best.score){best={col:c,score:s};}
+    }
+    probCol = best.score>0 ? best.col : null;
+  }
+  prRenderTable(item, rawCols, cols, probCol);
+  document.getElementById('probs-content').scrollTo({top:0,behavior:'smooth'});
+}
+
+function prClearFilters(){
+  document.getElementById('prSearch').value='';
+  document.getElementById('prRowSort').value='prob_desc';
+  prApplyFilters();
+}
+
+</script>
+</body>
+</html>
