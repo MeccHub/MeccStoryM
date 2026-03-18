@@ -1266,6 +1266,7 @@ select.df-ts-input {
   padding:12px 14px; font-family:'Consolas','Courier New',monospace;
   font-size:13px; line-height:1.7; resize:vertical; outline:none;
 }
+#cd-output { min-height:180px; }
 .df-copy-btn {
   position:absolute; top:9px; right:9px;
   padding:6px 14px; border-radius:9px;
@@ -1701,7 +1702,8 @@ select.df-ts-input {
           </div>
           <div class="df-sep"></div>
           <div class="df-toolbar-group" style="display:flex;align-items:center;gap:6px;">
-            <input class="df-ts-input" id="cdColorHex" type="text" value="ffd54f" maxlength="6" style="width:92px;text-transform:lowercase;" />
+            <input id="cdColorPicker" type="color" value="#ffd54f" onchange="cdColorFromPicker()" style="width:40px;height:34px;border:2px solid #c8eeff;border-radius:8px;background:white;cursor:pointer;padding:0;" />
+            <input class="df-ts-input" id="cdColorHex" type="text" value="ffd54f" maxlength="6" style="width:92px;text-transform:lowercase;" oninput="cdColorFromHex()" />
             <button class="df-ts-btn" onclick="cdInsertColor()">Insert [hex]</button>
           </div>
           <div class="df-sep"></div>
@@ -2405,11 +2407,26 @@ function cdInsertTag(tag){
   ta.focus(); cdOnEdit();
 }
 
+function cdColorFromPicker(){
+  const p = document.getElementById('cdColorPicker');
+  const h = document.getElementById('cdColorHex');
+  h.value = (p.value || '#ffffff').replace('#','').toLowerCase();
+}
+
+function cdColorFromHex(){
+  const h = document.getElementById('cdColorHex');
+  const p = document.getElementById('cdColorPicker');
+  const hex = (h.value || '').trim().toLowerCase().replace(/[^0-9a-f]/g,'').slice(0,6);
+  h.value = hex;
+  if (/^[0-9a-f]{6}$/.test(hex)) p.value = '#' + hex;
+}
+
 function cdInsertColor(){
   const el = document.getElementById('cdColorHex');
   const hex = (el.value || '').trim().toLowerCase().replace(/[^0-9a-f]/g,'').slice(0,6);
   if (!/^[0-9a-f]{6}$/.test(hex)) { alert('Use a 6-digit hex, e.g. ffcc00'); return; }
   el.value = hex;
+  document.getElementById('cdColorPicker').value = '#' + hex;
   cdInsertTag('[' + hex + ']');
 }
 
@@ -2466,6 +2483,7 @@ function cdCopy(){
   });
 }
 cdOnEdit();
+cdColorFromHex();
 
 /* ═══════════════════════════════════════════════════════
    DMG CALCULATOR
