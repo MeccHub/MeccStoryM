@@ -159,6 +159,7 @@ body {
 }
 .tab-btn[data-tab="home"].active::after   { background: linear-gradient(90deg,var(--pink),var(--purple)); }
 .tab-btn[data-tab="discord"].active::after{ background: linear-gradient(90deg,var(--pink),var(--purple)); }
+.tab-btn[data-tab="char"].active::after   { background: linear-gradient(90deg,var(--teal),var(--sky)); }
 .tab-btn[data-tab="dmg"].active::after    { background: linear-gradient(90deg,var(--green),var(--teal)); }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1406,6 +1407,9 @@ select.df-ts-input {
       <button class="tab-btn" data-tab="discord" onclick="switchTab('discord',this)">
         <span class="tab-icon">💬</span> Discord Formatter
       </button>
+      <button class="tab-btn" data-tab="char" onclick="switchTab('char',this)">
+        <span class="tab-icon">📝</span> Character Description Editor
+      </button>
       <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this)">
         <span class="tab-icon">💥</span> DMG Calculator
       </button>
@@ -1433,6 +1437,9 @@ select.df-ts-input {
     </button>
     <button class="tab-btn" data-tab="discord" onclick="switchTab('discord',this);closeMobileNav()">
       <span class="tab-icon">💬</span> Discord Formatter
+    </button>
+    <button class="tab-btn" data-tab="char" onclick="switchTab('char',this);closeMobileNav()">
+      <span class="tab-icon">📝</span> Character Description Editor
     </button>
     <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this);closeMobileNav()">
       <span class="tab-icon">💥</span> DMG Calculator
@@ -1473,6 +1480,13 @@ select.df-ts-input {
           <div class="card-icon icon-green">💥</div>
           <div class="card-name">DMG Calculator</div>
           <div class="card-desc">Calculate your average, crit and boss damage from your stats. Includes a stat swap optimizer to find your best upgrade path.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-sky" onclick="switchTab('char', document.querySelector('[data-tab=char]'))">
+          <div class="card-icon icon-sky">📝</div>
+          <div class="card-name">Character Description Editor</div>
+          <div class="card-desc">Build MapleStory M character captions with [b][i][u][s] + [rrggbb], 60-char limit, and live preview.</div>
           <span class="card-arrow">→</span>
         </div>
 
@@ -1660,6 +1674,54 @@ select.df-ts-input {
         </div>
       </div>
 
+    </section>
+
+    <!-- ════════ CHARACTER DESCRIPTION EDITOR ════════ -->
+    <section class="tab-section" id="tab-char">
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-sky-s"></div> Character Description Editor</div>
+        <div class="df-note" style="margin-bottom:10px;">
+          MapleStory M style tags: <code>[b]</code> <code>[i]</code> <code>[u]</code> <code>[s]</code> and color <code>[rrggbb]</code> · max 60 chars total.
+        </div>
+
+        <div class="df-toolbar">
+          <div class="df-toolbar-group">
+            <button class="tb-btn" onclick="cdInsertTag('[b]')"><b>B</b></button>
+            <button class="tb-btn" onclick="cdInsertTag('[i]')"><i>I</i></button>
+            <button class="tb-btn" onclick="cdInsertTag('[u]')"><u>U</u></button>
+            <button class="tb-btn" onclick="cdInsertTag('[s]')"><s>S</s></button>
+          </div>
+          <div class="df-sep"></div>
+          <div class="df-toolbar-group" style="display:flex;align-items:center;gap:6px;">
+            <input class="df-ts-input" id="cdColorHex" type="text" value="ffd54f" maxlength="6" style="width:92px;text-transform:lowercase;" />
+            <button class="df-ts-btn" onclick="cdInsertColor()">Insert [hex]</button>
+          </div>
+          <div class="df-sep"></div>
+          <div class="df-toolbar-group">
+            <button class="tb-btn" onclick="cdClear()" style="color:#ff5555;">✕</button>
+          </div>
+        </div>
+
+        <textarea id="cd-editor" maxlength="60" placeholder="Example: [b][ffd54f]★ Mecc >>> Daily grind" oninput="cdOnEdit()"></textarea>
+        <div class="df-char-count" id="cdCharCount">0 / 60</div>
+      </div>
+
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-teal-s"></div> Preview</div>
+        <div class="dc-preview-box">
+          <div class="dc-content" id="cdPreview" style="font-size:16px;line-height:1.6;">
+            <span style="color:#4e5058;font-style:italic;">Your description preview will appear here…</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-pink-s"></div> Output</div>
+        <div class="df-output-wrap">
+          <textarea id="cd-output" readonly placeholder="Encoded description will appear here…"></textarea>
+          <button class="df-copy-btn" id="cdCopyBtn" onclick="cdCopy()">📋 Copy</button>
+        </div>
+      </div>
     </section>
   </div><!-- /content -->
 
@@ -2318,6 +2380,85 @@ function dfCopyQuickDelay(prefix, minutes, btn){
   const msg = `${prefix} at <t:${unix}:t> (<t:${unix}:R>)`;
   dfCopyTextWithBtn(msg, btn);
 }
+
+/* ═══════════════════════════════════════════════════════
+   CHARACTER DESCRIPTION EDITOR
+═══════════════════════════════════════════════════════ */
+function cdGetEditor(){ return document.getElementById('cd-editor'); }
+function cdEscape(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function cdInsertTag(tag){
+  const ta = cdGetEditor();
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const next = ta.value.slice(0,s) + tag + ta.value.slice(e);
+  ta.value = next.slice(0,60);
+  const pos = Math.min(ta.value.length, s + tag.length);
+  ta.selectionStart = ta.selectionEnd = pos;
+  ta.focus(); cdOnEdit();
+}
+
+function cdInsertColor(){
+  const el = document.getElementById('cdColorHex');
+  const hex = (el.value || '').trim().toLowerCase().replace(/[^0-9a-f]/g,'').slice(0,6);
+  if (!/^[0-9a-f]{6}$/.test(hex)) { alert('Use a 6-digit hex, e.g. ffcc00'); return; }
+  el.value = hex;
+  cdInsertTag('[' + hex + ']');
+}
+
+function cdClear(){ cdGetEditor().value=''; cdOnEdit(); }
+
+function cdRender(raw){
+  if (!raw) return '<span style="color:#4e5058;font-style:italic;">Your description preview will appear here…</span>';
+  const tokenRe = /\[(b|i|u|s|[0-9a-fA-F]{6})\]/g;
+  let m, idx = 0;
+  let state = { b:false, i:false, u:false, s:false, color:null };
+  let out = '';
+
+  function seg(text){
+    if (!text) return;
+    let style = '';
+    if (state.b) style += 'font-weight:800;';
+    if (state.i) style += 'font-style:italic;';
+    const dec = [];
+    if (state.u) dec.push('underline');
+    if (state.s) dec.push('line-through');
+    if (dec.length) style += `text-decoration:${dec.join(' ')};`;
+    if (state.color) style += `color:#${state.color};`;
+    out += `<span style="${style}">${cdEscape(text)}</span>`;
+  }
+
+  while ((m = tokenRe.exec(raw)) !== null) {
+    const before = raw.slice(idx, m.index);
+    seg(before);
+    const t = m[1].toLowerCase();
+    if (t === 'b' || t === 'i' || t === 'u' || t === 's') state[t] = true;
+    else state.color = t;
+    idx = m.index + m[0].length;
+  }
+  seg(raw.slice(idx));
+
+  return out || '<span style="color:#4e5058;font-style:italic;">Only tags so far — add visible text.</span>';
+}
+
+function cdOnEdit(){
+  const ta = cdGetEditor();
+  if (ta.value.length > 60) ta.value = ta.value.slice(0,60);
+  document.getElementById('cdCharCount').textContent = `${ta.value.length} / 60`;
+  document.getElementById('cdCharCount').classList.toggle('df-char-over', ta.value.length >= 60);
+  document.getElementById('cdPreview').innerHTML = cdRender(ta.value);
+  document.getElementById('cd-output').value = ta.value;
+}
+
+function cdCopy(){
+  const out = document.getElementById('cd-output').value;
+  if (!out) return;
+  navigator.clipboard.writeText(out).then(() => {
+    const btn = document.getElementById('cdCopyBtn');
+    btn.textContent = '✅ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+cdOnEdit();
 
 /* ═══════════════════════════════════════════════════════
    DMG CALCULATOR
