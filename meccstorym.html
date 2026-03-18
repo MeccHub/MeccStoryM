@@ -1216,6 +1216,14 @@ select.df-ts-input {
   transition:border-color 0.2s;
 }
 #df-editor:focus { border-color:var(--purple); }
+#cd-editor {
+  width:100%; min-height:220px; resize:vertical;
+  background:#fafafa; border:2px solid #c8eeff; border-radius:11px;
+  padding:12px 14px; font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:600; color:var(--text); outline:none; line-height:1.7;
+  transition:border-color 0.2s;
+}
+#cd-editor:focus { border-color:var(--sky); }
 .df-char-count { text-align:right; font-size:11px; color:var(--text-dim); font-weight:700; margin-top:5px; }
 .df-char-over  { color:var(--red); }
 
@@ -1702,8 +1710,8 @@ select.df-ts-input {
           </div>
         </div>
 
-        <textarea id="cd-editor" maxlength="60" placeholder="Example: [b][ffd54f]★ Mecc >>> Daily grind" oninput="cdOnEdit()"></textarea>
-        <div class="df-char-count" id="cdCharCount">0 / 60</div>
+        <textarea id="cd-editor" placeholder="Example: [b][ffd54f]★ Mecc >>> Daily grind" oninput="cdOnEdit()"></textarea>
+        <div class="df-char-count" id="cdCharCount">0 chars (recommended: 60)</div>
       </div>
 
       <div class="df-panel">
@@ -2442,9 +2450,8 @@ function cdRender(raw){
 
 function cdOnEdit(){
   const ta = cdGetEditor();
-  if (ta.value.length > 60) ta.value = ta.value.slice(0,60);
-  document.getElementById('cdCharCount').textContent = `${ta.value.length} / 60`;
-  document.getElementById('cdCharCount').classList.toggle('df-char-over', ta.value.length >= 60);
+  document.getElementById('cdCharCount').textContent = `${ta.value.length} chars (recommended: 60)`;
+  document.getElementById('cdCharCount').classList.toggle('df-char-over', ta.value.length > 60);
   document.getElementById('cdPreview').innerHTML = cdRender(ta.value);
   document.getElementById('cd-output').value = ta.value;
 }
