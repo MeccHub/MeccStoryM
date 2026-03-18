@@ -2805,11 +2805,11 @@ rtApplyChecks('wboss');
 
 /* ═══════════════════════════════════════════════════════
    EVENT TRACKER
-   Feed: https://pharmd.ca/Calc/MSMevents.html
+   Feed: ./Calc/MSMevents.json
    The page embeds a JSON block inside a <pre> tag.
    We fetch it, extract the JSON, and render cards.
 ═══════════════════════════════════════════════════════ */
-const EV_FEED_URL = 'https://pharmd.ca/Calc/MSMevents.json';
+const EV_FEED_URL = 'Calc/MSMevents.json';
 let evCacheTime = 0;
 let evCacheData = null;
 let evCardMap = {};
@@ -3209,9 +3209,9 @@ function evDeleteCustom(index) {
 })();
 
 /* ================================================================
-   ITEM PROBABILITIES  --  https://pharmd.ca/Calc/MSMprobabilities.json
+   ITEM PROBABILITIES  --  ./Calc/MSMprobabilities.json
 ================================================================ */
-const PR_FEED_URL  = 'https://pharmd.ca/Calc/MSMprobabilities.json';
+const PR_FEED_URL  = 'Calc/MSMprobabilities.json';
 const PR_PAGE_SIZE = 80;
 
 let prData         = null;
