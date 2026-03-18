@@ -1,6 +1,6 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-03-18T15:01:03Z",
+  "generated_at_utc": "2026-03-18T15:12:43Z",
   "count": 8,
   "events": [
     {
@@ -13,7 +13,7 @@
       "event_period_raw": "for 03.18/19(Wed/Thu). Please check below for detailed schedule and expected works! 📆 Maintenance Schedule 📆 The maintenance is scheduled to take a total of 4 hours as follows. - 2026/03/18(Wed) 13:00 ~ 17:00 (America / UTC-8) - 2026/03/18(Wed) 23:00 ~ 2026/03/19(Thu) 03:00 (Europe / UTC+2) - 2026/03/19(Thu) 05:00 ~ 09:00 (Asia / UTC+8) ✅ Note ✅ Access to the game will not be available during maintenance hours. ✨ Expected Works ✨ MapleStory M is now officially available on Steam! 1) New Contents",
       "start_utc": "2026-03-18T21:00:00Z",
       "end_utc": "2026-03-19T01:00:00Z",
-      "first_seen_utc": "2026-03-18T14:56:23Z"
+      "first_seen_utc": "2026-03-18T15:08:11Z"
     },
     {
       "board_id": 2692,
@@ -25,7 +25,7 @@
       "event_period_raw": "Event Period : 2026/03/05 (Thu) 10:00 ~ 2026/03/26 (Thu) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/03/26 (Thu) 10:00 ~ 2026/04/02 (Thu) 09:59 (Server Time) *",
       "start_utc": "2026-03-05T18:00:00Z",
       "end_utc": "2026-03-26T17:59:00Z",
-      "first_seen_utc": "2026-03-18T14:57:36Z"
+      "first_seen_utc": "2026-03-18T15:09:23Z"
     },
     {
       "board_id": 2692,
@@ -37,7 +37,7 @@
       "event_period_raw": "2026/03/05 (Thu) 10:00 ~ 2026/03/18 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Help Niniel and defeat the monsters! Touch the monsters appearing on the screen within the time limit to catch them. You can earn more points by utilizing buff effects. Depending on your score, you can acquire coins, and by accumulating points, you can obtain additional achievement rewards. [How to Participate] ① You can participate in the event through [",
       "start_utc": "2026-03-05T18:00:00Z",
       "end_utc": "2026-03-18T17:59:00Z",
-      "first_seen_utc": "2026-03-18T14:57:38Z"
+      "first_seen_utc": "2026-03-18T15:09:25Z"
     },
     {
       "board_id": 2692,
@@ -49,7 +49,7 @@
       "event_period_raw": "2026/03/01 (Sun) 00:00 ~ 2026/04/11 (Sat) 23:59 (Server Time) *",
       "start_utc": "2026-03-01T08:00:00Z",
       "end_utc": "2026-04-12T07:59:00Z",
-      "first_seen_utc": "2026-03-18T14:57:39Z"
+      "first_seen_utc": "2026-03-18T15:09:26Z"
     },
     {
       "board_id": 2692,
@@ -61,7 +61,7 @@
       "event_period_raw": "2026/02/26 (Thu) 10:00 ~ 2026/03/18 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Earn EXP while doing absolutely nothing! Your gauge charges every hour, up to a maximum of 24 hours. Once it’s filled, you can claim EXP and you can even spend Mesos to receive double the EXP. Don’t forget to complete the daily missions to instantly recharge a set amount of Time Gauge each day. [How to Participate] ① You can participate in the event throu",
       "start_utc": "2026-02-26T18:00:00Z",
       "end_utc": "2026-03-18T17:59:00Z",
-      "first_seen_utc": "2026-03-18T14:57:41Z"
+      "first_seen_utc": "2026-03-18T15:09:27Z"
     },
     {
       "board_id": 2692,
@@ -73,7 +73,7 @@
       "event_period_raw": "2026/2/12 (Thu) After the Update – 2026/3/18 (Wed) 9:59 (Server Time) *",
       "start_utc": "2026-02-12T08:00:00Z",
       "end_utc": "2026-03-18T17:59:00Z",
-      "first_seen_utc": "2026-03-18T14:57:47Z"
+      "first_seen_utc": "2026-03-18T15:09:32Z"
     },
     {
       "board_id": 2692,
@@ -85,7 +85,7 @@
       "event_period_raw": "2026/01/15 (Thu) After the Update – 2026/03/18 (Wed) 09:59 (Server Time) * Server Time: America UTC-8 | Europe UTC+2 | Asia 1&2 UTC+8 Event Details Earn Wintry Welcome Coins by participating in the various Wintry Welcome events! You can then trade those Coins for all kinds of rewards through the Coin Shop. [How to Participate] ① You can enter the event through [Menu] > [Event] > [Wintry Welcome with Aru and Eru] or through the Coin Boost Event HUD icon at the top left of the screen. ② We have a ",
       "start_utc": "2026-01-15T08:00:00Z",
       "end_utc": "2026-03-18T17:59:00Z",
-      "first_seen_utc": "2026-03-18T14:58:04Z"
+      "first_seen_utc": "2026-03-18T15:09:48Z"
     },
     {
       "board_id": 2691,
@@ -97,7 +97,7 @@
       "event_period_raw": "In addition, to celebrate the update, a special reward is prepared for every Maplers! Enter the coupon code IMAGINEGIFT26 in the coupon window now and claim your rewards! - 🎫 Coupon Code : * For AOS/PC, you can input coupon code from [Settings]-[Account]-[Enter Coupon] * For iOS, you can input coupon code from following page : Link - 📅 Coupon Use : * 2026/01/10(Sat) After the Showcase Video – 2026/03/31(Tue) 22:59 (UTC+8) * 2026/01/10(Sat) After the Showcase Video – 2026/03/31(Tue) 21:59 (UTC+7)",
       "start_utc": "2026-01-10T08:00:00Z",
       "end_utc": "2026-04-01T06:59:00Z",
-      "first_seen_utc": "2026-03-18T14:56:53Z"
+      "first_seen_utc": "2026-03-18T15:08:40Z"
     }
   ]
 }
