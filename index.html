@@ -160,6 +160,7 @@ body {
 .tab-btn[data-tab="home"].active::after   { background: linear-gradient(90deg,var(--pink),var(--purple)); }
 .tab-btn[data-tab="discord"].active::after{ background: linear-gradient(90deg,var(--pink),var(--purple)); }
 .tab-btn[data-tab="char"].active::after   { background: linear-gradient(90deg,var(--teal),var(--sky)); }
+.tab-btn[data-tab="links"].active::after  { background: linear-gradient(90deg,var(--yellow),var(--orange)); }
 .tab-btn[data-tab="dmg"].active::after    { background: linear-gradient(90deg,var(--green),var(--teal)); }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1419,6 +1420,9 @@ select.df-ts-input {
       <button class="tab-btn" data-tab="char" onclick="switchTab('char',this)">
         <span class="tab-icon">📝</span> Character Description Editor
       </button>
+      <button class="tab-btn" data-tab="links" onclick="switchTab('links',this)">
+        <span class="tab-icon">🔗</span> Useful Links
+      </button>
       <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this)">
         <span class="tab-icon">💥</span> DMG Calculator
       </button>
@@ -1449,6 +1453,9 @@ select.df-ts-input {
     </button>
     <button class="tab-btn" data-tab="char" onclick="switchTab('char',this);closeMobileNav()">
       <span class="tab-icon">📝</span> Character Description Editor
+    </button>
+    <button class="tab-btn" data-tab="links" onclick="switchTab('links',this);closeMobileNav()">
+      <span class="tab-icon">🔗</span> Useful Links
     </button>
     <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this);closeMobileNav()">
       <span class="tab-icon">💥</span> DMG Calculator
@@ -1496,6 +1503,13 @@ select.df-ts-input {
           <div class="card-icon icon-sky">📝</div>
           <div class="card-name">Character Description Editor</div>
           <div class="card-desc">Build MapleStory M character captions with [b][i][u][s] + [rrggbb], 60-char limit, and live preview.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-yellow" onclick="switchTab('links', document.querySelector('[data-tab=links]'))">
+          <div class="card-icon icon-yellow">🔗</div>
+          <div class="card-name">Useful Links</div>
+          <div class="card-desc">Quick-access links for MapleStory M news, events, patch notes, market, probabilities and official channels.</div>
           <span class="card-arrow">→</span>
         </div>
 
@@ -1730,6 +1744,23 @@ select.df-ts-input {
         <div class="df-output-wrap">
           <textarea id="cd-output" readonly placeholder="Encoded description will appear here…"></textarea>
           <button class="df-copy-btn" id="cdCopyBtn" onclick="cdCopy()">📋 Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ USEFUL LINKS ════════ -->
+    <section class="tab-section" id="tab-links">
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-yellow-s"></div> Useful MapleStory M Links</div>
+        <div style="display:grid;gap:10px;">
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="https://forum.nexon.com/MapleStoryMGlobal/board_list?board=2680&pageNo=1" target="_blank" rel="noopener">📌 MapleStory M News Hub</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="https://forum.nexon.com/MapleStoryMGlobal/board_list?board=2691&pageNo=1" target="_blank" rel="noopener">📢 Announcements</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="https://forum.nexon.com/MapleStoryMGlobal/board_list?board=2692&pageNo=1" target="_blank" rel="noopener">🎉 Events</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="https://forum.nexon.com/MapleStoryMGlobal/board_list?board=2693&pageNo=1" target="_blank" rel="noopener">🛒 Mapletown Market</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&" target="_blank" rel="noopener">🎲 Official Probability Page</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="Calc/MSMevents.json" target="_blank" rel="noopener">🧾 MeccStoryM Events Feed (JSON)</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="Calc/MSMprobabilities.json" target="_blank" rel="noopener">🧾 MeccStoryM Probabilities Feed (JSON)</a>
+          <a class="ev-nexon-link" style="display:block;font-size:14px;" href="https://discord.gg/playmaplem" target="_blank" rel="noopener">💬 Official MapleStory M Discord</a>
         </div>
       </div>
     </section>
