@@ -2580,13 +2580,26 @@ function uiRenderTable(){
   if (!bar || !wrap) return;
   bar.innerHTML = `Showing <strong>${rows.length}</strong> of <strong>${UI_BOSS_ROWS.length}</strong> bosses`;
 
-  const head = `<thead><tr><th>Boss</th><th>Total Boss HP (in bil)</th><th>DMG Required (in bil)</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>Contribution Required</th></tr></thead>`;
-  const body = rows.map(r => `<tr>
-    <td>${r.boss}</td><td>${uiFmt(r.hp)}</td><td>${uiFmt(r.req)}</td><td>${uiFmt(r.p2)}</td><td>${uiFmt(r.p3)}</td><td>${uiFmt(r.p4)}</td><td>${uiFmt(r.p5)}</td><td>${uiFmt(r.p6)}</td><td>${uiFmt(r.p7)}</td><td>${uiFmt(r.p8)}</td><td>${uiFmt(r.p9)}</td><td>${r.contrib}</td>
-  </tr>`).join('');
+  const cards = rows.map(r => {
+    const party = `<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px;">`
+      + [2,3,4,5,6,7,8,9].map(n => `<div style="background:#faf8ff;border:1px solid #efe6ff;border-radius:8px;padding:6px 8px;text-align:center;">
+          <div style="font-size:10px;color:var(--text-dim);font-weight:800;">${n}P</div>
+          <div style="font-size:12px;color:var(--purple);font-weight:800;">${uiFmt(r['p'+n])}</div>
+        </div>`).join('')
+      + `</div>`;
+
+    return `<div style="border:1px solid #eee3ff;border-radius:12px;padding:10px 12px;background:white;box-shadow:var(--shadow);margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;">
+        <div style="font-weight:800;font-size:15px;">${r.boss}</div>
+        <div style="font-size:11px;color:var(--text-dim);font-weight:800;">HP ${uiFmt(r.hp)} bil · Req ${uiFmt(r.req)} bil</div>
+      </div>
+      ${party}
+      <div style="margin-top:8px;font-size:11px;color:var(--text-dim);font-weight:700;">${r.contrib}</div>
+    </div>`;
+  }).join('');
 
   wrap.innerHTML = rows.length
-    ? `<div style="overflow:auto;max-height:60vh;"><table class="pr-table">${head}<tbody>${body}</tbody></table></div>`
+    ? `<div style="max-height:68vh;overflow:auto;padding:2px;">${cards}</div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
 }
 uiRenderTable();
