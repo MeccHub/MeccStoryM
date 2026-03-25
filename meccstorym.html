@@ -1815,7 +1815,7 @@ select.df-ts-input {
         <div class="df-note" style="margin-bottom:10px;">Upload a result screen screenshot containing <b>Duration</b> and <b>Mesos Earned</b>. OCR runs locally in your browser.</div>
 
         <div class="grid2" style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:end;">
-          <input id="mesoFile" type="file" accept="image/*" multiple />
+          <input id="mesoFile" type="file" accept="image/*" multiple onchange="mesoOnFilesSelected()" />
           <button class="df-copy-btn" style="width:auto;" onclick="mesoExtractFromUpload()">Extract</button>
           <button class="df-copy-btn" style="width:auto;background:#2a8f56;border-color:#2a8f56;" onclick="mesoCalculateQuick()">Calculate</button>
           <button class="df-copy-btn" style="width:auto;background:#334070;border-color:#4a5a97;" onclick="mesoApplyManual()">Apply Manual</button>
@@ -2755,6 +2755,22 @@ function mesoApplyManual(){
   const rows = (mesoLastParsed && mesoLastParsed.length) ? [...mesoLastParsed, row] : [row];
   mesoLastParsed = rows;
   mesoRenderRows(rows);
+}
+
+function mesoOnFilesSelected(){
+  const fileEl=document.getElementById('mesoFile');
+  const resultBar=document.getElementById('mesoResultBar');
+  const prevWrap=document.getElementById('mesoPreviewWrap');
+  const prev=document.getElementById('mesoPreview');
+  if(!fileEl.files || !fileEl.files.length){
+    resultBar.innerHTML='No file selected.';
+    return;
+  }
+  prev.src = URL.createObjectURL(fileEl.files[0]);
+  prevWrap.style.display='block';
+  resultBar.innerHTML=`Selected <strong>${fileEl.files.length}</strong> file(s). Running OCR…`;
+  // auto-run for better UX
+  mesoExtractFromUpload();
 }
 
 function mesoInitPaste(){
