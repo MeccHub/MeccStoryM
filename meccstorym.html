@@ -1814,9 +1814,15 @@ select.df-ts-input {
         <div class="df-panel-title"><div class="df-dot dot-green-s"></div> Meso/hr Calculator</div>
         <div class="df-note" style="margin-bottom:10px;">Upload a result screen screenshot containing <b>Duration</b> and <b>Mesos Earned</b>. OCR runs locally in your browser.</div>
 
-        <div class="grid2" style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;">
-          <input id="mesoFile" type="file" accept="image/*" />
+        <div class="grid2" style="display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end;">
+          <input id="mesoFile" type="file" accept="image/*" multiple />
           <button class="df-copy-btn" style="width:auto;" onclick="mesoExtractFromUpload()">Extract</button>
+          <button class="df-copy-btn" style="width:auto;background:#334070;border-color:#4a5a97;" onclick="mesoApplyManual()">Apply Manual</button>
+        </div>
+
+        <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+          <input id="mesoManualDuration" class="pr-ctrl-input" placeholder="Manual Duration HH:MM:SS" />
+          <input id="mesoManualMesos" class="pr-ctrl-input" placeholder="Manual Mesos Earned (e.g. 12,345,678)" />
         </div>
 
         <div id="mesoPreviewWrap" style="margin-top:10px;display:none;">
@@ -2635,6 +2641,7 @@ uiRenderTable();
    MESO/HR CALCULATOR
 ═══════════════════════════════════════════════════════ */
 let mesoOCRReady = false;
+let mesoLastParsed = null;
 async function mesoEnsureOCR(){
   if (mesoOCRReady && window.Tesseract) return true;
   if (!window.Tesseract){
@@ -2660,47 +2667,66 @@ function mesoParseMesos(txt){
   return parseInt(m[1].replace(/,/g,''),10);
 }
 function mesoFmt(n){ return Number(n||0).toLocaleString(); }
+function mesoRenderRows(rows){
+  const resultBar=document.getElementById('mesoResultBar');
+  const resultTable=document.getElementById('mesoResultTable');
+  if(!rows.length){ resultBar.innerHTML='No readable entries yet.'; resultTable.innerHTML=''; return; }
+  const avg = rows.reduce((a,b)=>a+b.mph,0)/rows.length;
+  resultBar.innerHTML = `Processed <strong>${rows.length}</strong> screenshot(s) · Average mesos/hr <strong>${mesoFmt(Math.round(avg))}</strong>`;
+  const body = rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${r.duration.raw}</td><td>${mesoFmt(r.mesos)}</td><td><strong>${mesoFmt(Math.round(r.mph))}</strong></td></tr>`).join('');
+  resultTable.innerHTML = `<table class="pr-table"><thead><tr><th>#</th><th>File</th><th>Duration</th><th>Mesos Earned</th><th>Mesos / Hour</th></tr></thead><tbody>${body}</tbody></table>`;
+}
 
 async function mesoExtractFromUpload(){
   const fileEl=document.getElementById('mesoFile');
-  const resultBar=document.getElementById('mesoResultBar');
-  const resultTable=document.getElementById('mesoResultTable');
   const ocrText=document.getElementById('mesoOCRText');
   const prevWrap=document.getElementById('mesoPreviewWrap');
   const prev=document.getElementById('mesoPreview');
+  const resultBar=document.getElementById('mesoResultBar');
 
-  if(!fileEl.files || !fileEl.files[0]){ resultBar.textContent='Please choose an image first.'; return; }
-  const f=fileEl.files[0];
-  prev.src = URL.createObjectURL(f); prevWrap.style.display='block';
-
-  resultBar.innerHTML='Reading screenshot with OCR…';
-  resultTable.innerHTML='';
+  if(!fileEl.files || !fileEl.files.length){ resultBar.textContent='Please choose image(s) first.'; return; }
+  const files = Array.from(fileEl.files);
+  prev.src = URL.createObjectURL(files[0]); prevWrap.style.display='block';
   ocrText.value='';
+  resultBar.innerHTML='Reading screenshot(s) with OCR…';
 
   try{
     await mesoEnsureOCR();
-    const out = await window.Tesseract.recognize(f, 'eng');
-    const txt = out?.data?.text || '';
-    ocrText.value = txt;
-
-    const dur = mesoParseDuration(txt);
-    const mesos = mesoParseMesos(txt);
-
-    if(!dur || !mesos || !dur.sec){
-      resultBar.innerHTML='Could not reliably detect Duration and/or Mesos Earned. Try a clearer screenshot.';
+    const rows=[];
+    for(const f of files){
+      const out = await window.Tesseract.recognize(f, 'eng');
+      const txt = out?.data?.text || '';
+      ocrText.value += `\n\n===== ${f.name} =====\n${txt}`;
+      const dur = mesoParseDuration(txt);
+      const mesos = mesoParseMesos(txt);
+      if(dur && mesos && dur.sec){
+        rows.push({name:f.name, duration:dur, mesos, mph:mesos/(dur.sec/3600)});
+      }
+    }
+    mesoLastParsed = rows;
+    if(!rows.length){
+      resultBar.innerHTML='Could not reliably detect Duration and/or Mesos Earned from selected images.';
       return;
     }
-
-    const mph = mesos / (dur.sec/3600);
-    resultBar.innerHTML='Extraction complete ✅';
-    resultTable.innerHTML = `<table class="pr-table"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
-      <tr><td>Duration</td><td>${dur.raw}</td></tr>
-      <tr><td>Mesos Earned</td><td>${mesoFmt(mesos)}</td></tr>
-      <tr><td>Mesos / Hour</td><td><strong>${mesoFmt(Math.round(mph))}</strong></td></tr>
-    </tbody></table>`;
+    mesoRenderRows(rows);
   }catch(e){
     resultBar.innerHTML='OCR failed: ' + (e?.message || e);
   }
+}
+
+function mesoApplyManual(){
+  const d=(document.getElementById('mesoManualDuration').value||'').trim();
+  const m=(document.getElementById('mesoManualMesos').value||'').replace(/,/g,'').trim();
+  const dur = mesoParseDuration('Duration '+d);
+  const mesos = parseInt(m,10);
+  if(!dur || !mesos || !dur.sec){
+    document.getElementById('mesoResultBar').innerHTML='Manual values invalid. Use HH:MM:SS and a numeric mesos value.';
+    return;
+  }
+  const row = {name:'Manual entry', duration:dur, mesos, mph:mesos/(dur.sec/3600)};
+  const rows = (mesoLastParsed && mesoLastParsed.length) ? [...mesoLastParsed, row] : [row];
+  mesoLastParsed = rows;
+  mesoRenderRows(rows);
 }
 
 /* ═══════════════════════════════════════════════════════
