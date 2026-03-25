@@ -295,10 +295,19 @@ body {
   color: var(--purple-dark); font-family: 'Consolas', 'Courier New', monospace;
 }
 
-@media(max-width:600px) {
+@media(max-width:700px) {
+  #dmg-content { padding: 14px 10px 26px !important; }
+  .dmg-grid { grid-template-columns: 1fr; gap: 10px; }
+  .dmg-panel { padding: 14px 12px; border-radius: 12px; margin-bottom: 10px; }
+  .dmg-panel-title { font-size: 15px; margin-bottom: 10px; }
   .dmg-form { grid-template-columns: 1fr; }
   .dmg-opt-form { grid-template-columns: 1fr; }
-  .dmg-kpi-grid { grid-template-columns: 1fr 1fr; }
+  .dmg-kpi-grid { grid-template-columns: 1fr; gap: 8px; }
+  .dmg-btn-row { gap: 8px; }
+  .dmg-btn, .dmg-btn-alt { width: 100%; justify-content: center; text-align: center; }
+  .dmg-upload { padding: 10px; }
+  .dmg-formula { padding: 10px 12px; }
+  .dmg-formula pre { font-size: 11px; line-height: 1.5; }
 }
 
 .tab-icon { font-size: 16px; }
