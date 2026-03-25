@@ -1819,6 +1819,9 @@ select.df-ts-input {
           <button class="df-copy-btn" style="width:auto;" onclick="mesoExtractFromUpload()">Extract</button>
           <button class="df-copy-btn" style="width:auto;background:#334070;border-color:#4a5a97;" onclick="mesoApplyManual()">Apply Manual</button>
         </div>
+        <div id="mesoPasteHint" tabindex="0" style="margin-top:8px;border:1px dashed #4a5a97;border-radius:8px;padding:8px 10px;font-size:12px;color:var(--text-dim);">
+          📋 Paste image here (Ctrl+V / Cmd+V) or use file picker.
+        </div>
 
         <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
           <input id="mesoManualDuration" class="pr-ctrl-input" placeholder="Manual Duration HH:MM:SS" />
@@ -2642,6 +2645,7 @@ uiRenderTable();
 ═══════════════════════════════════════════════════════ */
 let mesoOCRReady = false;
 let mesoLastParsed = null;
+let mesoPastedFiles = [];
 async function mesoEnsureOCR(){
   if (mesoOCRReady && window.Tesseract) return true;
   if (!window.Tesseract){
@@ -2684,8 +2688,9 @@ async function mesoExtractFromUpload(){
   const prev=document.getElementById('mesoPreview');
   const resultBar=document.getElementById('mesoResultBar');
 
-  if(!fileEl.files || !fileEl.files.length){ resultBar.textContent='Please choose image(s) first.'; return; }
-  const files = Array.from(fileEl.files);
+  const picked = (fileEl.files && fileEl.files.length) ? Array.from(fileEl.files) : [];
+  const files = [...picked, ...mesoPastedFiles];
+  if(!files.length){ resultBar.textContent='Please choose or paste image(s) first.'; return; }
   prev.src = URL.createObjectURL(files[0]); prevWrap.style.display='block';
   ocrText.value='';
   resultBar.innerHTML='Reading screenshot(s) with OCR…';
@@ -2728,6 +2733,32 @@ function mesoApplyManual(){
   mesoLastParsed = rows;
   mesoRenderRows(rows);
 }
+
+function mesoInitPaste(){
+  const hint=document.getElementById('mesoPasteHint');
+  if(!hint || hint.dataset.ready==='1') return;
+  hint.dataset.ready='1';
+  const onPaste = (e) => {
+    const items = e.clipboardData && e.clipboardData.items ? Array.from(e.clipboardData.items) : [];
+    const imgItem = items.find(i => i.type && i.type.startsWith('image/'));
+    if(!imgItem) return;
+    const blob = imgItem.getAsFile();
+    if(!blob) return;
+    const f = new File([blob], `pasted-${Date.now()}.png`, {type: blob.type || 'image/png'});
+    mesoPastedFiles.push(f);
+    const prevWrap=document.getElementById('mesoPreviewWrap');
+    const prev=document.getElementById('mesoPreview');
+    prev.src = URL.createObjectURL(f); prevWrap.style.display='block';
+    document.getElementById('mesoResultBar').innerHTML = `Pasted image added (${mesoPastedFiles.length} pasted). Click Extract.`;
+    e.preventDefault();
+  };
+  hint.addEventListener('paste', onPaste);
+  document.addEventListener('paste', (e)=>{
+    const tab = document.getElementById('tab-meso');
+    if(tab && tab.classList.contains('active')) onPaste(e);
+  });
+}
+mesoInitPaste();
 
 /* ═══════════════════════════════════════════════════════
    DMG CALCULATOR
