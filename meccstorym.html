@@ -1814,9 +1814,10 @@ select.df-ts-input {
         <div class="df-panel-title"><div class="df-dot dot-green-s"></div> Meso/hr Calculator</div>
         <div class="df-note" style="margin-bottom:10px;">Upload a result screen screenshot containing <b>Duration</b> and <b>Mesos Earned</b>. OCR runs locally in your browser.</div>
 
-        <div class="grid2" style="display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end;">
+        <div class="grid2" style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:end;">
           <input id="mesoFile" type="file" accept="image/*" multiple />
           <button class="df-copy-btn" style="width:auto;" onclick="mesoExtractFromUpload()">Extract</button>
+          <button class="df-copy-btn" style="width:auto;background:#2a8f56;border-color:#2a8f56;" onclick="mesoCalculateQuick()">Calculate</button>
           <button class="df-copy-btn" style="width:auto;background:#334070;border-color:#4a5a97;" onclick="mesoApplyManual()">Apply Manual</button>
         </div>
         <div id="mesoPasteHint" tabindex="0" style="margin-top:8px;border:1px dashed #4a5a97;border-radius:8px;padding:8px 10px;font-size:12px;color:var(--text-dim);">
@@ -2717,6 +2718,28 @@ async function mesoExtractFromUpload(){
   }catch(e){
     resultBar.innerHTML='OCR failed: ' + (e?.message || e);
   }
+}
+
+function mesoCalculateQuick(){
+  const d=(document.getElementById('mesoManualDuration').value||'').trim();
+  const m=(document.getElementById('mesoManualMesos').value||'').replace(/,/g,'').trim();
+  if(d && m){
+    const dur = mesoParseDuration('Duration '+d);
+    const mesos = parseInt(m,10);
+    if(!dur || !mesos || !dur.sec){
+      document.getElementById('mesoResultBar').innerHTML='Manual values invalid. Use HH:MM:SS and a numeric mesos value.';
+      return;
+    }
+    const mph = mesos/(dur.sec/3600);
+    document.getElementById('mesoResultBar').innerHTML='Manual calculation complete ✅';
+    document.getElementById('mesoResultTable').innerHTML = `<table class="pr-table"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Duration</td><td>${dur.raw}</td></tr><tr><td>Mesos Earned</td><td>${mesoFmt(mesos)}</td></tr><tr><td>Mesos / Hour</td><td><strong>${mesoFmt(Math.round(mph))}</strong></td></tr></tbody></table>`;
+    return;
+  }
+  if(mesoLastParsed && mesoLastParsed.length){
+    mesoRenderRows(mesoLastParsed);
+    return;
+  }
+  document.getElementById('mesoResultBar').innerHTML='Nothing to calculate yet. Upload/paste screenshots or enter manual values.';
 }
 
 function mesoApplyManual(){
