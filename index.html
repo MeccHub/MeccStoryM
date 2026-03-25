@@ -2241,7 +2241,9 @@ Per-line    = Total ÷ HitCount</pre>
 /* ═══════════════════════════════════════════════════════
    TAB SWITCHING
 ═══════════════════════════════════════════════════════ */
-function switchTab(id, btn) {
+let currentTab = 'home';
+
+function switchTab(id, btn, fromPop = false) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   const mainContent    = document.querySelector('.content');
@@ -2270,7 +2272,24 @@ function switchTab(id, btn) {
   document.querySelectorAll('.mobile-nav .tab-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.tab === id);
   });
+
+  // Back-button behavior: tab -> home instead of leaving site
+  if (!fromPop && id !== currentTab) {
+    history.pushState({ tab: id }, '', '#'+id);
+  }
+  currentTab = id;
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.addEventListener('popstate', (e) => {
+  const tab = e.state && e.state.tab ? e.state.tab : 'home';
+  const btn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+  switchTab(tab, btn, true);
+});
+
+if (!history.state || !history.state.tab) {
+  history.replaceState({ tab: 'home' }, '', '#home');
 }
 
 /* ═══════════════════════════════════════════════════════
