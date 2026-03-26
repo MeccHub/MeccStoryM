@@ -1453,8 +1453,8 @@ select.df-ts-input {
       <button class="tab-btn" data-tab="events" onclick="switchTab('events',this)">
         <span class="tab-icon">🎉</span> Events
       </button>
-      <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this)">
-        <span class="tab-icon">🎲</span> Item Probabilities
+      <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this)" style="opacity:.65;">
+        <span class="tab-icon">🎲</span> Item Probabilities (incomplete)
       </button>
     </nav>
 
@@ -1496,8 +1496,8 @@ select.df-ts-input {
     <button class="tab-btn" data-tab="events" onclick="switchTab('events',this);closeMobileNav()">
       <span class="tab-icon">🎉</span> Events
     </button>
-    <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this);closeMobileNav()">
-      <span class="tab-icon">🎲</span> Item Probabilities
+    <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this);closeMobileNav()" style="opacity:.65;">
+      <span class="tab-icon">🎲</span> Item Probabilities (incomplete)
     </button>
   </div>
 
@@ -1578,9 +1578,9 @@ select.df-ts-input {
           <span class="card-arrow">→</span>
         </div>
 
-        <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))">
+        <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))" style="opacity:.7;">
           <div class="card-icon icon-purple">🎲</div>
-          <div class="card-name">Item Probabilities</div>
+          <div class="card-name">Item Probabilities (incomplete)</div>
           <div class="card-desc">Browse all active gacha & box drop rates. Search by item name, filter by rank, type or job — way better than Nexon's page.</div>
           <span class="card-arrow">→</span>
         </div>
@@ -2136,7 +2136,7 @@ select.df-ts-input {
 
     <div class="pr-topbar">
       <div>
-        <div class="pr-title">🎲 Item Probabilities</div>
+        <div class="pr-title">🎲 Item Probabilities <span style="font-size:12px;color:var(--text-dim);font-family:'Nunito',sans-serif;">(incomplete)</span></div>
         <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="prMetaText">Loading probability data…</span></div>
       </div>
       <button class="pr-refresh-btn" id="prRefreshBtn" onclick="prLoad(true)"><span id="prRefreshIcon">🔄</span> Refresh</button>
