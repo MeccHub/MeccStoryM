@@ -2891,8 +2891,13 @@ function beCalculate(){
   let mpHigh = beNum('beMpHigh', 3734);
   if(mpLow > mpHigh){ const t=mpLow; mpLow=mpHigh; mpHigh=t; }
 
-  const mesosPerMpLow = 100000000 / mpHigh; // better mp rate => lower mesos/mp
-  const mesosPerMpHigh = 100000000 / mpLow; // worse mp rate => higher mesos/mp
+  // 1% fee when buying Maple Points with mesos
+  const feeMultiplier = 0.99;
+  const mpLowEff = mpLow * feeMultiplier;
+  const mpHighEff = mpHigh * feeMultiplier;
+
+  const mesosPerMpLow = 100000000 / mpHighEff; // better effective MP rate => lower mesos/mp
+  const mesosPerMpHigh = 100000000 / mpLowEff; // worse effective MP rate => higher mesos/mp
 
   const rows = BE_PACKS.map(p=>{
     const mpPerCrystal = p.mp / p.crystals;
@@ -2916,7 +2921,7 @@ function beCalculate(){
 
   document.getElementById('beSummary').innerHTML =
     `<div>Best pack right now: <strong>${best.name}</strong> (${best.mpPerCrystal.toFixed(3)} MP/crystal)</div>` +
-    `<div>Breakeven MP rate: <strong>${mpPer100mBreakEven.toFixed(0)} MP per 100m</strong></div>` +
+    `<div>Breakeven MP rate (after 1% fee): <strong>${mpPer100mBreakEven.toFixed(0)} MP per 100m</strong></div>` +
     `<div>Breakeven TS price for this item: <strong>${beFmt(Math.round(tsBreakEvenLow))} ~ ${beFmt(Math.round(tsBreakEvenHigh))} mesos</strong></div>` +
     `<div>Breakeven TS (per 1m): <strong>${tsBreakEvenPer1mLow.toFixed(2)} ~ ${tsBreakEvenPer1mHigh.toFixed(2)}</strong></div>`;
 
