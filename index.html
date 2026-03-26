@@ -163,6 +163,7 @@ body {
 .tab-btn[data-tab="links"].active::after  { background: linear-gradient(90deg,var(--yellow),var(--orange)); }
 .tab-btn[data-tab="info"].active::after   { background: linear-gradient(90deg,var(--orange),var(--red)); }
 .tab-btn[data-tab="meso"].active::after   { background: linear-gradient(90deg,var(--green),var(--yellow)); }
+.tab-btn[data-tab="breakeven"].active::after { background: linear-gradient(90deg,var(--purple),var(--pink)); }
 .tab-btn[data-tab="dmg"].active::after    { background: linear-gradient(90deg,var(--green),var(--teal)); }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1440,6 +1441,9 @@ select.df-ts-input {
       <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this)">
         <span class="tab-icon">💰</span> Meso/hr Calculator
       </button>
+      <button class="tab-btn" data-tab="breakeven" onclick="switchTab('breakeven',this)">
+        <span class="tab-icon">📈</span> Breakeven Calculator
+      </button>
       <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this)">
         <span class="tab-icon">💥</span> DMG Calculator
       </button>
@@ -1479,6 +1483,9 @@ select.df-ts-input {
     </button>
     <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this);closeMobileNav()">
       <span class="tab-icon">💰</span> Meso/hr Calculator
+    </button>
+    <button class="tab-btn" data-tab="breakeven" onclick="switchTab('breakeven',this);closeMobileNav()">
+      <span class="tab-icon">📈</span> Breakeven Calculator
     </button>
     <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this);closeMobileNav()">
       <span class="tab-icon">💥</span> DMG Calculator
@@ -1547,6 +1554,13 @@ select.df-ts-input {
           <div class="card-icon icon-green">💰</div>
           <div class="card-name">Meso/hr Calculator</div>
           <div class="card-desc">Upload your MapleStory M clear/result screenshot and auto-calculate mesos earned per hour.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-purple" onclick="switchTab('breakeven', document.querySelector('[data-tab=breakeven]'))">
+          <div class="card-icon icon-purple">📈</div>
+          <div class="card-name">Breakeven Calculator</div>
+          <div class="card-desc">Compare Trade Station meso price vs crystal route with fixed MP pack rates.</div>
           <span class="card-arrow">→</span>
         </div>
 
@@ -1849,6 +1863,35 @@ select.df-ts-input {
           <summary style="cursor:pointer;color:var(--text-dim);font-size:12px;">Show OCR text</summary>
           <textarea id="mesoOCRText" readonly style="margin-top:6px;width:100%;min-height:110px;background:#111a2e;color:#dbe2ff;border:1px solid #2f3a66;border-radius:8px;padding:8px;"></textarea>
         </details>
+      </div>
+    </section>
+
+    <section class="tab-section" id="tab-breakeven">
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-purple-s"></div> Crystal vs Meso Breakeven</div>
+        <div class="df-note" style="margin-bottom:10px;">MP pack rates are fixed and auto-calculated. Only market inputs fluctuate.</div>
+
+        <div class="pr-controls">
+          <div class="pr-ctrl-field">
+            <div class="pr-ctrl-label">Item Crystal Cost</div>
+            <input class="pr-ctrl-input" id="beCrystalCost" type="number" step="1" value="500" oninput="beCalculate()" />
+          </div>
+          <div class="pr-ctrl-field">
+            <div class="pr-ctrl-label">Trade Station Price (mesos)</div>
+            <input class="pr-ctrl-input" id="beTsPrice" type="number" step="1" value="650000000" oninput="beCalculate()" />
+          </div>
+          <div class="pr-ctrl-field">
+            <div class="pr-ctrl-label">MP per 100m (low)</div>
+            <input class="pr-ctrl-input" id="beMpLow" type="number" step="1" value="3394" oninput="beCalculate()" />
+          </div>
+          <div class="pr-ctrl-field">
+            <div class="pr-ctrl-label">MP per 100m (high)</div>
+            <input class="pr-ctrl-input" id="beMpHigh" type="number" step="1" value="3734" oninput="beCalculate()" />
+          </div>
+        </div>
+
+        <div class="pr-results-bar" id="beSummary" style="margin-top:10px;"></div>
+        <div class="pr-table-wrap" id="bePackTable"></div>
       </div>
     </section>
   </div><!-- /content -->
@@ -2826,6 +2869,65 @@ function mesoInitPaste(){
   });
 }
 mesoInitPaste();
+
+/* ═══════════════════════════════════════════════════════
+   BREAKEVEN CALCULATOR
+═══════════════════════════════════════════════════════ */
+const BE_PACKS = [
+  { name:'5,000 MP pack', mp:5000, crystals:160 },
+  { name:'10,000 MP pack', mp:10000, crystals:340 },
+  { name:'20,000 MP pack', mp:20000, crystals:700 },
+  { name:'50,000 MP pack', mp:50000, crystals:1800 },
+];
+
+function beNum(id, d=0){ const v=Number(document.getElementById(id)?.value||d); return Number.isFinite(v)?v:d; }
+function beFmt(n){ return Number(n||0).toLocaleString(); }
+
+function beCalculate(){
+  const crystalCost = beNum('beCrystalCost', 500);
+  const tsPrice = beNum('beTsPrice', 650000000);
+  let mpLow = beNum('beMpLow', 3394);
+  let mpHigh = beNum('beMpHigh', 3734);
+  if(mpLow > mpHigh){ const t=mpLow; mpLow=mpHigh; mpHigh=t; }
+
+  const mesosPerMpLow = 100000000 / mpHigh; // better mp rate => lower mesos/mp
+  const mesosPerMpHigh = 100000000 / mpLow; // worse mp rate => higher mesos/mp
+
+  const rows = BE_PACKS.map(p=>{
+    const mpPerCrystal = p.mp / p.crystals;
+    const mpNeeded = crystalCost * mpPerCrystal;
+    const mesoViaCrystalLow = mpNeeded * mesosPerMpLow;
+    const mesoViaCrystalHigh = mpNeeded * mesosPerMpHigh;
+    const saveLow = tsPrice - mesoViaCrystalHigh;
+    const saveHigh = tsPrice - mesoViaCrystalLow;
+    return { ...p, mpPerCrystal, mpNeeded, mesoViaCrystalLow, mesoViaCrystalHigh, saveLow, saveHigh };
+  });
+
+  rows.sort((a,b)=>a.mesoViaCrystalLow - b.mesoViaCrystalLow);
+  const best = rows[0];
+
+  const mpBreakEven = tsPrice / best.mpNeeded;
+  const mpPer100mBreakEven = 100000000 / mpBreakEven;
+
+  document.getElementById('beSummary').innerHTML =
+    `Best pack right now: <strong>${best.name}</strong> (${best.mpPerCrystal.toFixed(3)} MP/crystal) · ` +
+    `Breakeven at <strong>${mpPer100mBreakEven.toFixed(0)} MP per 100m</strong>`;
+
+  const body = rows.map(r=>`<tr>
+    <td>${r.name}</td>
+    <td>${r.mp}</td>
+    <td>${r.crystals}</td>
+    <td>${r.mpPerCrystal.toFixed(4)}</td>
+    <td>${beFmt(Math.round(r.mpNeeded))}</td>
+    <td>${beFmt(Math.round(r.mesoViaCrystalLow))} ~ ${beFmt(Math.round(r.mesoViaCrystalHigh))}</td>
+    <td>${beFmt(Math.round(r.saveLow))} ~ ${beFmt(Math.round(r.saveHigh))}</td>
+  </tr>`).join('');
+
+  document.getElementById('bePackTable').innerHTML = `<table class="pr-table"><thead><tr>
+    <th>MP Pack</th><th>MP</th><th>Crystals</th><th>MP/Crystal</th><th>MP Needed</th><th>Meso via Crystals</th><th>TS - Crystal (Savings)</th>
+  </tr></thead><tbody>${body}</tbody></table>`;
+}
+beCalculate();
 
 /* ═══════════════════════════════════════════════════════
    DMG CALCULATOR
