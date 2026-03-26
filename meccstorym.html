@@ -1877,8 +1877,8 @@ select.df-ts-input {
             <input class="pr-ctrl-input" id="beCrystalCost" type="number" step="1" value="500" oninput="beCalculate()" />
           </div>
           <div class="pr-ctrl-field">
-            <div class="pr-ctrl-label">Trade Station Price (mesos)</div>
-            <input class="pr-ctrl-input" id="beTsPrice" type="number" step="1" value="650000000" oninput="beCalculate()" />
+            <div class="pr-ctrl-label">Trade Station Price (per 100m)</div>
+            <input class="pr-ctrl-input" id="beTsPrice" type="number" step="0.01" value="6.5" oninput="beCalculate()" />
           </div>
           <div class="pr-ctrl-field">
             <div class="pr-ctrl-label">MP per 100m (low)</div>
@@ -2885,7 +2885,8 @@ function beFmt(n){ return Number(n||0).toLocaleString(); }
 
 function beCalculate(){
   const crystalCost = beNum('beCrystalCost', 500);
-  const tsPrice = beNum('beTsPrice', 650000000);
+  const tsPer100m = beNum('beTsPrice', 6.5);
+  const tsPrice = tsPer100m * 100000000;
   let mpLow = beNum('beMpLow', 3394);
   let mpHigh = beNum('beMpHigh', 3734);
   if(mpLow > mpHigh){ const t=mpLow; mpLow=mpHigh; mpHigh=t; }
@@ -2908,10 +2909,16 @@ function beCalculate(){
 
   const mpBreakEven = tsPrice / best.mpNeeded;
   const mpPer100mBreakEven = 100000000 / mpBreakEven;
+  const tsBreakEvenLow = best.mpNeeded * mesosPerMpLow;
+  const tsBreakEvenHigh = best.mpNeeded * mesosPerMpHigh;
+  const tsBreakEvenPer100mLow = tsBreakEvenLow / 100000000;
+  const tsBreakEvenPer100mHigh = tsBreakEvenHigh / 100000000;
 
   document.getElementById('beSummary').innerHTML =
     `Best pack right now: <strong>${best.name}</strong> (${best.mpPerCrystal.toFixed(3)} MP/crystal) · ` +
-    `Breakeven at <strong>${mpPer100mBreakEven.toFixed(0)} MP per 100m</strong>`;
+    `Breakeven MP rate: <strong>${mpPer100mBreakEven.toFixed(0)} MP per 100m</strong><br>` +
+    `Breakeven TS price for this item: <strong>${beFmt(Math.round(tsBreakEvenLow))} ~ ${beFmt(Math.round(tsBreakEvenHigh))} mesos</strong> ` +
+    `(<strong>${tsBreakEvenPer100mLow.toFixed(2)} ~ ${tsBreakEvenPer100mHigh.toFixed(2)} per 100m</strong>)`;
 
   const diffCell = (low, high) => {
     const avg = (low + high) / 2;
