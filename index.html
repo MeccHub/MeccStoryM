@@ -2916,13 +2916,13 @@ function uiRenderTable(){
   if (!bar || !wrap) return;
   bar.innerHTML = `Showing <strong>${rows.length}</strong> of <strong>${UI_BOSS_ROWS.length}</strong> bosses`;
 
-  const head = `<thead><tr><th>Boss</th><th>Total Boss HP (bil)</th><th>DMG Required (bil)</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>Contribution Required</th></tr></thead>`;
+  const head = `<thead><tr><th>Boss</th><th>Total Boss HP (bil)</th><th>DMG Required (bil)</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead>`;
   const body = rows.map(r => `<tr>
-    <td>${r.boss}</td><td>${uiFmt(r.hp)}</td><td>${uiFmt(r.req)}</td><td>${uiFmt(r.p2)}</td><td>${uiFmt(r.p3)}</td><td>${uiFmt(r.p4)}</td><td>${uiFmt(r.p5)}</td><td>${uiFmt(r.p6)}</td><td>${uiFmt(r.p7)}</td><td>${uiFmt(r.p8)}</td><td>${uiFmt(r.p9)}</td><td>${r.contrib}</td>
+    <td>${r.boss}</td><td>${uiFmt(r.hp)}</td><td>${uiFmt(r.req)}</td><td>${uiFmt(r.p2)}</td><td>${uiFmt(r.p3)}</td><td>${uiFmt(r.p4)}</td><td>${uiFmt(r.p5)}</td><td>${uiFmt(r.p6)}</td><td>${uiFmt(r.p7)}</td><td>${uiFmt(r.p8)}</td><td>${uiFmt(r.p9)}</td>
   </tr>`).join('');
 
   wrap.innerHTML = rows.length
-    ? `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:150px"/><col style="width:90px"/><col style="width:95px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col/></colgroup>${head}<tbody>${body}</tbody></table></div>`
+    ? `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:150px"/><col style="width:90px"/><col style="width:95px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
 }
 uiRenderTable();
