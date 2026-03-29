@@ -1452,6 +1452,9 @@ select.df-ts-input {
       <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this)">
         <span class="tab-icon">💰</span> Meso/hr Calculator
       </button>
+      <button class="tab-btn" data-tab="mdc" onclick="switchTab('mdc',this)">
+        <span class="tab-icon">🎯</span> MDC Checker
+      </button>
       <button class="tab-btn" data-tab="breakeven" onclick="switchTab('breakeven',this)">
         <span class="tab-icon">📈</span> Maple Points vs TS Calculator
       </button>
@@ -1494,6 +1497,9 @@ select.df-ts-input {
     </button>
     <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this);closeMobileNav()">
       <span class="tab-icon">💰</span> Meso/hr Calculator
+    </button>
+    <button class="tab-btn" data-tab="mdc" onclick="switchTab('mdc',this);closeMobileNav()">
+      <span class="tab-icon">🎯</span> MDC Checker
     </button>
     <button class="tab-btn" data-tab="breakeven" onclick="switchTab('breakeven',this);closeMobileNav()">
       <span class="tab-icon">📈</span> Maple Points vs TS Calculator
@@ -1565,6 +1571,13 @@ select.df-ts-input {
           <div class="card-icon icon-green">💰</div>
           <div class="card-name">Meso/hr Calculator</div>
           <div class="card-desc">Upload your MapleStory M clear/result screenshot and auto-calculate mesos earned per hour.</div>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="tool-card card-pink" onclick="switchTab('mdc', document.querySelector('[data-tab=mdc]'))">
+          <div class="card-icon icon-pink">🎯</div>
+          <div class="card-name">MDC Checker</div>
+          <div class="card-desc">Estimate your cap-in-boss using DEF ignore, boss DEF and arcane bonus, then check if your lines are capped.</div>
           <span class="card-arrow">→</span>
         </div>
 
@@ -1948,6 +1961,33 @@ select.df-ts-input {
         <details style="margin-top:8px;">
           <summary style="cursor:pointer;color:var(--text-dim);font-size:12px;">Show OCR text</summary>
           <textarea id="mesoOCRText" readonly style="margin-top:6px;width:100%;min-height:110px;background:#111a2e;color:#dbe2ff;border:1px solid #2f3a66;border-radius:8px;padding:8px;"></textarea>
+        </details>
+      </div>
+    </section>
+
+    <section class="tab-section" id="tab-mdc">
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-pink-s"></div> MDC Checker</div>
+        <div class="df-note" style="margin-bottom:10px;">Based on your Excel calculator. Configure boss DEF, arcane bonus, and your DEF ignore sources to estimate your <b>Cap in Boss</b>.</div>
+
+        <div class="pr-controls">
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">MDC (base)</div><input class="pr-ctrl-input" id="mdcBase" type="number" step="1" value="202006599" oninput="mdcCalc()"></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Boss</div><select class="pr-ctrl-input" id="mdcBoss" onchange="mdcCalc()"></select></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Arcane Bonus</div><select class="pr-ctrl-input" id="mdcArcane" onchange="mdcCalc()"></select></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Your max line in boss (optional)</div><input class="pr-ctrl-input" id="mdcObserved" type="number" step="1" placeholder="e.g. 145000000" oninput="mdcCalc()"></div>
+        </div>
+
+        <div class="pr-results-bar" id="mdcSummary" style="margin-top:10px;"></div>
+        <div class="pr-table-wrap" id="mdcBreakdown" style="margin-top:8px;"></div>
+
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer;color:var(--text-dim);font-size:12px;">Advanced DEF Ignore Inputs</summary>
+          <div class="pr-table-wrap" style="margin-top:8px;">
+            <table class="pr-table">
+              <thead><tr><th>Piece / Source</th><th>Def Ignore %</th></tr></thead>
+              <tbody id="mdcIedRows"></tbody>
+            </table>
+          </div>
         </details>
       </div>
     </section>
@@ -4151,14 +4191,108 @@ function prClearFilters(){
   prApplyFilters();
 }
 
-</script>
-</body>
-</html>
-html>
-;
+/* ================================================================
+   MDC CHECKER (based on shared Excel logic)
+================================================================ */
+const MDC_BOSS_DEF = [
+  {name:'Ark', def:0.1},
+  {name:'NArchon', def:0.3},
+  {name:'Lotus', def:0.4},
+  {name:'Damien', def:0.4},
+  {name:'Lucid', def:0.4},
+  {name:'Gloom', def:0.4},
+  {name:'HArchon', def:0.5},
+  {name:'Will', def:0.6},
+  {name:'NVerus Hilla', def:0.6},
+  {name:'Verus Hilla', def:0.7},
+  {name:'Chaos Lucid', def:0.7},
+  {name:'Chaos Will', def:0.7},
+  {name:'Darknell', def:0.7},
+  {name:'Black Mage', def:0.8},
+];
+
+const MDC_ARCANE = [
+  {label:'1.0 (none)', bonus:0},
+  {label:'1.1', bonus:540000},
+  {label:'1.2', bonus:1080000},
+  {label:'1.3', bonus:2160000},
+  {label:'1.4', bonus:2700000},
+  {label:'1.5', bonus:5400000},
+];
+
+const MDC_IED_ROWS = [
+  {key:'Hat', val:2.4}, {key:'Outfit', val:1.8}, {key:'Glove', val:3.9},
+  {key:'Shoe', val:1.8}, {key:'Cape', val:1.8}, {key:'Belt', val:2.1},
+  {key:'Shoulder', val:2.4}, {key:'MSW', val:0}, {key:'Ark Pendant', val:2.9},
+  {key:'Gloom Ring', val:5.0}, {key:'Will Book', val:0}, {key:'Vhilla Neck', val:0},
+  {key:'Darknell Ear', val:0}, {key:'Event Buff', val:5.0}, {key:'Abso Set', val:0},
+  {key:'Arcane Set', val:0}, {key:'V Skill', val:15.0}, {key:'DS4', val:25.0}, {key:'Origin', val:0}
+];
+
+function mdcFmt(n){ return Number(n||0).toLocaleString(undefined,{maximumFractionDigits:0}); }
+
+function mdcInit(){
+  const boss=document.getElementById('mdcBoss');
+  const arc=document.getElementById('mdcArcane');
+  const rows=document.getElementById('mdcIedRows');
+  if(!boss||!arc||!rows) return;
+
+  boss.innerHTML = MDC_BOSS_DEF.map((b,i)=>`<option value="${i}" ${b.name==='Lotus'?'selected':''}>${b.name} (${Math.round(b.def*100)}% DEF)</option>`).join('');
+  arc.innerHTML = MDC_ARCANE.map((a,i)=>`<option value="${i}" ${i===2?'selected':''}>${a.label} (+${mdcFmt(a.bonus)})</option>`).join('');
+
+  rows.innerHTML = MDC_IED_ROWS.map((r,i)=>`<tr>
+    <td>${r.key}</td>
+    <td><input class="pr-ctrl-input" type="number" step="0.1" id="mdcIed_${i}" value="${r.val}" oninput="mdcCalc()"></td>
+  </tr>`).join('');
+
+  mdcCalc();
 }
+
+function mdcCalc(){
+  const base=Number(document.getElementById('mdcBase')?.value||0);
+  const boss=MDC_BOSS_DEF[Number(document.getElementById('mdcBoss')?.value||0)]||MDC_BOSS_DEF[0];
+  const arc=MDC_ARCANE[Number(document.getElementById('mdcArcane')?.value||0)]||MDC_ARCANE[0];
+  const observed=Number(document.getElementById('mdcObserved')?.value||0);
+
+  const iedParts=MDC_IED_ROWS.map((_,i)=>Math.max(0,Number(document.getElementById(`mdcIed_${i}`)?.value||0)));
+  const remainProd=iedParts.reduce((acc,p)=>acc*(1-(p/100)),1);
+  const totalIed = 1-remainProd;
+
+  const rawCap = base + arc.bonus;
+  const capInBoss = rawCap - ((rawCap*boss.def) - (((rawCap*boss.def)*totalIed)));
+
+  const pct = capInBoss>0 ? (observed/capInBoss)*100 : 0;
+  const status = observed>0
+    ? (observed >= capInBoss ? '✅ You are hitting cap (or above).' : '🟡 Not capped yet.')
+    : 'Enter your observed max line to check if capped.';
+
+  const summary=document.getElementById('mdcSummary');
+  if(summary){
+    summary.innerHTML = `
+      <span>Boss: <b>${boss.name}</b></span>
+      <span>IED: <b>${(totalIed*100).toFixed(2)}%</b></span>
+      <span>Cap in Boss: <b>${mdcFmt(capInBoss)}</b></span>
+      <span>${status}</span>
+    `;
+  }
+
+  const bd=document.getElementById('mdcBreakdown');
+  if(bd){
+    bd.innerHTML = `<table class="pr-table"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+      <tr><td>MDC (base)</td><td>${mdcFmt(base)}</td></tr>
+      <tr><td>Arcane Bonus</td><td>${mdcFmt(arc.bonus)}</td></tr>
+      <tr><td>Raw Cap (MDC + Arcane)</td><td>${mdcFmt(rawCap)}</td></tr>
+      <tr><td>Boss DEF used</td><td>${(boss.def*100).toFixed(1)}%</td></tr>
+      <tr><td>Total DEF Ignore (DIR/IED)</td><td>${(totalIed*100).toFixed(2)}%</td></tr>
+      <tr><td><b>Cap in Boss</b></td><td><b>${mdcFmt(capInBoss)}</b></td></tr>
+      <tr><td>Your observed max line</td><td>${observed?mdcFmt(observed):'—'}</td></tr>
+      <tr><td>Observed vs Cap</td><td>${observed?pct.toFixed(2)+'%':'—'}</td></tr>
+    </tbody></table>`;
+  }
+}
+
+setTimeout(mdcInit, 0);
 
 </script>
 </body>
 </html>
-html>
