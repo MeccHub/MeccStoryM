@@ -4474,7 +4474,17 @@ function ggInit() {
   const cat = document.getElementById('ggCategory');
   if (!cat) return;
   const cats = [...new Set(GG_GUIDES.map(x=>x.boardTitle).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  cat.innerHTML = '<option value="">All categories</option>' + cats.map(c=>`<option value="${prEsc(c)}">${prEsc(c)}</option>`).join('');
+  cat.innerHTML = '';
+  const allOpt = document.createElement('option');
+  allOpt.value = '';
+  allOpt.textContent = 'All categories';
+  cat.appendChild(allOpt);
+  cats.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c;
+    o.textContent = c;
+    cat.appendChild(o);
+  });
   ggInitDone = true;
   ggRender();
 }
