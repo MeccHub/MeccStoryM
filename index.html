@@ -4541,6 +4541,13 @@ function ggInit() {
   ggInitDone = true;
   ggRender();
 }
+function ggDate(v){
+  const n = Number(v);
+  if (Number.isFinite(n) && n > 1000000000) return new Date(n * 1000).toISOString().slice(0,10);
+  const s = String(v||'');
+  return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0,10) : '';
+}
+
 function ggRender() {
   const q = (document.getElementById('ggSearch')?.value || '').toLowerCase().trim();
   const c = (document.getElementById('ggCategory')?.value || '').trim();
@@ -4550,6 +4557,7 @@ function ggRender() {
     const hay = `${x.title} ${x.boardTitle} ${x.summary}`.toLowerCase();
     return hay.includes(q);
   });
+
   const bar = document.getElementById('ggResultsBar');
   const wrap = document.getElementById('ggTableWrap');
   if (!bar || !wrap) return;
@@ -4558,8 +4566,24 @@ function ggRender() {
     wrap.innerHTML = '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching guide topics</div></div>';
     return;
   }
-  const body = rows.map((r,i)=>`<tr><td>${i+1}</td><td>${prEsc(r.boardTitle||'—')}</td><td><a class="ev-nexon-link" href="${prEsc(r.url)}" target="_blank" rel="noopener">${prEsc(r.title)}</a><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${prEsc(r.summary||'')}</div></td><td>${prEsc((r.createDate||'').slice(0,10))}</td></tr>`).join('');
-  wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;"><thead><tr><th style="width:56px;">#</th><th style="width:220px;">Category</th><th>Topic</th><th style="width:120px;">Date</th></tr></thead><tbody>${body}</tbody></table></div>`;
+
+  const groups = {};
+  rows.forEach(r=>{ const k=r.boardTitle||'Other'; (groups[k] ||= []).push(r); });
+  const sortedCats = Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+
+  const html = sortedCats.map(cat=>{
+    const items = groups[cat].map(r=>`<li style="margin:6px 0;">
+      <a class="ev-nexon-link" href="${prEsc(r.url)}" target="_blank" rel="noopener">${prEsc(r.title)}</a>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${prEsc(r.summary||'')}</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:2px;">${prEsc(ggDate(r.createDate))}</div>
+    </li>`).join('');
+    return `<details open style="border:1px solid #ede0ff;border-radius:10px;background:#fff;padding:8px 10px;">
+      <summary style="cursor:pointer;font-weight:800;">${prEsc(cat)} (${groups[cat].length})</summary>
+      <ul style="margin:8px 0 2px 16px;padding:0;">${items}</ul>
+    </details>`;
+  }).join('');
+
+  wrap.innerHTML = `<div style="display:grid;gap:8px;max-height:70vh;overflow:auto;">${html}</div>`;
 }
 
 /* ================================================================
