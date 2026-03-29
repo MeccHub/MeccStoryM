@@ -1486,7 +1486,7 @@ select.df-ts-input {
       <span class="tab-icon">🔗</span> Useful Links
     </button>
     <button class="tab-btn" data-tab="info" onclick="switchTab('info',this);closeMobileNav()">
-      <span class="tab-icon">📚</span> Useful Information
+      <span class="tab-icon">📚</span> FAQ
     </button>
     <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this);closeMobileNav()">
       <span class="tab-icon">💰</span> Meso/hr Calculator
@@ -1826,8 +1826,8 @@ select.df-ts-input {
       <div class="df-panel">
         <div class="df-panel-title"><div class="df-dot dot-orange-s"></div> FAQ</div>
 
-        <details open style="border:1px solid #ede0ff;border-radius:12px;background:#fff;margin-bottom:10px;overflow:hidden;">
-          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;border-bottom:1px solid #ede0ff;">Boss 2% Requirement</summary>
+        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;margin-bottom:10px;overflow:hidden;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;border-bottom:1px solid #ede0ff;">▸ Boss 2% Requirement (click to expand)</summary>
           <div style="padding:12px;">
             <div class="df-note" style="margin-bottom:10px;">Search the table below. Columns and rows mirror the provided reference chart.</div>
 
@@ -1844,9 +1844,67 @@ select.df-ts-input {
         </details>
 
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;">
-          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">FAQ — Mastercrafting (Ancient, Inherit, Necro)</summary>
-          <div style="padding:12px;">
-            <div class="df-note">Ready for your FAQ content. Send it and I’ll format it in this dropdown.</div>
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ FAQ — Mastercrafting (Ancient, Inherit, Necro) (click to expand)</summary>
+          <div style="padding:12px;display:grid;gap:10px;">
+            <div class="df-note"><b>Q:</b> What does Mastercraft do?<br><b>A:</b> Mastercraft upgrades a <b>Mythic</b> into one of two endgame paths: <b>Inherit (Ancient → Chaos → AbsoLab)</b> or <b>Necro (Ancient Necro → AbsoLab directly)</b>. This is the main progression fork in MapleStory M.</div>
+
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Role</th></tr></thead><tbody>
+              <tr><td><b>Inherit</b></td><td>Fast progression, lower RNG ceiling</td></tr>
+              <tr><td><b>Necro</b></td><td>Slow progression, higher RNG ceiling</td></tr>
+            </tbody></table></div>
+
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Upgrade</th><th>Success Rate</th></tr></thead><tbody>
+              <tr><td><b>Mythic → Inherit (Ancient)</b></td><td><b>30% (fixed)</b></td></tr>
+              <tr><td><b>Inherit → Chaos</b></td><td><b>~30% base → 40% refined</b></td></tr>
+              <tr><td><b>Mythic → Necro</b></td><td><b>4% base → 8% refined</b></td></tr>
+            </tbody></table></div>
+
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Expected attempts</th></tr></thead><tbody>
+              <tr><td>Inherit</td><td>~3–5 tries</td></tr>
+              <tr><td>Necro</td><td>~13–20+ tries (RNG heavy)</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>Q:</b> Should I refine before Mastercraft?<br><b>A:</b> It is always worth refining before a Necro attempt for added success rate.</div>
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Refinement effect</th></tr></thead><tbody>
+              <tr><td>Inherit</td><td>❌ No effect (always 30%)</td></tr>
+              <tr><td>Chaos</td><td>✅ ~+10% success</td></tr>
+              <tr><td>Necro</td><td>✅ Small boost (very important)</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>Why refinement matters for Necro:</b> base success is extremely low (4%), so even small increases bring large efficiency gains.</div>
+            <div class="df-note"><b>When refinement is NOT worth it:</b> temporary gear, Inherit-only strategy, or sell/flip gear (Chaos route).</div>
+            <div class="df-note"><b>Current meta:</b> Necro is best for endgame; Inherit is mainly a bridge/economic tool.</div>
+
+            <div class="df-note"><b>For new SOLO players:</b> refine + inherit for fast access, while building Necro in parallel as your long-term project. Don’t over-invest in inherited gear.</div>
+            <div class="df-note"><b>For new SOCIAL players:</b> if you have carries, aim for a Necro weapon ASAP to reach 2% contribution for boss loot; inherit other gear for faster survivability while progressing toward AbsoLab.</div>
+
+            <div class="df-note"><b>Main progression paths:</b><br>
+              • <b>Path A — Long-term optimal:</b> Mythic → Necro<br>
+              • <b>Path B — Safe progression:</b> Mythic → Inherit → Chaos<br>
+              • <b>Path C — Economic:</b> Inherit → Chaos → sell → buy Necro
+            </div>
+
+            <div class="df-note"><b>Q:</b> Can I skip Inherit?<br><b>A:</b> Yes. Inherit is not mandatory; it mainly accelerates progression.</div>
+
+            <div class="df-note"><b>Common mistakes:</b><br>
+              1) Over-investing in Inherit (hard transition to Necro later).<br>
+              2) Attempting Necro without scroll support (material-inefficient when attempts are limited).
+            </div>
+
+            <div class="df-note"><b>When should I attempt Necro?</b><br>Prioritize attempts when you have <b>Lucky Mastercraft Scrolls</b> (often from Path of Proof/events), because higher boosted rates greatly reduce cost/time.</div>
+
+            <div class="df-note"><b>Key mechanics:</b><br>
+              • <b>Exaltation:</b> earlier “mythic 40 first” advantage is reduced due to exalt stone crafting updates.<br>
+              • <b>MDC (Max Damage Cap):</b> Necro scales much better at high MDC in late game.
+            </div>
+
+            <div class="df-note"><b>Simple decision rule:</b><br>
+              • Want fast power → <b>Inherit</b><br>
+              • Want better endgame → <b>Necro</b><br>
+              • Want balance → <b>Hybrid (Inherit + Necro side project)</b>
+            </div>
+
+            <div class="df-note"><b>Ultra-concise summary:</b> Inherit = 30% success, no refinement impact, midgame tool. Necro = low base chance but better endgame scaling. Plan Necro early and avoid overcommitting to Inherit.</div>
           </div>
         </details>
       </div>
