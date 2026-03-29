@@ -1981,7 +1981,7 @@ select.df-ts-input {
         <div class="pr-table-wrap" id="mdcBreakdown" style="margin-top:8px;"></div>
 
         <details style="margin-top:10px;">
-          <summary style="cursor:pointer;color:var(--text-dim);font-size:12px;">Advanced DEF Ignore Inputs</summary>
+          <summary style="cursor:pointer;color:var(--text-dim);font-size:12px;">Advanced DEF Ignore Inputs (optional)</summary>
           <div class="pr-table-wrap" style="margin-top:8px;">
             <table class="pr-table">
               <thead><tr><th>Piece / Source</th><th>Def Ignore %</th></tr></thead>
@@ -4253,10 +4253,20 @@ function mdcCalc(){
   const boss=MDC_BOSS_DEF[Number(document.getElementById('mdcBoss')?.value||0)]||MDC_BOSS_DEF[0];
   const arc=MDC_ARCANE[Number(document.getElementById('mdcArcane')?.value||0)]||MDC_ARCANE[0];
   const observed=Number(document.getElementById('mdcObserved')?.value||0);
+  const totalIedEl=document.getElementById('mdcTotalIed');
 
   const iedParts=MDC_IED_ROWS.map((_,i)=>Math.max(0,Number(document.getElementById(`mdcIed_${i}`)?.value||0)));
   const remainProd=iedParts.reduce((acc,p)=>acc*(1-(p/100)),1);
-  const totalIed = 1-remainProd;
+  const advancedIed = 1-remainProd;
+
+  // Optional advanced section: quick input is default.
+  // If user edits advanced rows, auto-sync top total IED.
+  let totalIed = Math.max(0, Math.min(1, Number(totalIedEl?.value||0)/100));
+  const ae=(document.activeElement&&document.activeElement.id)||'';
+  if(/^mdcIed_\d+$/.test(ae)){
+    totalIed = advancedIed;
+    if(totalIedEl) totalIedEl.value = (advancedIed*100).toFixed(2);
+  }
 
   const rawCap = base + arc.bonus;
   const capInBoss = rawCap - ((rawCap*boss.def) - (((rawCap*boss.def)*totalIed)));
@@ -4283,8 +4293,21 @@ function mdcCalc(){
       <tr><td>Arcane Bonus</td><td>${mdcFmt(arc.bonus)}</td></tr>
       <tr><td>Raw Cap (MDC + Arcane)</td><td>${mdcFmt(rawCap)}</td></tr>
       <tr><td>Boss DEF used</td><td>${(boss.def*100).toFixed(1)}%</td></tr>
-      <tr><td>Total DEF Ignore (DIR/IED)</td><td>${(totalIed*100).toFixed(2)}%</td></tr>
+      <tr><td>Total DEF Ignore (DIR/IED used)</td><td>${(totalIed*100).toFixed(2)}%</td></tr>
+      <tr><td>Advanced rows combined IED</td><td>${(advancedIed*100).toFixed(2)}%</td></tr>
       <tr><td><b>Cap in Boss</b></td><td><b>${mdcFmt(capInBoss)}</b></td></tr>
+      <tr><td>Your observed max line</td><td>${observed?mdcFmt(observed):'—'}</td></tr>
+      <tr><td>Observed vs Cap</td><td>${observed?pct.toFixed(2)+'%':'—'}</td></tr>
+    </tbody></table>`;
+  }
+}
+
+setTimeout(mdcInit, 0);
+
+</script>
+</body>
+</html>
+in Boss</b></td><td><b>${mdcFmt(capInBoss)}</b></td></tr>
       <tr><td>Your observed max line</td><td>${observed?mdcFmt(observed):'—'}</td></tr>
       <tr><td>Observed vs Cap</td><td>${observed?pct.toFixed(2)+'%':'—'}</td></tr>
     </tbody></table>`;
