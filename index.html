@@ -1931,7 +1931,7 @@ select.df-ts-input {
 
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Link Skills (click to expand)</summary>
-          <div style="padding:12px;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));align-items:start;">
+          <div class="linkskills-grid" style="padding:12px;align-items:start;">
             <div class="df-note" style="grid-column:1/-1;">Extracted from your chart image (Kain-release update). If you want, I can convert this into a searchable/filterable table next.</div>
 
             <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th colspan="4">Explorer Warrior (Invincible Belief)</th></tr><tr><th>Class</th><th>Level</th><th>Effect 1</th><th>Effect 2</th></tr></thead><tbody>
@@ -4398,6 +4398,17 @@ setTimeout(mdcInit, 0);
 </html>
 in Boss</b></td><td><b>${mdcFmt(capInBoss)}</b></td></tr>
       <tr><td>Your observed max line</td><td>${observed?mdcFmt(observed):'—'}</td></tr>
+      <tr><td>Observed vs Cap</td><td>${observed?pct.toFixed(2)+'%':'—'}</td></tr>
+    </tbody></table>`;
+  }
+}
+
+setTimeout(mdcInit, 0);
+
+</script>
+</body>
+</html>
+<tr><td>Your observed max line</td><td>${observed?mdcFmt(observed):'—'}</td></tr>
       <tr><td>Observed vs Cap</td><td>${observed?pct.toFixed(2)+'%':'—'}</td></tr>
     </tbody></table>`;
   }
