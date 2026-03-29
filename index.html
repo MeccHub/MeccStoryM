@@ -3912,8 +3912,9 @@ function homeHeaderTick(now, nextPoP){
   const popMs = nextPoP.getTime() - nowMs;
   if (popMs > 0 && popMs <= 24*3600*1000) warns.push(`⚠️ Path of Proof resets in ${rtShort(popMs)}.`);
 
-  if (typeof evCacheData !== 'undefined' && evCacheData && Array.isArray(evCacheData.events)) {
-    const soon = evCacheData.events
+  const evData = (typeof window !== 'undefined') ? window.evCacheData : null;
+  if (evData && Array.isArray(evData.events)) {
+    const soon = evData.events
       .map(ev => ({...ev, endMs: new Date(ev.end_utc).getTime()}))
       .filter(ev => Number.isFinite(ev.endMs) && ev.endMs > nowMs && ev.endMs - nowMs <= 24*3600*1000)
       .sort((a,b)=>a.endMs-b.endMs);
@@ -4068,7 +4069,7 @@ rtApplyChecks('wboss');
 ═══════════════════════════════════════════════════════ */
 const EV_FEED_URL = 'Calc/MSMevents.json';
 let evCacheTime = 0;
-let evCacheData = null;
+var evCacheData = null;
 let evCardMap = {};
 // Only auto-load once per tab visit (not on every switchTab call)
 let evLoaded = false;
