@@ -3899,6 +3899,7 @@ function rtShort(ms){
 }
 
 function homeHeaderTick(now, nextPoP){
+  const esc = (s)=>String(s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
   const serverTxt = now.toLocaleTimeString([], { timeZone: 'Etc/GMT+8', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
   const localTxt  = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   const sEl = document.getElementById('homeServerTime');
@@ -3923,7 +3924,7 @@ function homeHeaderTick(now, nextPoP){
   if (alertEl) {
     if (warns.length) {
       alertEl.style.display = 'block';
-      alertEl.innerHTML = warns.map(w=>`<div>${prEsc(w)}</div>`).join('');
+      alertEl.innerHTML = warns.map(w=>`<div>${esc(w)}</div>`).join('');
     } else {
       alertEl.style.display = 'none';
       alertEl.innerHTML = '';
