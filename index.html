@@ -1313,7 +1313,7 @@ select.df-ts-input {
    RESPONSIVE / HAMBURGER
 ═══════════════════════════════════════════════════════════ */
 .hamburger-btn {
-  display: none;
+  display: flex;
   align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 10px;
   background: white; border: 2px solid #ede0ff;
@@ -1434,44 +1434,8 @@ select.df-ts-input {
     </div>
 
     <nav class="tab-nav">
-      <button class="tab-btn active" data-tab="home"    onclick="switchTab('home',this)">
+      <button class="tab-btn active" data-tab="home" onclick="switchTab('home',this)">
         <span class="tab-icon">🏠</span> Home
-      </button>
-      <button class="tab-btn" data-tab="discord" onclick="switchTab('discord',this)">
-        <span class="tab-icon">💬</span> Discord Formatter
-      </button>
-      <button class="tab-btn" data-tab="char" onclick="switchTab('char',this)">
-        <span class="tab-icon">📝</span> Character Description Editor
-      </button>
-      <button class="tab-btn" data-tab="links" onclick="switchTab('links',this)">
-        <span class="tab-icon">🔗</span> Useful Links
-      </button>
-      <button class="tab-btn" data-tab="info" onclick="switchTab('info',this)">
-        <span class="tab-icon">📚</span> FAQ
-      </button>
-      <button class="tab-btn" data-tab="guide" onclick="switchTab('guide',this)">
-        <span class="tab-icon">📖</span> Game Guide
-      </button>
-      <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this)">
-        <span class="tab-icon">💰</span> Meso/hr Calculator
-      </button>
-      <button class="tab-btn" data-tab="mdc" onclick="switchTab('mdc',this)">
-        <span class="tab-icon">🎯</span> MDC Checker
-      </button>
-      <button class="tab-btn" data-tab="breakeven" onclick="switchTab('breakeven',this)">
-        <span class="tab-icon">📈</span> Maple Points vs TS Calculator
-      </button>
-      <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this)">
-        <span class="tab-icon">💥</span> DMG Calculator
-      </button>
-      <button class="tab-btn" data-tab="resets" onclick="switchTab('resets',this)">
-        <span class="tab-icon">⏰</span> Reset Tracker
-      </button>
-      <button class="tab-btn" data-tab="events" onclick="switchTab('events',this)">
-        <span class="tab-icon">🎉</span> Events
-      </button>
-      <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this)" style="opacity:.65;">
-        <span class="tab-icon">🎲</span> Item Probabilities (incomplete)
       </button>
     </nav>
 
@@ -1533,94 +1497,24 @@ select.df-ts-input {
         <div class="home-logo-icon">🍁</div>
         <div class="home-title">MeccStoryM</div>
         <div class="home-sub">MapleStory M tools made by Mecc.</div>
+        <div class="home-sub" style="font-weight:700;">Server (UTC−8): <span id="homeServerTime">--:--:--</span> · Local: <span id="homeLocalTime">--:--:--</span></div>
+        <div id="homeAlert" class="df-note" style="display:none;margin-top:8px;border:1px solid #ffd9a6;background:#fff7e9;padding:8px 10px;border-radius:10px;"></div>
         <div class="rainbow-bar"></div>
       </div>
 
       <div class="tools-grid">
-
-        <div class="tool-card card-pink" onclick="switchTab('discord', document.querySelector('[data-tab=discord]'))">
-          <div class="card-icon icon-pink">💬</div>
-          <div class="card-name">Discord Message Formatter</div>
-          <div class="card-desc">Format guild event messages with auto time-zone converting timestamps, bold, spoilers & more. Paste straight into Discord.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-green" onclick="switchTab('dmg', document.querySelector('[data-tab=dmg]'))">
-          <div class="card-icon icon-green">💥</div>
-          <div class="card-name">DMG Calculator</div>
-          <div class="card-desc">Calculate your average, crit and boss damage from your stats. Includes a stat swap optimizer to find your best upgrade path.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-sky" onclick="switchTab('char', document.querySelector('[data-tab=char]'))">
-          <div class="card-icon icon-sky">📝</div>
-          <div class="card-name">Character Description Editor</div>
-          <div class="card-desc">Build MapleStory M character captions with [b][i][u][s] + [rrggbb], 60-char limit, and live preview.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-yellow" onclick="switchTab('links', document.querySelector('[data-tab=links]'))">
-          <div class="card-icon icon-yellow">🔗</div>
-          <div class="card-name">Useful Links</div>
-          <div class="card-desc">Quick-access links for MapleStory M news, events, patch notes, market, probabilities and official channels.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-yellow" onclick="switchTab('info', document.querySelector('[data-tab=info]'))">
-          <div class="card-icon icon-yellow">📚</div>
-          <div class="card-name">FAQ</div>
-          <div class="card-desc">Dropdown guides and FAQs, including Boss 2% requirements and Mastercrafting (Ancient, Inherit, Necro).</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-sky" onclick="switchTab('guide', document.querySelector('[data-tab=guide]'))">
-          <div class="card-icon icon-sky">📖</div>
-          <div class="card-name">Game Guide</div>
-          <div class="card-desc">Browse official Nexon Game Guide topics in a searchable, user-friendly table of contents.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-green" onclick="switchTab('meso', document.querySelector('[data-tab=meso]'))">
-          <div class="card-icon icon-green">💰</div>
-          <div class="card-name">Meso/hr Calculator</div>
-          <div class="card-desc">Upload your MapleStory M clear/result screenshot and auto-calculate mesos earned per hour.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-pink" onclick="switchTab('mdc', document.querySelector('[data-tab=mdc]'))">
-          <div class="card-icon icon-pink">🎯</div>
-          <div class="card-name">MDC Checker</div>
-          <div class="card-desc">Estimate your cap-in-boss using DEF ignore, boss DEF and arcane bonus, then check if your lines are capped.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-purple" onclick="switchTab('breakeven', document.querySelector('[data-tab=breakeven]'))">
-          <div class="card-icon icon-purple">📈</div>
-          <div class="card-name">Maple Points vs TS Calculator</div>
-          <div class="card-desc">Compare Trade Station meso price vs crystal route with fixed MP pack rates.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-sky" onclick="switchTab('resets', document.querySelector('[data-tab=resets]'))">
-          <div class="card-icon icon-sky">⏰</div>
-          <div class="card-name">Reset Tracker</div>
-          <div class="card-desc">Countdowns for all daily, weekly and 4-week resets — daily bosses, weekly bosses, weekly tasks, and Path of Proof.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-yellow" onclick="switchTab('events', document.querySelector('[data-tab=events]'))">
-          <div class="card-icon icon-yellow">🎉</div>
-          <div class="card-name">Event Tracker</div>
-          <div class="card-desc">Live feed of all active MSM events with end-time countdowns in your local timezone. Auto-updates daily.</div>
-          <span class="card-arrow">→</span>
-        </div>
-
-        <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))" style="opacity:.7;">
-          <div class="card-icon icon-purple">🎲</div>
-          <div class="card-name">Item Probabilities (incomplete)</div>
-          <div class="card-desc">Browse all active gacha & box drop rates. Search by item name, filter by rank, type or job — way better than Nexon's page.</div>
-          <span class="card-arrow">→</span>
-        </div>
+        <div class="tool-card card-sky" onclick="switchTab('resets', document.querySelector('[data-tab=resets]'))"><div class="card-icon icon-sky">⏰</div><div class="card-name">Reset Tracker</div><div class="card-desc">Countdowns for all daily, weekly and 4-week resets — daily bosses, weekly bosses, weekly tasks, and Path of Proof.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-yellow" onclick="switchTab('events', document.querySelector('[data-tab=events]'))"><div class="card-icon icon-yellow">🎉</div><div class="card-name">Event Tracker</div><div class="card-desc">Live feed of all active MSM events with end-time countdowns in your local timezone. Auto-updates daily.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-pink" onclick="switchTab('discord', document.querySelector('[data-tab=discord]'))"><div class="card-icon icon-pink">💬</div><div class="card-name">Discord Message Formatter</div><div class="card-desc">Format guild event messages with auto time-zone converting timestamps, bold, spoilers & more.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-yellow" onclick="switchTab('info', document.querySelector('[data-tab=info]'))"><div class="card-icon icon-yellow">📚</div><div class="card-name">FAQ</div><div class="card-desc">Dropdown guides and FAQs, including Boss 2% requirements and Mastercrafting.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-green" onclick="switchTab('dmg', document.querySelector('[data-tab=dmg]'))"><div class="card-icon icon-green">💥</div><div class="card-name">DMG Calculator</div><div class="card-desc">Calculate your average, crit and boss damage from your stats.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-pink" onclick="switchTab('mdc', document.querySelector('[data-tab=mdc]'))"><div class="card-icon icon-pink">🎯</div><div class="card-name">MDC Checker</div><div class="card-desc">Estimate cap-in-boss and check if your lines are capped.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-sky" onclick="switchTab('char', document.querySelector('[data-tab=char]'))"><div class="card-icon icon-sky">📝</div><div class="card-name">Character Description Editor</div><div class="card-desc">Build MSM character captions with rich formatting and live preview.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-purple" onclick="switchTab('breakeven', document.querySelector('[data-tab=breakeven]'))"><div class="card-icon icon-purple">📈</div><div class="card-name">Maple Points vs TS Calculator</div><div class="card-desc">Compare Trade Station meso price vs crystal route.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-sky" onclick="switchTab('guide', document.querySelector('[data-tab=guide]'))"><div class="card-icon icon-sky">📖</div><div class="card-name">Game Guide</div><div class="card-desc">Browse official Nexon guide topics in a searchable TOC.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-yellow" onclick="switchTab('links', document.querySelector('[data-tab=links]'))"><div class="card-icon icon-yellow">🔗</div><div class="card-name">Useful Links</div><div class="card-desc">Quick-access links for news, events, patch notes and channels.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-green" onclick="switchTab('meso', document.querySelector('[data-tab=meso]'))"><div class="card-icon icon-green">💰</div><div class="card-name">Meso/hr Calculator</div><div class="card-desc">Upload result screenshots and auto-calc mesos per hour.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))" style="opacity:.7;"><div class="card-icon icon-purple">🎲</div><div class="card-name">Item Probabilities (incomplete)</div><div class="card-desc">Browse active gacha & box drop rates with filters.</div><span class="card-arrow">→</span></div>
       </div>
     </section>
 
@@ -3996,6 +3890,47 @@ function rtSaveAnchor() {
   document.getElementById('rtPopNote').textContent = `Saved! Next Path of Proof reset auto-calculated from ${val}.`;
 }
 
+function rtShort(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  const d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60);
+  if (d>0) return `${d}d ${h}h`;
+  if (h>0) return `${h}h ${m}m`;
+  return `${m}m`;
+}
+
+function homeHeaderTick(now, nextPoP){
+  const serverTxt = now.toLocaleTimeString([], { timeZone: 'Etc/GMT+8', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  const localTxt  = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const sEl = document.getElementById('homeServerTime');
+  const lEl = document.getElementById('homeLocalTime');
+  if (sEl) sEl.textContent = serverTxt;
+  if (lEl) lEl.textContent = localTxt;
+
+  const warns = [];
+  const nowMs = now.getTime();
+  const popMs = nextPoP.getTime() - nowMs;
+  if (popMs > 0 && popMs <= 24*3600*1000) warns.push(`⚠️ Path of Proof resets in ${rtShort(popMs)}.`);
+
+  if (typeof evCacheData !== 'undefined' && evCacheData && Array.isArray(evCacheData.events)) {
+    const soon = evCacheData.events
+      .map(ev => ({...ev, endMs: new Date(ev.end_utc).getTime()}))
+      .filter(ev => Number.isFinite(ev.endMs) && ev.endMs > nowMs && ev.endMs - nowMs <= 24*3600*1000)
+      .sort((a,b)=>a.endMs-b.endMs);
+    if (soon.length) warns.push(`⚠️ ${soon.length} event(s) end within 24h. Soonest: ${soon[0].title} (${rtShort(soon[0].endMs-nowMs)}).`);
+  }
+
+  const alertEl = document.getElementById('homeAlert');
+  if (alertEl) {
+    if (warns.length) {
+      alertEl.style.display = 'block';
+      alertEl.innerHTML = warns.map(w=>`<div>${prEsc(w)}</div>`).join('');
+    } else {
+      alertEl.style.display = 'none';
+      alertEl.innerHTML = '';
+    }
+  }
+}
+
 // ── Main tick ─────────────────────────────────────────
 function rtTick() {
   const now = new Date();
@@ -4025,6 +3960,8 @@ function rtTick() {
   const nextPoP = rtNextPoP();
   rtSetCountdown('pop', rtCountdown(nextPoP), true);
   document.getElementById('rtLocal-pop').textContent = rtFmtLocal(nextPoP);
+
+  homeHeaderTick(now, nextPoP);
 }
 
 // Init
