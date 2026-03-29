@@ -1824,18 +1824,31 @@ select.df-ts-input {
     <!-- ════════ USEFUL INFORMATION ════════ -->
     <section class="tab-section" id="tab-info">
       <div class="df-panel">
-        <div class="df-panel-title"><div class="df-dot dot-orange-s"></div> Useful Information — Boss 2% Requirement</div>
-        <div class="df-note" style="margin-bottom:10px;">Search the table below. Columns and rows mirror the provided reference chart.</div>
+        <div class="df-panel-title"><div class="df-dot dot-orange-s"></div> Useful Information</div>
 
-        <div class="pr-controls" style="margin-bottom:10px;">
-          <div class="pr-ctrl-field" style="flex:2;min-width:220px;">
-            <div class="pr-ctrl-label">Search boss</div>
-            <input class="pr-ctrl-input" id="uiSearch" type="text" placeholder="e.g. Lotus, Verus, Damien..." oninput="uiRenderTable()" />
+        <details open style="border:1px solid #ede0ff;border-radius:12px;background:#fff;margin-bottom:10px;overflow:hidden;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;border-bottom:1px solid #ede0ff;">Boss 2% Requirement</summary>
+          <div style="padding:12px;">
+            <div class="df-note" style="margin-bottom:10px;">Search the table below. Columns and rows mirror the provided reference chart.</div>
+
+            <div class="pr-controls" style="margin-bottom:10px;">
+              <div class="pr-ctrl-field" style="flex:2;min-width:220px;">
+                <div class="pr-ctrl-label">Search boss</div>
+                <input class="pr-ctrl-input" id="uiSearch" type="text" placeholder="e.g. Lotus, Verus, Damien..." oninput="uiRenderTable()" />
+              </div>
+            </div>
+
+            <div class="pr-results-bar" id="uiResultsBar"></div>
+            <div class="pr-table-wrap" id="uiTableWrap"></div>
           </div>
-        </div>
+        </details>
 
-        <div class="pr-results-bar" id="uiResultsBar"></div>
-        <div class="pr-table-wrap" id="uiTableWrap"></div>
+        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">FAQ — Mastercrafting (Ancient, Inherit, Necro)</summary>
+          <div style="padding:12px;">
+            <div class="df-note">Ready for your FAQ content. Send it and I’ll format it in this dropdown.</div>
+          </div>
+        </details>
       </div>
     </section>
 
