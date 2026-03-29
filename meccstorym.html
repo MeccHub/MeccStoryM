@@ -2061,8 +2061,10 @@ select.df-ts-input {
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">MDC (base)</div><input class="pr-ctrl-input" id="mdcBase" type="number" step="1" value="202006599" oninput="mdcCalc()"></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Boss</div><select class="pr-ctrl-input" id="mdcBoss" onchange="mdcCalc()"></select></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Arcane Bonus</div><select class="pr-ctrl-input" id="mdcArcane" onchange="mdcCalc()"></select></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Total IED % (quick input)</div><input class="pr-ctrl-input" id="mdcTotalIed" type="number" step="0.01" value="47.41" oninput="mdcCalc()"></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Your max line in boss (optional)</div><input class="pr-ctrl-input" id="mdcObserved" type="number" step="1" placeholder="e.g. 145000000" oninput="mdcCalc()"></div>
         </div>
+        <div class="df-note" style="margin-top:6px;">Please take into account DS4, Origin skill, V Skill, etc.</div>
 
         <div class="pr-results-bar" id="mdcSummary" style="margin-top:10px;"></div>
         <div class="pr-table-wrap" id="mdcBreakdown" style="margin-top:8px;"></div>
@@ -4299,12 +4301,12 @@ const MDC_BOSS_DEF = [
 ];
 
 const MDC_ARCANE = [
-  {label:'1.0 (none)', bonus:0},
-  {label:'1.1', bonus:540000},
-  {label:'1.2', bonus:1080000},
-  {label:'1.3', bonus:2160000},
-  {label:'1.4', bonus:2700000},
-  {label:'1.5', bonus:5400000},
+  {label:'100%', bonus:0},
+  {label:'110%', bonus:540000},
+  {label:'120%', bonus:1080000},
+  {label:'130%', bonus:2160000},
+  {label:'140%', bonus:2700000},
+  {label:'150%', bonus:5400000},
 ];
 
 const MDC_IED_ROWS = [
