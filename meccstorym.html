@@ -1364,7 +1364,9 @@ select.df-ts-input {
 @media(max-width:700px) {
   .topbar { padding: 0 14px; }
   .topbar-sub { display: none; }
-  .tab-nav { display: none; }
+  .tab-nav { display: flex; }
+  .tab-nav .tab-btn:not([data-tab="home"]) { display: none; }
+  .tab-nav .tab-btn[data-tab="home"] { display: inline-flex; }
   .hamburger-btn { display: flex; }
   .content { padding: 20px 14px 50px; }
 }
