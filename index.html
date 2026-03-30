@@ -2044,8 +2044,13 @@ select.df-ts-input {
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Potentials (click to expand)</summary>
           <div style="padding:12px;display:grid;gap:10px;">
+            <div class="pr-controls" style="margin-bottom:4px;">
+              <div class="pr-ctrl-field" style="flex:2;min-width:220px;"><div class="pr-ctrl-label">Search</div><input class="pr-ctrl-input" id="potSearch" type="text" placeholder="e.g. Crit DMG, PHY ATK, EXP" oninput="potRender()"></div>
+              <div class="pr-ctrl-field" style="min-width:180px;"><div class="pr-ctrl-label">Equipment</div><select class="pr-ctrl-input" id="potEquip" onchange="potRender()"><option value="">All</option></select></div>
+              <div class="pr-ctrl-field" style="min-width:180px;"><div class="pr-ctrl-label">Rank column</div><select class="pr-ctrl-input" id="potRank" onchange="potRender()"><option value="">Any</option><option value="2">Option Min</option><option value="3">Rare Max</option><option value="4">Epic Max</option><option value="5">Unique Max</option><option value="6">Legendary Max</option></select></div>
+            </div>
             <div class="pr-table-wrap" style="overflow:auto;max-height:78vh;">
-            <table class="pr-table" style="font-size:11px;">
+            <table class="pr-table" id="potTable" style="font-size:11px;">
             <thead><tr><th>Equipment</th><th>Available Stats</th><th>Option Min</th><th>Rare Max</th><th>Epic Max</th><th>Unique Max</th><th>Legendary Max</th></tr></thead><tbody>
             <tr style="border-top:2px solid #e5d7ff;"><td>Weapon</td><td>PHY ATK</td><td>7.0</td><td>14.0</td><td>35.0</td><td>70.0</td><td>210.0</td></tr>
             <tr><td></td><td>MAG ATK</td><td>7.0</td><td>14.0</td><td>35.0</td><td>70.0</td><td>210.0</td></tr>
@@ -4534,6 +4539,41 @@ function ggRender() {
 
   wrap.innerHTML = `<div style="display:grid;gap:8px;max-height:70vh;overflow:auto;">${html}</div>`;
 }
+
+function potInit(){
+  const table = document.getElementById('potTable');
+  const sel = document.getElementById('potEquip');
+  if(!table || !sel) return;
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  let cur='';
+  const set = new Set();
+  rows.forEach(r=>{
+    const c0=(r.children[0]?.textContent||'').trim();
+    if(c0) cur=c0;
+    r.dataset.equip = cur;
+    if(cur) set.add(cur);
+  });
+  sel.innerHTML = '<option value="">All</option>' + Array.from(set).sort((a,b)=>a.localeCompare(b)).map(v=>`<option value="${prEsc(v)}">${prEsc(v)}</option>`).join('');
+  potRender();
+}
+
+function potRender(){
+  const table=document.getElementById('potTable');
+  if(!table) return;
+  const q=(document.getElementById('potSearch')?.value||'').toLowerCase().trim();
+  const eq=(document.getElementById('potEquip')?.value||'').trim();
+  const rankIdx = Number(document.getElementById('potRank')?.value||0);
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  rows.forEach(r=>{
+    const txt=r.textContent.toLowerCase();
+    const okQ=!q || txt.includes(q);
+    const okEq=!eq || (r.dataset.equip===eq);
+    const okRank=!rankIdx || ((r.children[rankIdx]?.textContent||'').trim()!=='');
+    r.style.display = (okQ && okEq && okRank) ? '' : 'none';
+  });
+}
+
+setTimeout(potInit, 0);
 
 /* ================================================================
    ITEM PROBABILITIES  --  ./Calc/MSMprobabilities.json
