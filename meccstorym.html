@@ -2339,36 +2339,55 @@ select.df-ts-input {
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ B ATK vs CD - Emblems and Stats (click to expand)</summary>
           <div style="padding:12px;display:grid;gap:10px;">
-            <div class="df-note"><b>Short answer:</b> neither B ATK nor CD is always better in every build. The better emblem depends on your current stat balance and content (boss uptime, cap pressure, buffs, and party setup).</div>
+            <div class="df-note"><b>Default recommendation:</b> <b>Crit DMG emblems</b> for most players. Boss ATK is situational and mainly stronger in narrower boss-only min-max setups.</div>
 
             <div class="pr-table-wrap">
               <table class="pr-table" style="font-size:12px;">
-                <thead><tr><th>Situation</th><th>Usually better</th><th>Why</th></tr></thead>
+                <thead><tr><th>Type</th><th>What it boosts</th><th>Scales with</th><th>Where it applies</th></tr></thead>
                 <tbody>
-                  <tr><td>Low/medium Crit DMG build</td><td><b>CD emblem</b></td><td>CD often gives stronger marginal gain when your current CD is still relatively low.</td></tr>
-                  <tr><td>Already very high Crit DMG</td><td><b>B ATK emblem</b></td><td>Diminishing returns on CD can make B ATK scaling more efficient.</td></tr>
-                  <tr><td>Boss-focused profile</td><td><b>B ATK viable/strong</b></td><td>Directly targets boss damage contribution, especially in sustained bossing.</td></tr>
-                  <tr><td>Mixed content + burst crit setup</td><td><b>CD often favored</b></td><td>CD can spike output harder in crit-heavy windows.</td></tr>
+                  <tr><td><b>Crit Emblem (Ruthless)</b></td><td>Crit DMG % (crit hits only)</td><td>Crit Rate</td><td>All content (bossing + mobbing)</td></tr>
+                  <tr><td><b>Boss ATK Emblem (Domination)</b></td><td>Boss damage (crit + non-crit vs boss)</td><td>Skill Damage %</td><td>Boss content only</td></tr>
                 </tbody>
               </table>
             </div>
 
-            <div class="df-note"><b>How to decide properly:</b> test <b>marginal gain</b>, not raw stat label. Compare one emblem upgrade step (same cost tier) and check resulting expected damage change in your real boss setup.</div>
+            <div class="df-note"><b>Formula view</b><br>
+              Crit scaling: <code>Avg ≈ Base × [1 + C × (0.2 + CD)]</code><br>
+              Boss scaling: <code>Boss Multiplier = (1 + ATK% + SkillDMG × BossATK%)</code>
+            </div>
+
+            <div class="df-note"><b>Breakeven decision:</b><br>
+              Crit gain: <code>(C × ΔCD) / (1 + C × (0.2 + CD))</code><br>
+              Boss gain: <code>(S × ΔB) / (1 + A + S × B)</code><br>
+              Choose Crit when: <code>(C × ΔCD) / (1 + C × (0.2 + CD)) &gt; (S × ΔB) / (1 + A + S × B)</code>
+            </div>
 
             <div class="pr-table-wrap">
               <table class="pr-table" style="font-size:12px;">
-                <thead><tr><th>Quick checklist before choosing</th><th>Check</th></tr></thead>
+                <thead><tr><th>Real emblem max values</th><th>Value</th></tr></thead>
                 <tbody>
-                  <tr><td>Current Crit DMG%</td><td>If already high, B ATK value often rises.</td></tr>
-                  <tr><td>Current Boss ATK%</td><td>If already high, incremental B ATK may flatten.</td></tr>
-                  <tr><td>MDC/cap pressure</td><td>If frequently capping, some offensive stats can lose practical value.</td></tr>
-                  <tr><td>Party buffs</td><td>External buffs can shift which emblem gives better marginal return.</td></tr>
-                  <tr><td>Content target</td><td>Optimize for your main goal (bossing vs mixed progression).</td></tr>
+                  <tr><td>Crit DMG (Ruthless)</td><td><b>+20%</b></td></tr>
+                  <tr><td>Boss ATK (Domination)</td><td><b>+10%</b></td></tr>
                 </tbody>
               </table>
             </div>
 
-            <div class="df-note"><b>Practical rule:</b> if undecided and your CD isn’t heavily stacked yet, start with CD. If CD is already stacked and your profile is boss-focused, pivoting to B ATK is often efficient.</div>
+            <div class="df-note"><b>Why Crit is usually better:</b> higher per-slot value, works in all content, scales very well at high Crit Rate, and is less constrained by additive bucket saturation than Boss ATK.</div>
+
+            <div class="pr-table-wrap">
+              <table class="pr-table" style="font-size:12px;">
+                <thead><tr><th>Situation</th><th>Best choice</th></tr></thead>
+                <tbody>
+                  <tr><td>General gameplay</td><td><b>Crit</b></td></tr>
+                  <tr><td>High Crit Rate</td><td><b>Crit</b></td></tr>
+                  <tr><td>Early / low Crit Rate</td><td>Boss ATK viable</td></tr>
+                  <tr><td>Pure boss-only min-max</td><td>Depends on your stats</td></tr>
+                  <tr><td>Very high Skill % + high CD saturation</td><td>Boss ATK gains value</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="df-note"><b>Final:</b> Crit DMG emblems are the default, scalable, universal choice. Boss ATK emblems are situational optimization picks.</div>
           </div>
         </details>
 
