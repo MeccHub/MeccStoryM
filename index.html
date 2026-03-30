@@ -2339,55 +2339,59 @@ select.df-ts-input {
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ B ATK vs CD - Emblems and Stats (click to expand)</summary>
           <div style="padding:12px;display:grid;gap:10px;">
-            <div class="df-note"><b>Default recommendation:</b> <b>Crit DMG emblems</b> for most players. Boss ATK is situational and mainly stronger in narrower boss-only min-max setups.</div>
+            <div class="df-note"><b>1) What do the two emblems actually do?</b></div>
+            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>Type</th><th>Core effect</th><th>Scaling</th><th>Coverage</th></tr></thead><tbody>
+              <tr><td><b>Crit Emblems (Ruthless — Crit DMG%)</b></td><td>Increase damage on <b>crit hits</b></td><td>Scales with <b>Crit Rate</b></td><td>All content (bossing + mobbing)</td></tr>
+              <tr><td><b>Boss ATK Emblems (Domination — Boss ATK%)</b></td><td>Increase all damage <b>vs bosses</b> (crit + non-crit)</td><td>Scales with <b>Skill Damage %</b></td><td>Boss-only optimization</td></tr>
+            </tbody></table></div>
 
-            <div class="pr-table-wrap">
-              <table class="pr-table" style="font-size:12px;">
-                <thead><tr><th>Type</th><th>What it boosts</th><th>Scales with</th><th>Where it applies</th></tr></thead>
-                <tbody>
-                  <tr><td><b>Crit Emblem (Ruthless)</b></td><td>Crit DMG % (crit hits only)</td><td>Crit Rate</td><td>All content (bossing + mobbing)</td></tr>
-                  <tr><td><b>Boss ATK Emblem (Domination)</b></td><td>Boss damage (crit + non-crit vs boss)</td><td>Skill Damage %</td><td>Boss content only</td></tr>
-                </tbody>
-              </table>
-            </div>
+            <div class="df-note"><b>2) Formula view</b></div>
+            <div class="df-note">Crit scaling:</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Avg ≈ Base × [1 + C × (0.2 + CD)]</pre>
+            <div class="df-note">Boss ATK scaling:</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Boss Multiplier = (1 + ATK% + SkillDMG × BossATK%)</pre>
 
-            <div class="df-note"><b>Formula view</b><br>
-              Crit scaling: <code>Avg ≈ Base × [1 + C × (0.2 + CD)]</code><br>
-              Boss scaling: <code>Boss Multiplier = (1 + ATK% + SkillDMG × BossATK%)</code>
-            </div>
+            <div class="df-note"><b>3) Which is better overall?</b> <b>Default = Crit DMG emblems</b>. They apply to all content, scale very well at high Crit Rate, and behave closer to a global multiplier in optimized builds. Boss ATK is more situational.</div>
 
-            <div class="df-note"><b>Breakeven decision:</b><br>
-              Crit gain: <code>(C × ΔCD) / (1 + C × (0.2 + CD))</code><br>
-              Boss gain: <code>(S × ΔB) / (1 + A + S × B)</code><br>
-              Choose Crit when: <code>(C × ΔCD) / (1 + C × (0.2 + CD)) &gt; (S × ΔB) / (1 + A + S × B)</code>
-            </div>
+            <div class="df-note"><b>4) Exact breakeven formula</b></div>
+            <div class="df-note">Let: C = CritRate, CD = CritDMG, A = ATK%, S = SkillDMG/100, B = BossATK, ΔCD = Crit DMG gain, ΔB = Boss ATK gain.</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Crit gain: (C × ΔCD) / (1 + C × (0.2 + CD))
+Boss gain: (S × ΔB) / (1 + A + S × B)
 
-            <div class="pr-table-wrap">
-              <table class="pr-table" style="font-size:12px;">
-                <thead><tr><th>Real emblem max values</th><th>Value</th></tr></thead>
-                <tbody>
-                  <tr><td>Crit DMG (Ruthless)</td><td><b>+20%</b></td></tr>
-                  <tr><td>Boss ATK (Domination)</td><td><b>+10%</b></td></tr>
-                </tbody>
-              </table>
-            </div>
+Crit > Boss if:
+(C × ΔCD) / (1 + C × (0.2 + CD)) > (S × ΔB) / (1 + A + S × B)</pre>
 
-            <div class="df-note"><b>Why Crit is usually better:</b> higher per-slot value, works in all content, scales very well at high Crit Rate, and is less constrained by additive bucket saturation than Boss ATK.</div>
+            <div class="df-note"><b>5) Example (100% Crit Rate, 250% Skill Damage)</b></div>
+            <div class="df-note">Using real emblem values: Ruthless Lv5 = <b>+20% CD</b>, Domination Lv5 = <b>+10% Boss ATK</b>.</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Crit: 0.20 / 3.2 = +6.25%
+Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
+            <div class="df-note">→ In this common setup, <b>Crit wins</b>.</div>
 
-            <div class="pr-table-wrap">
-              <table class="pr-table" style="font-size:12px;">
-                <thead><tr><th>Situation</th><th>Best choice</th></tr></thead>
-                <tbody>
-                  <tr><td>General gameplay</td><td><b>Crit</b></td></tr>
-                  <tr><td>High Crit Rate</td><td><b>Crit</b></td></tr>
-                  <tr><td>Early / low Crit Rate</td><td>Boss ATK viable</td></tr>
-                  <tr><td>Pure boss-only min-max</td><td>Depends on your stats</td></tr>
-                  <tr><td>Very high Skill % + high CD saturation</td><td>Boss ATK gains value</td></tr>
-                </tbody>
-              </table>
-            </div>
+            <div class="df-note"><b>6) Why earlier math sometimes shows Boss ATK winning</b></div>
+            <div class="df-note">If you assume equal increases (ex: +20% vs +20%), Boss ATK can win in some models due to high Skill% and lower saturation in that bucket. But that assumption is unrealistic because emblem caps are not equal.</div>
 
-            <div class="df-note"><b>Final:</b> Crit DMG emblems are the default, scalable, universal choice. Boss ATK emblems are situational optimization picks.</div>
+            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>7) Real emblem scaling</th><th>Max value</th></tr></thead><tbody>
+              <tr><td><b>Crit DMG (Ruthless)</b></td><td><b>+20%</b></td></tr>
+              <tr><td><b>Boss ATK (Domination)</b></td><td><b>+10%</b></td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>8) Why Crit emblems are usually more worth it</b></div>
+            <div class="df-note">A) Higher stat per emblem slot (+20 vs +10)<br>B) Works everywhere (bossing, farming, dailies, multi-target)<br>C) Scales with Crit Rate (near-global impact at high crit consistency)<br>D) Boss ATK sits in an additive bucket and can saturate faster<br>E) Better long-term scaling as progression rises</div>
+
+            <div class="df-note"><b>9) When Boss ATK can be better</b></div>
+            <div class="df-note">Low Crit Rate, very high Skill %, Crit DMG already saturated, and pure boss-only optimization. This is a narrower min-max scenario, not general-use default.</div>
+
+            <div class="df-note"><b>10) Does hit count matter?</b> Yes. Higher hit count improves crit consistency and tends to increase effective Crit value. Low hit count can make Boss ATK relatively stronger.</div>
+
+            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>11) Practical decision guide</th><th>Best choice</th></tr></thead><tbody>
+              <tr><td>General gameplay</td><td><b>Crit</b></td></tr>
+              <tr><td>High Crit Rate</td><td><b>Crit</b></td></tr>
+              <tr><td>Early / low Crit Rate</td><td>Boss ATK viable</td></tr>
+              <tr><td>Boss-only min-max</td><td>Depends on your current buckets</td></tr>
+              <tr><td>Very high Skill %</td><td>Boss ATK gains value</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>12) Final conclusion</b><br>• <b>Crit DMG emblems</b> = default, scalable, universal<br>• <b>Boss ATK emblems</b> = situational optimization<br><br>Even when Boss ATK can win in specific theoretical setups, Crit DMG is typically more efficient and flexible in real builds.</div>
           </div>
         </details>
 
