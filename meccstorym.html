@@ -657,6 +657,17 @@ select.pr-ctrl-input {
 #tab-info .pr-table {
   font-size: 13px;
 }
+#tab-info .hexa-table th,
+#tab-info .hexa-table td {
+  padding: 5px 8px;
+  font-size: 12px;
+}
+#tab-info .hexa-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #f8f4ff;
+}
 .pr-table th .sort-arrow { margin-left: 4px; opacity: 0.4; font-size: 10px; }
 .pr-table th.sorted .sort-arrow { opacity: 1; color: var(--purple); }
 .pr-table tbody tr {
@@ -2370,7 +2381,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
               <summary style="list-style:none;cursor:pointer;padding:10px 12px;font-weight:800;background:#f8f4ff;">HEXA Skills Cost (click to expand)</summary>
               <div style="padding:10px;display:grid;gap:10px;">
                 <div class="pr-table-wrap" style="overflow:auto;max-height:72vh;">
-                  <table class="pr-table" style="font-size:12px;">
+                  <table class="pr-table hexa-table" style="font-size:12px;">
                     <thead><tr><th>Level</th><th>Origin Sol Erda</th><th>Origin Frag</th><th>Mastery Sol Erda</th><th>Mastery Frag</th><th>Booster Sol Erda</th><th>Booster Frag</th></tr></thead>
                     <tbody>
                       <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>10</td><td>1</td><td>20</td></tr>
