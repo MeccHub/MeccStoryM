@@ -142,7 +142,7 @@ body {
 .topbar-sub {
   font-size: 10px; font-weight: 800;
   letter-spacing: 3px; text-transform: uppercase;
-  color: var(--text-dim); margin-top: 1px;
+  color: #cbd5e1; margin-top: 1px;
 }
 
 /* ── Tab nav ── */
@@ -159,15 +159,15 @@ body {
   background: transparent; border: none;
   font-family: 'Nunito', sans-serif;
   font-size: 14px; font-weight: 700;
-  color: var(--text-dim); cursor: pointer;
+  color: #e2e8f0; cursor: pointer;
   transition: all 0.18s; white-space: nowrap;
   position: relative;
 }
-.tab-btn:hover { background: rgba(160,106,255,0.08); color: var(--purple); }
+.tab-btn:hover { background: rgba(255,255,255,0.12); color: #ffffff; }
 .tab-btn.active {
-  background: white;
-  color: var(--purple);
-  box-shadow: var(--shadow);
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+  box-shadow: none;
 }
 .tab-btn.active::after {
   content: '';
@@ -3197,6 +3197,14 @@ setTimeout(() => {
   switchTab(_initialTab, btn, true);
 }, 0);
 
+function updateTopbarState(){
+  const tb=document.querySelector('.topbar');
+  if(!tb) return;
+  tb.classList.toggle('scrolled', window.scrollY > 8);
+}
+window.addEventListener('scroll', updateTopbarState, {passive:true});
+setTimeout(updateTopbarState, 0);
+
 /* ═══════════════════════════════════════════════════════
    SPARKLES
 ═══════════════════════════════════════════════════════ */
@@ -5302,6 +5310,40 @@ setTimeout(mdcInit, 0);
 
 </script>
 </body>
+</html>
+
+
+</script>
+</body>
+</html>
+nit, 0);
+
+</script>
+</body>
+</html>
+
+
+</script>
+</body>
+</html>
+
+
+
+</script>
+</body>
+</html>
+nit, 0);
+
+</script>
+</body>
+</html>
+
+
+</script>
+</body>
+</html>
+
+>
 </html>
 
 
