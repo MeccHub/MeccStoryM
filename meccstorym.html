@@ -2808,58 +2808,32 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   <!-- ════════ ITEM PROBABILITIES ════════ -->
   <div class="content" id="probs-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:36px 28px 60px;">
   <section id="tab-probs" style="display:block;">
-
     <div class="pr-topbar">
       <div>
-        <div class="pr-title">🎲 Item Probabilities <span style="font-size:12px;color:var(--text-dim);font-family:'Nunito',sans-serif;">(incomplete)</span></div>
+        <div class="pr-title">🎲 Item Probabilities</div>
         <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="prMetaText">Loading probability data…</span></div>
       </div>
       <button class="pr-refresh-btn" id="prRefreshBtn" onclick="prLoad(true)"><span id="prRefreshIcon">🔄</span> Refresh</button>
     </div>
 
-    <div id="prLayout" style="display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start;">
-      <div class="pr-panel" style="border:1px solid var(--glass-border);border-radius:12px;background:var(--glass-1);padding:10px;position:sticky;top:16px;max-height:75vh;overflow:auto;">
-        <div class="pr-ctrl-label">Find category</div>
-        <input class="pr-ctrl-input" id="prCatalogSearch" type="text" placeholder="Search categories…" oninput="prBuildBoxList()" style="margin-bottom:8px;"/>
-        <div class="pr-ctrl-label">Sort</div>
-        <select class="pr-ctrl-input" id="prCatalogSort" onchange="prBuildBoxList()" style="margin-bottom:10px;">
-          <option value="changed">Recently changed</option>
-          <option value="az">Title A→Z</option>
-          <option value="rows">Largest table first</option>
-        </select>
-        <div class="pr-box-list" id="prBoxList"><div class="pr-state" style="padding:12px 0;"><span style="font-size:14px;">Loading categories…</span></div></div>
+    <div class="pr-controls" style="margin-bottom:10px;">
+      <div class="pr-ctrl-field" style="flex:2;min-width:240px;">
+        <div class="pr-ctrl-label">Search</div>
+        <input class="pr-ctrl-input" id="prSearch" type="text" placeholder="Search item/category..." oninput="prApplyFilters()" />
       </div>
-
-      <div>
-        <div class="pr-controls">
-          <div class="pr-ctrl-field" style="flex:2; min-width:220px;">
-            <div class="pr-ctrl-label">Search rows</div>
-            <input class="pr-ctrl-input" id="prSearch" type="text" placeholder="Search row text…" oninput="prApplyFilters()" />
-          </div>
-          <div class="pr-ctrl-field">
-            <div class="pr-ctrl-label">Sort</div>
-            <select class="pr-ctrl-input" id="prRowSort" onchange="prApplyFilters()">
-              <option value="prob_desc">Probability ↓</option>
-              <option value="prob_asc">Probability ↑</option>
-              <option value="alpha">A→Z</option>
-            </select>
-          </div>
-          <button class="pr-clear-btn" onclick="prClearFilters()">✕ Clear</button>
-        </div>
-
-        <div id="prSummaryCard" style="display:none;border:1px solid var(--glass-border);border-radius:10px;padding:10px;margin-bottom:10px;background:var(--glass-1);"></div>
-        <div class="pr-results-bar" id="prResultsBar"></div>
-
-        <div class="pr-table-wrap" id="prTableWrap">
-          <div class="pr-state">
-            <div class="pr-state-icon">🎲</div>
-            <div class="pr-state-title">Select a category</div>
-            <div>Choose a probability table from the left panel.</div>
-          </div>
-        </div>
+      <div class="pr-ctrl-field" style="min-width:180px;">
+        <div class="pr-ctrl-label">Rarity</div>
+        <select class="pr-ctrl-input" id="prRarityFilter" onchange="prApplyFilters()"><option value="">All</option></select>
       </div>
+      <div class="pr-ctrl-field" style="min-width:220px;">
+        <div class="pr-ctrl-label">Equipment</div>
+        <select class="pr-ctrl-input" id="prEquipFilter" onchange="prApplyFilters()"><option value="">All</option></select>
+      </div>
+      <button class="pr-clear-btn" onclick="prClearFilters()">✕ Clear</button>
     </div>
 
+    <div class="pr-results-bar" id="prResultsBar"></div>
+    <div class="pr-table-wrap" id="prTableWrap"></div>
   </section>
   </div>
 
@@ -4884,9 +4858,76 @@ function prGoPage(p){
   document.getElementById('probs-content').scrollTo({top:0,behavior:'smooth'});
 }
 
+let prSimpleData = [];
+
+function prInferRarity(title=''){
+  const t=String(title).toLowerCase();
+  for(const r of ['rare','epic','unique','legendary','mythic','ancient','chaos']) if(t.includes(r)) return r[0].toUpperCase()+r.slice(1);
+  return '';
+}
+function prInferEquip(title=''){
+  const t=String(title).toLowerCase();
+  const arr=['Weapon','Hat','Outfit','Top','Bottom','Cape','Shoes','Gloves','Shoulders','Belt','Signet','Mechanical Heart'];
+  for(const e of arr) if(t.includes(e.toLowerCase())) return e;
+  return '';
+}
+
+async function prLoad(force){
+  try{
+    const r=await fetch('./Calc/MSMprobabilities.json', {cache: force?'no-store':'default'});
+    const j=await r.json();
+    prSimpleData=(j.items||[]).map(it=>({
+      title: it.title||'',
+      url: it.url||'',
+      changed: (it.last_changed_utc||'').slice(0,10),
+      rowCount: Number(it.row_count||0),
+      rarity: prInferRarity(it.title||''),
+      equip: prInferEquip(it.title||'')
+    }));
+
+    const rar=[...new Set(prSimpleData.map(x=>x.rarity).filter(Boolean))];
+    const eq =[...new Set(prSimpleData.map(x=>x.equip).filter(Boolean))];
+    const rSel=document.getElementById('prRarityFilter');
+    const eSel=document.getElementById('prEquipFilter');
+    if(rSel) rSel.innerHTML='<option value="">All</option>'+rar.sort().map(v=>`<option>${v}</option>`).join('');
+    if(eSel) eSel.innerHTML='<option value="">All</option>'+eq.sort().map(v=>`<option>${v}</option>`).join('');
+
+    const meta=document.getElementById('prMetaText');
+    if(meta) meta.textContent=`${prSimpleData.length} categories loaded`;
+    prApplyFilters();
+  }catch(e){
+    const wrap=document.getElementById('prTableWrap');
+    if(wrap) wrap.innerHTML='<div class="pr-state"><div class="pr-state-icon">⚠️</div><div class="pr-state-title">Could not load probability feed</div></div>';
+  }
+}
+
+function prApplyFilters(){
+  const q=(document.getElementById('prSearch')?.value||'').toLowerCase().trim();
+  const rr=(document.getElementById('prRarityFilter')?.value||'').trim();
+  const ee=(document.getElementById('prEquipFilter')?.value||'').trim();
+  const rows=prSimpleData.filter(x=>{
+    if(rr && x.rarity!==rr) return false;
+    if(ee && x.equip!==ee) return false;
+    if(!q) return true;
+    return (x.title+' '+x.equip+' '+x.rarity).toLowerCase().includes(q);
+  });
+
+  const bar=document.getElementById('prResultsBar');
+  const wrap=document.getElementById('prTableWrap');
+  if(bar) bar.innerHTML=`Showing <strong>${rows.length}</strong> of <strong>${prSimpleData.length}</strong>`;
+  if(!wrap) return;
+  if(!rows.length){ wrap.innerHTML='<div class="pr-state"><div class="pr-state-icon">🔎</div><div class="pr-state-title">No matches</div></div>'; return; }
+
+  wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;">
+    <thead><tr><th>Category</th><th>Rarity</th><th>Equipment</th><th>Rows</th><th>Updated</th><th>Open</th></tr></thead>
+    <tbody>${rows.map(x=>`<tr><td>${prEsc(x.title)}</td><td>${prEsc(x.rarity||'—')}</td><td>${prEsc(x.equip||'—')}</td><td>${x.rowCount}</td><td>${prEsc(x.changed||'—')}</td><td><a class="ev-nexon-link" href="${prEsc(x.url)}" target="_blank" rel="noopener">Nexon</a></td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
 function prClearFilters(){
-  document.getElementById('prSearch').value='';
-  document.getElementById('prRowSort').value='prob_desc';
+  const a=document.getElementById('prSearch'); if(a) a.value='';
+  const b=document.getElementById('prRarityFilter'); if(b) b.value='';
+  const c=document.getElementById('prEquipFilter'); if(c) c.value='';
   prApplyFilters();
 }
 
