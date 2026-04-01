@@ -2976,15 +2976,33 @@ function switchTab(id, btn, fromPop = false) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function resolveTabFromHash(){
+  const raw=(location.hash||'#home').replace(/^#/,'').trim().toLowerCase();
+  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs'};
+  const tab=alias[raw] || raw || 'home';
+  return document.querySelector(`.tab-btn[data-tab="${tab}"]`) ? tab : 'home';
+}
+
 window.addEventListener('popstate', (e) => {
-  const tab = e.state && e.state.tab ? e.state.tab : 'home';
+  const tab = (e.state && e.state.tab) ? e.state.tab : resolveTabFromHash();
   const btn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
   switchTab(tab, btn, true);
 });
 
-if (!history.state || !history.state.tab) {
-  history.replaceState({ tab: 'home' }, '', '#home');
-}
+window.addEventListener('hashchange', () => {
+  const tab=resolveTabFromHash();
+  if(tab!==currentTab){
+    const btn=document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+    switchTab(tab, btn, true);
+  }
+});
+
+const _initialTab = resolveTabFromHash();
+history.replaceState({ tab: _initialTab }, '', '#'+_initialTab);
+setTimeout(() => {
+  const btn=document.querySelector(`.tab-btn[data-tab="${_initialTab}"]`);
+  switchTab(_initialTab, btn, true);
+}, 0);
 
 /* ═══════════════════════════════════════════════════════
    SPARKLES
