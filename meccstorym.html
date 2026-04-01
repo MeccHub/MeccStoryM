@@ -1534,6 +1534,11 @@ select.df-ts-input {
 #dmg-content .dmg-upload input[type="file"],
 #resets-content .rt-reset-time,
 #resets-content .rt-card-label,
+#resets-content .rt-card-name,
+#resets-content .rt-unit-label,
+#resets-content .rt-tz-local,
+#resets-content .rt-save-note,
+#resets-content .rt-check-text,
 #events-content .ev-meta,
 #events-content .ev-date,
 #events-content .ev-note,
@@ -1587,6 +1592,52 @@ select.df-ts-input {
 #links-content button:hover {
   border-color: #a78bfa;
   color: #ffffff;
+}
+
+/* Reset Tracker specific contrast fixes */
+#resets-content .rt-server-time,
+#resets-content .rt-reset-time,
+#resets-content .rt-card-label,
+#resets-content .rt-card-name,
+#resets-content .rt-unit-label,
+#resets-content .rt-tz-local,
+#resets-content .rt-save-note,
+#resets-content .rt-check-text,
+#resets-content .rt-pop-label,
+#resets-content .rt-pop-title {
+  color: #e2e8f0 !important;
+}
+#resets-content .rt-unit,
+#resets-content .rt-check-item,
+#resets-content .rt-pop-settings {
+  background: rgba(15,23,42,0.82) !important;
+  border-color: rgba(148,163,184,0.28) !important;
+}
+
+/* Event Tracker custom panel/button dark fix */
+#events-content .ev-custom-panel,
+#events-content .ev-custom-item,
+#events-content .ev-end-mode-toggle {
+  background: rgba(15,23,42,0.72) !important;
+  border-color: rgba(148,163,184,0.22) !important;
+}
+#events-content .ev-custom-header:hover,
+#events-content .ev-mode-btn:hover {
+  background: rgba(148,163,184,0.14) !important;
+}
+#events-content .ev-custom-header-left,
+#events-content .ev-cf-label,
+#events-content .ev-cf-hint,
+#events-content .ev-custom-item-date,
+#events-content .ev-custom-list-title,
+#events-content .ev-mode-btn,
+#events-content .ev-custom-chevron {
+  color: #cbd5e1 !important;
+}
+#events-content .ev-mode-btn.active {
+  background: rgba(148,163,184,0.18) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
 }
 </style>
 </head>
