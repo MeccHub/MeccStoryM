@@ -1745,19 +1745,16 @@ select.df-ts-input {
   color: #ffffff !important;
 }
 
-/* Make date/time picker icons obvious in dark mode */
+/* Keep native date/time picker icons visible in dark mode */
 #tab-discord .df-ts-input[type="date"]::-webkit-calendar-picker-indicator,
 #tab-discord .df-ts-input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(92%) sepia(16%) saturate(548%) hue-rotate(182deg) brightness(106%) contrast(94%);
+  filter: none;
   opacity: 1;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
-  background: rgba(148,163,184,0.20);
 }
-#tab-discord .df-ts-input[type="date"]::-webkit-calendar-picker-indicator:hover,
-#tab-discord .df-ts-input[type="time"]::-webkit-calendar-picker-indicator:hover {
-  background: rgba(167,139,250,0.32);
+#tab-discord .df-ts-input[type="date"],
+#tab-discord .df-ts-input[type="time"] {
+  color-scheme: dark;
 }
 #tab-discord .df-panel-title,
 #tab-discord .df-ts-label,
