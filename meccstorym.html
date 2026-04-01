@@ -1530,6 +1530,8 @@ select.df-ts-input {
 }
 
 #dmg-content .dmg-label,
+#dmg-content .dmg-panel-title,
+#dmg-content .dmg-upload-title,
 #dmg-content .dmg-ocr-status,
 #dmg-content .dmg-upload input[type="file"],
 #resets-content .rt-reset-time,
@@ -1594,6 +1596,33 @@ select.df-ts-input {
   color: #ffffff;
 }
 
+/* Main home cards hard override */
+.tools-grid .tool-card {
+  background: rgba(15,23,42,0.72) !important;
+  border: 1px solid rgba(148,163,184,0.20) !important;
+  box-shadow: 0 10px 22px rgba(2,6,23,0.24) !important;
+}
+.tools-grid .tool-card .card-name { color: #e2e8f0 !important; }
+.tools-grid .tool-card .card-desc { color: #cbd5e1 !important; }
+
+/* Tabs that live in main content (not separate *-content wrappers) */
+#tab-info details,
+#tab-mdc .pr-controls,
+#tab-mdc .pr-table-wrap,
+#tab-breakeven .pr-controls,
+#tab-breakeven .pr-table-wrap,
+#tab-guide .pr-controls,
+#tab-guide .pr-table-wrap,
+#tab-links .pr-controls,
+#tab-links .pr-table-wrap,
+#tab-meso .pr-controls,
+#tab-meso .pr-table-wrap {
+  background: rgba(15,23,42,0.72) !important;
+  border-color: rgba(148,163,184,0.22) !important;
+  box-shadow: 0 10px 22px rgba(2,6,23,0.24) !important;
+  color: #e2e8f0 !important;
+}
+
 /* Reset Tracker specific contrast fixes */
 #resets-content .rt-server-time,
 #resets-content .rt-reset-time,
@@ -1604,7 +1633,8 @@ select.df-ts-input {
 #resets-content .rt-save-note,
 #resets-content .rt-check-text,
 #resets-content .rt-pop-label,
-#resets-content .rt-pop-title {
+#resets-content .rt-pop-title,
+#resets-content .rt-pop-title span {
   color: #e2e8f0 !important;
 }
 #resets-content .rt-unit,
@@ -1612,6 +1642,10 @@ select.df-ts-input {
 #resets-content .rt-pop-settings {
   background: rgba(15,23,42,0.82) !important;
   border-color: rgba(148,163,184,0.28) !important;
+}
+#resets-content .rt-check-item:hover {
+  background: rgba(251,146,60,0.22) !important;
+  border-color: rgba(251,146,60,0.55) !important;
 }
 
 /* Event Tracker custom panel/button dark fix */
@@ -1631,8 +1665,25 @@ select.df-ts-input {
 #events-content .ev-custom-item-date,
 #events-content .ev-custom-list-title,
 #events-content .ev-mode-btn,
-#events-content .ev-custom-chevron {
+#events-content .ev-custom-chevron,
+#events-content .ev-progress-label,
+#events-content .ev-unit-label,
+#events-content .ev-dates,
+#events-content .ev-state,
+#events-content .ev-meta {
   color: #cbd5e1 !important;
+}
+#events-content .ev-topbar > div > div,
+#events-content .ev-card-title,
+#events-content .ev-state-title,
+#events-content .ev-custom-item-name,
+#events-content .ev-dates span,
+#events-content .ev-nexon-link {
+  color: #e2e8f0 !important;
+}
+#events-content .ev-unit {
+  background: rgba(15,23,42,0.82) !important;
+  border-color: rgba(148,163,184,0.22) !important;
 }
 #events-content .ev-mode-btn.active {
   background: rgba(148,163,184,0.18) !important;
