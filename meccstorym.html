@@ -1723,16 +1723,26 @@ select.df-ts-input {
 /* Discord Message Formatter contrast pass */
 #tab-discord .df-panel,
 #tab-discord .df-toolbar,
+#tab-discord .df-ts-row,
 #tab-discord #df-editor,
 #tab-discord #df-output,
 #tab-discord .dc-msg,
 #tab-discord .dc-preview,
 #tab-discord .df-ts-btn,
 #tab-discord .df-ts-input,
+#tab-discord .tb-btn,
 #tab-discord .df-sep {
   background: rgba(15,23,42,0.78) !important;
   border-color: rgba(148,163,184,0.30) !important;
   color: #e2e8f0 !important;
+}
+#tab-discord .tb-btn {
+  color: #cbd5e1 !important;
+}
+#tab-discord .tb-btn:hover {
+  background: rgba(139,92,246,0.72) !important;
+  border-color: rgba(167,139,250,0.9) !important;
+  color: #ffffff !important;
 }
 #tab-discord .df-panel-title,
 #tab-discord .df-ts-label,
@@ -1740,8 +1750,11 @@ select.df-ts-input {
 #tab-discord .df-note,
 #tab-discord .df-note code,
 #tab-discord .dc-content,
-#tab-discord .dc-name {
+#tab-discord .dc-name,
+#tab-discord .df-ts-field,
+#tab-discord ::placeholder {
   color: #e2e8f0 !important;
+  opacity: 1;
 }
 #tab-discord .df-note code {
   background: rgba(15,23,42,0.9) !important;
