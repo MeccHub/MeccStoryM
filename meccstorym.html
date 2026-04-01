@@ -1600,6 +1600,52 @@ select.df-ts-input {
   color: #ffffff;
 }
 
+/* Global wrapper audit pass: catch remaining light wrappers in non-home tabs */
+.tab-section:not(#tab-home) .df-panel,
+.tab-section:not(#tab-home) .pr-controls,
+.tab-section:not(#tab-home) .pr-table-wrap,
+.tab-section:not(#tab-home) .dmg-panel,
+.tab-section:not(#tab-home) .dmg-kpi,
+.tab-section:not(#tab-home) .dmg-upload,
+.tab-section:not(#tab-home) .dmg-opt-out,
+.tab-section:not(#tab-home) .rt-server-time,
+.tab-section:not(#tab-home) .rt-card,
+.tab-section:not(#tab-home) .rt-pop-settings,
+.tab-section:not(#tab-home) .ev-card,
+.tab-section:not(#tab-home) .ev-custom-panel,
+.tab-section:not(#tab-home) .ev-custom-item,
+.tab-section:not(#tab-home) .ev-end-mode-toggle,
+.tab-section:not(#tab-home) .gg-group,
+.tab-section:not(#tab-home) .gg-card,
+.tab-section:not(#tab-home) .links-panel,
+.tab-section:not(#tab-home) .be-panel,
+.tab-section:not(#tab-home) .meso-panel,
+.tab-section:not(#tab-home) .mdc-panel,
+.tab-section:not(#tab-home) [style*="background:#fff"],
+.tab-section:not(#tab-home) [style*="background: #fff"] {
+  background: rgba(15,23,42,0.72) !important;
+  border-color: rgba(148,163,184,0.22) !important;
+  box-shadow: 0 10px 22px rgba(2,6,23,0.24) !important;
+  color: #e2e8f0 !important;
+}
+
+/* Ensure text inside wrappers is not dark */
+.tab-section:not(#tab-home) .df-panel *,
+.tab-section:not(#tab-home) .pr-controls *,
+.tab-section:not(#tab-home) .pr-table-wrap *,
+.tab-section:not(#tab-home) .dmg-panel *,
+.tab-section:not(#tab-home) .rt-card *,
+.tab-section:not(#tab-home) .ev-card *,
+.tab-section:not(#tab-home) .ev-custom-panel *,
+.tab-section:not(#tab-home) .gg-group *,
+.tab-section:not(#tab-home) .gg-card *,
+.tab-section:not(#tab-home) .links-panel *,
+.tab-section:not(#tab-home) .be-panel *,
+.tab-section:not(#tab-home) .meso-panel *,
+.tab-section:not(#tab-home) .mdc-panel * {
+  color: inherit;
+}
+
 /* Main home cards hard override */
 .tools-grid .tool-card {
   background: rgba(15,23,42,0.72) !important;
