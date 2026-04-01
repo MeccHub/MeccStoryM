@@ -1870,6 +1870,42 @@ select.df-ts-input {
   color: #ffffff !important;
   box-shadow: none !important;
 }
+
+/* Logo-hue harmony pass */
+:root {
+  --brand-logo: #ABB5D4;
+  --brand-logo-rgb: 171,181,212;
+}
+
+.tab-btn:hover { background: rgba(var(--brand-logo-rgb), 0.14) !important; }
+.tab-btn.active {
+  background: rgba(var(--brand-logo-rgb), 0.22) !important;
+  border: 1px solid rgba(var(--brand-logo-rgb), 0.34);
+}
+
+.tools-grid .tool-card,
+.tab-section:not(#tab-home) .df-panel,
+.tab-section:not(#tab-home) .pr-controls,
+.tab-section:not(#tab-home) .pr-table-wrap,
+.tab-section:not(#tab-home) .dmg-panel,
+.tab-section:not(#tab-home) .rt-card,
+.tab-section:not(#tab-home) .ev-card,
+.tab-section:not(#tab-home) .ev-custom-panel,
+.tab-section:not(#tab-home) .gg-group,
+.tab-section:not(#tab-home) .gg-card {
+  border-color: rgba(var(--brand-logo-rgb), 0.28) !important;
+}
+
+.df-copy-btn,
+.ev-refresh-btn,
+.pr-refresh-btn {
+  box-shadow: 0 6px 18px rgba(var(--brand-logo-rgb), 0.28) !important;
+}
+
+.topbar-icon,
+.home-logo-icon {
+  background: linear-gradient(135deg, #ABB5D4, #B8C2DE) !important;
+}
 </style>
 </head>
 <body>
