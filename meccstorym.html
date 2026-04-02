@@ -1791,6 +1791,56 @@ select.df-ts-input {
   border: 1px solid rgba(148,163,184,0.26) !important;
 }
 
+.ts-item-link {
+  color: var(--c-text-primary) !important;
+  text-decoration: none !important;
+  font-weight: 800;
+}
+.ts-item-link:hover {
+  color: var(--c-accent) !important;
+  text-decoration: underline !important;
+}
+.ts-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: rgba(2,6,23,0.58);
+  backdrop-filter: blur(2px);
+}
+.ts-modal.open { display: flex; }
+.ts-modal-card {
+  width: min(1100px, 94vw);
+  max-height: 86vh;
+  overflow: auto;
+  background: var(--c-surface-strong);
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(2,6,23,0.35);
+  padding: 14px;
+}
+.ts-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.ts-modal-close {
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  color: var(--c-text-primary);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+body[data-theme="light"] .ts-modal-card {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+
 /* Discord Message Formatter contrast pass */
 #tab-discord .df-panel,
 #tab-discord .df-toolbar,
@@ -3955,8 +4005,17 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
 
     <div class="pr-results-bar" id="tsResultsBar"></div>
     <div class="pr-table-wrap" id="tsTableWrap"></div>
-    <div class="pr-table-wrap" id="tsDetailWrap" style="margin-top:14px;display:none;"></div>
   </section>
+  </div>
+
+  <div class="ts-modal" id="tsDetailModal" onclick="if(event.target===this)tsCloseItemModal()">
+    <div class="ts-modal-card">
+      <div class="ts-modal-head">
+        <div id="tsModalTitle" style="font-weight:900;font-size:18px;">TS Item Detail</div>
+        <button class="ts-modal-close" onclick="tsCloseItemModal()">Close</button>
+      </div>
+      <div id="tsModalBody"></div>
+    </div>
   </div>
 
     <!-- ════════ DMG CALCULATOR ════════ -->
@@ -6247,7 +6306,7 @@ function tsApplyFilters(){
   wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;">
     <thead><tr><th>Name (click)</th><th>Rank</th><th>Class/Type</th><th>SF</th><th>Price</th><th>Item Avg</th><th>Trend</th><th>Samples</th><th>Submitted</th></tr></thead>
     <tbody>${rows.map(r=>`<tr>
-      <td><a href="#" onclick='tsShowItem(${JSON.stringify(String(r.item||""))});return false;'>${prEsc(r.keyName||r.item)}</a></td>
+      <td><a class="ts-item-link" href="#" onclick='tsShowItem(${JSON.stringify(String(r.item||""))});return false;'>${prEsc(r.keyName||r.item)}</a></td>
       <td>${prEsc(r.rank||'—')}</td>
       <td>${prEsc(r.classType||'—')}</td>
       <td>${prEsc(r.sf||'—')}</td>
@@ -6268,10 +6327,12 @@ function tsClearFilters(){
 
 function tsShowItem(itemKey){
   const it = tsItemMap.get(itemKey);
-  const wrap=document.getElementById('tsDetailWrap');
-  if(!wrap || !it){ if(wrap) wrap.style.display='none'; return; }
+  const modal=document.getElementById('tsDetailModal');
+  const title=document.getElementById('tsModalTitle');
+  const body=document.getElementById('tsModalBody');
+  if(!modal || !title || !body || !it){ return; }
+
   const rows=(it.latest||[]).slice().sort((a,b)=> String(b.submitted_at||'').localeCompare(String(a.submitted_at||'')));
-  const prices=rows.map(r=>Number(r.price||0)).filter(Boolean);
   const monthly={};
   rows.forEach(r=>{
     const d=new Date(r.submitted_at||'');
@@ -6286,9 +6347,8 @@ function tsShowItem(itemKey){
     return `<tr><td>${k}</td><td>${arr.length}</td><td>${avg?avg.toLocaleString():'—'}</td></tr>`;
   }).join('');
 
-  wrap.style.display='block';
-  wrap.innerHTML = `<div style="padding:12px;display:grid;gap:10px;">
-    <div style="font-weight:800;font-size:16px;">${prEsc(it.item_name||itemKey)}</div>
+  title.textContent = it.item_name || itemKey;
+  body.innerHTML = `<div style="display:grid;gap:10px;">
     <div class="pr-results-bar">Data points: <strong>${it.samples||rows.length}</strong> · Overall avg: <strong>${it.avg_price?Number(it.avg_price).toLocaleString():'—'}</strong> · Last updated: <strong>${prEsc(tsFeed.generated_at_utc||'—')}</strong></div>
     <div style="max-height:34vh;overflow:auto;">
       <table class="pr-table" style="font-size:12px;">
@@ -6303,6 +6363,12 @@ function tsShowItem(itemKey){
       </table>
     </div>
   </div>`;
+
+  modal.classList.add('open');
+}
+
+function tsCloseItemModal(){
+  document.getElementById('tsDetailModal')?.classList.remove('open');
 }
 
 /* ================================================================
