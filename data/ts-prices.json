@@ -1,6 +1,262 @@
 {
-  "generated_at_utc": "2026-04-02T19:14:12Z",
+  "generated_at_utc": "2026-04-02T20:26:21Z",
   "items": [
+    {
+      "avg_price": 49894320,
+      "item_id": 5,
+      "item_name": "Chaos Crystal Piece x10 Exchange Ticket | consumable",
+      "latest": [
+        {
+          "entry_id": 25,
+          "note": "DEMO_SEED",
+          "price": 49966480,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-01 02:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 24,
+          "note": "DEMO_SEED",
+          "price": 49966480,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-30 16:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 23,
+          "note": "DEMO_SEED",
+          "price": 49966480,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-26 00:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 22,
+          "note": "DEMO_SEED",
+          "price": 48500000,
+          "quantity": 1,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-19 18:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 21,
+          "note": "DEMO_SEED",
+          "price": 49966480,
+          "quantity": 1,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-12 12:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 20,
+          "note": "DEMO_SEED",
+          "price": 51000000,
+          "quantity": 10,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-05 14:26:14",
+          "world": "Scania"
+        }
+      ],
+      "max_price": 51000000,
+      "min_price": 48500000,
+      "samples": 6
+    },
+    {
+      "avg_price": 141807978,
+      "item_id": 6,
+      "item_name": "Chaos Crystal Piece x15 Exchange Ticket | consumable",
+      "latest": [
+        {
+          "entry_id": 31,
+          "note": "DEMO_SEED",
+          "price": 139615956,
+          "quantity": 1,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-01 17:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 30,
+          "note": "DEMO_SEED",
+          "price": 139615956,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-30 16:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 29,
+          "note": "DEMO_SEED",
+          "price": 145000000,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-26 11:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 28,
+          "note": "DEMO_SEED",
+          "price": 145000000,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-19 12:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 27,
+          "note": "DEMO_SEED",
+          "price": 139615956,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-12 18:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 26,
+          "note": "DEMO_SEED",
+          "price": 142000000,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-05 04:26:14",
+          "world": "Scania"
+        }
+      ],
+      "max_price": 145000000,
+      "min_price": 139615956,
+      "samples": 6
+    },
+    {
+      "avg_price": 165726451,
+      "item_id": 7,
+      "item_name": "Chaos Crystal Piece x20 Exchange Ticket | consumable",
+      "latest": [
+        {
+          "entry_id": 37,
+          "note": "DEMO_SEED",
+          "price": 155458707,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-01 01:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 36,
+          "note": "DEMO_SEED",
+          "price": 168800000,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-30 10:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 35,
+          "note": "DEMO_SEED",
+          "price": 168800000,
+          "quantity": 10,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-26 00:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 34,
+          "note": "DEMO_SEED",
+          "price": 170000000,
+          "quantity": 5,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-19 06:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 33,
+          "note": "DEMO_SEED",
+          "price": 168800000,
+          "quantity": 10,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-12 11:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 32,
+          "note": "DEMO_SEED",
+          "price": 162500000,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-05 00:26:14",
+          "world": "Scania"
+        }
+      ],
+      "max_price": 170000000,
+      "min_price": 155458707,
+      "samples": 6
+    },
+    {
+      "avg_price": 298614807,
+      "item_id": 4,
+      "item_name": "Gummy Bear Damage Skin (Unit) Exchange Ticket | consumable",
+      "latest": [
+        {
+          "entry_id": 19,
+          "note": "DEMO_SEED",
+          "price": 298594422,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-01 06:26:14",
+          "world": "Inosys"
+        },
+        {
+          "entry_id": 18,
+          "note": "DEMO_SEED",
+          "price": 301000000,
+          "quantity": 10,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-30 13:26:14",
+          "world": "Inosys"
+        },
+        {
+          "entry_id": 17,
+          "note": "DEMO_SEED",
+          "price": 305500000,
+          "quantity": 5,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-26 05:26:14",
+          "world": "Inosys"
+        },
+        {
+          "entry_id": 16,
+          "note": "DEMO_SEED",
+          "price": 298594422,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-19 13:26:14",
+          "world": "Inosys"
+        },
+        {
+          "entry_id": 15,
+          "note": "DEMO_SEED",
+          "price": 294000000,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-12 04:26:14",
+          "world": "Inosys"
+        },
+        {
+          "entry_id": 14,
+          "note": "DEMO_SEED",
+          "price": 294000000,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-05 12:26:14",
+          "world": "Inosys"
+        }
+      ],
+      "max_price": 305500000,
+      "min_price": 294000000,
+      "samples": 6
+    },
     {
       "avg_price": 120000000,
       "item_id": 1,
@@ -19,6 +275,134 @@
       "max_price": 120000000,
       "min_price": 120000000,
       "samples": 1
+    },
+    {
+      "avg_price": 1904333333,
+      "item_id": 3,
+      "item_name": "Utgard Staff | Mythic | Mage Weapon | SF22",
+      "latest": [
+        {
+          "entry_id": 13,
+          "note": "DEMO_SEED",
+          "price": 1912000000,
+          "quantity": 5,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-01 04:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 12,
+          "note": "DEMO_SEED",
+          "price": 1912000000,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-30 12:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 11,
+          "note": "DEMO_SEED",
+          "price": 1912000000,
+          "quantity": 8,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-26 03:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 10,
+          "note": "DEMO_SEED",
+          "price": 1888000000,
+          "quantity": 5,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-19 15:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 9,
+          "note": "DEMO_SEED",
+          "price": 1890000000,
+          "quantity": 10,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-12 20:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 8,
+          "note": "DEMO_SEED",
+          "price": 1912000000,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-05 10:26:14",
+          "world": "Scania"
+        }
+      ],
+      "max_price": 1912000000,
+      "min_price": 1888000000,
+      "samples": 6
+    },
+    {
+      "avg_price": 4490867208,
+      "item_id": 2,
+      "item_name": "Vepar Bloody Mail | Ancient | Pirate Outfit | SF24",
+      "latest": [
+        {
+          "entry_id": 7,
+          "note": "DEMO_SEED",
+          "price": 4450000000,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-01 15:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 6,
+          "note": "DEMO_SEED",
+          "price": 4478000000,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-30 20:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 5,
+          "note": "DEMO_SEED",
+          "price": 4521000000,
+          "quantity": 2,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-26 14:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 4,
+          "note": "DEMO_SEED",
+          "price": 4478000000,
+          "quantity": 5,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-19 06:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 3,
+          "note": "DEMO_SEED",
+          "price": 4497203250,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-12 05:26:14",
+          "world": "Scania"
+        },
+        {
+          "entry_id": 2,
+          "note": "DEMO_SEED",
+          "price": 4521000000,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-03-05 04:26:14",
+          "world": "Scania"
+        }
+      ],
+      "max_price": 4521000000,
+      "min_price": 4450000000,
+      "samples": 6
     }
   ],
   "schema_version": 1
