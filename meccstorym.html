@@ -2013,6 +2013,60 @@ body[data-theme="light"] {
   --c-accent-strong: #7c3aed;
 }
 
+
+/* Dark-mode text safety net (prevent dark text on dark surfaces) */
+body[data-theme="dark"] {
+  color: var(--c-text-primary);
+}
+body[data-theme="dark"] .topbar-name,
+body[data-theme="dark"] .df-panel-title,
+body[data-theme="dark"] .pr-title,
+body[data-theme="dark"] .card-name,
+body[data-theme="dark"] .dmg-panel-title,
+body[data-theme="dark"] .rt-card-name,
+body[data-theme="dark"] .ev-card-title,
+body[data-theme="dark"] .gg-title,
+body[data-theme="dark"] .links-title {
+  color: var(--c-text-primary) !important;
+}
+body[data-theme="dark"] .card-desc,
+body[data-theme="dark"] .df-note,
+body[data-theme="dark"] .df-char-count,
+body[data-theme="dark"] .pr-meta,
+body[data-theme="dark"] .pr-results-bar,
+body[data-theme="dark"] .pr-page-info,
+body[data-theme="dark"] .dmg-label,
+body[data-theme="dark"] .dmg-ocr-status,
+body[data-theme="dark"] .rt-reset-time,
+body[data-theme="dark"] .rt-card-label,
+body[data-theme="dark"] .rt-unit-label,
+body[data-theme="dark"] .ev-meta,
+body[data-theme="dark"] .ev-note,
+body[data-theme="dark"] .ev-dates,
+body[data-theme="dark"] .gg-meta,
+body[data-theme="dark"] .gg-summary,
+body[data-theme="dark"] .link-desc {
+  color: var(--c-text-secondary) !important;
+}
+body[data-theme="dark"] .tab-section:not(#tab-home) p,
+body[data-theme="dark"] .tab-section:not(#tab-home) li,
+body[data-theme="dark"] .tab-section:not(#tab-home) td,
+body[data-theme="dark"] .tab-section:not(#tab-home) th,
+body[data-theme="dark"] .tab-section:not(#tab-home) label,
+body[data-theme="dark"] .tab-section:not(#tab-home) span,
+body[data-theme="dark"] .tab-section:not(#tab-home) summary,
+body[data-theme="dark"] .tab-section:not(#tab-home) strong {
+  color: inherit;
+}
+body[data-theme="dark"] .tab-section:not(#tab-home) input,
+body[data-theme="dark"] .tab-section:not(#tab-home) textarea,
+body[data-theme="dark"] .tab-section:not(#tab-home) select {
+  color: var(--c-text-primary) !important;
+}
+body[data-theme="dark"] .tab-section:not(#tab-home) ::placeholder {
+  color: var(--c-text-muted) !important;
+  opacity: 1;
+}
 </style>
 </head>
 <body>
