@@ -154,6 +154,7 @@ body {
   font-family: 'Fredoka One', cursive;
   font-size: 22px;
   line-height: 1;
+  cursor: pointer;
 }
 .topbar-name .brand-m-orange,
 .home-title .brand-m-orange { color: #ff8a1f !important; }
@@ -2338,7 +2339,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
     <div class="topbar-brand">
       <div class="topbar-icon" onclick="mascotEasterEgg(this)" title="Mecc mascot"><img class="topbar-logo-media" src="assets/meccstorym-logo.gif" alt="Mecc mascot" /></div>
       <div>
-        <div class="topbar-name"><span class="brand-mecc-blue">Mecc</span><span class="brand-story">Story</span><span class="brand-m-orange">M</span></div>
+        <div class="topbar-name" onclick="switchTab('home', document.querySelector('.tab-btn[data-tab=\'home\']'));closeMobileNav();" title="Go to Home"><span class="brand-mecc-blue">Mecc</span><span class="brand-story">Story</span><span class="brand-m-orange">M</span></div>
         <div class="topbar-sub">Tools by Mecc</div>
       </div>
     </div>
