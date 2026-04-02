@@ -2402,6 +2402,9 @@ body[data-theme="dark"] #tab-guide .gg-card {
     <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this);closeMobileNav()" style="opacity:.65;">
       <span class="tab-icon">🎲</span> Item Probabilities
     </button>
+    <button class="tab-btn" data-tab="ts" onclick="switchTab('ts',this);closeMobileNav()">
+      <span class="tab-icon">📊</span> TS Price Viewer
+    </button>
   </div>
 
   <!-- ── Content ── -->
@@ -2431,6 +2434,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="tool-card card-yellow" onclick="switchTab('links', document.querySelector('[data-tab=links]'))"><div class="card-icon icon-yellow">🔗</div><div class="card-name">Useful Links</div><div class="card-desc">Quick-access links for news, events, patch notes and channels.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-green" onclick="switchTab('meso', document.querySelector('[data-tab=meso]'))"><div class="card-icon icon-green">💰</div><div class="card-name">Meso/hr Calculator</div><div class="card-desc">Upload result screenshots and auto-calc mesos per hour.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))"><div class="card-icon icon-purple">🎲</div><div class="card-name">Item Probabilities</div><div class="card-desc">RNG rates for events, draws, cubes, flames, etc.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-sky" onclick="switchTab('ts', document.querySelector('[data-tab=ts]'))"><div class="card-icon icon-sky">📊</div><div class="card-name">TS Price Viewer</div><div class="card-desc">View submitted Trade Station historical prices and averages.</div><span class="card-arrow">→</span></div>
       </div>
     </section>
 
@@ -3902,6 +3906,34 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   </section>
   </div>
 
+  <!-- ════════ TS PRICE VIEWER ════════ -->
+  <div class="content" id="ts-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <section id="tab-ts" style="display:block;">
+    <div class="pr-topbar">
+      <div>
+        <div class="pr-title">📊 TS Price Viewer</div>
+        <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="tsMetaText">Loading TS data…</span></div>
+      </div>
+      <button class="pr-refresh-btn" id="tsRefreshBtn" onclick="tsLoad(true)"><span id="tsRefreshIcon">🔄</span> Refresh</button>
+    </div>
+
+    <div class="pr-controls" style="margin-bottom:10px;">
+      <div class="pr-ctrl-field" style="flex:2;min-width:240px;">
+        <div class="pr-ctrl-label">Search Item</div>
+        <input class="pr-ctrl-input" id="tsSearch" type="text" placeholder="Search item name..." oninput="tsApplyFilters()" />
+      </div>
+      <div class="pr-ctrl-field" style="min-width:180px;">
+        <div class="pr-ctrl-label">World</div>
+        <select class="pr-ctrl-input" id="tsWorldFilter" onchange="tsApplyFilters()"><option value="">All</option></select>
+      </div>
+      <button class="pr-clear-btn" onclick="tsClearFilters()">✕ Clear</button>
+    </div>
+
+    <div class="pr-results-bar" id="tsResultsBar"></div>
+    <div class="pr-table-wrap" id="tsTableWrap"></div>
+  </section>
+  </div>
+
     <!-- ════════ DMG CALCULATOR ════════ -->
     <div class="content" id="dmg-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
     <section class="tab-section active" id="tab-dmg" style="display:block;">
@@ -4008,16 +4040,19 @@ function switchTab(id, btn, fromPop = false) {
   const resetsContent  = document.getElementById('resets-content');
   const eventsContent  = document.getElementById('events-content');
   const probsContent   = document.getElementById('probs-content');
+  const tsContent      = document.getElementById('ts-content');
   // Hide all
   mainContent.style.display    = 'none';
   dmgContent.style.display     = 'none';
   resetsContent.style.display  = 'none';
   eventsContent.style.display  = 'none';
   probsContent.style.display   = 'none';
+  tsContent.style.display      = 'none';
   if      (id === 'dmg')     { dmgContent.style.display    = 'block'; }
   else if (id === 'resets')  { resetsContent.style.display = 'block'; }
   else if (id === 'events')  { eventsContent.style.display = 'block'; evLoad(); }
   else if (id === 'probs')   { probsContent.style.display  = 'block'; prLoad(); }
+  else if (id === 'ts')      { tsContent.style.display     = 'block'; tsLoad(); }
   else {
     mainContent.style.display = '';
     // make Useful Information wider while keeping other tabs standard width
@@ -4042,7 +4077,7 @@ function switchTab(id, btn, fromPop = false) {
 
 function resolveTabFromHash(){
   const raw=(location.hash||'#home').replace(/^#/,'').trim().toLowerCase();
-  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs'};
+  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs','ts':'ts','ts-viewer':'ts','trade-station':'ts','ts-prices':'ts'};
   const tab=alias[raw] || raw || 'home';
   return document.querySelector(`.tab-btn[data-tab="${tab}"]`) ? tab : 'home';
 }
@@ -6081,6 +6116,83 @@ function prClearFilters(){
   const b=document.getElementById('prRarityFilter'); if(b) b.value='';
   const c=document.getElementById('prEquipFilter'); if(c) c.value='';
   prApplyFilters();
+}
+
+/* ================================================================
+   TS PRICE VIEWER
+================================================================ */
+let tsFeed = { items: [] };
+let tsRows = [];
+
+async function tsLoad(force){
+  try{
+    const res = await fetch(`data/ts-prices.json${force?`?t=${Date.now()}`:''}`, {cache:'no-store'});
+    if(!res.ok) throw new Error('feed unavailable');
+    tsFeed = await res.json();
+    tsRows = [];
+    (tsFeed.items||[]).forEach(it=>{
+      (it.latest||[]).forEach(r=> tsRows.push({
+        item: it.item_name,
+        avg: it.avg_price,
+        samples: it.samples,
+        world: r.world || '—',
+        price: r.price,
+        at: r.submitted_at,
+        entry_id: r.entry_id
+      }));
+    });
+
+    const worlds=[...new Set(tsRows.map(r=>r.world).filter(Boolean))].sort();
+    const wf=document.getElementById('tsWorldFilter');
+    if(wf) wf.innerHTML='<option value="">All</option>'+worlds.map(w=>`<option>${prEsc(w)}</option>`).join('');
+
+    const m=document.getElementById('tsMetaText');
+    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points · Updated ${tsFeed.generated_at_utc||'—'}`;
+    tsApplyFilters();
+  }catch(e){
+    const w=document.getElementById('tsTableWrap');
+    if(w) w.innerHTML='<div class="pr-state"><div class="pr-state-icon">⚠️</div><div class="pr-state-title">Could not load TS price feed</div></div>';
+    const m=document.getElementById('tsMetaText');
+    if(m) m.textContent='TS feed unavailable';
+  }
+}
+
+function tsApplyFilters(){
+  const q=(document.getElementById('tsSearch')?.value||'').toLowerCase().trim();
+  const world=(document.getElementById('tsWorldFilter')?.value||'').trim();
+  const rows=tsRows.filter(r=>{
+    if(world && r.world!==world) return false;
+    if(!q) return true;
+    return (r.item+' '+r.world).toLowerCase().includes(q);
+  });
+
+  const bar=document.getElementById('tsResultsBar');
+  if(bar) bar.innerHTML=`Showing <strong>${rows.length}</strong> of <strong>${tsRows.length}</strong> entries`;
+
+  const wrap=document.getElementById('tsTableWrap');
+  if(!wrap) return;
+  if(!rows.length){
+    wrap.innerHTML='<div class="pr-state"><div class="pr-state-icon">🔎</div><div class="pr-state-title">No matches</div></div>';
+    return;
+  }
+
+  wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;">
+    <thead><tr><th>Item</th><th>World</th><th>Price</th><th>Item Avg</th><th>Samples</th><th>Submitted</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr>
+      <td>${prEsc(r.item)}</td>
+      <td>${prEsc(r.world)}</td>
+      <td>${Number(r.price||0).toLocaleString()}</td>
+      <td>${r.avg?Number(r.avg).toLocaleString():'—'}</td>
+      <td>${r.samples??'—'}</td>
+      <td>${prEsc(r.at||'—')}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function tsClearFilters(){
+  const a=document.getElementById('tsSearch'); if(a) a.value='';
+  const b=document.getElementById('tsWorldFilter'); if(b) b.value='';
+  tsApplyFilters();
 }
 
 /* ================================================================
