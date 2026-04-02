@@ -2308,7 +2308,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
   <!-- ── Top bar ── -->
   <div class="topbar">
     <div class="topbar-brand">
-      <div class="topbar-icon" onclick="mascotEasterEgg(this)" title="Mecc mascot"><img class="topbar-logo-media" src="assets/meccstorym-mascot.png" alt="Mecc mascot" /></div>
+      <div class="topbar-icon" onclick="mascotEasterEgg(this)" title="Mecc mascot"><img class="topbar-logo-media" src="assets/meccstorym-logo.gif" alt="Mecc mascot" /></div>
       <div>
         <div class="topbar-name">MeccStoryM</div>
         <div class="topbar-sub">Tools by Mecc</div>
@@ -2378,7 +2378,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
     <!-- ════════ HOME ════════ -->
     <section class="tab-section active" id="tab-home">
       <div class="home-header">
-        <div class="home-logo-icon"><img class="home-logo-media" src="assets/meccstorym-logo.gif" alt="MeccStoryM logo" /></div>
+        <div class="home-logo-icon"><img class="home-logo-media" id="homeLogoSwap" src="assets/meccstorym-mascot.png" alt="MeccStoryM logo" /></div>
         <div class="home-title">MeccStoryM</div>
         <div class="home-sub">MapleStory M tools made by Mecc.</div>
         <div class="home-sub" style="font-weight:700;">Server (UTC−8): <span id="homeServerTime">--:--:--</span> · Local: <span id="homeLocalTime">--:--:--</span></div>
@@ -4059,6 +4059,17 @@ function toggleTheme(){
 (function initTheme(){
   const saved = localStorage.getItem('msm_theme') || 'dark';
   applyTheme(saved);
+})();
+
+(function initHomeLogoSwap(){
+  const el = document.getElementById('homeLogoSwap');
+  if(!el) return;
+  const logos = ['assets/meccstorym-mascot.png','assets/meccstorym-mascot-2.png'];
+  let i = 0;
+  setInterval(()=>{
+    i = (i + 1) % logos.length;
+    el.src = logos[i];
+  }, 3000);
 })();
 
 /* ═══════════════════════════════════════════════════════
