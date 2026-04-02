@@ -3955,6 +3955,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
 
     <div class="pr-results-bar" id="tsResultsBar"></div>
     <div class="pr-table-wrap" id="tsTableWrap"></div>
+    <div class="pr-table-wrap" id="tsDetailWrap" style="margin-top:14px;display:none;"></div>
   </section>
   </div>
 
@@ -6147,6 +6148,7 @@ function prClearFilters(){
 ================================================================ */
 let tsFeed = { items: [] };
 let tsRows = [];
+let tsItemMap = new Map();
 
 function tsParseIso(s){
   const d = new Date(s||'');
@@ -6184,6 +6186,7 @@ async function tsLoad(force){
       const prices=(it.latest||[]).map(x=>Number(x.price||0)).filter(Boolean).reverse();
       const spark=tsSpark(prices);
       const key=tsParseKey(it.item_name);
+      tsItemMap.set(it.item_name, { ...it, spark, key });
       (it.latest||[]).forEach(r=> tsRows.push({
         item: it.item_name,
         keyName: key.name,
@@ -6192,7 +6195,6 @@ async function tsLoad(force){
         sf: key.sf,
         avg: it.avg_price,
         samples: it.samples,
-        world: r.world || '—',
         price: r.price,
         at: r.submitted_at,
         atDate: tsParseIso(r.submitted_at),
@@ -6201,12 +6203,8 @@ async function tsLoad(force){
       }));
     });
 
-    const worlds=[...new Set(tsRows.map(r=>r.world).filter(Boolean))].sort();
-    const wf=document.getElementById('tsWorldFilter');
-    if(wf) wf.innerHTML='<option value="">All</option>'+worlds.map(w=>`<option>${prEsc(w)}</option>`).join('');
-
     const m=document.getElementById('tsMetaText');
-    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points`;
+    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points (NA1 Scania)`;
     const lu=document.getElementById('tsLastUpdated');
     if(lu){
       const d=tsParseIso(tsFeed.generated_at_utc);
@@ -6225,17 +6223,15 @@ async function tsLoad(force){
 
 function tsApplyFilters(){
   const q=(document.getElementById('tsSearch')?.value||'').toLowerCase().trim();
-  const world=(document.getElementById('tsWorldFilter')?.value||'').trim();
   const windowKey=(document.getElementById('tsWindowFilter')?.value||'7d').trim();
   const windowMs=tsWindowMs(windowKey);
   const now=Date.now();
 
   const rows=tsRows.filter(r=>{
-    if(world && r.world!==world) return false;
     if(windowMs && r.atDate && (now - r.atDate.getTime()) > windowMs) return false;
     if(windowMs && !r.atDate) return false;
     if(!q) return true;
-    return (r.item+' '+r.world+' '+r.rank+' '+r.classType+' '+r.sf).toLowerCase().includes(q);
+    return (r.item+' '+r.rank+' '+r.classType+' '+r.sf).toLowerCase().includes(q);
   });
 
   const bar=document.getElementById('tsResultsBar');
@@ -6249,13 +6245,12 @@ function tsApplyFilters(){
   }
 
   wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;">
-    <thead><tr><th>Name</th><th>Rank</th><th>Class/Type</th><th>SF</th><th>World</th><th>Price</th><th>Item Avg</th><th>Trend</th><th>Samples</th><th>Submitted</th></tr></thead>
+    <thead><tr><th>Name (click)</th><th>Rank</th><th>Class/Type</th><th>SF</th><th>Price</th><th>Item Avg</th><th>Trend</th><th>Samples</th><th>Submitted</th></tr></thead>
     <tbody>${rows.map(r=>`<tr>
-      <td>${prEsc(r.keyName||r.item)}</td>
+      <td><a href="#" onclick='tsShowItem(${JSON.stringify(String(r.item||""))});return false;'>${prEsc(r.keyName||r.item)}</a></td>
       <td>${prEsc(r.rank||'—')}</td>
       <td>${prEsc(r.classType||'—')}</td>
       <td>${prEsc(r.sf||'—')}</td>
-      <td>${prEsc(r.world)}</td>
       <td>${Number(r.price||0).toLocaleString()}</td>
       <td>${r.avg?Number(r.avg).toLocaleString():'—'}</td>
       <td style="font-family:ui-monospace,monospace;letter-spacing:1px;">${prEsc(r.spark||'—')}</td>
@@ -6267,9 +6262,47 @@ function tsApplyFilters(){
 
 function tsClearFilters(){
   const a=document.getElementById('tsSearch'); if(a) a.value='';
-  const b=document.getElementById('tsWorldFilter'); if(b) b.value='';
   const c=document.getElementById('tsWindowFilter'); if(c) c.value='7d';
   tsApplyFilters();
+}
+
+function tsShowItem(itemKey){
+  const it = tsItemMap.get(itemKey);
+  const wrap=document.getElementById('tsDetailWrap');
+  if(!wrap || !it){ if(wrap) wrap.style.display='none'; return; }
+  const rows=(it.latest||[]).slice().sort((a,b)=> String(b.submitted_at||'').localeCompare(String(a.submitted_at||'')));
+  const prices=rows.map(r=>Number(r.price||0)).filter(Boolean);
+  const monthly={};
+  rows.forEach(r=>{
+    const d=new Date(r.submitted_at||'');
+    if(isNaN(d.getTime())) return;
+    const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if(!monthly[k]) monthly[k]=[];
+    monthly[k].push(Number(r.price||0));
+  });
+  const monthRows=Object.keys(monthly).sort().map(k=>{
+    const arr=monthly[k].filter(Boolean);
+    const avg=arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
+    return `<tr><td>${k}</td><td>${arr.length}</td><td>${avg?avg.toLocaleString():'—'}</td></tr>`;
+  }).join('');
+
+  wrap.style.display='block';
+  wrap.innerHTML = `<div style="padding:12px;display:grid;gap:10px;">
+    <div style="font-weight:800;font-size:16px;">${prEsc(it.item_name||itemKey)}</div>
+    <div class="pr-results-bar">Data points: <strong>${it.samples||rows.length}</strong> · Overall avg: <strong>${it.avg_price?Number(it.avg_price).toLocaleString():'—'}</strong> · Last updated: <strong>${prEsc(tsFeed.generated_at_utc||'—')}</strong></div>
+    <div style="max-height:34vh;overflow:auto;">
+      <table class="pr-table" style="font-size:12px;">
+        <thead><tr><th>Submission Time</th><th>Price</th><th>Qty</th><th>Note</th></tr></thead>
+        <tbody>${rows.map(r=>`<tr><td>${prEsc(r.submitted_at||'—')}</td><td>${Number(r.price||0).toLocaleString()}</td><td>${r.quantity??'—'}</td><td>${prEsc(r.note||'—')}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+    <div style="max-height:24vh;overflow:auto;">
+      <table class="pr-table" style="font-size:12px;">
+        <thead><tr><th>Month</th><th>Data Points</th><th>Monthly Avg</th></tr></thead>
+        <tbody>${monthRows || '<tr><td colspan="3">—</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
 }
 
 /* ================================================================
