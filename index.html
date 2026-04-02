@@ -151,6 +151,17 @@ body {
   color: #e2e8f0; margin-top: 1px;
   text-shadow: 0 1px 8px rgba(2,6,23,0.45);
 }
+.theme-btn {
+  border: 1px solid rgba(148,163,184,0.35);
+  background: rgba(15,23,42,0.72);
+  color: #e2e8f0;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+}
+.theme-btn:hover { border-color: #a78bfa; color: #fff; }
 
 /* ── Tab nav ── */
 .tab-nav {
@@ -1912,6 +1923,68 @@ select.df-ts-input {
 .home-logo-icon {
   background: linear-gradient(135deg, #ABB5D4, #B8C2DE) !important;
 }
+
+/* Light theme (based on pre-dark pass) */
+body[data-theme="light"] {
+  background: linear-gradient(180deg, #c8eeff 0%, #e8f7ff 40%, #f0f8ff 100%) !important;
+}
+body[data-theme="light"] .sky-bg {
+  background: linear-gradient(180deg, #c8eeff 0%, #e8f7ff 40%, #f0f8ff 100%) !important;
+}
+body[data-theme="light"] .topbar {
+  background: rgba(255,255,255,0.75) !important;
+  border-bottom: 2px solid rgba(255,255,255,0.9) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07) !important;
+}
+body[data-theme="light"] .topbar-sub,
+body[data-theme="light"] .tab-btn { color: #475569 !important; text-shadow: none !important; }
+body[data-theme="light"] .tab-btn.active { background: white !important; color: #6d28d9 !important; }
+body[data-theme="light"] .theme-btn {
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-color: #dbe3f3 !important;
+}
+body[data-theme="light"] .tool-card,
+body[data-theme="light"] .df-panel,
+body[data-theme="light"] .pr-controls,
+body[data-theme="light"] .pr-table-wrap,
+body[data-theme="light"] .dmg-panel,
+body[data-theme="light"] .dmg-kpi,
+body[data-theme="light"] .rt-card,
+body[data-theme="light"] .rt-server-time,
+body[data-theme="light"] .ev-card,
+body[data-theme="light"] .ev-custom-panel,
+body[data-theme="light"] .ev-custom-item,
+body[data-theme="light"] .gg-card,
+body[data-theme="light"] .gg-group,
+body[data-theme="light"] .links-panel,
+body[data-theme="light"] .be-panel,
+body[data-theme="light"] .meso-panel,
+body[data-theme="light"] .mdc-panel,
+body[data-theme="light"] details {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important;
+}
+body[data-theme="light"] .card-name,
+body[data-theme="light"] .df-panel-title,
+body[data-theme="light"] .pr-title,
+body[data-theme="light"] .ev-card-title,
+body[data-theme="light"] .rt-card-name { color: #1f2937 !important; }
+body[data-theme="light"] .card-desc,
+body[data-theme="light"] .df-note,
+body[data-theme="light"] .pr-meta,
+body[data-theme="light"] .ev-meta,
+body[data-theme="light"] .rt-reset-time,
+body[data-theme="light"] .rt-card-label { color: #475569 !important; }
+body[data-theme="light"] input,
+body[data-theme="light"] textarea,
+body[data-theme="light"] select {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-color: #d1d5db !important;
+}
 </style>
 </head>
 <body>
@@ -1941,6 +2014,8 @@ select.df-ts-input {
         <span class="tab-icon">🏠</span> Home
       </button>
     </nav>
+
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙 Dark</button>
 
     <!-- Hamburger button (mobile only) -->
     <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileNav()" aria-label="Menu">
@@ -3662,6 +3737,23 @@ function updateTopbarState(){
 }
 window.addEventListener('scroll', updateTopbarState, {passive:true});
 setTimeout(updateTopbarState, 0);
+
+function applyTheme(theme){
+  const t = (theme === 'light') ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', t);
+  const b = document.getElementById('themeBtn');
+  if(b) b.textContent = t === 'light' ? '☀️ Light' : '🌙 Dark';
+}
+function toggleTheme(){
+  const cur = document.body.getAttribute('data-theme') || 'dark';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('msm_theme', next);
+  applyTheme(next);
+}
+(function initTheme(){
+  const saved = localStorage.getItem('msm_theme') || 'dark';
+  applyTheme(saved);
+})();
 
 /* ═══════════════════════════════════════════════════════
    SPARKLES
