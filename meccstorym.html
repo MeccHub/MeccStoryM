@@ -161,11 +161,17 @@ body {
 .home-title .brand-mecc-blue { color: #ABB5D4 !important; }
 .topbar-name .brand-story,
 .home-title .brand-story {
-  background: linear-gradient(90deg, #ABB5D4, #6d28d9) !important;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text;
-  color: transparent !important;
+  color: #6d28d9 !important;
+}
+@supports (-webkit-background-clip: text) {
+  .topbar-name .brand-story,
+  .home-title .brand-story {
+    background: linear-gradient(90deg, #ABB5D4, #6d28d9) !important;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text;
+    color: transparent !important;
+  }
 }
 .topbar-sub {
   font-size: 10px; font-weight: 800;
