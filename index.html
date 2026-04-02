@@ -3913,6 +3913,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
       <div>
         <div class="pr-title">📊 TS Price Viewer</div>
         <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="tsMetaText">Loading TS data…</span></div>
+        <div class="pr-meta" style="margin-top:4px;"><span id="tsLastUpdated">Last updated: —</span></div>
       </div>
       <button class="pr-refresh-btn" id="tsRefreshBtn" onclick="tsLoad(true)"><span id="tsRefreshIcon">🔄</span> Refresh</button>
     </div>
@@ -3925,6 +3926,15 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
       <div class="pr-ctrl-field" style="min-width:180px;">
         <div class="pr-ctrl-label">World</div>
         <select class="pr-ctrl-input" id="tsWorldFilter" onchange="tsApplyFilters()"><option value="">All</option></select>
+      </div>
+      <div class="pr-ctrl-field" style="min-width:160px;">
+        <div class="pr-ctrl-label">Window</div>
+        <select class="pr-ctrl-input" id="tsWindowFilter" onchange="tsApplyFilters()">
+          <option value="24h">Last 24h</option>
+          <option value="7d" selected>Last 7d</option>
+          <option value="30d">Last 30d</option>
+          <option value="all">All time</option>
+        </select>
       </div>
       <button class="pr-clear-btn" onclick="tsClearFilters()">✕ Clear</button>
     </div>
@@ -6124,21 +6134,56 @@ function prClearFilters(){
 let tsFeed = { items: [] };
 let tsRows = [];
 
+function tsParseIso(s){
+  const d = new Date(s||'');
+  return isNaN(d.getTime()) ? null : d;
+}
+function tsWindowMs(v){
+  if(v==='24h') return 24*60*60*1000;
+  if(v==='7d') return 7*24*60*60*1000;
+  if(v==='30d') return 30*24*60*60*1000;
+  return null;
+}
+function tsSpark(values){
+  const bars='▁▂▃▄▅▆▇█';
+  if(!values || values.length<2) return '—';
+  const min=Math.min(...values), max=Math.max(...values);
+  if(max===min) return '▅'.repeat(Math.min(values.length,8));
+  return values.slice(-8).map(v=>bars[Math.max(0,Math.min(7,Math.round(((v-min)/(max-min))*7)))]).join('');
+}
+function tsParseKey(item){
+  const parts=String(item||'').split('|').map(x=>x.trim());
+  if(parts.length>=4){
+    return {name:parts[0], rank:parts[1], classType:parts[2], sf:parts[3].replace(/^SF\s*/i,'')};
+  }
+  return {name:item||'—', rank:'—', classType:'—', sf:'—'};
+}
+
 async function tsLoad(force){
   try{
     const res = await fetch(`data/ts-prices.json${force?`?t=${Date.now()}`:''}`, {cache:'no-store'});
     if(!res.ok) throw new Error('feed unavailable');
     tsFeed = await res.json();
     tsRows = [];
+
     (tsFeed.items||[]).forEach(it=>{
+      const prices=(it.latest||[]).map(x=>Number(x.price||0)).filter(Boolean).reverse();
+      const spark=tsSpark(prices);
+      const key=tsParseKey(it.item_name);
       (it.latest||[]).forEach(r=> tsRows.push({
         item: it.item_name,
+        keyName: key.name,
+        rank: key.rank,
+        classType: key.classType,
+        sf: key.sf,
         avg: it.avg_price,
         samples: it.samples,
         world: r.world || '—',
         price: r.price,
         at: r.submitted_at,
-        entry_id: r.entry_id
+        atDate: tsParseIso(r.submitted_at),
+        entry_id: r.entry_id,
+        spark
       }));
     });
 
@@ -6147,23 +6192,36 @@ async function tsLoad(force){
     if(wf) wf.innerHTML='<option value="">All</option>'+worlds.map(w=>`<option>${prEsc(w)}</option>`).join('');
 
     const m=document.getElementById('tsMetaText');
-    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points · Updated ${tsFeed.generated_at_utc||'—'}`;
+    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points`;
+    const lu=document.getElementById('tsLastUpdated');
+    if(lu){
+      const d=tsParseIso(tsFeed.generated_at_utc);
+      lu.textContent='Last updated: '+(d?d.toLocaleString(): (tsFeed.generated_at_utc||'—'));
+    }
     tsApplyFilters();
   }catch(e){
     const w=document.getElementById('tsTableWrap');
     if(w) w.innerHTML='<div class="pr-state"><div class="pr-state-icon">⚠️</div><div class="pr-state-title">Could not load TS price feed</div></div>';
     const m=document.getElementById('tsMetaText');
     if(m) m.textContent='TS feed unavailable';
+    const lu=document.getElementById('tsLastUpdated');
+    if(lu) lu.textContent='Last updated: —';
   }
 }
 
 function tsApplyFilters(){
   const q=(document.getElementById('tsSearch')?.value||'').toLowerCase().trim();
   const world=(document.getElementById('tsWorldFilter')?.value||'').trim();
+  const windowKey=(document.getElementById('tsWindowFilter')?.value||'7d').trim();
+  const windowMs=tsWindowMs(windowKey);
+  const now=Date.now();
+
   const rows=tsRows.filter(r=>{
     if(world && r.world!==world) return false;
+    if(windowMs && r.atDate && (now - r.atDate.getTime()) > windowMs) return false;
+    if(windowMs && !r.atDate) return false;
     if(!q) return true;
-    return (r.item+' '+r.world).toLowerCase().includes(q);
+    return (r.item+' '+r.world+' '+r.rank+' '+r.classType+' '+r.sf).toLowerCase().includes(q);
   });
 
   const bar=document.getElementById('tsResultsBar');
@@ -6177,14 +6235,18 @@ function tsApplyFilters(){
   }
 
   wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;">
-    <thead><tr><th>Item</th><th>World</th><th>Price</th><th>Item Avg</th><th>Samples</th><th>Submitted</th></tr></thead>
+    <thead><tr><th>Name</th><th>Rank</th><th>Class/Type</th><th>SF</th><th>World</th><th>Price</th><th>Item Avg</th><th>Trend</th><th>Samples</th><th>Submitted</th></tr></thead>
     <tbody>${rows.map(r=>`<tr>
-      <td>${prEsc(r.item)}</td>
+      <td>${prEsc(r.keyName||r.item)}</td>
+      <td>${prEsc(r.rank||'—')}</td>
+      <td>${prEsc(r.classType||'—')}</td>
+      <td>${prEsc(r.sf||'—')}</td>
       <td>${prEsc(r.world)}</td>
       <td>${Number(r.price||0).toLocaleString()}</td>
       <td>${r.avg?Number(r.avg).toLocaleString():'—'}</td>
+      <td style="font-family:ui-monospace,monospace;letter-spacing:1px;">${prEsc(r.spark||'—')}</td>
       <td>${r.samples??'—'}</td>
-      <td>${prEsc(r.at||'—')}</td>
+      <td>${r.atDate ? r.atDate.toLocaleString() : prEsc(r.at||'—')}</td>
     </tr>`).join('')}</tbody>
   </table></div>`;
 }
@@ -6192,6 +6254,7 @@ function tsApplyFilters(){
 function tsClearFilters(){
   const a=document.getElementById('tsSearch'); if(a) a.value='';
   const b=document.getElementById('tsWorldFilter'); if(b) b.value='';
+  const c=document.getElementById('tsWindowFilter'); if(c) c.value='7d';
   tsApplyFilters();
 }
 
