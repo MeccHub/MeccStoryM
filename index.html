@@ -4066,7 +4066,13 @@ function toggleTheme(){
 (function initHomeLogoSwap(){
   const el = document.getElementById('homeLogoSwap');
   if(!el) return;
-  const logos = ['assets/meccstorym-mascot.png','assets/meccstorym-mascot-2.png'];
+  const logos = [
+    'assets/meccstorym-mascot.png',
+    'assets/meccstorym-mascot-2.png',
+    'assets/meccstorym-mascot-3.png',
+    'assets/meccstorym-mascot-4.png',
+    'assets/meccstorym-mascot-5.png'
+  ];
   let i = 0;
   setInterval(()=>{
     i = (i + 1) % logos.length;
