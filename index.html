@@ -3987,10 +3987,6 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
         <div class="pr-ctrl-label">Search Item</div>
         <input class="pr-ctrl-input" id="tsSearch" type="text" placeholder="Search item name..." oninput="tsApplyFilters()" />
       </div>
-      <div class="pr-ctrl-field" style="min-width:180px;">
-        <div class="pr-ctrl-label">World</div>
-        <select class="pr-ctrl-input" id="tsWorldFilter" onchange="tsApplyFilters()"><option value="">All</option></select>
-      </div>
       <div class="pr-ctrl-field" style="min-width:160px;">
         <div class="pr-ctrl-label">Window</div>
         <select class="pr-ctrl-input" id="tsWindowFilter" onchange="tsApplyFilters()">
@@ -6263,7 +6259,7 @@ async function tsLoad(force){
     });
 
     const m=document.getElementById('tsMetaText');
-    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points (NA1 Scania)`;
+    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points`;
     const lu=document.getElementById('tsLastUpdated');
     if(lu){
       const d=tsParseIso(tsFeed.generated_at_utc);
