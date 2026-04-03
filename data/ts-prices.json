@@ -1,6 +1,44 @@
 {
-  "generated_at_utc": "2026-04-02T20:26:21Z",
+  "generated_at_utc": "2026-04-03T00:10:01Z",
   "items": [
+    {
+      "avg_price": 248561035,
+      "item_id": 10,
+      "item_name": "AbsoLab Crystal | material",
+      "latest": [
+        {
+          "entry_id": 41,
+          "note": "OCR from IMG_2859.png",
+          "price": 248561035,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-02 23:50:06",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 248561035,
+      "min_price": 248561035,
+      "samples": 1
+    },
+    {
+      "avg_price": 245000000,
+      "item_id": 11,
+      "item_name": "AbsoLab Crystal | material | other",
+      "latest": [
+        {
+          "entry_id": 42,
+          "note": "Item picker",
+          "price": 245000000,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-03 00:04:53",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 245000000,
+      "min_price": 245000000,
+      "samples": 1
+    },
     {
       "avg_price": 49894320,
       "item_id": 5,
@@ -194,6 +232,25 @@
       "samples": 6
     },
     {
+      "avg_price": 248561035,
+      "item_id": 9,
+      "item_name": "Crystal Available | material",
+      "latest": [
+        {
+          "entry_id": 40,
+          "note": "OCR from IMG_2859.png",
+          "price": 248561035,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-02 23:37:47",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 248561035,
+      "min_price": 248561035,
+      "samples": 1
+    },
+    {
       "avg_price": 298614807,
       "item_id": 4,
       "item_name": "Gummy Bear Damage Skin (Unit) Exchange Ticket | consumable",
@@ -339,6 +396,34 @@
       "max_price": 1912000000,
       "min_price": 1888000000,
       "samples": 6
+    },
+    {
+      "avg_price": 4497203250,
+      "item_id": 8,
+      "item_name": "Vepar Bloody Mail Class Pirate | Ancient | Pirate Outfit | SF24",
+      "latest": [
+        {
+          "entry_id": 39,
+          "note": "OCR from mrwaterwaffle_p7Zmtg4ePnRlFMagt7HKPiPCx3uH5vVF7DBwRloWWgP56caZL4PH68uOwpdJyx3h.png",
+          "price": 4497203250,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-02 21:56:54",
+          "world": "NA1 Scania"
+        },
+        {
+          "entry_id": 38,
+          "note": "OCR from mrwaterwaffle_p7Zmtg4ePnRlFMagt7HKPiPCx3uH5vVF7DBwRloWWgP56caZL4PH68uOwpdJyx3h.png",
+          "price": 4497203250,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-02 21:46:04",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 4497203250,
+      "min_price": 4497203250,
+      "samples": 2
     },
     {
       "avg_price": 4490867208,
