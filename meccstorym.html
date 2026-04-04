@@ -776,7 +776,8 @@ select.pr-ctrl-input {
   position: sticky;
   top: 0;
   z-index: 3;
-  background: #f8f4ff;
+  background: rgba(15,23,42,0.92) !important;
+  color: #cbd5e1 !important;
 }
 .pr-table th .sort-arrow { margin-left: 4px; opacity: 0.4; font-size: 10px; }
 .pr-table th.sorted .sort-arrow { opacity: 1; color: var(--purple); }
@@ -2140,6 +2141,23 @@ body[data-theme="light"] #tab-probs .pr-table thead tr {
 body[data-theme="light"] #tab-probs .pr-table th {
   color: #334155 !important;
 }
+/* TS Price Viewer table/header light-mode readability */
+body[data-theme="light"] #tab-ts .pr-table thead tr,
+body[data-theme="light"] #tsTableWrap .pr-table thead tr,
+body[data-theme="light"] #tsDetailModal .pr-table thead tr {
+  background: #f3f4f6 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+body[data-theme="light"] #tab-ts .pr-table th,
+body[data-theme="light"] #tsTableWrap .pr-table th,
+body[data-theme="light"] #tsDetailModal .pr-table th {
+  color: #334155 !important;
+}
+body[data-theme="light"] #tab-ts .pr-table td,
+body[data-theme="light"] #tsTableWrap .pr-table td,
+body[data-theme="light"] #tsDetailModal .pr-table td {
+  color: #1f2937 !important;
+}
 body[data-theme="light"] #tab-dmg .dmg-input,
 body[data-theme="light"] #tab-dmg .dmg-select,
 body[data-theme="light"] #tab-dmg .pr-ctrl-input,
@@ -2181,15 +2199,143 @@ body[data-theme="light"] #tab-info > .df-panel > details > summary {
   color: #1f2937 !important;
   border-bottom: 1px solid #e5e7eb !important;
 }
-body[data-theme="light"] #tab-info .pr-table thead tr {
+body[data-theme="light"] #tab-info .pr-table thead tr,
+body[data-theme="light"] #tab-info .hexa-table thead th {
   background: #f3f4f6 !important;
   border-bottom: 1px solid #e5e7eb !important;
+  color: #334155 !important;
+}
+body[data-theme="light"] #tab-info summary[style*="background:#f8f4ff"] {
+  background: #f8fafc !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+body[data-theme="light"] #tab-info details[style*="background:#fff"] {
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+body[data-theme="light"] #tab-info pre[style*="background:#f8f4ff"] {
+  background: #f8fafc !important;
+  border-color: #e5e7eb !important;
+  color: #1f2937 !important;
 }
 body[data-theme="light"] #tab-info .pr-table th,
 body[data-theme="light"] #tab-info .pr-table td,
 body[data-theme="light"] #tab-info .df-note {
   color: #334155 !important;
 }
+
+/* Dark-mode audit fixes for tab-info table headers */
+body[data-theme="dark"] #tab-info .pr-table thead tr,
+body[data-theme="dark"] #tab-info .hexa-table thead th {
+  background: rgba(30,41,59,0.92) !important;
+  border-bottom: 1px solid rgba(148,163,184,0.28) !important;
+  color: #cbd5e1 !important;
+}
+body[data-theme="dark"] #tab-info .pr-table th,
+body[data-theme="dark"] #tab-info .hexa-table th {
+  color: #cbd5e1 !important;
+}
+/* HEXA summary rows use inline light bg in markup; force dark in dark mode */
+body[data-theme="dark"] #tab-info summary[style*="background:#f8f4ff"] {
+  background: rgba(30,41,59,0.92) !important;
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] #tab-info details[style*="background:#fff"] {
+  background: rgba(15,23,42,0.86) !important;
+  border-color: rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] #tab-info pre[style*="background:#f8f4ff"] {
+  background: rgba(15,23,42,0.88) !important;
+  border-color: rgba(148,163,184,0.28) !important;
+  color: #e2e8f0 !important;
+}
+/* TS Price Viewer table/header dark-mode readability */
+body[data-theme="dark"] #tab-ts .pr-table thead tr,
+body[data-theme="dark"] #tsTableWrap .pr-table thead tr,
+body[data-theme="dark"] #tsDetailModal .pr-table thead tr {
+  background: rgba(30,41,59,0.92) !important;
+  border-bottom: 1px solid rgba(148,163,184,0.28) !important;
+}
+body[data-theme="dark"] #tab-ts .pr-table th,
+body[data-theme="dark"] #tsTableWrap .pr-table th,
+body[data-theme="dark"] #tsDetailModal .pr-table th {
+  color: #cbd5e1 !important;
+}
+body[data-theme="dark"] #tab-ts .pr-table td,
+body[data-theme="dark"] #tsTableWrap .pr-table td,
+body[data-theme="dark"] #tsDetailModal .pr-table td {
+  color: #e2e8f0 !important;
+}
+
+/* Global table/header contrast audit fixes */
+body[data-theme="dark"] .pr-rank-section,
+body[data-theme="dark"] .pr-cube-section,
+body[data-theme="dark"] .pr-cube-table-wrap {
+  background: rgba(15,23,42,0.86) !important;
+  border-color: rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] .pr-rank-section-header,
+body[data-theme="dark"] .pr-cube-section-header,
+body[data-theme="dark"] .pr-cube-cols-header,
+body[data-theme="dark"] .pr-cube-table thead tr {
+  background: rgba(30,41,59,0.92) !important;
+  border-bottom-color: rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] .pr-rank-section-title,
+body[data-theme="dark"] .pr-cube-section-title,
+body[data-theme="dark"] .pr-cube-table th,
+body[data-theme="dark"] .pr-cube-option-name,
+body[data-theme="dark"] .pr-cube-stat {
+  color: #e2e8f0 !important;
+}
+body[data-theme="dark"] .pr-rank-section-chevron,
+body[data-theme="dark"] .pr-cube-cols-header,
+body[data-theme="dark"] .pr-cube-table th {
+  color: #cbd5e1 !important;
+}
+body[data-theme="dark"] .pr-cube-table td,
+body[data-theme="dark"] .pr-cube-variant-row,
+body[data-theme="dark"] .pr-cube-option {
+  border-bottom-color: rgba(148,163,184,0.16) !important;
+}
+body[data-theme="dark"] .pr-cube-option-name {
+  border-right-color: rgba(148,163,184,0.2) !important;
+}
+body[data-theme="dark"] .pr-box-divider {
+  background: rgba(148,163,184,0.26) !important;
+}
+
+body[data-theme="light"] .pr-rank-section,
+body[data-theme="light"] .pr-cube-section,
+body[data-theme="light"] .pr-cube-table-wrap {
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+body[data-theme="light"] .pr-rank-section-header,
+body[data-theme="light"] .pr-cube-section-header,
+body[data-theme="light"] .pr-cube-cols-header,
+body[data-theme="light"] .pr-cube-table thead tr {
+  background: #f8fafc !important;
+  border-bottom-color: #e5e7eb !important;
+}
+body[data-theme="light"] .pr-rank-section-title,
+body[data-theme="light"] .pr-cube-section-title,
+body[data-theme="light"] .pr-cube-table th,
+body[data-theme="light"] .pr-cube-option-name,
+body[data-theme="light"] .pr-cube-stat {
+  color: #1f2937 !important;
+}
+body[data-theme="light"] .pr-rank-section-chevron,
+body[data-theme="light"] .pr-cube-cols-header,
+body[data-theme="light"] .pr-cube-table th {
+  color: #475569 !important;
+}
+body[data-theme="light"] .pr-box-divider {
+  background: #dbe3f3 !important;
+}
+
 body[data-theme="light"] #tab-discord .df-note code {
   background: #e5e7eb !important;
   color: #1f2937 !important;
