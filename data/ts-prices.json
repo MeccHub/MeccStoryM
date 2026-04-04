@@ -1,5 +1,25 @@
 {
-  "generated_at_utc": "2026-04-03T18:10:01Z",
-  "items": [],
+  "generated_at_utc": "2026-04-04T00:10:01Z",
+  "items": [
+    {
+      "avg_price": 1812917549,
+      "item_id": 12,
+      "item_name": "Crimson Spirit Cradle | other",
+      "latest": [
+        {
+          "entry_id": 43,
+          "note": "OCR from IMG_2869.png",
+          "price": 1812917549,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-03 22:13:47",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 1812917549,
+      "min_price": 1812917549,
+      "samples": 1
+    }
+  ],
   "schema_version": 1
 }
