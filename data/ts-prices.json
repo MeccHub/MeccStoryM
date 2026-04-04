@@ -1,6 +1,63 @@
 {
-  "generated_at_utc": "2026-04-04T00:10:01Z",
+  "generated_at_utc": "2026-04-04T12:10:01Z",
   "items": [
+    {
+      "avg_price": 214834386,
+      "item_id": 14,
+      "item_name": "AbsoLab Crystal | material",
+      "latest": [
+        {
+          "entry_id": 45,
+          "note": "OCR from image.png",
+          "price": 214834386,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 01:33:55",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 214834386,
+      "min_price": 214834386,
+      "samples": 1
+    },
+    {
+      "avg_price": 42870806,
+      "item_id": 13,
+      "item_name": "Basic Arkarium Soul Choice Box Exchange | other",
+      "latest": [
+        {
+          "entry_id": 44,
+          "note": "OCR from image.png",
+          "price": 42870806,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 01:03:03",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 42870806,
+      "min_price": 42870806,
+      "samples": 1
+    },
+    {
+      "avg_price": 999266500,
+      "item_id": 19,
+      "item_name": "Briser Shining Rod | Ancient | Luminous",
+      "latest": [
+        {
+          "entry_id": 50,
+          "note": "OCR from Screenshot_2026-04-03_224450.png",
+          "price": 999266500,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 03:11:43",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 999266500,
+      "min_price": 999266500,
+      "samples": 1
+    },
     {
       "avg_price": 1812917549,
       "item_id": 12,
@@ -18,6 +75,82 @@
       ],
       "max_price": 1812917549,
       "min_price": 1812917549,
+      "samples": 1
+    },
+    {
+      "avg_price": 79779277,
+      "item_id": 15,
+      "item_name": "Dream Crystal | material",
+      "latest": [
+        {
+          "entry_id": 46,
+          "note": "OCR from image.png",
+          "price": 79779277,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 01:34:17",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 79779277,
+      "min_price": 79779277,
+      "samples": 1
+    },
+    {
+      "avg_price": 4836981292,
+      "item_id": 16,
+      "item_name": "Premium Equipment Emblem Change Scroll | other",
+      "latest": [
+        {
+          "entry_id": 47,
+          "note": "OCR from image.png",
+          "price": 4836981292,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 01:34:49",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 4836981292,
+      "min_price": 4836981292,
+      "samples": 1
+    },
+    {
+      "avg_price": 443649136,
+      "item_id": 17,
+      "item_name": "Stigma Crystal | material",
+      "latest": [
+        {
+          "entry_id": 48,
+          "note": "OCR from image.png",
+          "price": 443649136,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 01:35:15",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 443649136,
+      "min_price": 443649136,
+      "samples": 1
+    },
+    {
+      "avg_price": 736949785,
+      "item_id": 18,
+      "item_name": "Stigma Weapon Crystal | material",
+      "latest": [
+        {
+          "entry_id": 49,
+          "note": "OCR from image.png",
+          "price": 736949785,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 01:35:43",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 736949785,
+      "min_price": 736949785,
       "samples": 1
     }
   ],
