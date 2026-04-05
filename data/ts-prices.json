@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-04-05T00:10:01Z",
+  "generated_at_utc": "2026-04-05T12:10:01Z",
   "items": [
     {
       "avg_price": 214834386,
@@ -113,6 +113,25 @@
       ],
       "max_price": 8548882222,
       "min_price": 8548882222,
+      "samples": 1
+    },
+    {
+      "avg_price": 8995046400,
+      "item_id": 21,
+      "item_name": "Jaihin Spear | Chaos | Dark Knight",
+      "latest": [
+        {
+          "entry_id": 52,
+          "note": "OCR from Screenshot_2026-04-04_200418.png",
+          "price": 8995046400,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-05 03:45:27",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 8995046400,
+      "min_price": 8995046400,
       "samples": 1
     },
     {
