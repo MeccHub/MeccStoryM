@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-04-04T18:10:01Z",
+  "generated_at_utc": "2026-04-05T00:10:01Z",
   "items": [
     {
       "avg_price": 214834386,
@@ -94,6 +94,25 @@
       ],
       "max_price": 79779277,
       "min_price": 79779277,
+      "samples": 1
+    },
+    {
+      "avg_price": 8548882222,
+      "item_id": 20,
+      "item_name": "Ipos Bloody Mail | Chaos | Archer | SF23",
+      "latest": [
+        {
+          "entry_id": 51,
+          "note": "OCR from image.png",
+          "price": 8548882222,
+          "quantity": null,
+          "source_user_id": "141965636103307265",
+          "submitted_at": "2026-04-04 20:53:59",
+          "world": "NA1 Scania"
+        }
+      ],
+      "max_price": 8548882222,
+      "min_price": 8548882222,
       "samples": 1
     },
     {
