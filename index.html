@@ -2967,44 +2967,97 @@ body[data-theme="dark"] #tab-guide .gg-card {
 
 
 
-                                        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
+                                                <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Buffs & Sources (click to expand)</summary>
           <div style="padding:12px;display:grid;gap:12px;">
-            <div class="df-note"><b>Layout:</b> Magic and Physical tables side-by-side (stack on mobile). Icons use your 01–20 mapping and are shown with <b>no crop</b>.</div>
+            <style>
+              .msm-buffs-wrap { font-family: Arial, sans-serif; display: grid; gap: 16px; }
+              .msm-buffs-wrap .section-title { font-size: 22px; font-weight: 800; padding: 10px; text-align: center; border-radius: 10px; }
+              .msm-buffs-wrap .magic { background: #d9e2f3; color:#1e293b; }
+              .msm-buffs-wrap .physical { background: #fce5cd; color:#1e293b; }
+              .msm-buffs-wrap .subsection { font-size: 16px; font-weight: 800; padding: 8px; background: #e2efda; text-align: center; border-radius: 8px; }
+              .msm-buffs-wrap .sub-tangyoon { background:#ead1dc; }
+              .msm-buffs-wrap .sub-trade { background:#f9cb9c; }
+              .msm-buffs-wrap .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+              .msm-buffs-wrap .card { border: 1px solid #cbd5e1; padding: 10px; border-radius: 10px; background: #fff; color:#0f172a; min-height:72px; }
+              .msm-buffs-wrap .note { background: #f4cccc; color:#7f1d1d; padding: 10px; border-radius: 10px; border:1px solid #fca5a5; }
+              body[data-theme="dark"] .msm-buffs-wrap .section-title.magic { background:#1e3a8a; color:#dbeafe; }
+              body[data-theme="dark"] .msm-buffs-wrap .section-title.physical { background:#7c2d12; color:#ffedd5; }
+              body[data-theme="dark"] .msm-buffs-wrap .subsection { background:#14532d; color:#dcfce7; }
+              body[data-theme="dark"] .msm-buffs-wrap .sub-tangyoon { background:#581c87; color:#f3e8ff; }
+              body[data-theme="dark"] .msm-buffs-wrap .sub-trade { background:#7c2d12; color:#ffedd5; }
+              body[data-theme="dark"] .msm-buffs-wrap .card { background:#0f172a; color:#e2e8f0; border-color:#334155; }
+              body[data-theme="dark"] .msm-buffs-wrap .note { background:#7f1d1d; color:#fee2e2; border-color:#b91c1c; }
+            </style>
 
-            <div class="linkskills-grid" style="align-items:start;">
-              <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th colspan="5">MAGIC</th></tr><tr><th>Icon</th><th>Buff</th><th>Main Effect</th><th>Extra</th><th>Source</th></tr></thead><tbody>
-                <tr><td><img src="assets/msm-buffs/buff-12.png" alt="Grape juice" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Grape juice</td><td>MAG ATK +50%</td><td>—</td><td>Root Abyss</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-15.png" alt="Candy cane" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Candy cane</td><td>MAG DMG +30%</td><td>—</td><td>Root Abyss</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-10.png" alt="Carrot juice" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Carrot juice</td><td>Crit Rate +30%</td><td>—</td><td>General</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-09.png" alt="Chestnut" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Chestnut</td><td>Crit DMG +30%</td><td>—</td><td>General</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-14.png" alt="Fried shrimp" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Fried shrimp</td><td>Boss ATK +50%</td><td>—</td><td>Root Abyss</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-16.png" alt="Boss rush" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Boss rush</td><td>Boss ATK +150%</td><td>—</td><td>Root Abyss/Event</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-18.png" alt="Escargot" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Escargot</td><td>MAG DMG +20%</td><td>MAG DEF +20%</td><td>Tangyoon</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-19.png" alt="Jellyfish salad" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Jellyfish salad</td><td>Boss ATK +20%</td><td>Boss DEF +20%</td><td>Tangyoon</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-20.png" alt="Noodle soup" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Noodle soup</td><td>Crit Rate +20%</td><td>ACC +20%</td><td>Tangyoon</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-06.png" alt="Wedding cake" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Wedding cake</td><td>Boss DEF +50%</td><td>—</td><td>Trade Station/Cash Shop</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-02.png" alt="Hamburger" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Hamburger</td><td>MAG DEF +50%</td><td>—</td><td>Event/General</td></tr>
-              </tbody></table></div>
+            <div class="msm-buffs-wrap">
+              <div class="section-title magic">MAGIC</div>
 
-              <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th colspan="5">PHYSICAL</th></tr><tr><th>Icon</th><th>Buff</th><th>Main Effect</th><th>Extra</th><th>Source</th></tr></thead><tbody>
-                <tr><td><img src="assets/msm-buffs/buff-11.png" alt="Fruity yogurt" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Fruity yogurt</td><td>PHY ATK +50%</td><td>—</td><td>Root Abyss</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-13.png" alt="Candy basket" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Candy basket</td><td>PHY DMG +30%</td><td>—</td><td>Root Abyss</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-10.png" alt="Carrot juice" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Carrot juice</td><td>Crit Rate +30%</td><td>—</td><td>General</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-09.png" alt="Chestnut" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Chestnut</td><td>Crit DMG +30%</td><td>—</td><td>General</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-14.png" alt="Fried shrimp" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Fried shrimp</td><td>Boss ATK +50%</td><td>—</td><td>Root Abyss</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-16.png" alt="Boss rush" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Boss rush</td><td>Boss ATK +150%</td><td>—</td><td>Root Abyss/Event</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-17.png" alt="Stir-fried pork" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Stir-fried pork</td><td>PHY DMG +20%</td><td>PHY DEF +20%</td><td>Tangyoon</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-19.png" alt="Jellyfish salad" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Jellyfish salad</td><td>Boss ATK +20%</td><td>Boss DEF +20%</td><td>Tangyoon</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-20.png" alt="Noodle soup" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Noodle soup</td><td>Crit Rate +20%</td><td>ACC +20%</td><td>Tangyoon</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-06.png" alt="Wedding cake" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Wedding cake</td><td>Boss DEF +50%</td><td>—</td><td>Trade Station/Cash Shop</td></tr>
-                <tr><td><img src="assets/msm-buffs/buff-01.png" alt="Halloween candy" style="width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px"></td><td>Halloween candy</td><td>PHY DEF +50%</td><td>—</td><td>Event/General</td></tr>
-              </tbody></table></div>
+              <div class="subsection">Root Abyss</div>
+              <div class="card-grid">
+                <div class="card">Grape Juice<br>MAG ATK 50%</div>
+                <div class="card">Candy Cane<br>MAG DMG 30%</div>
+                <div class="card">Orange Juice / Carrot Juice<br>Crit Rate 30%</div>
+                <div class="card">Chestnut<br>Crit DMG 30%</div>
+                <div class="card">Fried Shrimp<br>Boss ATK 50%</div>
+              </div>
+
+              <div class="note">Boss Rush<br>Boss ATK 150%<br><br><strong>Note:</strong> 1 boss rush potion per month (RA shop)</div>
+
+              <div class="subsection sub-tangyoon">Tangyoon</div>
+              <div class="card-grid">
+                <div class="card">Escargot<br>MAG DMG 20%<br>MAG DEF 20%</div>
+                <div class="card">Jellyfish Salad<br>Boss ATK 20%<br>Boss DEF 20%</div>
+                <div class="card">Noodle Soup<br>Crit Rate 20%<br>ACC 20%</div>
+              </div>
+
+              <div class="subsection sub-trade">Trade Station / Cash Shop</div>
+              <div class="card-grid">
+                <div class="card">Wedding Cake<br>Boss DEF 50%</div>
+                <div class="card">Halloween Candy<br>PHY DEF 50%</div>
+                <div class="card">Hamburger<br>MAG DEF 50%</div>
+                <div class="card">Rice Cookie<br>Crit Res 10%</div>
+                <div class="card">Dumpling<br>SPD 30%</div>
+                <div class="card">Fruity Candy<br>ACC 30%</div>
+                <div class="card">Egg<br>JMP 30%</div>
+                <div class="card">Nemi’s Lunch Box<br>SPD 50%</div>
+              </div>
+
+              <div class="section-title physical">PHYSICAL</div>
+
+              <div class="subsection">Root Abyss</div>
+              <div class="card-grid">
+                <div class="card">Fruit Yogurt<br>PHY ATK 50%</div>
+                <div class="card">Candy Basket<br>PHY DMG 30%</div>
+                <div class="card">Orange Juice / Carrot Juice<br>Crit Rate 30%</div>
+                <div class="card">Chestnut<br>Crit DMG 30%</div>
+                <div class="card">Fried Shrimp<br>Boss ATK 50%</div>
+              </div>
+
+              <div class="note">Boss Rush<br>Boss ATK 150%</div>
+
+              <div class="subsection sub-tangyoon">Tangyoon</div>
+              <div class="card-grid">
+                <div class="card">Stir-Fried Pork<br>PHY DMG 20%<br>PHY DEF 20%</div>
+                <div class="card">Jellyfish Salad<br>Boss ATK 20%<br>Boss DEF 20%</div>
+                <div class="card">Noodle Soup<br>Crit Rate 20%<br>ACC 20%</div>
+              </div>
+
+              <div class="subsection sub-trade">Trade Station / Cash Shop</div>
+              <div class="card-grid">
+                <div class="card">Wedding Cake<br>Boss DEF 50%</div>
+                <div class="card">Halloween Candy<br>PHY DEF 50%</div>
+                <div class="card">Hamburger<br>MAG DEF 50%</div>
+                <div class="card">Rice Cookie<br>Crit Res 10%</div>
+                <div class="card">Dumpling<br>SPD 30%</div>
+                <div class="card">Fruity Candy<br>ACC 30%</div>
+                <div class="card">Egg<br>JMP 30%</div>
+                <div class="card">Nemi’s Lunch Box<br>SPD 50%</div>
+              </div>
             </div>
-
-            <div class="df-note" style="font-size:12px;">Other utility buffs in your list: <b>Egg</b>, <b>Dumpling</b>, <b>Nemi's lunchbox</b>, <b>Fruity candy</b>, <b>Rice cookie</b>.</div>
           </div>
         </details>
+
 
 
 
