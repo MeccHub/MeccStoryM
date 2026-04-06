@@ -2964,7 +2964,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
             <div class="df-note"><b>Ultra-concise summary:</b> Inherit = 30% success, no refinement impact, midgame tool. Necro = low base chance but better endgame scaling. Plan Necro early and avoid overcommitting to Inherit.</div>
           </div>
         </details>
-                        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
+                                <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Gloom How-To Guide (click to expand)</summary>
           <div class="gloomv2" style="padding:12px;display:grid;gap:12px;">
             <style>
@@ -2972,19 +2972,21 @@ body[data-theme="dark"] #tab-guide .gg-card {
               .gloomv2 h1, .gloomv2 h2, .gloomv2 h3 { margin-top: 0.7em; margin-bottom: 0.35em; }
               .gloomv2 h1 { font-size: 2rem; border-bottom: 3px solid #6a0dad; padding-bottom: 8px; color:var(--text); }
               .gloomv2 h2 { font-size: 1.4rem; color: #4b0082; border-left: 6px solid #a855f7; padding-left: 10px; }
-              .gloomv2 h3 { font-size: 1.1rem; color: #5b21b6; }
               .gloomv2 .card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
               .gloomv2 .note { background: #f3e8ff; border-left: 5px solid #9333ea; padding: 12px 14px; border-radius: 8px; margin: 12px 0; }
               .gloomv2 .strategy { background: #eef6ff; border-left: 5px solid #2563eb; padding: 12px 14px; border-radius: 8px; margin-top: 12px; }
-              .gloomv2 .warning { background: #fff1f2; border-left: 5px solid #e11d48; padding: 12px 14px; border-radius: 8px; margin-top: 12px; }
               .gloomv2 strong { color: inherit; font-weight: 800; }
+              .gloomv2 .img-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin-top:10px; }
+              .gloomv2 .img-card { border:1px solid #e2e8f0; border-radius:10px; background:#fff; padding:8px; }
+              .gloomv2 .img-card img { width:100%; height:150px; object-fit:contain; display:block; border-radius:8px; }
+              .gloomv2 .img-cap { margin-top:6px; font-size:12px; text-align:center; color:#475569; }
               body[data-theme="dark"] .gloomv2 h1 { border-bottom-color:#a78bfa; color:#ede9fe; }
               body[data-theme="dark"] .gloomv2 h2 { color:#ddd6fe; border-left-color:#8b5cf6; }
-              body[data-theme="dark"] .gloomv2 h3 { color:#c4b5fd; }
-              body[data-theme="dark"] .gloomv2 .card { background:#0f172a; border-color:#334155; color:#e2e8f0; box-shadow:none; }
+              body[data-theme="dark"] .gloomv2 .card,
+              body[data-theme="dark"] .gloomv2 .img-card { background:#0f172a; border-color:#334155; color:#e2e8f0; box-shadow:none; }
               body[data-theme="dark"] .gloomv2 .note { background:#3b0764; border-left-color:#c084fc; color:#f3e8ff; }
               body[data-theme="dark"] .gloomv2 .strategy { background:#082f49; border-left-color:#60a5fa; color:#dbeafe; }
-              body[data-theme="dark"] .gloomv2 .warning { background:#4c0519; border-left-color:#fb7185; color:#ffe4e6; }
+              body[data-theme="dark"] .gloomv2 .img-cap { color:#94a3b8; }
             </style>
 
             <h1>Gloom Guide: Petrification</h1>
@@ -2996,18 +2998,31 @@ body[data-theme="dark"] #tab-guide .gg-card {
               <p>While Petrified, <strong>Monstrous Illusions</strong> appear at each end of the map and fly toward the player. Characters hit become <strong>confused</strong>, reversing input directions. Defeating these monsters decreases the gauge slightly.</p>
               <p><strong>Terrible Grasps</strong> also appear across the map. Characters hit take fixed damage and suffer the Petrification debuff, restricting movement until released with side-to-side arrows.</p>
               <p><strong>Black Flames</strong> periodically appear near characters and shortly after attack the surrounding area, dealing fixed damage and applying the <strong>Seal</strong> debuff, which prevents skill use.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000B7000000C6DB324D4F.png" alt="Petrification gauge empty"><div class="img-cap">Petrification gauge empty</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/100000010000009A00000092E92A3AAC.png" alt="Petrification gauge full"><div class="img-cap">Petrification gauge full</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000DCC81C63F7.png" alt="Monstrous Illusion"><div class="img-cap">Monstrous Illusion</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000E016904298.png" alt="Terrible Grasps"><div class="img-cap">Terrible Grasps</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000ECE3706099.png" alt="Black Flames"><div class="img-cap">Black Flames</div></div>
+              </div>
               <div class="strategy"><strong>Strategy:</strong> Dodging and outlasting Petrification is the key. Each class will handle this differently, but <strong>Blink</strong>, invincibility frames, and constant movement are all helpful. Do not stand still. When Petrification ends, a brief delay may leave the Darkness visual effect active even though the pattern has ended; during this window, Void Fragments may reappear before they are visible and can rarely hit the player due to RNG.</div>
             </section>
 
             <section class="card">
               <h2>Gloom's Skills</h2>
               <p>Gloom cannot be stunned and alternates between three phases: <strong>Barrier</strong>, <strong>Eye of the Void (vulnerable)</strong>, and <strong>Eye of the Void (laser)</strong>.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000CB000000C04C5897EB.png" alt="Gloom"><div class="img-cap">Gloom</div></div>
+              </div>
             </section>
 
             <section class="card">
               <h2>Tentacle Barrier</h2>
               <p>The <strong>Tentacle Barrier</strong> appears when entering the dungeon and after each <strong>Eye of the Void</strong> phase, protecting the Eye and making Gloom <strong>invincible to all damage</strong>. It must be damaged and removed before Gloom can be attacked again.</p>
               <p>When the barrier is destroyed, Gloom launches two powerful one-shot attacks.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/1000000100000310000002CC4B90C92A.png" alt="Barrier"><div class="img-cap">Barrier</div></div>
+              </div>
               <div class="strategy"><strong>Strategy:</strong> The barrier phase is straightforward and mainly tests dodging and mechanic execution.</div>
             </section>
 
@@ -3015,34 +3030,52 @@ body[data-theme="dark"] #tab-guide .gg-card {
               <h2>Void Fragment</h2>
               <p>During all phases except Petrification, Gloom periodically spawns <strong>Void Fragments</strong> across the map at temporary locations. Getting hit deals scaled damage, applies one debuff depending on the fragment type (<strong>Lure</strong>, <strong>Stun</strong>, or <strong>Zombify</strong>), and slightly increases the Petrification Gauge.</p>
               <p><strong>Petrified characters cannot see or be hit by Void Fragments.</strong></p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A87CAFC2C0.png" alt="Void Fragment - Lure"><div class="img-cap">Void Fragment - Lure</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A8829E3086.png" alt="Void Fragment - Stun"><div class="img-cap">Void Fragment - Stun</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A8841C55CE.png" alt="Void Fragment - Zombify"><div class="img-cap">Void Fragment - Zombify</div></div>
+              </div>
             </section>
 
             <section class="card">
               <h2>Fog Storm</h2>
               <p>During all phases except the <strong>Eye of the Void</strong> pattern, Gloom periodically summons <strong>Fog Storms</strong> across the map. After a short delay, they rise and deal scaled damage in an area while significantly increasing the Petrification Gauge of anyone hit.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000000000001C600000161E8845EF9.png" alt="Fog Storm"><div class="img-cap">Fog Storm</div></div>
+              </div>
             </section>
 
             <section class="card">
               <h2>Tentacle Strike</h2>
               <p>During all phases except the <strong>Eye of the Void</strong> pattern, Gloom targets a location and prepares a <strong>Tentacle Strike</strong>. After a short delay, the strike lands, dealing fixed damage in an area and significantly increasing the Petrification Gauge of any character hit.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/1000000000000210000000E042077C00.png" alt="Tentacle Strike"><div class="img-cap">Tentacle Strike</div></div>
+              </div>
             </section>
 
             <section class="card">
               <h2>Eye of the Void</h2>
               <p>After the <strong>Tentacle Barrier</strong> is destroyed, a special pattern begins and lasts until the <strong>Vertical Laser</strong> phase ends. During the <strong>Eye of the Void</strong> pattern, Gloom performs alternating <strong>tentacle slams</strong> at each end of the map in an X-shape, striking one side and then the other. These attacks deal one-shot damage in an area. After each strike, the tentacle briefly remains and can be used as a platform.</p>
               <p>This marks the beginning of Gloom’s <strong>vulnerable</strong> state.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/100000000000038A000001FE1A2AFA62.png" alt="Eye of the Void"><div class="img-cap">Eye of the Void</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/100000010000034500000068F25B3D2B.png" alt="Start of Eye of the Void, x-shaped tentacle strike"><div class="img-cap">Start of Eye of the Void, X-shaped tentacle strike</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000005D20000026108E2F1E2.png" alt="X shaped strike pattern"><div class="img-cap">X shaped strike pattern</div></div>
+              </div>
               <div class="strategy"><strong>Strategy:</strong> The safest method is to use <strong>Blink</strong> to stay above the attack. Alternatively, move under the tentacle on its originating side, then jump onto it after it appears to avoid the following strike and continue damaging Gloom.</div>
             </section>
 
             <section class="card">
               <h2>Eye of the Void - Vertical Laser</h2>
               <p>During the <strong>Eye of the Void</strong> pattern, after the tentacle disappears, Gloom prepares and fires a <strong>laser</strong> in a straight line below him. After a short delay, it strikes the ground, dealing fixed damage over time in the impact area while continuously pulling nearby characters toward the <strong>Eye of the Void</strong>, including those mid-air.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000002FC00000428838266B3.png" alt="Vertical Laser"><div class="img-cap">Vertical Laser</div></div>
+              </div>
               <div class="strategy"><strong>Strategy:</strong> Walk toward the edge of the map and keep moving while continuing to dodge Void Fragments. Petrification can occur in all three phases and is most dangerous during the Vertical Laser because of the pull effect. Using <strong>Blink</strong> to stay airborne prevents the vacuum from pulling you in during its duration.</div>
             </section>
-
-            <div class="note"><strong>Next step:</strong> send your selected pictures and I’ll place them into each matching section card exactly where you want.</div>
           </div>
         </details>
+
 
 
 
