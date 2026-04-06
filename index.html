@@ -226,6 +226,7 @@ body {
 .tab-btn[data-tab="char"].active::after   { background: linear-gradient(90deg,var(--teal),var(--sky)); }
 .tab-btn[data-tab="links"].active::after  { background: linear-gradient(90deg,var(--yellow),var(--orange)); }
 .tab-btn[data-tab="info"].active::after   { background: linear-gradient(90deg,var(--orange),var(--red)); }
+.tab-btn[data-tab="guides"].active::after { background: linear-gradient(90deg,var(--purple),var(--sky)); }
 .tab-btn[data-tab="meso"].active::after   { background: linear-gradient(90deg,var(--green),var(--yellow)); }
 .tab-btn[data-tab="breakeven"].active::after { background: linear-gradient(90deg,var(--purple),var(--pink)); }
 .tab-btn[data-tab="dmg"].active::after    { background: linear-gradient(90deg,var(--green),var(--teal)); }
@@ -2591,6 +2592,9 @@ body[data-theme="dark"] #tab-guide .gg-card {
     <button class="tab-btn" data-tab="guide" onclick="switchTab('guide',this);closeMobileNav()">
       <span class="tab-icon">📖</span> Game Guide
     </button>
+    <button class="tab-btn" data-tab="guides" onclick="switchTab('guides',this);closeMobileNav()">
+      <span class="tab-icon">🧭</span> Guides
+    </button>
     <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this);closeMobileNav()">
       <span class="tab-icon">💰</span> Meso/hr Calculator
     </button>
@@ -2636,6 +2640,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="tool-card card-yellow" onclick="switchTab('events', document.querySelector('[data-tab=events]'))"><div class="card-icon icon-yellow">🎉</div><div class="card-name">Event Tracker</div><div class="card-desc">Live feed of all active MSM events with end-time countdowns in your local timezone. Auto-updates daily.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-pink" onclick="switchTab('discord', document.querySelector('[data-tab=discord]'))"><div class="card-icon icon-pink">💬</div><div class="card-name">Discord Message Formatter</div><div class="card-desc">Format guild event messages with auto time-zone converting timestamps, bold, spoilers & more.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-yellow" onclick="switchTab('info', document.querySelector('[data-tab=info]'))"><div class="card-icon icon-yellow">📚</div><div class="card-name">FAQ - Useful Information</div><div class="card-desc">Frequently asked questions and useful information</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-purple" onclick="switchTab('guides', document.querySelector('[data-tab=guides]'))"><div class="card-icon icon-purple">🧭</div><div class="card-name">Guides</div><div class="card-desc">Boss and progression guides moved out of FAQ for easier browsing.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-green" onclick="switchTab('dmg', document.querySelector('[data-tab=dmg]'))"><div class="card-icon icon-green">💥</div><div class="card-name">DMG Calculator</div><div class="card-desc">Calculate your average, crit and boss damage from your stats.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-pink" onclick="switchTab('mdc', document.querySelector('[data-tab=mdc]'))"><div class="card-icon icon-pink">🎯</div><div class="card-name">MDC Checker</div><div class="card-desc">Estimate cap-in-boss and check if your lines are capped.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-sky" onclick="switchTab('char', document.querySelector('[data-tab=char]'))"><div class="card-icon icon-sky">📝</div><div class="card-name">Character Description Editor</div><div class="card-desc">Build MSM character captions with rich formatting and live preview.</div><span class="card-arrow">→</span></div>
@@ -2896,185 +2901,6 @@ body[data-theme="dark"] #tab-guide .gg-card {
           </div>
         </details>
 
-        <details class="faq-master" style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;">
-          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Mastercrafting Ancient (Inherit vs Necro) (click to expand)</summary>
-          <div style="padding:12px;display:grid;gap:10px;">
-            <div style="border:1px solid #ede0ff;border-radius:12px;overflow:hidden;background:#fff;">
-              <img src="assets/msm-mastercrafting-path.jpg" alt="Mastercrafting progression path" style="display:block;width:100%;height:auto;" loading="lazy" />
-            </div>
-
-            <div class="df-note"><b>Q:</b> What does Mastercraft do?<br><b>A:</b> Mastercraft upgrades a <b>Mythic</b> into one of two endgame paths: <b>Inherit (Ancient → Chaos → AbsoLab)</b> or <b>Necro (Ancient Necro → AbsoLab directly)</b>. This is the main progression fork in MapleStory M.</div>
-
-            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Role</th></tr></thead><tbody>
-              <tr><td><b>Inherit</b></td><td>Fast progression, lower RNG ceiling</td></tr>
-              <tr><td><b>Necro</b></td><td>Slow progression, higher RNG ceiling</td></tr>
-            </tbody></table></div>
-
-            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Upgrade</th><th>Success Rate</th></tr></thead><tbody>
-              <tr><td><b>Mythic → Inherit (Ancient)</b></td><td><b>30% (fixed)</b></td></tr>
-              <tr><td><b>Inherit → Chaos</b></td><td><b>~30% base → 40% refined</b></td></tr>
-              <tr><td><b>Mythic → Necro</b></td><td><b>4% base → 8% refined</b></td></tr>
-            </tbody></table></div>
-
-            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Expected attempts</th></tr></thead><tbody>
-              <tr><td>Inherit</td><td>~3–5 tries</td></tr>
-              <tr><td>Necro</td><td>~13–20+ tries (RNG heavy)</td></tr>
-            </tbody></table></div>
-
-            <div class="df-note"><b>Q:</b> Should I refine before Mastercraft?<br><b>A:</b> It is always worth refining before a Necro attempt for added success rate.</div>
-            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Refinement effect</th></tr></thead><tbody>
-              <tr><td>Inherit</td><td>❌ No effect (always 30%)</td></tr>
-              <tr><td>Chaos</td><td>✅ ~+10% success</td></tr>
-              <tr><td>Necro</td><td>✅ Small boost (very important)</td></tr>
-            </tbody></table></div>
-
-            <div class="df-note"><b>Why refinement matters for Necro:</b> base success is extremely low (4%), so even small increases bring large efficiency gains.</div>
-            <div class="df-note"><b>When refinement is NOT worth it:</b> temporary gear, Inherit-only strategy, or sell/flip gear (Chaos route).</div>
-            <div class="df-note"><b>Current meta:</b> Necro is best for endgame; Inherit is mainly a bridge/economic tool.</div>
-
-            <div class="df-note"><b>For new SOLO players:</b> refine + inherit for fast access, while building Necro in parallel as your long-term project. Don’t over-invest in inherited gear.</div>
-            <div class="df-note"><b>For new SOCIAL players:</b> if you have carries, aim for a Necro weapon ASAP to reach 2% contribution for boss loot; inherit other gear for faster survivability while progressing toward AbsoLab.</div>
-
-            <div class="df-note"><b>Main progression paths:</b><br>
-              • <b>Path A — Long-term optimal:</b> Mythic → Necro<br>
-              • <b>Path B — Safe progression:</b> Mythic → Inherit → Chaos<br>
-              • <b>Path C — Economic:</b> Inherit → Chaos → sell → buy Necro
-            </div>
-
-            <div class="df-note"><b>Q:</b> Can I skip Inherit?<br><b>A:</b> Yes. Inherit is not mandatory; it mainly accelerates progression.</div>
-
-            <div class="df-note"><b>Common mistakes:</b><br>
-              1) Over-investing in Inherit (hard transition to Necro later).<br>
-              2) Attempting Necro without scroll support (material-inefficient when attempts are limited).
-            </div>
-
-            <div class="df-note"><b>When should I attempt Necro?</b><br>Prioritize attempts when you have <b>Lucky Mastercraft Scrolls</b> (often from Path of Proof/events), because higher boosted rates greatly reduce cost/time.</div>
-
-            <div class="df-note"><b>Key mechanics:</b><br>
-              • <b>Exaltation:</b> earlier “mythic 40 first” advantage is reduced due to exalt stone crafting updates.<br>
-              • <b>MDC (Max Damage Cap):</b> Necro scales much better at high MDC in late game.
-            </div>
-
-            <div class="df-note"><b>Simple decision rule:</b><br>
-              • Want fast power → <b>Inherit</b><br>
-              • Want better endgame → <b>Necro</b><br>
-              • Want balance → <b>Hybrid (Inherit + Necro side project)</b>
-            </div>
-
-            <div class="df-note"><b>Ultra-concise summary:</b> Inherit = 30% success, no refinement impact, midgame tool. Necro = low base chance but better endgame scaling. Plan Necro early and avoid overcommitting to Inherit.</div>
-          </div>
-        </details>
-                                <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
-          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Gloom How-To Guide (click to expand)</summary>
-          <div class="gloomv2" style="padding:12px;display:grid;gap:12px;">
-            <style>
-              .gloomv2 { font-family: Arial, sans-serif; line-height: 1.6; }
-              .gloomv2 h1, .gloomv2 h2, .gloomv2 h3 { margin-top: 0.7em; margin-bottom: 0.35em; }
-              .gloomv2 h1 { font-size: 2rem; border-bottom: 3px solid #6a0dad; padding-bottom: 8px; color:var(--text); }
-              .gloomv2 h2 { font-size: 1.4rem; color: #4b0082; border-left: 6px solid #a855f7; padding-left: 10px; }
-              .gloomv2 .card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-              .gloomv2 .note { background: #f3e8ff; border-left: 5px solid #9333ea; padding: 12px 14px; border-radius: 8px; margin: 12px 0; }
-              .gloomv2 .strategy { background: #eef6ff; border-left: 5px solid #2563eb; padding: 12px 14px; border-radius: 8px; margin-top: 12px; }
-              .gloomv2 strong { color: inherit; font-weight: 800; }
-              .gloomv2 .img-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin-top:10px; }
-              .gloomv2 .img-card { border:1px solid #e2e8f0; border-radius:10px; background:#fff; padding:8px; }
-              .gloomv2 .img-card img { width:100%; height:130px; object-fit:contain; display:block; border-radius:8px; }
-              .gloomv2 .img-cap { margin-top:6px; font-size:12px; text-align:center; color:#475569; }
-              body[data-theme="dark"] .gloomv2 h1 { border-bottom-color:#a78bfa; color:#ede9fe; }
-              body[data-theme="dark"] .gloomv2 h2 { color:#ddd6fe; border-left-color:#8b5cf6; }
-              body[data-theme="dark"] .gloomv2 .card,
-              body[data-theme="dark"] .gloomv2 .img-card { background:#0f172a; border-color:#334155; color:#e2e8f0; box-shadow:none; }
-              body[data-theme="dark"] .gloomv2 .note { background:#3b0764; border-left-color:#c084fc; color:#f3e8ff; }
-              body[data-theme="dark"] .gloomv2 .strategy { background:#082f49; border-left-color:#60a5fa; color:#dbeafe; }
-              body[data-theme="dark"] .gloomv2 .img-cap { color:#94a3b8; }
-            </style>
-
-            <h1>Gloom Guide: Petrification</h1>
-
-            <section class="card">
-              <h2>Petrification</h2>
-              <p>At the start of the fight, each character gains a <strong>Petrification Gauge</strong> that fills over time, accelerating slightly as Gloom’s HP drops and further when hit by certain skills. Once full, the character becomes <strong>Petrified</strong>, triggering a <strong>Darkness</strong> effect and a unique personal pattern, while also becoming immune to some mechanics such as Void Fragments.</p>
-              <p>While Petrified, the gauge rapidly drains until the character returns to normal, and defeating specific monsters further reduces the gauge of the character who lands the kill. If a Petrified character dies, nearby allies’ gauges increase (excluding the deceased), whereas when Petrification ends, nearby allies’ gauges decrease (excluding the affected character).</p>
-              <p>While Petrified, <strong>Monstrous Illusions</strong> appear at each end of the map and fly toward the player. Characters hit become <strong>confused</strong>, reversing input directions. Defeating these monsters decreases the gauge slightly.</p>
-              <p><strong>Terrible Grasps</strong> also appear across the map. Characters hit take fixed damage and suffer the Petrification debuff, restricting movement until released with side-to-side arrows.</p>
-              <p><strong>Black Flames</strong> periodically appear near characters and shortly after attack the surrounding area, dealing fixed damage and applying the <strong>Seal</strong> debuff, which prevents skill use.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000B7000000C6DB324D4F.png" alt="Petrification gauge empty"><div class="img-cap">Petrification gauge empty</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/100000010000009A00000092E92A3AAC.png" alt="Petrification gauge full"><div class="img-cap">Petrification gauge full</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000DCC81C63F7.png" alt="Monstrous Illusion"><div class="img-cap">Monstrous Illusion</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000E016904298.png" alt="Terrible Grasps"><div class="img-cap">Terrible Grasps</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000ECE3706099.png" alt="Black Flames"><div class="img-cap">Black Flames</div></div>
-              </div>
-              <div class="strategy"><strong>Strategy:</strong> Dodging and outlasting Petrification is the key. Each class will handle this differently, but <strong>Blink</strong>, invincibility frames, and constant movement are all helpful. Do not stand still. When Petrification ends, a brief delay may leave the Darkness visual effect active even though the pattern has ended; during this window, Void Fragments may reappear before they are visible and can rarely hit the player due to RNG.</div>
-            </section>
-
-            <section class="card">
-              <h2>Gloom's Skills</h2>
-              <p>Gloom cannot be stunned and alternates between three phases: <strong>Barrier</strong>, <strong>Eye of the Void (vulnerable)</strong>, and <strong>Eye of the Void (laser)</strong>.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000CB000000C04C5897EB.png" alt="Gloom"><div class="img-cap">Gloom</div></div>
-              </div>
-            </section>
-
-            <section class="card">
-              <h2>Tentacle Barrier</h2>
-              <p>The <strong>Tentacle Barrier</strong> appears when entering the dungeon and after each <strong>Eye of the Void</strong> phase, protecting the Eye and making Gloom <strong>invincible to all damage</strong>. It must be damaged and removed before Gloom can be attacked again.</p>
-              <p>When the barrier is destroyed, Gloom launches two powerful one-shot attacks.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/1000000100000310000002CC4B90C92A.png" alt="Barrier"><div class="img-cap">Barrier</div></div>
-              </div>
-              <div class="strategy"><strong>Strategy:</strong> The barrier phase is straightforward and mainly tests dodging and mechanic execution.</div>
-            </section>
-
-            <section class="card">
-              <h2>Void Fragment</h2>
-              <p>During all phases except Petrification, Gloom periodically spawns <strong>Void Fragments</strong> across the map at temporary locations. Getting hit deals scaled damage, applies one debuff depending on the fragment type (<strong>Lure</strong>, <strong>Stun</strong>, or <strong>Zombify</strong>), and slightly increases the Petrification Gauge.</p>
-              <p><strong>Petrified characters cannot see or be hit by Void Fragments.</strong></p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A87CAFC2C0.png" alt="Void Fragment - Lure"><div class="img-cap">Void Fragment - Lure</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A8829E3086.png" alt="Void Fragment - Stun"><div class="img-cap">Void Fragment - Stun</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A8841C55CE.png" alt="Void Fragment - Zombify"><div class="img-cap">Void Fragment - Zombify</div></div>
-              </div>
-            </section>
-
-            <section class="card">
-              <h2>Fog Storm</h2>
-              <p>During all phases except the <strong>Eye of the Void</strong> pattern, Gloom periodically summons <strong>Fog Storms</strong> across the map. After a short delay, they rise and deal scaled damage in an area while significantly increasing the Petrification Gauge of anyone hit.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/10000000000001C600000161E8845EF9.png" alt="Fog Storm"><div class="img-cap">Fog Storm</div></div>
-              </div>
-            </section>
-
-            <section class="card">
-              <h2>Tentacle Strike</h2>
-              <p>During all phases except the <strong>Eye of the Void</strong> pattern, Gloom targets a location and prepares a <strong>Tentacle Strike</strong>. After a short delay, the strike lands, dealing fixed damage in an area and significantly increasing the Petrification Gauge of any character hit.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/1000000000000210000000E042077C00.png" alt="Tentacle Strike"><div class="img-cap">Tentacle Strike</div></div>
-              </div>
-            </section>
-
-            <section class="card">
-              <h2>Eye of the Void</h2>
-              <p>After the <strong>Tentacle Barrier</strong> is destroyed, a special pattern begins and lasts until the <strong>Vertical Laser</strong> phase ends. During the <strong>Eye of the Void</strong> pattern, Gloom performs alternating <strong>tentacle slams</strong> at each end of the map in an X-shape, striking one side and then the other. These attacks deal one-shot damage in an area. After each strike, the tentacle briefly remains and can be used as a platform.</p>
-              <p>This marks the beginning of Gloom’s <strong>vulnerable</strong> state.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/100000000000038A000001FE1A2AFA62.png" alt="Eye of the Void"><div class="img-cap">Eye of the Void</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/100000010000034500000068F25B3D2B.png" alt="Start of Eye of the Void, x-shaped tentacle strike"><div class="img-cap">Start of Eye of the Void, X-shaped tentacle strike</div></div>
-                <div class="img-card"><img src="assets/msm-gloom/10000001000005D20000026108E2F1E2.png" alt="X shaped strike pattern"><div class="img-cap">X shaped strike pattern</div></div>
-              </div>
-              <div class="strategy"><strong>Strategy:</strong> The safest method is to use <strong>Blink</strong> to stay above the attack. Alternatively, move under the tentacle on its originating side, then jump onto it after it appears to avoid the following strike and continue damaging Gloom.</div>
-            </section>
-
-            <section class="card">
-              <h2>Eye of the Void - Vertical Laser</h2>
-              <p>During the <strong>Eye of the Void</strong> pattern, after the tentacle disappears, Gloom prepares and fires a <strong>laser</strong> in a straight line below him. After a short delay, it strikes the ground, dealing fixed damage over time in the impact area while continuously pulling nearby characters toward the <strong>Eye of the Void</strong>, including those mid-air.</p>
-              <div class="img-row">
-                <div class="img-card"><img src="assets/msm-gloom/10000001000002FC00000428838266B3.png" alt="Vertical Laser"><div class="img-cap">Vertical Laser</div></div>
-              </div>
-              <div class="strategy"><strong>Strategy:</strong> Walk toward the edge of the map and keep moving while continuing to dodge Void Fragments. Petrification can occur in all three phases and is most dangerous during the Vertical Laser because of the pull effect. Using <strong>Blink</strong> to stay airborne prevents the vacuum from pulling you in during its duration.</div>
-            </section>
-          </div>
-        </details>
 
 
 
@@ -3605,64 +3431,6 @@ body[data-theme="dark"] #tab-guide .gg-card {
           </div>
         </details>
 
-        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
-          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ B ATK vs CD - Emblems and Stats (click to expand)</summary>
-          <div style="padding:12px;display:grid;gap:10px;">
-            <div class="df-note"><b>1) What do the two emblems actually do?</b></div>
-            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>Type</th><th>Core effect</th><th>Scaling</th><th>Coverage</th></tr></thead><tbody>
-              <tr><td><b>Crit Emblems (Ruthless — Crit DMG%)</b></td><td>Increase damage on <b>crit hits</b></td><td>Scales with <b>Crit Rate</b></td><td>All content (bossing + mobbing)</td></tr>
-              <tr><td><b>Boss ATK Emblems (Domination — Boss ATK%)</b></td><td>Increase all damage <b>vs bosses</b> (crit + non-crit)</td><td>Scales with <b>Skill Damage %</b></td><td>Boss-only optimization</td></tr>
-            </tbody></table></div>
-
-            <div class="df-note"><b>2) Formula view</b></div>
-            <div class="df-note">Crit scaling:</div>
-            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Avg ≈ Base × [1 + C × (0.2 + CD)]</pre>
-            <div class="df-note">Boss ATK scaling:</div>
-            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Boss Multiplier = (1 + ATK% + SkillDMG × BossATK%)</pre>
-
-            <div class="df-note"><b>3) Which is better overall?</b> <b>Default = Crit DMG emblems</b>. They apply to all content, scale very well at high Crit Rate, and behave closer to a global multiplier in optimized builds. Boss ATK is more situational.</div>
-
-            <div class="df-note"><b>4) Exact breakeven formula</b></div>
-            <div class="df-note">Let: C = CritRate, CD = CritDMG, A = ATK%, S = SkillDMG/100, B = BossATK, ΔCD = Crit DMG gain, ΔB = Boss ATK gain.</div>
-            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Crit gain: (C × ΔCD) / (1 + C × (0.2 + CD))
-Boss gain: (S × ΔB) / (1 + A + S × B)
-
-Crit > Boss if:
-(C × ΔCD) / (1 + C × (0.2 + CD)) > (S × ΔB) / (1 + A + S × B)</pre>
-
-            <div class="df-note"><b>5) Example (100% Crit Rate, 250% Skill Damage)</b></div>
-            <div class="df-note">Using real emblem values: Ruthless Lv5 = <b>+20% CD</b>, Domination Lv5 = <b>+10% Boss ATK</b>.</div>
-            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Crit: 0.20 / 3.2 = +6.25%
-Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
-            <div class="df-note">→ In this common setup, <b>Crit wins</b>.</div>
-
-            <div class="df-note"><b>6) Why earlier math sometimes shows Boss ATK winning</b></div>
-            <div class="df-note">If you assume equal increases (ex: +20% vs +20%), Boss ATK can win in some models due to high Skill% and lower saturation in that bucket. But that assumption is unrealistic because emblem caps are not equal.</div>
-
-            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>7) Real emblem scaling</th><th>Max value</th></tr></thead><tbody>
-              <tr><td><b>Crit DMG (Ruthless)</b></td><td><b>+20%</b></td></tr>
-              <tr><td><b>Boss ATK (Domination)</b></td><td><b>+10%</b></td></tr>
-            </tbody></table></div>
-
-            <div class="df-note"><b>8) Why Crit emblems are usually more worth it</b></div>
-            <div class="df-note">A) Higher stat per emblem slot (+20 vs +10)<br>B) Works everywhere (bossing, farming, dailies, multi-target)<br>C) Scales with Crit Rate (near-global impact at high crit consistency)<br>D) Boss ATK sits in an additive bucket and can saturate faster<br>E) Better long-term scaling as progression rises</div>
-
-            <div class="df-note"><b>9) When Boss ATK can be better</b></div>
-            <div class="df-note">Low Crit Rate, very high Skill %, Crit DMG already saturated, and pure boss-only optimization. This is a narrower min-max scenario, not general-use default.</div>
-
-            <div class="df-note"><b>10) Does hit count matter?</b> Yes. Higher hit count improves crit consistency and tends to increase effective Crit value. Low hit count can make Boss ATK relatively stronger.</div>
-
-            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>11) Practical decision guide</th><th>Best choice</th></tr></thead><tbody>
-              <tr><td>General gameplay</td><td><b>Crit</b></td></tr>
-              <tr><td>High Crit Rate</td><td><b>Crit</b></td></tr>
-              <tr><td>Early / low Crit Rate</td><td>Boss ATK viable</td></tr>
-              <tr><td>Boss-only min-max</td><td>Depends on your current buckets</td></tr>
-              <tr><td>Very high Skill %</td><td>Boss ATK gains value</td></tr>
-            </tbody></table></div>
-
-            <div class="df-note"><b>12) Final conclusion</b><br>• <b>Crit DMG emblems</b> = default, scalable, universal<br>• <b>Boss ATK emblems</b> = situational optimization<br><br>Even when Boss ATK can win in specific theoretical setups, Crit DMG is typically more efficient and flexible in real builds.</div>
-          </div>
-        </details>
 
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Radiant Exaltation Stone Crafting Material (click to expand)</summary>
@@ -3953,6 +3721,258 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
 
       </div>
     </section>
+
+
+    <!-- ════════ GUIDES ════════ -->
+    <section class="tab-section" id="tab-guides">
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-purple-s"></div> Guides</div>
+
+
+        <details class="faq-master" style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Mastercrafting Ancient (Inherit vs Necro) (click to expand)</summary>
+          <div style="padding:12px;display:grid;gap:10px;">
+            <div style="border:1px solid #ede0ff;border-radius:12px;overflow:hidden;background:#fff;">
+              <img src="assets/msm-mastercrafting-path.jpg" alt="Mastercrafting progression path" style="display:block;width:100%;height:auto;" loading="lazy" />
+            </div>
+
+            <div class="df-note"><b>Q:</b> What does Mastercraft do?<br><b>A:</b> Mastercraft upgrades a <b>Mythic</b> into one of two endgame paths: <b>Inherit (Ancient → Chaos → AbsoLab)</b> or <b>Necro (Ancient Necro → AbsoLab directly)</b>. This is the main progression fork in MapleStory M.</div>
+
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Role</th></tr></thead><tbody>
+              <tr><td><b>Inherit</b></td><td>Fast progression, lower RNG ceiling</td></tr>
+              <tr><td><b>Necro</b></td><td>Slow progression, higher RNG ceiling</td></tr>
+            </tbody></table></div>
+
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Upgrade</th><th>Success Rate</th></tr></thead><tbody>
+              <tr><td><b>Mythic → Inherit (Ancient)</b></td><td><b>30% (fixed)</b></td></tr>
+              <tr><td><b>Inherit → Chaos</b></td><td><b>~30% base → 40% refined</b></td></tr>
+              <tr><td><b>Mythic → Necro</b></td><td><b>4% base → 8% refined</b></td></tr>
+            </tbody></table></div>
+
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Expected attempts</th></tr></thead><tbody>
+              <tr><td>Inherit</td><td>~3–5 tries</td></tr>
+              <tr><td>Necro</td><td>~13–20+ tries (RNG heavy)</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>Q:</b> Should I refine before Mastercraft?<br><b>A:</b> It is always worth refining before a Necro attempt for added success rate.</div>
+            <div class="pr-table-wrap"><table class="pr-table"><thead><tr><th>Path</th><th>Refinement effect</th></tr></thead><tbody>
+              <tr><td>Inherit</td><td>❌ No effect (always 30%)</td></tr>
+              <tr><td>Chaos</td><td>✅ ~+10% success</td></tr>
+              <tr><td>Necro</td><td>✅ Small boost (very important)</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>Why refinement matters for Necro:</b> base success is extremely low (4%), so even small increases bring large efficiency gains.</div>
+            <div class="df-note"><b>When refinement is NOT worth it:</b> temporary gear, Inherit-only strategy, or sell/flip gear (Chaos route).</div>
+            <div class="df-note"><b>Current meta:</b> Necro is best for endgame; Inherit is mainly a bridge/economic tool.</div>
+
+            <div class="df-note"><b>For new SOLO players:</b> refine + inherit for fast access, while building Necro in parallel as your long-term project. Don’t over-invest in inherited gear.</div>
+            <div class="df-note"><b>For new SOCIAL players:</b> if you have carries, aim for a Necro weapon ASAP to reach 2% contribution for boss loot; inherit other gear for faster survivability while progressing toward AbsoLab.</div>
+
+            <div class="df-note"><b>Main progression paths:</b><br>
+              • <b>Path A — Long-term optimal:</b> Mythic → Necro<br>
+              • <b>Path B — Safe progression:</b> Mythic → Inherit → Chaos<br>
+              • <b>Path C — Economic:</b> Inherit → Chaos → sell → buy Necro
+            </div>
+
+            <div class="df-note"><b>Q:</b> Can I skip Inherit?<br><b>A:</b> Yes. Inherit is not mandatory; it mainly accelerates progression.</div>
+
+            <div class="df-note"><b>Common mistakes:</b><br>
+              1) Over-investing in Inherit (hard transition to Necro later).<br>
+              2) Attempting Necro without scroll support (material-inefficient when attempts are limited).
+            </div>
+
+            <div class="df-note"><b>When should I attempt Necro?</b><br>Prioritize attempts when you have <b>Lucky Mastercraft Scrolls</b> (often from Path of Proof/events), because higher boosted rates greatly reduce cost/time.</div>
+
+            <div class="df-note"><b>Key mechanics:</b><br>
+              • <b>Exaltation:</b> earlier “mythic 40 first” advantage is reduced due to exalt stone crafting updates.<br>
+              • <b>MDC (Max Damage Cap):</b> Necro scales much better at high MDC in late game.
+            </div>
+
+            <div class="df-note"><b>Simple decision rule:</b><br>
+              • Want fast power → <b>Inherit</b><br>
+              • Want better endgame → <b>Necro</b><br>
+              • Want balance → <b>Hybrid (Inherit + Necro side project)</b>
+            </div>
+
+            <div class="df-note"><b>Ultra-concise summary:</b> Inherit = 30% success, no refinement impact, midgame tool. Necro = low base chance but better endgame scaling. Plan Necro early and avoid overcommitting to Inherit.</div>
+          </div>
+        </details>
+
+
+                                <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Gloom How-To Guide (click to expand)</summary>
+          <div class="gloomv2" style="padding:12px;display:grid;gap:12px;">
+            <style>
+              .gloomv2 { font-family: Arial, sans-serif; line-height: 1.6; }
+              .gloomv2 h1, .gloomv2 h2, .gloomv2 h3 { margin-top: 0.7em; margin-bottom: 0.35em; }
+              .gloomv2 h1 { font-size: 2rem; border-bottom: 3px solid #6a0dad; padding-bottom: 8px; color:var(--text); }
+              .gloomv2 h2 { font-size: 1.4rem; color: #4b0082; border-left: 6px solid #a855f7; padding-left: 10px; }
+              .gloomv2 .card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+              .gloomv2 .note { background: #f3e8ff; border-left: 5px solid #9333ea; padding: 12px 14px; border-radius: 8px; margin: 12px 0; }
+              .gloomv2 .strategy { background: #eef6ff; border-left: 5px solid #2563eb; padding: 12px 14px; border-radius: 8px; margin-top: 12px; }
+              .gloomv2 strong { color: inherit; font-weight: 800; }
+              .gloomv2 .img-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin-top:10px; }
+              .gloomv2 .img-card { border:1px solid #e2e8f0; border-radius:10px; background:#fff; padding:8px; }
+              .gloomv2 .img-card img { width:100%; height:130px; object-fit:contain; display:block; border-radius:8px; }
+              .gloomv2 .img-cap { margin-top:6px; font-size:12px; text-align:center; color:#475569; }
+              body[data-theme="dark"] .gloomv2 h1 { border-bottom-color:#a78bfa; color:#ede9fe; }
+              body[data-theme="dark"] .gloomv2 h2 { color:#ddd6fe; border-left-color:#8b5cf6; }
+              body[data-theme="dark"] .gloomv2 .card,
+              body[data-theme="dark"] .gloomv2 .img-card { background:#0f172a; border-color:#334155; color:#e2e8f0; box-shadow:none; }
+              body[data-theme="dark"] .gloomv2 .note { background:#3b0764; border-left-color:#c084fc; color:#f3e8ff; }
+              body[data-theme="dark"] .gloomv2 .strategy { background:#082f49; border-left-color:#60a5fa; color:#dbeafe; }
+              body[data-theme="dark"] .gloomv2 .img-cap { color:#94a3b8; }
+            </style>
+
+            <h1>Gloom Guide: Petrification</h1>
+
+            <section class="card">
+              <h2>Petrification</h2>
+              <p>At the start of the fight, each character gains a <strong>Petrification Gauge</strong> that fills over time, accelerating slightly as Gloom’s HP drops and further when hit by certain skills. Once full, the character becomes <strong>Petrified</strong>, triggering a <strong>Darkness</strong> effect and a unique personal pattern, while also becoming immune to some mechanics such as Void Fragments.</p>
+              <p>While Petrified, the gauge rapidly drains until the character returns to normal, and defeating specific monsters further reduces the gauge of the character who lands the kill. If a Petrified character dies, nearby allies’ gauges increase (excluding the deceased), whereas when Petrification ends, nearby allies’ gauges decrease (excluding the affected character).</p>
+              <p>While Petrified, <strong>Monstrous Illusions</strong> appear at each end of the map and fly toward the player. Characters hit become <strong>confused</strong>, reversing input directions. Defeating these monsters decreases the gauge slightly.</p>
+              <p><strong>Terrible Grasps</strong> also appear across the map. Characters hit take fixed damage and suffer the Petrification debuff, restricting movement until released with side-to-side arrows.</p>
+              <p><strong>Black Flames</strong> periodically appear near characters and shortly after attack the surrounding area, dealing fixed damage and applying the <strong>Seal</strong> debuff, which prevents skill use.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000B7000000C6DB324D4F.png" alt="Petrification gauge empty"><div class="img-cap">Petrification gauge empty</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/100000010000009A00000092E92A3AAC.png" alt="Petrification gauge full"><div class="img-cap">Petrification gauge full</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000DCC81C63F7.png" alt="Monstrous Illusion"><div class="img-cap">Monstrous Illusion</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000E016904298.png" alt="Terrible Grasps"><div class="img-cap">Terrible Grasps</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000D8000000ECE3706099.png" alt="Black Flames"><div class="img-cap">Black Flames</div></div>
+              </div>
+              <div class="strategy"><strong>Strategy:</strong> Dodging and outlasting Petrification is the key. Each class will handle this differently, but <strong>Blink</strong>, invincibility frames, and constant movement are all helpful. Do not stand still. When Petrification ends, a brief delay may leave the Darkness visual effect active even though the pattern has ended; during this window, Void Fragments may reappear before they are visible and can rarely hit the player due to RNG.</div>
+            </section>
+
+            <section class="card">
+              <h2>Gloom's Skills</h2>
+              <p>Gloom cannot be stunned and alternates between three phases: <strong>Barrier</strong>, <strong>Eye of the Void (vulnerable)</strong>, and <strong>Eye of the Void (laser)</strong>.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000CB000000C04C5897EB.png" alt="Gloom"><div class="img-cap">Gloom</div></div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Tentacle Barrier</h2>
+              <p>The <strong>Tentacle Barrier</strong> appears when entering the dungeon and after each <strong>Eye of the Void</strong> phase, protecting the Eye and making Gloom <strong>invincible to all damage</strong>. It must be damaged and removed before Gloom can be attacked again.</p>
+              <p>When the barrier is destroyed, Gloom launches two powerful one-shot attacks.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/1000000100000310000002CC4B90C92A.png" alt="Barrier"><div class="img-cap">Barrier</div></div>
+              </div>
+              <div class="strategy"><strong>Strategy:</strong> The barrier phase is straightforward and mainly tests dodging and mechanic execution.</div>
+            </section>
+
+            <section class="card">
+              <h2>Void Fragment</h2>
+              <p>During all phases except Petrification, Gloom periodically spawns <strong>Void Fragments</strong> across the map at temporary locations. Getting hit deals scaled damage, applies one debuff depending on the fragment type (<strong>Lure</strong>, <strong>Stun</strong>, or <strong>Zombify</strong>), and slightly increases the Petrification Gauge.</p>
+              <p><strong>Petrified characters cannot see or be hit by Void Fragments.</strong></p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A87CAFC2C0.png" alt="Void Fragment - Lure"><div class="img-cap">Void Fragment - Lure</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A8829E3086.png" alt="Void Fragment - Stun"><div class="img-cap">Void Fragment - Stun</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000000A4000000A8841C55CE.png" alt="Void Fragment - Zombify"><div class="img-cap">Void Fragment - Zombify</div></div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Fog Storm</h2>
+              <p>During all phases except the <strong>Eye of the Void</strong> pattern, Gloom periodically summons <strong>Fog Storms</strong> across the map. After a short delay, they rise and deal scaled damage in an area while significantly increasing the Petrification Gauge of anyone hit.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000000000001C600000161E8845EF9.png" alt="Fog Storm"><div class="img-cap">Fog Storm</div></div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Tentacle Strike</h2>
+              <p>During all phases except the <strong>Eye of the Void</strong> pattern, Gloom targets a location and prepares a <strong>Tentacle Strike</strong>. After a short delay, the strike lands, dealing fixed damage in an area and significantly increasing the Petrification Gauge of any character hit.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/1000000000000210000000E042077C00.png" alt="Tentacle Strike"><div class="img-cap">Tentacle Strike</div></div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Eye of the Void</h2>
+              <p>After the <strong>Tentacle Barrier</strong> is destroyed, a special pattern begins and lasts until the <strong>Vertical Laser</strong> phase ends. During the <strong>Eye of the Void</strong> pattern, Gloom performs alternating <strong>tentacle slams</strong> at each end of the map in an X-shape, striking one side and then the other. These attacks deal one-shot damage in an area. After each strike, the tentacle briefly remains and can be used as a platform.</p>
+              <p>This marks the beginning of Gloom’s <strong>vulnerable</strong> state.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/100000000000038A000001FE1A2AFA62.png" alt="Eye of the Void"><div class="img-cap">Eye of the Void</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/100000010000034500000068F25B3D2B.png" alt="Start of Eye of the Void, x-shaped tentacle strike"><div class="img-cap">Start of Eye of the Void, X-shaped tentacle strike</div></div>
+                <div class="img-card"><img src="assets/msm-gloom/10000001000005D20000026108E2F1E2.png" alt="X shaped strike pattern"><div class="img-cap">X shaped strike pattern</div></div>
+              </div>
+              <div class="strategy"><strong>Strategy:</strong> The safest method is to use <strong>Blink</strong> to stay above the attack. Alternatively, move under the tentacle on its originating side, then jump onto it after it appears to avoid the following strike and continue damaging Gloom.</div>
+            </section>
+
+            <section class="card">
+              <h2>Eye of the Void - Vertical Laser</h2>
+              <p>During the <strong>Eye of the Void</strong> pattern, after the tentacle disappears, Gloom prepares and fires a <strong>laser</strong> in a straight line below him. After a short delay, it strikes the ground, dealing fixed damage over time in the impact area while continuously pulling nearby characters toward the <strong>Eye of the Void</strong>, including those mid-air.</p>
+              <div class="img-row">
+                <div class="img-card"><img src="assets/msm-gloom/10000001000002FC00000428838266B3.png" alt="Vertical Laser"><div class="img-cap">Vertical Laser</div></div>
+              </div>
+              <div class="strategy"><strong>Strategy:</strong> Walk toward the edge of the map and keep moving while continuing to dodge Void Fragments. Petrification can occur in all three phases and is most dangerous during the Vertical Laser because of the pull effect. Using <strong>Blink</strong> to stay airborne prevents the vacuum from pulling you in during its duration.</div>
+            </section>
+          </div>
+        </details>
+
+
+        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ B ATK vs CD - Emblems and Stats (click to expand)</summary>
+          <div style="padding:12px;display:grid;gap:10px;">
+            <div class="df-note"><b>1) What do the two emblems actually do?</b></div>
+            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>Type</th><th>Core effect</th><th>Scaling</th><th>Coverage</th></tr></thead><tbody>
+              <tr><td><b>Crit Emblems (Ruthless — Crit DMG%)</b></td><td>Increase damage on <b>crit hits</b></td><td>Scales with <b>Crit Rate</b></td><td>All content (bossing + mobbing)</td></tr>
+              <tr><td><b>Boss ATK Emblems (Domination — Boss ATK%)</b></td><td>Increase all damage <b>vs bosses</b> (crit + non-crit)</td><td>Scales with <b>Skill Damage %</b></td><td>Boss-only optimization</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>2) Formula view</b></div>
+            <div class="df-note">Crit scaling:</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Avg ≈ Base × [1 + C × (0.2 + CD)]</pre>
+            <div class="df-note">Boss ATK scaling:</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Boss Multiplier = (1 + ATK% + SkillDMG × BossATK%)</pre>
+
+            <div class="df-note"><b>3) Which is better overall?</b> <b>Default = Crit DMG emblems</b>. They apply to all content, scale very well at high Crit Rate, and behave closer to a global multiplier in optimized builds. Boss ATK is more situational.</div>
+
+            <div class="df-note"><b>4) Exact breakeven formula</b></div>
+            <div class="df-note">Let: C = CritRate, CD = CritDMG, A = ATK%, S = SkillDMG/100, B = BossATK, ΔCD = Crit DMG gain, ΔB = Boss ATK gain.</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Crit gain: (C × ΔCD) / (1 + C × (0.2 + CD))
+Boss gain: (S × ΔB) / (1 + A + S × B)
+
+Crit > Boss if:
+(C × ΔCD) / (1 + C × (0.2 + CD)) > (S × ΔB) / (1 + A + S × B)</pre>
+
+            <div class="df-note"><b>5) Example (100% Crit Rate, 250% Skill Damage)</b></div>
+            <div class="df-note">Using real emblem values: Ruthless Lv5 = <b>+20% CD</b>, Domination Lv5 = <b>+10% Boss ATK</b>.</div>
+            <pre style="margin:0;background:#f8f4ff;border:1px solid #ede0ff;border-radius:8px;padding:8px;white-space:pre-wrap;">Crit: 0.20 / 3.2 = +6.25%
+Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
+            <div class="df-note">→ In this common setup, <b>Crit wins</b>.</div>
+
+            <div class="df-note"><b>6) Why earlier math sometimes shows Boss ATK winning</b></div>
+            <div class="df-note">If you assume equal increases (ex: +20% vs +20%), Boss ATK can win in some models due to high Skill% and lower saturation in that bucket. But that assumption is unrealistic because emblem caps are not equal.</div>
+
+            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>7) Real emblem scaling</th><th>Max value</th></tr></thead><tbody>
+              <tr><td><b>Crit DMG (Ruthless)</b></td><td><b>+20%</b></td></tr>
+              <tr><td><b>Boss ATK (Domination)</b></td><td><b>+10%</b></td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>8) Why Crit emblems are usually more worth it</b></div>
+            <div class="df-note">A) Higher stat per emblem slot (+20 vs +10)<br>B) Works everywhere (bossing, farming, dailies, multi-target)<br>C) Scales with Crit Rate (near-global impact at high crit consistency)<br>D) Boss ATK sits in an additive bucket and can saturate faster<br>E) Better long-term scaling as progression rises</div>
+
+            <div class="df-note"><b>9) When Boss ATK can be better</b></div>
+            <div class="df-note">Low Crit Rate, very high Skill %, Crit DMG already saturated, and pure boss-only optimization. This is a narrower min-max scenario, not general-use default.</div>
+
+            <div class="df-note"><b>10) Does hit count matter?</b> Yes. Higher hit count improves crit consistency and tends to increase effective Crit value. Low hit count can make Boss ATK relatively stronger.</div>
+
+            <div class="pr-table-wrap"><table class="pr-table" style="font-size:12px;"><thead><tr><th>11) Practical decision guide</th><th>Best choice</th></tr></thead><tbody>
+              <tr><td>General gameplay</td><td><b>Crit</b></td></tr>
+              <tr><td>High Crit Rate</td><td><b>Crit</b></td></tr>
+              <tr><td>Early / low Crit Rate</td><td>Boss ATK viable</td></tr>
+              <tr><td>Boss-only min-max</td><td>Depends on your current buckets</td></tr>
+              <tr><td>Very high Skill %</td><td>Boss ATK gains value</td></tr>
+            </tbody></table></div>
+
+            <div class="df-note"><b>12) Final conclusion</b><br>• <b>Crit DMG emblems</b> = default, scalable, universal<br>• <b>Boss ATK emblems</b> = situational optimization<br><br>Even when Boss ATK can win in specific theoretical setups, Crit DMG is typically more efficient and flexible in real builds.</div>
+          </div>
+        </details>
+      </div>
+    </section>
+
 
     <section class="tab-section" id="tab-guide">
       <div class="df-panel">
@@ -4500,7 +4520,7 @@ function switchTab(id, btn, fromPop = false) {
   else {
     mainContent.style.display = '';
     // make Useful Information wider while keeping other tabs standard width
-    mainContent.style.maxWidth = (id === 'info' || id === 'guide') ? '1320px' : '1000px';
+    mainContent.style.maxWidth = (id === 'info' || id === 'guide' || id === 'guides') ? '1320px' : '1000px';
     document.getElementById('tab-' + id).classList.add('active');
     if (id === 'guide') ggInit();
   }
@@ -4521,7 +4541,7 @@ function switchTab(id, btn, fromPop = false) {
 
 function resolveTabFromHash(){
   const raw=(location.hash||'#home').replace(/^#/,'').trim().toLowerCase();
-  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs','ts':'ts','ts-viewer':'ts','trade-station':'ts','ts-prices':'ts'};
+  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','guides':'guides','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs','ts':'ts','ts-viewer':'ts','trade-station':'ts','ts-prices':'ts'};
   const tab=alias[raw] || raw || 'home';
   return document.querySelector(`.tab-btn[data-tab="${tab}"]`) ? tab : 'home';
 }
