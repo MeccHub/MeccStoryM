@@ -3994,7 +3994,96 @@ body[data-theme="dark"] #tab-guide .gg-card {
         </details>
 
 
+        
         <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
+          <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Will Guide (click to expand)</summary>
+          <div class="will-guide" style="padding:12px;display:grid;gap:12px;">
+            <style>
+              .will-guide .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
+              .will-guide h3{margin:0;font-size:20px;color:var(--text)}
+              .will-guide h4{margin:0;font-size:16px;color:var(--text)}
+              .will-guide p,.will-guide li{color:var(--sub);line-height:1.6}
+              .will-guide .img-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+              .will-guide .img-card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:8px}
+              .will-guide .img-card img{width:100%;height:130px;object-fit:contain;border-radius:8px;background:#fff}
+              .will-guide .img-card b{display:block;margin-top:6px;font-size:12px;color:var(--sub)}
+              .will-guide .note{background:#eef6ff;border-left:4px solid #2563eb;padding:10px;border-radius:8px;color:#1e3a8a}
+              body[data-theme="dark"] .will-guide .note{background:#082f49;color:#dbeafe;border-left-color:#60a5fa}
+            </style>
+
+            <div class="card">
+              <h3>Will Guide: Simplified</h3>
+              <p>Will is a 3-phase boss centered on <b>Moonlight</b> usage and passing mechanics cleanly. Save Moonlight for required mechanics, avoid unnecessary hits, and prioritize test success over greed DPS.</p>
+              <div class="img-grid">
+                <div class="img-card"><img src="assets/msm-will-guide/moonlight-gauge.png" alt="Moonlight gauge"><b>Moonlight Gauge</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/moonlight-barrier.png" alt="Moonlight barrier"><b>Moonlight Barrier</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/teleport.png" alt="Teleport"><b>Teleport</b></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4>Common Attacks (All Phases)</h4>
+              <div class="img-grid">
+                <div class="img-card"><img src="assets/msm-will-guide/spiral-iris.png" alt="Spiral Iris"><b>Spiral Iris</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/behodler-s-iris.png" alt="Beholder Iris"><b>Beholder's Iris</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/bedholder-s-iris-projectile.png" alt="Iris Projectile"><b>Iris Projectile</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/spider-leg-downward-strike.png" alt="Spider Leg Strike"><b>Spider Leg Strike</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/dark-executor.png" alt="Dark Executor"><b>Dark Executor</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/pupil-of-chaos.png" alt="Pupil of Chaos"><b>Pupil of Chaos</b></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4>Phase 1 — Mirror Dimensions</h4>
+              <div class="img-grid">
+                <div class="img-card"><img src="assets/msm-will-guide/mirror-dimension-p1.png" alt="Mirror Dimension"><b>Mirror Dimension</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/spatial-collapse-screen-break.png" alt="Screen Break"><b>Spatial Collapse (Screen Break)</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/spatial-collapse-safe-dimension.png" alt="Safe Dimension"><b>Safe Dimension</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/beholder-s-eye.png" alt="Beholder Eye"><b>Beholder's Eye</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/moonlight-meteor.png" alt="Moonlight Meteor"><b>Moonlight Meteor</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-1-short-range-attack.png" alt="P1 Short Range"><b>P1 Short-range Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-1-long-range-attack.png" alt="P1 Long Range"><b>P1 Long-range Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-1-knockback-attack.png" alt="P1 Knockback"><b>P1 Knockback Attack</b></div>
+              </div>
+              <div class="note">Pass segment tests consistently; failed tests cost significant time.</div>
+            </div>
+
+            <div class="card">
+              <h4>Phase 2 — Mirror of Lies</h4>
+              <div class="img-grid">
+                <div class="img-card"><img src="assets/msm-will-guide/mirror-of-lies.png" alt="Mirror of Lies"><b>Mirror of Lies</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/heal-block.png" alt="Heal Block"><b>Heal Block</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-will-positioning.jpg" alt="Will Positioning"><b>Will Positioning</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-spider-leg.png" alt="Spider Leg"><b>P2 Spider Leg</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-spider-leg-up.png" alt="Spider Leg Up"><b>P2 Spider Leg Up</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-summon-spider.png" alt="Summon Spider"><b>P2 Summon Spider</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-summoned-spider.png" alt="Summoned Spider"><b>P2 Summoned Spider</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-charge.png" alt="Charge"><b>P2 Charge</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-long-range-attack.png" alt="Long Range"><b>P2 Long-range Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-short-range-attack.png" alt="Short Range"><b>P2 Short-range Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-knockback-attack.png" alt="Knockback"><b>P2 Knockback Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phsae-2-fake-attack-knockback.png" alt="Fake Knockback"><b>P2 Fake Knockback</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-fake-attack-long-range.png" alt="Fake Long Range"><b>P2 Fake Long-range</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-2-abyssal-veil.png" alt="Abyssal Veil"><b>P2 Abyssal Veil</b></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4>Phase 3 — Spider Form</h4>
+              <div class="img-grid">
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-spider-web.png" alt="Spider Web"><b>P3 Spider Web</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-infection.png" alt="Infection"><b>P3 Infection</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/spider-meteorite.png" alt="Spider Meteorite"><b>Spider Meteorite</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-short-range-attack.png" alt="Short Range"><b>P3 Short-range Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-long-range-attack.png" alt="Long Range"><b>P3 Long-range Attack</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-knockback.png" alt="Knockback"><b>P3 Knockback</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-downward-strike.png" alt="Downward Strike"><b>P3 Downward Strike</b></div>
+                <div class="img-card"><img src="assets/msm-will-guide/phase-3-downward-spider-leg-strike.png" alt="Downward Spider Leg"><b>P3 Downward Spider Leg Strike</b></div>
+              </div>
+            </div>
+          </div>
+        </details>
+<details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ B ATK vs CD - Emblems and Stats (click to expand)</summary>
           <div style="padding:12px;display:grid;gap:10px;">
             <div class="df-note"><b>1) What do the two emblems actually do?</b></div>
