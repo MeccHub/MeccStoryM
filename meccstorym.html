@@ -2142,6 +2142,11 @@ body[data-theme="light"] #tab-probs .pr-table thead tr {
 body[data-theme="light"] #tab-probs .pr-table th {
   color: #334155 !important;
 }
+/* TS viewer shelved */
+.tab-btn[data-tab="ts"],
+#tab-ts,
+.tool-card[onclick*="switchTab('ts'"] { display:none !important; }
+
 /* TS Price Viewer table/header light-mode readability */
 body[data-theme="light"] #tab-ts .pr-table thead tr,
 body[data-theme="light"] #tsTableWrap .pr-table thead tr,
@@ -2694,6 +2699,9 @@ body[data-theme="dark"] #tab-guide .gg-card {
     <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this);closeMobileNav()" style="opacity:.65;">
       <span class="tab-icon">🎲</span> Item Probabilities
     </button>
+    <button class="tab-btn" data-tab="ts" onclick="switchTab('ts',this);closeMobileNav()">
+      <span class="tab-icon">📊</span> TS Price Viewer
+    </button>
   </div>
 
   <!-- ── Content ── -->
@@ -2724,6 +2732,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="tool-card card-yellow" onclick="switchTab('links', document.querySelector('[data-tab=links]'))"><div class="card-icon icon-yellow">🔗</div><div class="card-name">Useful Links</div><div class="card-desc">Quick-access links for news, events, patch notes and channels.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-green" onclick="switchTab('meso', document.querySelector('[data-tab=meso]'))"><div class="card-icon icon-green">💰</div><div class="card-name">Meso/hr Calculator</div><div class="card-desc">Upload result screenshots and auto-calc mesos per hour.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))"><div class="card-icon icon-purple">🎲</div><div class="card-name">Item Probabilities</div><div class="card-desc">RNG rates for events, draws, cubes, flames, etc.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-sky" onclick="switchTab('ts', document.querySelector('[data-tab=ts]'))"><div class="card-icon icon-sky">📊</div><div class="card-name">TS Price Viewer</div><div class="card-desc">View submitted Trade Station historical prices and averages.</div><span class="card-arrow">→</span></div>
       </div>
     </section>
 
@@ -4426,6 +4435,39 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
     <div class="pr-table-wrap" id="prTableWrap"></div>
   </section>
   </div>
+
+  <!-- ════════ TS PRICE VIEWER ════════ -->
+  <div class="content" id="ts-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <section id="tab-ts" style="display:block;">
+    <div class="pr-topbar">
+      <div>
+        <div class="pr-title">📊 TS Price Viewer</div>
+        <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="tsMetaText">Loading TS data…</span></div>
+        <div class="pr-meta" style="margin-top:4px;"><span id="tsLastUpdated">Last updated: —</span></div>
+      </div>
+      <button class="pr-refresh-btn" id="tsRefreshBtn" onclick="tsLoad(true)"><span id="tsRefreshIcon">🔄</span> Refresh</button>
+    </div>
+
+    <div class="pr-controls" style="margin-bottom:10px;">
+      <div class="pr-ctrl-field" style="flex:2;min-width:240px;">
+        <div class="pr-ctrl-label">Search Item</div>
+        <input class="pr-ctrl-input" id="tsSearch" type="text" placeholder="Search item name..." oninput="tsApplyFilters()" />
+      </div>
+      <div class="pr-ctrl-field" style="min-width:160px;">
+        <div class="pr-ctrl-label">Window</div>
+        <select class="pr-ctrl-input" id="tsWindowFilter" onchange="tsApplyFilters()">
+          <option value="24h">Last 24h</option>
+          <option value="7d" selected>Last 7d</option>
+          <option value="30d">Last 30d</option>
+          <option value="all">All time</option>
+        </select>
+      </div>
+      <button class="pr-clear-btn" onclick="tsClearFilters()">✕ Clear</button>
+    </div>
+
+    <div class="pr-results-bar" id="tsResultsBar"></div>
+    <div class="pr-table-wrap" id="tsTableWrap"></div>
+  </section>
   </div>
 
   <div class="ts-modal" id="tsDetailModal" onclick="if(event.target===this)tsCloseItemModal()">
@@ -4581,7 +4623,7 @@ function switchTab(id, btn, fromPop = false) {
 
 function resolveTabFromHash(){
   const raw=(location.hash||'#home').replace(/^#/,'').trim().toLowerCase();
-  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','guides':'guides','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs','ts-viewer':'ts','trade-station':'ts','ts-prices':'ts'};
+  const alias={faq:'info','useful-information':'info','usefulinfo':'info','guide':'guide','game-guide':'guide','guides':'guides','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs','ts':'ts','ts-viewer':'ts','trade-station':'ts','ts-prices':'ts'};
   const tab=alias[raw] || raw || 'home';
   return document.querySelector(`.tab-btn[data-tab="${tab}"]`) ? tab : 'home';
 }
