@@ -3995,25 +3995,31 @@ body[data-theme="dark"] #tab-guide .gg-card {
 
 
         
-        <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
+                <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ Will Guide (click to expand)</summary>
           <div class="will-guide" style="padding:12px;display:grid;gap:12px;">
             <style>
               .will-guide .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
               .will-guide h3{margin:0;font-size:20px;color:var(--text)}
-              .will-guide h4{margin:0;font-size:16px;color:var(--text)}
+              .will-guide h4{margin:0;font-size:18px;color:var(--text)}
               .will-guide p,.will-guide li{color:var(--sub);line-height:1.6}
               .will-guide .img-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
               .will-guide .img-card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:8px}
               .will-guide .img-card img{width:100%;height:130px;object-fit:contain;border-radius:8px;background:#fff}
               .will-guide .img-card b{display:block;margin-top:6px;font-size:12px;color:var(--sub)}
-              .will-guide .note{background:#eef6ff;border-left:4px solid #2563eb;padding:10px;border-radius:8px;color:#1e3a8a}
-              body[data-theme="dark"] .will-guide .note{background:#082f49;color:#dbeafe;border-left-color:#60a5fa}
+              .will-guide .note{background:#f3e8ff;border-left:5px solid #9333ea;padding:12px 14px;border-radius:8px;margin-top:8px}
+              .will-guide .strategy{background:#eef6ff;border-left:5px solid #2563eb;padding:12px 14px;border-radius:8px;margin-top:8px}
+              .will-guide .warning{background:#fff1f2;border-left:5px solid #e11d48;padding:12px 14px;border-radius:8px;margin-top:8px}
+              body[data-theme="dark"] .will-guide .note{background:#3b0764;color:#f3e8ff;border-left-color:#c084fc}
+              body[data-theme="dark"] .will-guide .strategy{background:#082f49;color:#dbeafe;border-left-color:#60a5fa}
+              body[data-theme="dark"] .will-guide .warning{background:#4c0519;color:#ffe4e6;border-left-color:#fb7185}
             </style>
 
             <div class="card">
               <h3>Will Guide: Simplified</h3>
-              <p>Will is a 3-phase boss centered on <b>Moonlight</b> usage and passing mechanics cleanly. Save Moonlight for required mechanics, avoid unnecessary hits, and prioritize test success over greed DPS.</p>
+              <h4>Fight Overview</h4>
+              <p>Will is a <b>3-phase boss</b> built around the <b>Moonlight</b> mechanic. Moonlight charges automatically, drops when you get hit by certain attacks, and has a different use in each phase. The fight is less about raw damage and more about <b>passing mechanics cleanly</b>.</p>
+              <div class="note"><b>Main idea:</b> save Moonlight for the phase mechanic, avoid unnecessary hits, and do not fail segment tests.</div>
               <div class="img-grid">
                 <div class="img-card"><img src="assets/msm-will-guide/moonlight-gauge.png" alt="Moonlight gauge"><b>Moonlight Gauge</b></div>
                 <div class="img-card"><img src="assets/msm-will-guide/moonlight-barrier.png" alt="Moonlight barrier"><b>Moonlight Barrier</b></div>
@@ -4023,6 +4029,12 @@ body[data-theme="dark"] #tab-guide .gg-card {
 
             <div class="card">
               <h4>Common Attacks (All Phases)</h4>
+              <p>Throughout the fight, Will uses several recurring attacks that pressure movement and drain Moonlight. These are not 1-hits, but they should be avoided when possible. The most important ones to respect are the <b>Watching Eyes</b>, <b>Spider Legs</b>, and <b>homing summons</b>.</p>
+              <ul>
+                <li><b>Watching Eyes:</b> bullet patterns that chip HP and reduce Moonlight.</li>
+                <li><b>Spider Legs:</b> repeated vertical strikes; learn the rhythm and keep moving.</li>
+                <li><b>Homing summons:</b> track players and explode on contact if not avoided.</li>
+              </ul>
               <div class="img-grid">
                 <div class="img-card"><img src="assets/msm-will-guide/spiral-iris.png" alt="Spiral Iris"><b>Spiral Iris</b></div>
                 <div class="img-card"><img src="assets/msm-will-guide/behodler-s-iris.png" alt="Beholder Iris"><b>Beholder's Iris</b></div>
@@ -4034,7 +4046,12 @@ body[data-theme="dark"] #tab-guide .gg-card {
             </div>
 
             <div class="card">
-              <h4>Phase 1 — Mirror Dimensions</h4>
+              <h4>Phase 1 - Mirror Dimensions</h4>
+              <p>In Phase 1, the party fights across <b>two dimensions</b>. Only the HP bar matching your current dimension can be damaged, so players must swap properly and keep both bars progressing. Using <b>Moonlight</b> swaps you to the other dimension and briefly grants invulnerability.</p>
+              <p>Occasionally, Will will trigger a <b>screen-break</b> (screen-crack; full-map one-hit attack) in one of the two dimensions. You must switch to the safe dimension when this happens.</p>
+              <p>At HP checkpoints, Will forces a <b>segment test</b>. The party must reach the correct side, trigger the meteor mechanic by attacking the <b>Beholder's Eye</b> found in the middle of the map and catch a falling moonlight meteor. This creates a barrier against the incoming screen-break attack. If the test is failed, Will heals and the phase drags out significantly.</p>
+              <div class="strategy"><b>Simple strategy:</b> attack the correct color, swap only when needed, and focus on surviving every segment test. Passing tests cleanly matters more than greed for damage.</div>
+              <div class="warning"><b>Do not die during the test.</b> A failed test can cost a large amount of time and heal the boss.</div>
               <div class="img-grid">
                 <div class="img-card"><img src="assets/msm-will-guide/mirror-dimension-p1.png" alt="Mirror Dimension"><b>Mirror Dimension</b></div>
                 <div class="img-card"><img src="assets/msm-will-guide/spatial-collapse-screen-break.png" alt="Screen Break"><b>Spatial Collapse (Screen Break)</b></div>
@@ -4045,11 +4062,14 @@ body[data-theme="dark"] #tab-guide .gg-card {
                 <div class="img-card"><img src="assets/msm-will-guide/phase-1-long-range-attack.png" alt="P1 Long Range"><b>P1 Long-range Attack</b></div>
                 <div class="img-card"><img src="assets/msm-will-guide/phase-1-knockback-attack.png" alt="P1 Knockback"><b>P1 Knockback Attack</b></div>
               </div>
-              <div class="note">Pass segment tests consistently; failed tests cost significant time.</div>
             </div>
 
             <div class="card">
-              <h4>Phase 2 — Mirror of Lies</h4>
+              <h4>Phase 2 - Mirror of Lies</h4>
+              <p>In Phase 2, <b>healing is blocked</b> by default. You must use <b>Moonlight</b> to temporarily remove the healing block and recover. This phase is heavily focused on reading the room correctly, especially Will's reflection and the invisible dangers at the edges.</p>
+              <p>Will can create <b>invisible web walls</b> at the sides of the map, visible only through reflection cues. He also mixes in fake or mirrored attacks to punish careless movement. It is very important to dodge the <b>Summon Spider</b> as this is a near 1-hit.</p>
+              <p>At HP checkpoints, the party must survive the <b>Mirror of Lies test</b>. A banner appears at test start; when the crack is present, players intentionally get hit by vertical spider legs, and when absent, they avoid legs. There are 3 predictable patterns (see Will Positioning): <b>Floor Crack</b>, <b>One leg</b>, <b>Three legs</b>.</p>
+              <div class="strategy"><b>Simple strategy:</b> use Moonlight for healing (especially during tests) and memorize the test patterns.</div>
               <div class="img-grid">
                 <div class="img-card"><img src="assets/msm-will-guide/mirror-of-lies.png" alt="Mirror of Lies"><b>Mirror of Lies</b></div>
                 <div class="img-card"><img src="assets/msm-will-guide/heal-block.png" alt="Heal Block"><b>Heal Block</b></div>
@@ -4069,7 +4089,11 @@ body[data-theme="dark"] #tab-guide .gg-card {
             </div>
 
             <div class="card">
-              <h4>Phase 3 — Spider Form</h4>
+              <h4>Phase 3 - Spider Form</h4>
+              <p>In Phase 3, Will stays centered in <b>spider form</b> and healing returns to normal. The main mechanics are <b>screen-filling webs</b> and <b>Infection</b>.</p>
+              <p>Will periodically summons red webs that close in from the edges. Use <b>Moonlight</b> to clear webs and preserve safe space. If you collide with them directly, you take damage and may be <b>sealed</b>.</p>
+              <p><b>Infection</b> marks one player with a dangerous poison aura. That player should move away from the team while continuing to attack; the rest of the party should keep distance and avoid spreading damage.</p>
+              <div class="strategy"><b>Simple strategy:</b> infected player isolates, everyone else gives space, and Moonlight is saved mainly for clearing webs before the map gets cramped.</div>
               <div class="img-grid">
                 <div class="img-card"><img src="assets/msm-will-guide/phase-3-spider-web.png" alt="Spider Web"><b>P3 Spider Web</b></div>
                 <div class="img-card"><img src="assets/msm-will-guide/phase-3-infection.png" alt="Infection"><b>P3 Infection</b></div>
@@ -4083,6 +4107,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
             </div>
           </div>
         </details>
+
 <details style="border:1px solid #ede0ff;border-radius:12px;background:#fff;overflow:hidden;margin-top:10px;">
           <summary style="list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:var(--text);background:#f8f4ff;">▸ B ATK vs CD - Emblems and Stats (click to expand)</summary>
           <div style="padding:12px;display:grid;gap:10px;">
