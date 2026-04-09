@@ -1,7 +1,7 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-04-08T04:00:08Z",
-  "count": 9,
+  "generated_at_utc": "2026-04-09T04:00:06Z",
+  "count": 8,
   "events": [
     {
       "board_id": 2692,
@@ -86,18 +86,6 @@
       "start_utc": "2026-03-19T08:00:00Z",
       "end_utc": "2026-04-15T17:59:00Z",
       "first_seen_utc": "2026-03-19T04:00:20Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3403152",
-      "title": "🎁Crystal Treasure Box: Chaos x5/Lucky Fever x3!",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3403152",
-      "posted_utc": "2026-03-19T00:00:00Z",
-      "event_period_raw": "After the 2026/03/19 (Thu) Update - 2026/04/07 (Tue) 23:59 (Server Time) *",
-      "start_utc": "2026-03-19T08:00:00Z",
-      "end_utc": "2026-04-08T07:59:00Z",
-      "first_seen_utc": "2026-03-19T04:00:21Z"
     },
     {
       "board_id": 2692,
