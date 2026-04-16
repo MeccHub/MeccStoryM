@@ -1,43 +1,43 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-04-15T04:00:07Z",
-  "count": 7,
+  "generated_at_utc": "2026-04-16T04:00:16Z",
+  "count": 4,
   "events": [
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3413765",
-      "title": "Relentless Inferno Wolf 🔥",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3413765",
-      "posted_utc": "2026-04-02T02:00:00Z",
-      "event_period_raw": "2026/04/02 (Thu) 10:00 ~ 2026/04/15 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Defeat the Relentless Inferno Wolf! Upon defeating it, you can earn EXP rewards, and by reaching cumulative defeat milestones, you can also obtain special achievement rewards. [How to Participate] ① You can participate in the event through [Relentless Inferno Wolf] located on [Event] > [Haste Event] event main page. ② Characters Lv. 100 or higher can ente",
-      "start_utc": "2026-04-02T18:00:00Z",
-      "end_utc": "2026-04-15T17:59:00Z",
-      "first_seen_utc": "2026-04-02T04:00:06Z"
+      "thread_id": "3420871",
+      "title": "💧 Sol Erda Pass A 💧",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3420871",
+      "posted_utc": "2026-04-16T02:00:00Z",
+      "event_period_raw": "Event Period : 2026/04/16 (Thu) 10:00 - 2026/05/06 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/05/06 (Wed) 10:00 - 2026/05/13 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-04-16T18:00:00Z",
+      "end_utc": "2026-05-06T17:59:00Z",
+      "first_seen_utc": "2026-04-16T04:00:08Z"
     },
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3413764",
-      "title": "The Real Mr. Kim 🔎",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3413764",
-      "posted_utc": "2026-04-01T02:00:00Z",
-      "event_period_raw": "2026/04/01 (Wed) 10:00 - 2026/04/15 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details An unknown intruder has appeared in the Temple of Time! Check The Real Mr. Kim List and find the fake Mr. Kim to receive event reward. [How to Participate] ① You can participate in the event through [Menu] > [Event] > [The Real Mr. Kim]. ② Upon starting each round [The Real Mr. Kim List] shows up. Make sure to remember the list! ③ Real Mr. Kim and Fake Mr",
-      "start_utc": "2026-04-01T18:00:00Z",
-      "end_utc": "2026-04-15T17:59:00Z",
-      "first_seen_utc": "2026-04-01T04:00:08Z"
+      "thread_id": "3424212",
+      "title": "🔥 M4U Boss Invitation ✉️",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3424212",
+      "posted_utc": "2026-04-16T00:00:00Z",
+      "event_period_raw": "After the 2026/04/16 (Thu) Maintenance - 2026 /06/17 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-04-16T08:00:00Z",
+      "end_utc": "2026-06-17T17:59:00Z",
+      "first_seen_utc": "2026-04-16T04:00:11Z"
     },
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3407189",
-      "title": "💧 Sol Erda Pass B 💧",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3407189",
-      "posted_utc": "2026-03-26T02:00:00Z",
-      "event_period_raw": "Event Period : 2026/03/26 (Thu) 10:00 ~ 2026/04/15 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/04/15 (Wed) 10:00 ~ 2026/04/22 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-03-26T18:00:00Z",
-      "end_utc": "2026-04-15T17:59:00Z",
-      "first_seen_utc": "2026-03-26T04:00:07Z"
+      "thread_id": "3424209",
+      "title": "💎 Lady Blair's Dream Express 💎",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3424209",
+      "posted_utc": "2026-04-16T00:00:00Z",
+      "event_period_raw": "After the 2026/04/16 (Thu) Maintenance - 2026/04/30 09:59 (Thu) (Server Time) *",
+      "start_utc": "2026-04-16T08:00:00Z",
+      "end_utc": "2026-04-30T17:59:00Z",
+      "first_seen_utc": "2026-04-16T04:00:13Z"
     },
     {
       "board_id": 2692,
@@ -50,42 +50,6 @@
       "start_utc": "2026-03-19T08:00:00Z",
       "end_utc": "2026-04-30T17:59:00Z",
       "first_seen_utc": "2026-03-19T04:00:14Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3403580",
-      "title": "🔥Haste Event",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3403580",
-      "posted_utc": "2026-03-19T00:00:00Z",
-      "event_period_raw": "After the 2026/03/19 (Thu) Update – 2026/04/15 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-03-19T08:00:00Z",
-      "end_utc": "2026-04-15T17:59:00Z",
-      "first_seen_utc": "2026-03-19T04:00:17Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3403573",
-      "title": "🍁Golden Maple Fragment Collection Event",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3403573",
-      "posted_utc": "2026-03-19T00:00:00Z",
-      "event_period_raw": "Golden Maple Fragment Collection Period: After 2026/03/19 (Thu) Update – 2026/04/15 (Wed) 09:59 (Server Time) Reward Claim Period: After 2026/03/19 (Thu) Update – 2026/04/22 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-03-19T08:00:00Z",
-      "end_utc": "2026-04-15T17:59:00Z",
-      "first_seen_utc": "2026-03-19T04:00:18Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3403568",
-      "title": "🔨Forge Pass",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3403568",
-      "posted_utc": "2026-03-19T00:00:00Z",
-      "event_period_raw": "After the 2026/03/19 (Thu) Update – 2026/04/15 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-03-19T08:00:00Z",
-      "end_utc": "2026-04-15T17:59:00Z",
-      "first_seen_utc": "2026-03-19T04:00:20Z"
     }
   ]
 }
