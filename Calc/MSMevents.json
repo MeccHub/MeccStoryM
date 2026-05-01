@@ -1,7 +1,7 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-04-30T04:00:07Z",
-  "count": 6,
+  "generated_at_utc": "2026-05-01T04:00:11Z",
+  "count": 4,
   "events": [
     {
       "board_id": 2692,
@@ -50,30 +50,6 @@
       "start_utc": "2026-04-16T08:00:00Z",
       "end_utc": "2026-06-17T17:59:00Z",
       "first_seen_utc": "2026-04-20T14:41:47Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3424209",
-      "title": "💎 Lady Blair's Dream Express 💎",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3424209",
-      "posted_utc": "2026-04-16T00:00:00Z",
-      "event_period_raw": "After the 2026/04/16 (Thu) Maintenance - 2026/04/30 09:59 (Thu) (Server Time) *",
-      "start_utc": "2026-04-16T08:00:00Z",
-      "end_utc": "2026-04-30T17:59:00Z",
-      "first_seen_utc": "2026-04-20T14:41:48Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3403608",
-      "title": "🌆Kain Event",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3403608",
-      "posted_utc": "2026-03-19T00:00:00Z",
-      "event_period_raw": "After the 2026/03/19 (Thu) Update - 2026/04/30 (Thu) 09:59 (Server Time) *",
-      "start_utc": "2026-03-19T08:00:00Z",
-      "end_utc": "2026-04-30T17:59:00Z",
-      "first_seen_utc": "2026-04-20T14:41:59Z"
     }
   ]
 }
