@@ -4006,7 +4006,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="pr-controls" style="margin-bottom:10px;">
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Start SF</div><select class="pr-ctrl-input" id="sfStart"></select></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Target SF</div><select class="pr-ctrl-input" id="sfTarget"></select></div>
-          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Trials (blank = infinite)</div><input class="pr-ctrl-input" id="sfTrials" type="number" min="1" max="100000"></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Trials</div><input class="pr-ctrl-input" id="sfTrials" type="number" min="1" max="100000" value="1"></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Meso Budget (optional)</div><input class="pr-ctrl-input" id="sfBudget" type="number" min="0" step="1000000" placeholder="e.g. 500000000"></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Options</div><label style="display:flex;gap:10px;align-items:center;"><input id="sfLucky" type="checkbox"> Lucky (+5% success)</label><label style="display:flex;gap:10px;align-items:center;"><input id="sfShield" type="checkbox"> Shield (no destroy)</label><label style="display:flex;gap:10px;align-items:center;"><input id="sfRevive" type="checkbox"> Revive on destroy (+3,000,000 meso)</label></div>
         </div>
@@ -6790,8 +6790,7 @@ function sfMedian(arr){ if(!arr.length) return 0; const a=[...arr].sort((x,y)=>x
 function sfRunSim(){
   const start=+document.getElementById('sfStart').value;
   const target=+document.getElementById('sfTarget').value;
-  const trialsRaw=(document.getElementById('sfTrials').value||'').trim();
-  const trials=trialsRaw?Math.max(1, Math.min(100000, +trialsRaw||1)):50000;
+  const trials=Math.max(1, Math.min(100000, +document.getElementById('sfTrials').value||1));
   const lucky=document.getElementById('sfLucky').checked;
   const shield=document.getElementById('sfShield').checked;
   const revive=document.getElementById('sfRevive').checked;
