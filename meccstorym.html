@@ -3302,151 +3302,314 @@ body[data-theme="dark"] #tab-guide .gg-card {
             <div class="pr-controls" style="margin-bottom:4px;">
               <div class="pr-ctrl-field" style="flex:2;min-width:220px;"><div class="pr-ctrl-label">Search</div><input class="pr-ctrl-input" id="potSearch" type="text" placeholder="e.g. Crit DMG, PHY ATK, EXP" oninput="potRender()"></div>
               <div class="pr-ctrl-field" style="min-width:180px;"><div class="pr-ctrl-label">Equipment</div><select class="pr-ctrl-input" id="potEquip" onchange="potRender()"><option value="">All</option></select></div>
-              <div class="pr-ctrl-field" style="min-width:180px;"><div class="pr-ctrl-label">Rank column</div><select class="pr-ctrl-input" id="potRank" onchange="potRender()"><option value="">Any</option><option value="2">Option Min</option><option value="3">Rare Max</option><option value="4">Epic Max</option><option value="5">Unique Max</option><option value="6">Legendary Max</option></select></div>
+              <div class="pr-ctrl-field" style="min-width:180px;"><div class="pr-ctrl-label">Rank column</div><select class="pr-ctrl-input" id="potRank" onchange="potRender()"><option value="">Any</option><option value="3">Rare</option><option value="4">Epic</option><option value="5">Unique</option><option value="6">Legendary</option></select></div>
             </div>
             <div class="pr-table-wrap" style="overflow:auto;max-height:78vh;">
             <table class="pr-table" id="potTable" style="font-size:11px;">
-            <thead><tr><th>Equipment</th><th>Available Stats</th><th>Option Min</th><th>Rare Max</th><th>Epic Max</th><th>Unique Max</th><th>Legendary Max</th></tr></thead><tbody>
-              <tr><td>Belt</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Belt</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Belt</td><td>Item Drop Rate Increase (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.3%</td><td>3.2%</td></tr>
-              <tr><td>Belt</td><td>MAG ATK Increase (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>3.6%</td><td>6.3%</td></tr>
-              <tr><td>Belt</td><td>MAG ATK(%)</td><td></td><td>0.9%</td><td>2.1%</td><td>4.5%</td><td>6.3%</td></tr>
-              <tr><td>Belt</td><td>MAG DMG Reduction (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>3%</td><td>4.2%</td></tr>
-              <tr><td>Belt</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Belt</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Belt</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Belt</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Belt</td><td>PHY ATK Increase (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>3.6%</td><td>6.3%</td></tr>
-              <tr><td>Belt</td><td>PHY ATK(%)</td><td></td><td>0.9%</td><td>2.1%</td><td>4.5%</td><td>6.3%</td></tr>
-              <tr><td>Belt</td><td>PHY DMG Reduction (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>3%</td><td>4.2%</td></tr>
-              <tr><td>Bottom</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Bottom</td><td>Crit DMG RES (%)</td><td></td><td>0.4%</td><td>0.8%</td><td>1.8%</td><td>2.5%</td></tr>
-              <tr><td>Bottom</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Bottom</td><td>MAG ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Bottom</td><td>MAG DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Bottom</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Bottom</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Bottom</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Bottom</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Bottom</td><td>PHY ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Bottom</td><td>PHY DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Cape</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Cape</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Cape</td><td>MAG ATK Increase (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>3.6%</td><td>6.3%</td></tr>
-              <tr><td>Cape</td><td>MAG ATK(%)</td><td></td><td>-</td><td>-</td><td>-</td><td>6.3%</td></tr>
-              <tr><td>Cape</td><td>MAG DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Cape</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Cape</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Cape</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Cape</td><td>Meso Acquisition Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Cape</td><td>PHY ATK Increase (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>3.6%</td><td>6.3%</td></tr>
-              <tr><td>Cape</td><td>PHY ATK(%)</td><td></td><td>-</td><td>-</td><td>-</td><td>6.3%</td></tr>
-              <tr><td>Cape</td><td>PHY DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Cape</td><td>SPD Increase (%)</td><td></td><td>1.1%</td><td>2.6%</td><td>5.5%</td><td>7.7%</td></tr>
-              <tr><td>Gloves</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Gloves</td><td>Crit ATK</td><td></td><td>34</td><td>80</td><td>171</td><td>239</td></tr>
-              <tr><td>Gloves</td><td>Crit DMG (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>4.5%</td><td>6.3%</td></tr>
-              <tr><td>Gloves</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Gloves</td><td>Item Drop Rate Increase (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.3%</td><td>3.2%</td></tr>
-              <tr><td>Gloves</td><td>MAG DMG Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>2.9%</td><td>4.1%</td></tr>
-              <tr><td>Gloves</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Gloves</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Gloves</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
-              <tr><td>Gloves</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Gloves</td><td>PHY DMG Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>2.9%</td><td>4.1%</td></tr>
-              <tr><td>Hat</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Hat</td><td>Crit DMG RES (%)</td><td></td><td>0.4%</td><td>0.8%</td><td>1.8%</td><td>2.5%</td></tr>
-              <tr><td>Hat</td><td>EVD</td><td></td><td>6</td><td>14</td><td>30</td><td>44</td></tr>
-              <tr><td>Hat</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Hat</td><td>MAG ATK Increase (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>3.6%</td><td>6.3%</td></tr>
-              <tr><td>Hat</td><td>MAG ATK(%)</td><td></td><td>0.9%</td><td>2.1%</td><td>4.5%</td><td>6.3%</td></tr>
-              <tr><td>Hat</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Hat</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Hat</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Hat</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Hat</td><td>Meso Acquisition Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Hat</td><td>PHY ATK Increase (%)</td><td></td><td>0.9%</td><td>2.1%</td><td>3.6%</td><td>6.3%</td></tr>
-              <tr><td>Hat</td><td>PHY ATK(%)</td><td></td><td>0.9%</td><td>2.1%</td><td>4.5%</td><td>6.3%</td></tr>
-              <tr><td>Mechanical Heart</td><td>Crit ATK</td><td></td><td>40</td><td>80</td><td>171</td><td>239</td></tr>
-              <tr><td>Mechanical Heart</td><td>Crit DMG (%)</td><td></td><td>1.1%</td><td>2.1%</td><td>4.5%</td><td>6.3%</td></tr>
-              <tr><td>Mechanical Heart</td><td>Crit DMG RES (%)</td><td></td><td>0.4%</td><td>0.8%</td><td>1.8%</td><td>2.5%</td></tr>
-              <tr><td>Mechanical Heart</td><td>Crit Decrease</td><td></td><td>8</td><td>16</td><td>35</td><td>48</td></tr>
-              <tr><td>Mechanical Heart</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Mechanical Heart</td><td>HP Recovery Increase</td><td></td><td>9</td><td>18</td><td>39</td><td>55</td></tr>
-              <tr><td>Mechanical Heart</td><td>MAG DEF Increase (%)</td><td></td><td>0.7%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Mechanical Heart</td><td>MP Recovery Increase</td><td></td><td>9</td><td>18</td><td>39</td><td>55</td></tr>
-              <tr><td>Mechanical Heart</td><td>Max HP</td><td></td><td>203</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Mechanical Heart</td><td>Max HP (%)</td><td></td><td>0.6%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Mechanical Heart</td><td>Max MP</td><td></td><td>175</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Mechanical Heart</td><td>Max MP (%)</td><td></td><td>0.6%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Mechanical Heart</td><td>PHY DEF Increase (%)</td><td></td><td>0.7%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Outfit</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Outfit</td><td>Crit DMG RES (%)</td><td></td><td>0.4%</td><td>0.8%</td><td>1.8%</td><td>2.5%</td></tr>
-              <tr><td>Outfit</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Outfit</td><td>MAG ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Outfit</td><td>MAG DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Outfit</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Outfit</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Outfit</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Outfit</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Outfit</td><td>PHY ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Outfit</td><td>PHY DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Shoes</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Shoes</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Shoes</td><td>MAG ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Shoes</td><td>MAG DEF</td><td></td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
-              <tr><td>Shoes</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Shoes</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Shoes</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Shoes</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Shoes</td><td>PHY ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Shoes</td><td>PHY DEF</td><td></td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
-              <tr><td>Shoes</td><td>SPD Increase (%)</td><td></td><td>1.2%</td><td>3%</td><td>6%</td><td>9%</td></tr>
-              <tr><td>Shoulders</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Shoulders</td><td>Boss DEF Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>3%</td><td>4.2%</td></tr>
-              <tr><td>Shoulders</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Shoulders</td><td>MAG DEF</td><td></td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
-              <tr><td>Shoulders</td><td>MAG DMG Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>2.3%</td><td>4.1%</td></tr>
-              <tr><td>Shoulders</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Shoulders</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Shoulders</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Shoulders</td><td>PHY DEF</td><td></td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
-              <tr><td>Shoulders</td><td>PHY DMG Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>2.3%</td><td>4.1%</td></tr>
-              <tr><td>Signet</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Signet</td><td>Boss DEF Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>3%</td><td>4.2%</td></tr>
-              <tr><td>Signet</td><td>EXP Increase</td><td></td><td>-</td><td>-</td><td>-</td><td>0.01</td></tr>
-              <tr><td>Signet</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Signet</td><td>MAG DEF</td><td></td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
-              <tr><td>Signet</td><td>MAG DMG Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>2.3%</td><td>4.1%</td></tr>
-              <tr><td>Signet</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Signet</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Signet</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Signet</td><td>PHY DEF</td><td></td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
-              <tr><td>Signet</td><td>PHY DMG Increase (%)</td><td></td><td>0.6%</td><td>1.4%</td><td>2.3%</td><td>4.1%</td></tr>
-              <tr><td>Top</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Top</td><td>Crit DMG RES (%)</td><td></td><td>0.4%</td><td>0.8%</td><td>1.8%</td><td>2.5%</td></tr>
-              <tr><td>Top</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1%</td><td>1.8%</td></tr>
-              <tr><td>Top</td><td>MAG ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Top</td><td>MAG DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Top</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Top</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Top</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Top</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Top</td><td>PHY ATK</td><td></td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
-              <tr><td>Top</td><td>PHY DEF Increase (%)</td><td></td><td>0.6%</td><td>1.3%</td><td>2.9%</td><td>4%</td></tr>
-              <tr><td>Weapon</td><td>ACC (%)</td><td></td><td>0.3%</td><td>0.8%</td><td>1.7%</td><td>2.3%</td></tr>
-              <tr><td>Weapon</td><td>Crit ATK</td><td></td><td>34</td><td>80</td><td>171</td><td>239</td></tr>
-              <tr><td>Weapon</td><td>Crit DMG (%)</td><td></td><td>1.4%</td><td>3.2%</td><td>6.8%</td><td>9.5%</td></tr>
-              <tr><td>Weapon</td><td>EXP Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Weapon</td><td>Item Drop Rate Increase (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.3%</td><td>3.2%</td></tr>
-              <tr><td>Weapon</td><td>MAG ATK</td><td></td><td>60</td><td>140</td><td>300</td><td>420</td></tr>
-              <tr><td>Weapon</td><td>Max HP</td><td></td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
-              <tr><td>Weapon</td><td>Max HP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Weapon</td><td>Max MP</td><td></td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
-              <tr><td>Weapon</td><td>Max MP (%)</td><td></td><td>0.5%</td><td>1.1%</td><td>2.4%</td><td>3.4%</td></tr>
-              <tr><td>Weapon</td><td>Meso Acquisition Increase (%)</td><td></td><td>0.2%</td><td>0.6%</td><td>1.2%</td><td>1.8%</td></tr>
-              <tr><td>Weapon</td><td>PHY ATK</td><td></td><td>60</td><td>140</td><td>300</td><td>420</td></tr>
+            <thead><tr><th>Equipment</th><th>Potential Type</th><th>Option</th><th>Rare</th><th>Epic</th><th>Unique</th><th>Legendary</th></tr></thead><tbody>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>MAG ATK Increase</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>MAG DMG Reduction</td><td>0.60%</td><td>1.40%</td><td>2.40%</td><td>4.20%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>PHY ATK Increase</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Belt</td><td>Bonus Potential</td><td>PHY DMG Reduction</td><td>0.60%</td><td>1.40%</td><td>2.40%</td><td>4.20%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.40%</td><td>2.50%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>MAG ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>PHY ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Bottom</td><td>Bonus Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>MAG ATK Increase</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>PHY ATK Increase</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Cape</td><td>Bonus Potential</td><td>SPD Increase</td><td>1.10%</td><td>2.60%</td><td>4.40%</td><td>7.70%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>Crit ATK</td><td>34</td><td>80</td><td>137</td><td>239</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>Crit DMG (%)</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>MAG DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.30%</td><td>4.10%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Gloves</td><td>Bonus Potential</td><td>PHY DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.30%</td><td>4.10%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.40%</td><td>2.50%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>EVD</td><td>6</td><td>14</td><td>24</td><td>44</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>MAG ATK Increase</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Hat</td><td>Bonus Potential</td><td>PHY ATK Increase</td><td>0.90%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Crit ATK</td><td>40</td><td>80</td><td>137</td><td>239</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Crit DMG (%)</td><td>1.10%</td><td>2.10%</td><td>3.60%</td><td>6.30%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.40%</td><td>2.50%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Crit Decrease</td><td>8</td><td>16</td><td>28</td><td>48</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>HP Recovery Increase</td><td>9</td><td>18</td><td>31</td><td>55</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>MAG DEF Increase</td><td>0.70%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>MP Recovery Increase</td><td>9</td><td>18</td><td>31</td><td>55</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Max HP</td><td>203</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.60%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Max MP</td><td>175</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.60%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Heart</td><td>Bonus Potential</td><td>PHY DEF Increase</td><td>0.70%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.40%</td><td>2.50%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>MAG ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>PHY ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Outfit</td><td>Bonus Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>MAG ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>MAG DEF</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>PHY ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>PHY DEF</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Bonus Potential</td><td>SPD Increase</td><td>1.20%</td><td>3%</td><td>4.80%</td><td>9%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>Boss DEF Increase</td><td>0.60%</td><td>1.40%</td><td>2.40%</td><td>4.20%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>MAG DEF</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>MAG DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.30%</td><td>4.10%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>PHY DEF</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Shoulders</td><td>Bonus Potential</td><td>PHY DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.30%</td><td>4.10%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>Boss DEF Increase</td><td>0.60%</td><td>1.40%</td><td>2.40%</td><td>4.20%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>MAG DEF</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>MAG DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.30%</td><td>4.10%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>PHY DEF</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Signet</td><td>Bonus Potential</td><td>PHY DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.30%</td><td>4.10%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.40%</td><td>2.50%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>MAG ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>PHY ATK</td><td>90</td><td>210</td><td>360</td><td>630</td></tr>
+              <tr><td>Top</td><td>Bonus Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.30%</td><td>4%</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.40%</td><td>2.30%</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>Crit ATK</td><td>34</td><td>80</td><td>137</td><td>239</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>Crit DMG (%)</td><td>1.40%</td><td>3.20%</td><td>5.40%</td><td>9.50%</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1%</td><td>1.80%</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>MAG ATK</td><td>60</td><td>140</td><td>240</td><td>420</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>Max HP</td><td>174</td><td>406</td><td>696</td><td>1218</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>Max MP</td><td>150</td><td>350</td><td>600</td><td>1050</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>1.90%</td><td>3.40%</td></tr>
+              <tr><td>Weapon</td><td>Bonus Potential</td><td>PHY ATK</td><td>60</td><td>140</td><td>240</td><td>420</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>Item Drop Rate Increase</td><td>0.50%</td><td>1.10%</td><td>2.30%</td><td>3.20%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>MAG ATK Increase</td><td>0.90%</td><td>2.10%</td><td>4.50%</td><td>6.30%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>MAG DMG Reduction</td><td>0.60%</td><td>1.40%</td><td>3.00%</td><td>4.20%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>PHY ATK Increase</td><td>0.90%</td><td>2.10%</td><td>4.50%</td><td>6.30%</td></tr>
+              <tr><td>Belt</td><td>Potential</td><td>PHY DMG Reduction</td><td>0.60%</td><td>1.40%</td><td>3.00%</td><td>4.20%</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.80%</td><td>2.50%</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>MAG ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>PHY ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Bottom</td><td>Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>MAG ATK(%)</td><td></td><td></td><td></td><td>6.30%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>Meso Acquisition Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>PHY ATK(%)</td><td></td><td></td><td></td><td>6.30%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Cape</td><td>Potential</td><td>SPD Increase</td><td>1.10%</td><td>2.60%</td><td>5.50%</td><td>7.70%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>ACC</td><td>0.20%</td><td>0.40%</td><td>0.80%</td><td>1.70%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Boss ATK Increase</td><td></td><td></td><td></td><td>5.00%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Boss ATK Increase (%)</td><td>0.70%</td><td>1.20%</td><td>2.30%</td><td></td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Crit Rate</td><td>0.20%</td><td>0.40%</td><td>0.70%</td><td>1.50%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Item Drop Rate Increase</td><td>0.50%</td><td>1.10%</td><td>2.30%</td><td>3.20%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>MAG DMG Increase</td><td>0.30%</td><td>0.50%</td><td>1.10%</td><td>2.90%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Max HP</td><td>116</td><td>203</td><td>406</td><td>900</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Max HP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Max MP</td><td>100</td><td>175</td><td>350</td><td>750</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Max MP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>Meso Acquisition Rate Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>PHY DMG Increase</td><td>0.30%</td><td>0.50%</td><td>1.10%</td><td>2.90%</td></tr>
+              <tr><td>Earrings</td><td>Potential</td><td>SPD Increase</td><td>0.70%</td><td>1.30%</td><td>2.60%</td><td>5.50%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>Crit ATK</td><td>34</td><td>80</td><td>171</td><td>239</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>Crit DMG</td><td>0.90%</td><td>2.10%</td><td>4.50%</td><td>6.30%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>Item Drop Rate Increase</td><td>0.50%</td><td>1.10%</td><td>2.30%</td><td>3.20%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>MAG DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.90%</td><td>4.10%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Gloves</td><td>Potential</td><td>PHY DMG Increase</td><td>0.60%</td><td>1.40%</td><td>2.90%</td><td>4.10%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.80%</td><td>2.50%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>EVD</td><td>6</td><td>14</td><td>30</td><td>44</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>MAG ATK Increase</td><td>0.90%</td><td>2.10%</td><td>4.50%</td><td>6.30%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>Meso Acquisition Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Hat</td><td>Potential</td><td>PHY ATK Increase</td><td>0.90%</td><td>2.10%</td><td>4.50%</td><td>6.30%</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Crit ATK</td><td>40</td><td>80</td><td>171</td><td>239</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Crit DMG</td><td>1.10%</td><td>2.10%</td><td>4.50%</td><td>6.30%</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.80%</td><td>2.50%</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Crit Decrease</td><td>8</td><td>16</td><td>35</td><td>48</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>HP Recovery Increase</td><td>9</td><td>18</td><td>39</td><td>55</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>MAG DEF Increase</td><td>0.70%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>MP Recovery Increase</td><td>9</td><td>18</td><td>39</td><td>55</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Max HP</td><td>203</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Max HP (%)</td><td>0.60%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Max MP</td><td>175</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>Max MP (%)</td><td>0.60%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Heart</td><td>Potential</td><td>PHY DEF Increase</td><td>0.70%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.80%</td><td>2.50%</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>MAG ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>PHY ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Outfit</td><td>Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>ACC</td><td>0.20%</td><td>0.40%</td><td>0.80%</td><td>1.70%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Boss ATK Increase (%)</td><td>0.70%</td><td>1.20%</td><td>2.30%</td><td>5.00%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Crit Rate</td><td>0.20%</td><td>0.40%</td><td>0.70%</td><td>1.50%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Item Drop Rate Increase</td><td>0.50%</td><td>1.10%</td><td>2.30%</td><td>3.20%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>MAG DMG Increase</td><td>0.40%</td><td>0.70%</td><td>1.40%</td><td>2.90%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Max HP</td><td>116</td><td>203</td><td>406</td><td>870</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Max HP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Max MP</td><td>100</td><td>175</td><td>350</td><td>750</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Max MP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>Meso Acquisition Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>PHY DMG Increase</td><td>0.40%</td><td>0.70%</td><td>1.40%</td><td>2.90%</td></tr>
+              <tr><td>Pendant</td><td>Potential</td><td>SPD Increase</td><td>0.70%</td><td>1.30%</td><td>2.60%</td><td>5.50%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>ACC</td><td>0.20%</td><td>0.50%</td><td>1.00%</td><td>1.70%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>Crit Decrease</td><td>5</td><td>8</td><td>16</td><td>35</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>HP Recovery Increase</td><td>5</td><td>9</td><td>18</td><td>39</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>MAG ATK Increase</td><td>0.60%</td><td>1.10%</td><td>2.10%</td><td>4.50%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>MAG DMG Reduction</td><td>0.40%</td><td>0.80%</td><td>1.60%</td><td>3.60%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>MP Recovery Increase</td><td>5</td><td>9</td><td>18</td><td>39</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>Max HP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>Max MP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>PHY ATK Increase</td><td>0.60%</td><td>1.10%</td><td>2.10%</td><td>4.50%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>PHY DMG Reduction</td><td>0.40%</td><td>0.80%</td><td>1.60%</td><td>3.60%</td></tr>
+              <tr><td>Pocket</td><td>Potential</td><td>SPD Increase</td><td>0.70%</td><td>1.30%</td><td>2.60%</td><td>5.50%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>ACC</td><td>0.20%</td><td>0.40%</td><td>0.80%</td><td>1.70%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Boss DEF Increase</td><td>0.40%</td><td>0.70%</td><td>1.40%</td><td>3.00%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Crit ATK</td><td>23</td><td>40</td><td>80</td><td>171</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Crit DMG</td><td>0.90%</td><td>1.60%</td><td>3.20%</td><td>6.80%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>EVD</td><td>0.20%</td><td>0.40%</td><td>0.80%</td><td>1.80%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Item Drop Rate Increase</td><td>0.50%</td><td>1.10%</td><td>2.30%</td><td>3.20%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>MAG ATK</td><td>40</td><td>70</td><td>140</td><td>300</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Max HP</td><td>116</td><td>203</td><td>406</td><td>870</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Max HP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Max MP</td><td>100</td><td>175</td><td>350</td><td>750</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Max MP (%)</td><td>0.30%</td><td>0.60%</td><td>1.10%</td><td>2.40%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>Meso Acquisition Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Ring</td><td>Potential</td><td>PHY ATK</td><td>40</td><td>70</td><td>140</td><td>300</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>MAG ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>MAG DEF</td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>PHY ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>PHY DEF</td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
+              <tr><td>Shoes</td><td>Potential</td><td>SPD Increase</td><td>1.20%</td><td>3.00%</td><td>6.00%</td><td>9.00%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>Boss DEF Increase</td><td>0.60%</td><td>1.40%</td><td>3.00%</td><td>4.20%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>MAG DEF</td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>MAG DMG Increase</td><td></td><td></td><td></td><td>4.10%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>PHY DEF</td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
+              <tr><td>Shoulders</td><td>Potential</td><td>PHY DMG Increase</td><td></td><td></td><td></td><td>4.10%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>Boss DEF Increase</td><td>0.60%</td><td>1.40%</td><td>3.00%</td><td>4.20%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>MAG DEF</td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>MAG DMG Increase</td><td></td><td></td><td></td><td>4.10%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>PHY DEF</td><td>90</td><td>210</td><td>450</td><td>630</td></tr>
+              <tr><td>Signet</td><td>Potential</td><td>PHY DMG Increase</td><td></td><td></td><td></td><td>4.10%</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>Crit DMG RES</td><td>0.40%</td><td>0.80%</td><td>1.80%</td><td>2.50%</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>MAG ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>MAG DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>1218</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>1050</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>PHY ATK</td><td></td><td></td><td></td><td>630</td></tr>
+              <tr><td>Top</td><td>Potential</td><td>PHY DEF Increase</td><td>0.60%</td><td>1.30%</td><td>2.90%</td><td>4.00%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>ACC</td><td>0.30%</td><td>0.80%</td><td>1.70%</td><td>2.30%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Crit ATK</td><td>34</td><td>80</td><td>171</td><td>239</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Crit DMG</td><td>1.40%</td><td>3.20%</td><td>6.80%</td><td>9.50%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>EXP Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Item Drop Rate Increase</td><td>0.50%</td><td>1.10%</td><td>2.30%</td><td>3.20%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>MAG ATK</td><td>60</td><td>140</td><td>300</td><td>420</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Max HP</td><td>174</td><td>406</td><td>870</td><td>986</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Max HP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Max MP</td><td>150</td><td>350</td><td>750</td><td>950</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Max MP (%)</td><td>0.50%</td><td>1.10%</td><td>2.40%</td><td>3.40%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>Meso Acquisition Increase</td><td>0.20%</td><td>0.60%</td><td>1.20%</td><td>1.80%</td></tr>
+              <tr><td>Weapon</td><td>Potential</td><td>PHY ATK</td><td>60</td><td>140</td><td>300</td><td>420</td></tr>
             </tbody></table></div>
 
           </div>
