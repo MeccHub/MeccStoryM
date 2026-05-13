@@ -207,6 +207,13 @@ async function runTrialsAvg(){
 
   const q=((document.getElementById('targetText').value)||'').trim();
   if(!q){ out.textContent='Target Option is required.'; return; }
+  const ptNow=document.getElementById("potentialType").value;
+  const optionUniverse=new Set((DATA.rows||[])
+    .filter(r=>r.potentialType===ptNow)
+    .map(r=>String(r.option||'').toLowerCase()));
+  const qLower=q.toLowerCase();
+  const hasMatch=[...optionUniverse].some(opt=>opt.includes(qLower));
+  if(!hasMatch){ out.textContent='Target Option not found in available choices for this Potential Type.'; return; }
 
   let trials=parseInt((document.getElementById('trialCount').value||'10000'),10);
   if(!Number.isFinite(trials)||trials<1) trials=1;
