@@ -2989,6 +2989,8 @@ body[data-theme="dark"] #tab-guide .gg-card {
 
             <div class="pr-results-bar" id="uiResultsBar"></div>
             <div class="pr-table-wrap" id="uiTableWrap"></div>
+            <div class="pr-note" style="margin-top:10px;"><b>Total Boss HP by Party Size</b></div>
+            <div class="pr-table-wrap" id="uiHpByPartyWrap"></div>
           </div>
         </details>
 
@@ -5411,7 +5413,8 @@ function uiRenderTable(){
 
   const bar = document.getElementById('uiResultsBar');
   const wrap = document.getElementById('uiTableWrap');
-  if (!bar || !wrap) return;
+  const hpWrap = document.getElementById('uiHpByPartyWrap');
+  if (!bar || !wrap || !hpWrap) return;
   bar.innerHTML = `Showing <strong>${rows.length}</strong> of <strong>${UI_BOSS_ROWS.length}</strong> bosses`;
 
   const head = `<thead><tr><th>Boss</th><th>Boss HP</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>`;
@@ -5419,9 +5422,26 @@ function uiRenderTable(){
     <td>${r.boss}</td><td>${uiFmt(r.hp)}</td><td>${uiFmt(r.p2)}</td><td>${uiFmt(r.p3)}</td><td>${uiFmt(r.p4)}</td><td>${uiFmt(r.p5)}</td><td>${uiFmt(r.p6)}</td><td>${uiFmt(r.p7)}</td><td>${uiFmt(r.p8)}</td><td>${uiFmt(r.p9)}</td><td>${uiFmt(r.req)}</td>
   </tr>`).join('');
 
+  const hpBody = rows.map(r => {
+    const h2 = r.p2!=null ? r.p2*50 : null;
+    const h3 = r.p3!=null ? r.p3*50 : null;
+    const h4 = r.p4!=null ? r.p4*50 : null;
+    const h5 = r.p5!=null ? r.p5*50 : null;
+    const h6 = r.p6!=null ? r.p6*50 : null;
+    const h7 = r.p7!=null ? r.p7*50 : null;
+    const h8 = r.p8!=null ? r.p8*50 : null;
+    const h9 = r.p9!=null ? r.p9*50 : null;
+    const h10 = r.req!=null ? r.req*50 : null;
+    return `<tr><td>${r.boss}</td><td>${uiFmt(h2)}</td><td>${uiFmt(h3)}</td><td>${uiFmt(h4)}</td><td>${uiFmt(h5)}</td><td>${uiFmt(h6)}</td><td>${uiFmt(h7)}</td><td>${uiFmt(h8)}</td><td>${uiFmt(h9)}</td><td>${uiFmt(h10)}</td></tr>`;
+  }).join('');
+
   wrap.innerHTML = rows.length
     ? `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:150px"/><col style="width:90px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/><col style="width:42px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
+
+  hpWrap.innerHTML = rows.length
+    ? `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><thead><tr><th>Boss</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead><tbody>${hpBody}</tbody></table></div>`
+    : '';
 }
 uiRenderTable();
 
