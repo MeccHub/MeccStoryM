@@ -137,6 +137,115 @@ function rollUntilTarget() {
   for(let i=0;i<100000;i++){ doRoll(); if(state.lastTargetCubes && state.lastTargetCubes>start) break; }
   render();
 }
+
+let TRIALS_CANCELLED = false;
+function cancelTrialsAvg(){ TRIALS_CANCELLED = true; }
+
+function buildTrialPools(){
+  const pt=document.getElementById("potentialType").value;
+  const cube=document.getElementById("cubeType").value;
+  const q=(document.getElementById("targetText").value||'').trim().toLowerCase();
+  const need=Math.max(1, parseInt(document.getElementById("targetCount").value,10)||1);
+  const startRank=document.getElementById('startingRank').value;
+  const rows=(DATA.rows||[]);
+
+  // Pre-group once: no repeated dataset filtering per roll
+  const groups=new Map();
+  for(const r of rows){
+    if(r.potentialType!==pt) continue;
+    const key=r.rank+'|'+r.lineType;
+    if(!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(r);
+  }
+
+  const makeCDF=(arr)=>{
+    let total=0; const cdf=[];
+    for(const x of arr){ total += Number(x.probability||0); cdf.push(total); }
+    return {arr,cdf,total};
+  };
+  const pools={};
+  for(const rank of DATA.rarities){
+    const f=groups.get(rank+'|First')||[];
+    const s2=groups.get(rank+'|SecondThird')||[];
+    pools[rank]={first:makeCDF(f), second:makeCDF(s2)};
+  }
+
+  const rankIdx=(r)=>DATA.rarities.indexOf(r);
+  const maxRankFor=(c)=> (c === "Occult Cube" || c === "Bonus Mystical Cube") ? "Unique" : "Legendary";
+  const maxIdx=rankIdx(maxRankFor(cube));
+  const pRank=(((DATA.rankUpProbabilities||{})[pt]||{})[cube]||0);
+
+  return {q,need,startRank,pools,maxIdx,pRank};
+}
+
+function sampleFromCDF(pool){
+  if(!pool || !pool.arr.length || pool.total<=0) return null;
+  let r=Math.random()*pool.total;
+  // linear is fine for small pools and faster than extra alloc/binary overhead here
+  for(let i=0;i<pool.cdf.length;i++){ if(r<=pool.cdf[i]) return pool.arr[i]; }
+  return pool.arr[pool.arr.length-1]||null;
+}
+
+async function runTrialsAvg(){
+  const box=document.getElementById('trialAvgBox');
+  const out=document.getElementById('trialAvgCubes');
+  const status=document.getElementById('trialStatus');
+  const prog=document.getElementById('trialProgress');
+  const runBtn=document.getElementById('runTrialsBtn');
+  const cancelBtn=document.getElementById('cancelTrialsBtn');
+  box.style.display='block';
+
+  const q=((document.getElementById('targetText').value)||'').trim();
+  if(!q){ out.textContent='Target Option is required.'; return; }
+
+  let trials=parseInt((document.getElementById('trialCount').value||'10000'),10);
+  if(!Number.isFinite(trials)||trials<1) trials=1;
+  if(trials>100000) trials=100000;
+  document.getElementById('trialCount').value=String(trials);
+
+  const cfg=buildTrialPools();
+  let total=0, hits=0;
+  const chunk=500;
+  TRIALS_CANCELLED=false;
+  runBtn.disabled=true; cancelBtn.disabled=false;
+  status.textContent='Running...'; prog.style.width='0%';
+
+  for(let t=0;t<trials;t++){
+    if(TRIALS_CANCELLED) break;
+    let curRank=cfg.startRank;
+    let used=0;
+    for(let i=0;i<50000;i++){
+      const idx=DATA.rarities.indexOf(curRank);
+      if(idx<cfg.maxIdx && Math.random()*100<cfg.pRank) curRank=DATA.rarities[idx+1];
+      const pools=cfg.pools[curRank];
+      const l1=sampleFromCDF(pools.first);
+      const l2=sampleFromCDF(pools.second);
+      const l3=sampleFromCDF(pools.second);
+      used++;
+      if(!l1||!l2||!l3) continue;
+      let c=0;
+      if((l1.option||'').toLowerCase().includes(cfg.q)) c++;
+      if((l2.option||'').toLowerCase().includes(cfg.q)) c++;
+      if((l3.option||'').toLowerCase().includes(cfg.q)) c++;
+      if(c>=cfg.need){ total+=used; hits++; break; }
+    }
+
+    if((t+1)%chunk===0 || t===trials-1){
+      const pct=((t+1)/trials*100);
+      prog.style.width=pct.toFixed(1)+'%';
+      status.textContent=`Running... ${t+1}/${trials}`;
+      await new Promise(requestAnimationFrame);
+    }
+  }
+
+  runBtn.disabled=false; cancelBtn.disabled=true;
+  if(TRIALS_CANCELLED){ status.textContent='Cancelled'; }
+  else status.textContent='Done';
+
+  if(hits===0){ out.textContent=`No hits in ${trials.toLocaleString()} runs`; return; }
+  out.textContent=`${(total/hits).toFixed(2)} cubes (from ${hits.toLocaleString()}/${trials.toLocaleString()} successful runs)`;
+}
+
 function render() {
   document.getElementById("currentRank").textContent=state.currentRank;
   document.getElementById("cubesUsed").textContent=state.cubesUsed.toLocaleString();
