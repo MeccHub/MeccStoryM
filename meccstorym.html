@@ -4006,8 +4006,9 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="pr-controls" style="margin-bottom:10px;">
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Start SF</div><select class="pr-ctrl-input" id="sfStart"></select></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Target SF</div><select class="pr-ctrl-input" id="sfTarget"></select></div>
-          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Trials</div><input class="pr-ctrl-input" id="sfTrials" type="number" min="1" max="100000" value="10000"></div>
-          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Options</div><label style="display:flex;gap:10px;align-items:center;"><input id="sfLucky" type="checkbox"> Lucky (+5% success)</label><label style="display:flex;gap:10px;align-items:center;"><input id="sfShield" type="checkbox"> Shield (no destroy)</label></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Trials (blank = infinite)</div><input class="pr-ctrl-input" id="sfTrials" type="number" min="1" max="100000"></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Meso Budget (optional)</div><input class="pr-ctrl-input" id="sfBudget" type="number" min="0" step="1000000" placeholder="e.g. 500000000"></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Options</div><label style="display:flex;gap:10px;align-items:center;"><input id="sfLucky" type="checkbox"> Lucky (+5% success)</label><label style="display:flex;gap:10px;align-items:center;"><input id="sfShield" type="checkbox"> Shield (no destroy)</label><label style="display:flex;gap:10px;align-items:center;"><input id="sfRevive" type="checkbox"> Revive on destroy (+3,000,000 meso)</label></div>
         </div>
         <button class="df-copy-btn" onclick="sfRunSim()">Run Simulation</button>
         <div class="pr-controls" style="margin-top:12px;">
@@ -6749,7 +6750,7 @@ function sfInit(){
   s.innerHTML=''; e.innerHTML='';
   for(let i=0;i<=29;i++){ s.add(new Option(String(i),String(i))); }
   for(let i=1;i<=30;i++){ e.add(new Option(String(i),String(i))); }
-  s.value='0'; e.value='17';
+  s.value='0'; e.value='18';
 }
 
 function sfAttempt(state, opts){
@@ -6765,6 +6766,7 @@ function sfAttempt(state, opts){
   else if(outcome==='degrade') state.star=Math.max(0,state.star-1);
   else if(outcome==='destroy'){
     if(opts.shield){ outcome='maintain'; }
+    else if(opts.revive){ state.mesos += 3000000; outcome='revived'; }
     else state.destroyed=true;
   }
   return {outcome, cost:next.c};
@@ -6773,6 +6775,7 @@ function sfAttempt(state, opts){
 function sfRunOne(start,target,opts,withLog=false){
   const st={star:start,mesos:0,attempts:0,destroyed:false,log:[]};
   while(st.star<target && !st.destroyed && st.attempts<200000){
+    if(opts.budget>0 && st.mesos >= opts.budget) break;
     const before=st.star;
     const r=sfAttempt(st,opts);
     if(r.done) break;
@@ -6787,10 +6790,13 @@ function sfMedian(arr){ if(!arr.length) return 0; const a=[...arr].sort((x,y)=>x
 function sfRunSim(){
   const start=+document.getElementById('sfStart').value;
   const target=+document.getElementById('sfTarget').value;
-  const trials=Math.max(1, Math.min(100000, +document.getElementById('sfTrials').value||10000));
+  const trialsRaw=(document.getElementById('sfTrials').value||'').trim();
+  const trials=trialsRaw?Math.max(1, Math.min(100000, +trialsRaw||1)):50000;
   const lucky=document.getElementById('sfLucky').checked;
   const shield=document.getElementById('sfShield').checked;
-  const opts={lucky,shield};
+  const revive=document.getElementById('sfRevive').checked;
+  const budget=Math.max(0, +((document.getElementById('sfBudget').value||'').trim()||0));
+  const opts={lucky,shield,revive,budget};
   if(target<=start){ alert('Target SF must be greater than Start SF'); return; }
 
   const sample=sfRunOne(start,target,opts,true);
@@ -6807,7 +6813,7 @@ function sfRunSim(){
   document.getElementById('sfAvgAttempts').textContent=avg(attempts).toFixed(1);
   document.getElementById('sfDestroyRate').textContent=((destroyed/trials)*100).toFixed(2)+'%';
   document.getElementById('sfReachRate').textContent=((reached/trials)*100).toFixed(2)+'%';
-  document.getElementById('sfLog').textContent=sample.log.slice(0,200).join('\n') + (sample.log.length>200?'\n...':'');
+  document.getElementById('sfLog').textContent=sample.log.slice(0,200).join('\n') + (sample.log.length>200?'\n...':'') + (opts.budget?`\nBudget: ${opts.budget.toLocaleString()} meso`:'');
 }
 
 
