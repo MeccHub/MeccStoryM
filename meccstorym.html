@@ -2726,6 +2726,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
 
       <div class="tools-grid">
         <div class="tool-card card-sky" onclick="switchTab('resets', document.querySelector('[data-tab=resets]'))"><div class="card-icon icon-sky">⏰</div><div class="card-name">Reset Tracker</div><div class="card-desc">Countdowns for all daily, weekly and 4-week resets — daily bosses, weekly bosses, weekly tasks, and Path of Proof.</div><span class="card-arrow">→</span></div>
+        <div class="tool-card card-yellow" onclick="switchTab('starforce', document.querySelector('[data-tab=starforce]'))"><div class="card-icon icon-yellow">⭐</div><div class="card-name">Star Force Emulator</div><div class="card-desc">Simulate meso cost and destroy risk from start SF to target SF.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-yellow" onclick="switchTab('events', document.querySelector('[data-tab=events]'))"><div class="card-icon icon-yellow">🎉</div><div class="card-name">Event Tracker</div><div class="card-desc">Live feed of all active MSM events with end-time countdowns in your local timezone. Auto-updates daily.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-pink" onclick="switchTab('discord', document.querySelector('[data-tab=discord]'))"><div class="card-icon icon-pink">💬</div><div class="card-name">Discord Message Formatter</div><div class="card-desc">Format guild event messages with auto time-zone converting timestamps, bold, spoilers & more.</div><span class="card-arrow">→</span></div>
         <div class="tool-card card-yellow" onclick="switchTab('info', document.querySelector('[data-tab=info]'))"><div class="card-icon icon-yellow">📚</div><div class="card-name">FAQ - Useful Information</div><div class="card-desc">Frequently asked questions and useful information</div><span class="card-arrow">→</span></div>
@@ -3992,6 +3993,32 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <tr><td>ARK</td><td>Arkarium - Commander boss</td></tr>
         </tbody></table></div></div></details>
 
+      </div>
+    </section>
+
+
+    
+
+    <!-- ════════ STAR FORCE EMULATOR ════════ -->
+    <section class="tab-section" id="tab-starforce">
+      <div class="df-panel">
+        <div class="df-panel-title"><div class="df-dot dot-yellow-s"></div> Star Force Emulator</div>
+        <div class="pr-controls" style="margin-bottom:10px;">
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Start SF</div><select class="pr-ctrl-input" id="sfStart"></select></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Target SF</div><select class="pr-ctrl-input" id="sfTarget"></select></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Trials</div><input class="pr-ctrl-input" id="sfTrials" type="number" min="1" max="100000" value="10000"></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Options</div><label style="display:flex;gap:10px;align-items:center;"><input id="sfLucky" type="checkbox"> Lucky (+5% success)</label><label style="display:flex;gap:10px;align-items:center;"><input id="sfShield" type="checkbox"> Shield (no destroy)</label></div>
+        </div>
+        <button class="df-copy-btn" onclick="sfRunSim()">Run Simulation</button>
+        <div class="pr-controls" style="margin-top:12px;">
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Avg Mesos</div><div id="sfAvgMesos" style="font-weight:800;">—</div></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Median Mesos</div><div id="sfMedianMesos" style="font-weight:800;">—</div></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Avg Attempts</div><div id="sfAvgAttempts" style="font-weight:800;">—</div></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Destroy Rate</div><div id="sfDestroyRate" style="font-weight:800;">—</div></div>
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Reach Target Rate</div><div id="sfReachRate" style="font-weight:800;">—</div></div>
+        </div>
+        <div class="pr-note" style="margin-top:10px;">Sample single-run log:</div>
+        <pre id="sfLog" style="white-space:pre-wrap;background:var(--c-surface-2);border:1px solid var(--c-border-soft);border-radius:10px;padding:10px;max-height:260px;overflow:auto;">—</pre>
       </div>
     </section>
 
@@ -6704,6 +6731,85 @@ const FLAME_MAX_ROWS = [{"Equipment Type": "Weapon", "Option": "PHY ATK scales w
 
 setTimeout(potInit, 0);
 setTimeout(flameInit, 0);
+setTimeout(sfInit, 0);
+
+// ===== Star Force Emulator =====
+const SF_TABLE = {
+  1:{s:100,m:100,d:100,x:100,c:10000},2:{s:95,m:100,d:100,x:100,c:15000},3:{s:90,m:100,d:100,x:100,c:20000},4:{s:85,m:100,d:100,x:100,c:55000},5:{s:80,m:100,d:100,x:100,c:100000},
+  6:{s:75,m:100,d:100,x:100,c:200000},7:{s:70,m:100,d:100,x:100,c:300000},8:{s:65,m:100,d:100,x:100,c:400000},9:{s:60,m:100,d:100,x:100,c:600000},10:{s:55,m:100,d:100,x:100,c:800000},
+  11:{s:50,m:85,d:95,x:100,c:1000000},12:{s:45,m:85,d:95,x:100,c:1400000},13:{s:40,m:80,d:95,x:100,c:1800000},14:{s:35,m:80,d:95,x:100,c:2200000},15:{s:30,m:75,d:95,x:100,c:2600000},
+  16:{s:25,m:75,d:95,x:100,c:3000000},17:{s:20,m:70,d:95,x:100,c:3500000},18:{s:15,m:70,d:95,x:100,c:4000000},19:{s:10,m:65,d:95,x:100,c:4500000},20:{s:5,m:65,d:95,x:100,c:5000000},
+  21:{s:1,m:50,d:90,x:100,c:6000000},22:{s:1,m:50,d:90,x:100,c:7000000},23:{s:1,m:50,d:90,x:100,c:8000000},24:{s:1,m:50,d:90,x:100,c:9000000},25:{s:1,m:50,d:90,x:100,c:10000000},
+  26:{s:1,m:40,d:85,x:100,c:11800000},27:{s:1,m:40,d:85,x:100,c:14900000},28:{s:1,m:40,d:85,x:100,c:18000000},29:{s:1,m:40,d:85,x:100,c:21100000},30:{s:1,m:40,d:85,x:100,c:24200000}
+};
+
+function sfInit(){
+  const s=document.getElementById('sfStart'), e=document.getElementById('sfTarget');
+  if(!s||!e) return;
+  s.innerHTML=''; e.innerHTML='';
+  for(let i=0;i<=29;i++){ s.add(new Option(String(i),String(i))); }
+  for(let i=1;i<=30;i++){ e.add(new Option(String(i),String(i))); }
+  s.value='0'; e.value='17';
+}
+
+function sfAttempt(state, opts){
+  const next = SF_TABLE[state.star+1];
+  if(!next) return {done:true};
+  let s=next.s,m=next.m,d=next.d,x=next.x;
+  if(opts.lucky && m>s+5){ s+=5; m-=5; }
+  const r=Math.random()*100;
+  let outcome='destroy';
+  if(r<s) outcome='success'; else if(r<m) outcome='maintain'; else if(r<d) outcome='degrade'; else outcome='destroy';
+  state.mesos += next.c; state.attempts++;
+  if(outcome==='success') state.star++;
+  else if(outcome==='degrade') state.star=Math.max(0,state.star-1);
+  else if(outcome==='destroy'){
+    if(opts.shield){ outcome='maintain'; }
+    else state.destroyed=true;
+  }
+  return {outcome, cost:next.c};
+}
+
+function sfRunOne(start,target,opts,withLog=false){
+  const st={star:start,mesos:0,attempts:0,destroyed:false,log:[]};
+  while(st.star<target && !st.destroyed && st.attempts<200000){
+    const before=st.star;
+    const r=sfAttempt(st,opts);
+    if(r.done) break;
+    if(withLog) st.log.push(`Attempt ${st.attempts}: ${r.outcome.toUpperCase()} SF ${before} → SF ${st.star} | +${r.cost.toLocaleString()} meso`);
+  }
+  st.success = st.star>=target && !st.destroyed;
+  return st;
+}
+
+function sfMedian(arr){ if(!arr.length) return 0; const a=[...arr].sort((x,y)=>x-y); const m=Math.floor(a.length/2); return a.length%2?a[m]:(a[m-1]+a[m])/2; }
+
+function sfRunSim(){
+  const start=+document.getElementById('sfStart').value;
+  const target=+document.getElementById('sfTarget').value;
+  const trials=Math.max(1, Math.min(100000, +document.getElementById('sfTrials').value||10000));
+  const lucky=document.getElementById('sfLucky').checked;
+  const shield=document.getElementById('sfShield').checked;
+  const opts={lucky,shield};
+  if(target<=start){ alert('Target SF must be greater than Start SF'); return; }
+
+  const sample=sfRunOne(start,target,opts,true);
+  const mesos=[], attempts=[]; let destroyed=0, reached=0;
+  for(let i=0;i<trials;i++){
+    const r=sfRunOne(start,target,opts,false);
+    mesos.push(r.mesos); attempts.push(r.attempts);
+    if(r.destroyed) destroyed++;
+    if(r.success) reached++;
+  }
+  const avg=(a)=>a.reduce((p,c)=>p+c,0)/a.length;
+  document.getElementById('sfAvgMesos').textContent=Math.round(avg(mesos)).toLocaleString();
+  document.getElementById('sfMedianMesos').textContent=Math.round(sfMedian(mesos)).toLocaleString();
+  document.getElementById('sfAvgAttempts').textContent=avg(attempts).toFixed(1);
+  document.getElementById('sfDestroyRate').textContent=((destroyed/trials)*100).toFixed(2)+'%';
+  document.getElementById('sfReachRate').textContent=((reached/trials)*100).toFixed(2)+'%';
+  document.getElementById('sfLog').textContent=sample.log.slice(0,200).join('\n') + (sample.log.length>200?'\n...':'');
+}
+
 
 /* ================================================================
    ITEM PROBABILITIES  --  ./Calc/MSMprobabilities.json
