@@ -2882,6 +2882,25 @@ body[data-theme="dark"] #tab-guide .gg-card {
         </div>
         <p class="df-note">⚠️ Discord renders <code>&lt;t:UNIX:flag&gt;</code> timestamps — they auto-convert to each viewer's local timezone.</p>
 
+        
+
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid #f0e8ff;display:grid;gap:10px;">
+          <div style="font-weight:800;color:var(--text);font-size:13px;">Quick Time Converter</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+            <div><div style="font-size:11px;color:var(--text-dim);font-weight:700;">Source</div><select class="df-ts-input" id="dfQuickSource" onchange="dfQuickTimePreview()"><option value="igt">IGT (UTC-8)</option><option value="local">Local (browser)</option></select></div>
+            <div><div style="font-size:11px;color:var(--text-dim);font-weight:700;">Format</div><select class="df-ts-input" id="dfQuickFmt" onchange="dfQuickFmtToggle();dfQuickTimePreview()"><option value="24">24h</option><option value="12">12h</option></select></div>
+            <div id="dfQuick24Wrap"><div style="font-size:11px;color:var(--text-dim);font-weight:700;">Time (24h)</div><input class="df-ts-input" id="dfQuickTime24" type="time" value="19:10" oninput="dfQuickTimePreview()"></div>
+            <div id="dfQuick12Wrap" style="display:none;"><div style="font-size:11px;color:var(--text-dim);font-weight:700;">Time (12h)</div><input class="df-ts-input" id="dfQuickTime12" type="text" placeholder="7:10" oninput="dfQuickTimePreview()"></div>
+            <div id="dfQuickAmpmWrap" style="display:none;"><div style="font-size:11px;color:var(--text-dim);font-weight:700;">AM/PM</div><select class="df-ts-input" id="dfQuickAmpm" onchange="dfQuickTimePreview()"><option>AM</option><option selected>PM</option></select></div>
+          </div>
+          <div class="df-note" id="dfQuickDetectedTz"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="df-ts-btn" onclick="dfCopyQuickTimeFromPicker(this)">📋 Copy time bundle</button>
+            <span id="dfQuickPreview" class="df-note">Preview: —</span>
+          </div>
+        </div>
+
+
         <div style="margin-top:14px;padding-top:12px;border-top:1px solid #f0e8ff;display:grid;gap:10px;">
           <div style="font-weight:800;color:var(--text);font-size:13px;">Quick Messages</div>
 
