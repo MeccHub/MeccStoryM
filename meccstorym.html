@@ -5335,6 +5335,58 @@ function dfCopyQuickDelay(prefix, minutes, btn){
   dfCopyTextWithBtn(msg, btn);
 }
 
+function dfQuickFmtToggle(){
+  const f=(document.getElementById('dfQuickFmt')?.value)||'24';
+  const is12=f==='12';
+  const a=document.getElementById('dfQuick24Wrap'); if(a) a.style.display=is12?'none':'block';
+  const b=document.getElementById('dfQuick12Wrap'); if(b) b.style.display=is12?'block':'none';
+  const c=document.getElementById('dfQuickAmpmWrap'); if(c) c.style.display=is12?'block':'none';
+}
+function dfQuickParseMinutes(){
+  const f=(document.getElementById('dfQuickFmt')?.value)||'24';
+  if(f==='24'){
+    const v=(document.getElementById('dfQuickTime24')?.value)||'00:00';
+    const p=v.split(':'); if(p.length<2) return null;
+    const h=parseInt(p[0],10), m=parseInt(p[1],10);
+    if(!Number.isFinite(h)||!Number.isFinite(m)) return null;
+    return h*60+m;
+  }
+  const raw=((document.getElementById('dfQuickTime12')?.value)||'').trim();
+  const mm=raw.match(/^(\d{1,2})(?::(\d{2}))?$/); if(!mm) return null;
+  let h=parseInt(mm[1],10), m=parseInt(mm[2]||'0',10);
+  if(h<1||h>12||m<0||m>59) return null;
+  const ap=(document.getElementById('dfQuickAmpm')?.value)||'AM';
+  if(h===12) h=0; if(ap==='PM') h+=12;
+  return h*60+m;
+}
+function dfQuickBuildUnix(){
+  const mins=dfQuickParseMinutes(); if(mins==null) return null;
+  const now=new Date(); const src=(document.getElementById('dfQuickSource')?.value)||'igt';
+  if(src==='igt'){
+    const y=now.getUTCFullYear(), mo=now.getUTCMonth(), d=now.getUTCDate();
+    const hr=Math.floor(mins/60), mi=mins%60;
+    return Math.floor(Date.UTC(y,mo,d,hr+8,mi,0,0)/1000);
+  }
+  const dt=new Date(now.getFullYear(), now.getMonth(), now.getDate(), Math.floor(mins/60), mins%60, 0, 0);
+  return Math.floor(dt.getTime()/1000);
+}
+function dfQuickTimePreview(){
+  const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone)||'Local';
+  const src=(document.getElementById('dfQuickSource')?.value)||'igt';
+  const note=document.getElementById('dfQuickDetectedTz'); if(note) note.textContent = src==='local' ? `Detected browser timezone: ${tz}` : 'IGT uses server time (UTC-8).';
+  const u=dfQuickBuildUnix();
+  const prev=document.getElementById('dfQuickPreview'); if(!prev) return;
+  if(!u){ prev.textContent='Preview: invalid time input'; return; }
+  prev.textContent=`Preview: <t:${u}:t> | <t:${u}:R> | <t:${u}:F>`;
+}
+function dfCopyQuickTimeFromPicker(btn){
+  const u=dfQuickBuildUnix();
+  if(!u){ alert('Invalid time input'); return; }
+  const msg=`<t:${u}:t> | <t:${u}:R> | <t:${u}:F>`;
+  dfCopyTextWithBtn(msg, btn);
+}
+setTimeout(()=>{ try{ dfQuickFmtToggle(); dfQuickTimePreview(); }catch(e){} },0);
+
 /* ═══════════════════════════════════════════════════════
    CHARACTER DESCRIPTION EDITOR
 ═══════════════════════════════════════════════════════ */
