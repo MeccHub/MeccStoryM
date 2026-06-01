@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-05-31T04:07:11Z",
-  "active_count": 31,
-  "total_tracked": 51,
-  "change_count": 82,
+  "generated_at_utc": "2026-06-01T04:07:12Z",
+  "active_count": 32,
+  "total_tracked": 52,
+  "change_count": 83,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -496,6 +496,12 @@
       "type": "new",
       "id": "7615",
       "title": "Boss Style"
+    },
+    {
+      "ts_utc": "2026-06-01T04:07:01Z",
+      "type": "new",
+      "id": "7613",
+      "title": "Golden Apple Rewards in the 1st week of June"
     }
   ],
   "items": [
@@ -247588,6 +247594,961 @@
         ]
       ],
       "raw_table_row_count": 1,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
+      "id": "7613",
+      "title": "Golden Apple Rewards in the 1st week of June",
+      "url": "https://m.nexon.com/probability/7613?language=en",
+      "hash": "ab9ca8eb344575e8f055e4ea1c477b0ba435aedb6bd64986df967a41573d87e7",
+      "active": true,
+      "first_seen_utc": "2026-06-01T04:07:01Z",
+      "last_changed_utc": "2026-06-01T04:07:01Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Magnificent Verus Hilla Soul Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Magnificent Lucid Soul Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Rebirth Flame (Mythic) Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Eternal Rebirth Flame Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Mastercraft Failure Count Reduction Scroll (Chaos) Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Lucky Chaos Mastercraft Scroll (Armor) (7%) Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Gold Heart Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Silver Heart Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Equipment Style Change Permit Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Exalt Fail Count Reduction Scroll (40%) Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Perfect Potential Stamp Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Lucky Ancient Mastercraft Scroll (10%) Exchange Ticket",
+          "Probability": "0.05",
+          "_probability_float": 0.05
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Baby Panda Mount Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Magnificent Magnus Soul Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Magnificent Vellum Soul Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Ancient Weapon Crystal Piece x60 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Ancient Armor Crystal Piece x80 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Black Rebirth Flame (Legendary) x5 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Damien Soul Choice Box Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Lucky Day Scroll (10%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Master Jewel (SS) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Mysterious Weapon Whetstone (Mythic) x50 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Mysterious Armor Whetstone (Mythic) x50 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force +1 Star Enhancement Chance (18–19 Stars) (50%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force +1 Star Enhancement Chance (16–17 Stars) (70%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 19-Star Enhancement (50%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 19-Star Enhancement (30%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 18-Star Enhancement (50%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 18-Star Enhancement (30%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 17-Star Enhancement (50%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 17-Star Enhancement (30%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 16-Star Enhancement (70%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Star Force 16-Star Enhancement (50%) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Jewel Box (SS) Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Extra Character Slot Coupon Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #1 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #2 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #3 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #4 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #5 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #6 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #7 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #8 Exchange Ticket",
+          "Probability": "0.11",
+          "_probability_float": 0.11
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Golden Apple Puzzle Piece #9 Exchange Ticket",
+          "Probability": "0.10",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Shield Scroll x4 Exchange Ticket",
+          "Probability": "0.10",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "S",
+          "Item Name": "Shielding Ward x4 Exchange Ticket",
+          "Probability": "0.10",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Charged Lotus Soul Choice Box Exchange Ticket",
+          "Probability": "0.41",
+          "_probability_float": 0.41
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Charged Arkarium Soul Choice Box Exchange Ticket",
+          "Probability": "0.41",
+          "_probability_float": 0.41
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Charged Magnus Soul Choice Box Exchange Ticket",
+          "Probability": "0.42",
+          "_probability_float": 0.42
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Magnificent Cygnus Soul Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Weapon Rank Up Stone (Legendary) Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Armor Rank Up Stone (Legendary) Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Star Force 15-Star Enhancement (70%) Exchange Ticket",
+          "Probability": "0.60",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Star Force 15-Star Enhancement (50%) Exchange Ticket",
+          "Probability": "0.60",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Water Dream Stone x10 Exchange Ticket",
+          "Probability": "0.80",
+          "_probability_float": 0.8
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Life Dream Stone x10 Exchange Ticket",
+          "Probability": "0.80",
+          "_probability_float": 0.8
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Star Force 14-Star Enhancement (70%) Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Star Force 14-Star Enhancement (50%) Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Lucky Day Scroll (7%) Exchange Ticket",
+          "Probability": "0.20",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Shield Scroll x2 Exchange Ticket",
+          "Probability": "0.38",
+          "_probability_float": 0.38
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Shielding Ward x2 Exchange Ticket",
+          "Probability": "0.38",
+          "_probability_float": 0.38
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Auto-Battle Charge Ticket (1 Hr) x3 Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Premium Water of Life Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Snake Soup x3 Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Fried Shrimp x3 Exchange Ticket",
+          "Probability": "0.90",
+          "_probability_float": 0.9
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "A",
+          "Item Name": "Jewel Choice Box (S) Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Basic Lotus Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Basic Arkarium Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Basic Magnus Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Charged Vellum Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Charged Crimson Queen Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Charged Pierre Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Charged Von Bon Soul Choice Box Exchange Ticket",
+          "Probability": "0.40",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Lucky Day Scroll (5%) Exchange Ticket",
+          "Probability": "0.20",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Epic Potential Scroll (100%) Exchange Ticket",
+          "Probability": "0.32",
+          "_probability_float": 0.32
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Red Cube x4 Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Black Cube x2 Exchange Ticket",
+          "Probability": "0.70",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Shield Scroll x1 Exchange Ticket",
+          "Probability": "0.50",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Shielding Ward x1 Exchange Ticket",
+          "Probability": "0.50",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Snake Soup Exchange Ticket",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Yellow EXP Increase Ticket x3 Exchange Ticket",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Weapon Rank Up Stone (Unique) Exchange Ticket",
+          "Probability": "0.80",
+          "_probability_float": 0.8
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Armor Rank Up Stone (Unique) x2 Exchange Ticket",
+          "Probability": "0.80",
+          "_probability_float": 0.8
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Mysterious Weapon Whetstone (Legendary) x20 Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Mysterious Armor Whetstone (Legendary) x20 Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Mysterious Weapon Whetstone (Legendary) x30 Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Mysterious Armor Whetstone (Legendary) x30 Exchange Ticket",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Wedding Cake x3 Exchange Ticket",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Grape Juice x3 Exchange Ticket",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Fruity Yogurt x3 Exchange Ticket",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Nemi's Lunch Box x3 Exchange Ticket",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Auto-Battle Charge Ticket (1 Hr) Exchange Ticket",
+          "Probability": "1.30",
+          "_probability_float": 1.3
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Auto-Battle Charge Ticket (30 Min) x2 Exchange Ticket",
+          "Probability": "1.33",
+          "_probability_float": 1.33
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Inventory Expansion Ticket x3 Exchange Ticket",
+          "Probability": "1.45",
+          "_probability_float": 1.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "B",
+          "Item Name": "Jewel Box (S) Exchange Ticket",
+          "Probability": "0.60",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Basic Vellum Soul Choice Box Exchange Ticket",
+          "Probability": "0.45",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Basic Crimson Queen Soul Choice Box Exchange Ticket",
+          "Probability": "0.45",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Basic Pierre Soul Choice Box Exchange Ticket",
+          "Probability": "0.45",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Basic Von Bon Soul Choice Box Exchange Ticket",
+          "Probability": "0.45",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Charged Hilla Soul Choice Box Exchange Ticket",
+          "Probability": "0.45",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Charged Von Leon Soul Choice Box Exchange Ticket",
+          "Probability": "0.45",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Cronos's Egg x10 Exchange Ticket",
+          "Probability": "1.50",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "VIP Teleport Rock x10 Exchange Ticket",
+          "Probability": "2.00",
+          "_probability_float": 2.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Red Cube x2 Exchange Ticket",
+          "Probability": "1.60",
+          "_probability_float": 1.6
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Black Cube Exchange Ticket",
+          "Probability": "1.60",
+          "_probability_float": 1.6
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Halloween Candy x3 Exchange Ticket",
+          "Probability": "1.30",
+          "_probability_float": 1.3
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Hamburger x3 Exchange Ticket",
+          "Probability": "1.30",
+          "_probability_float": 1.3
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Power Elixir x30 Exchange Ticket",
+          "Probability": "2.63",
+          "_probability_float": 2.63
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Mysterious Weapon Whetstone (Unique) x20 Exchange Ticket",
+          "Probability": "1.90",
+          "_probability_float": 1.9
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Mysterious Armor Whetstone (Unique) x20 Exchange Ticket",
+          "Probability": "1.90",
+          "_probability_float": 1.9
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Storage Expansion Exchange Ticket",
+          "Probability": "2.00",
+          "_probability_float": 2.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Cotton Candy on a Stick x3 Exchange Ticket",
+          "Probability": "2.20",
+          "_probability_float": 2.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Orange EXP Increase Ticket x3 Exchange Ticket",
+          "Probability": "2.20",
+          "_probability_float": 2.2
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Fever Buff Charge Ticket x10 Exchange Ticket",
+          "Probability": "2.40",
+          "_probability_float": 2.4
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Auto-Battle Charge Ticket (30 Min) Exchange Ticket",
+          "Probability": "2.30",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Auto-Battle Charge Ticket (10 Min) x2 Exchange Ticket",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Buff Freezer x30 Exchange Ticket",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Carrot Juice x3 Exchange Ticket",
+          "Probability": "2.30",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Chestnut x3 Exchange Ticket",
+          "Probability": "2.30",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Buff Freezer x20 Exchange Ticket",
+          "Probability": "2.00",
+          "_probability_float": 2.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "C",
+          "Item Name": "Power Elixir x15 Exchange Ticket",
+          "Probability": "2.67",
+          "_probability_float": 2.67
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Basic Hilla Soul Choice Box Exchange Ticket",
+          "Probability": "0.50",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Basic Von Leon Soul Choice Box Exchange Ticket",
+          "Probability": "0.50",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Candy Basket x3 Exchange Ticket",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Berzerker Bon-Bons x3 Exchange Ticket",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Baby Chick Cookie x3 Exchange Ticket",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Candy Cane x3 Exchange Ticket",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Water of Life (3 Day) Exchange Ticket",
+          "Probability": "1.80",
+          "_probability_float": 1.8
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Red EXP Increase Ticket x3 Exchange Ticket",
+          "Probability": "2.00",
+          "_probability_float": 2.0
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Buckwheat Jelly x3 Exchange Ticket",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Golden Apple",
+          "Rank": "D",
+          "Item Name": "Buttery Roasted Squid x3 Exchange Ticket",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        }
+      ],
+      "row_count": 131,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
       "audit_flags": [
         "raw_table_rows_too_small",
         "raw_rows_with_single_cell"
