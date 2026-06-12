@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-06-11T04:07:29Z",
-  "active_count": 31,
+  "generated_at_utc": "2026-06-12T04:07:54Z",
+  "active_count": 30,
   "total_tracked": 54,
-  "change_count": 88,
+  "change_count": 89,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -531,6 +531,12 @@
       "ts_utc": "2026-06-11T04:07:15Z",
       "type": "new",
       "id": "7618",
+      "title": "Royal Hair / Royal Plastic Surgery Probability"
+    },
+    {
+      "ts_utc": "2026-06-12T04:07:54Z",
+      "type": "removed",
+      "id": "7538",
       "title": "Royal Hair / Royal Plastic Surgery Probability"
     }
   ],
@@ -268848,212 +268854,6 @@
           "Type": "Royal Hair",
           "Rank": "Female",
           "Item Name": "Apple Tea Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        }
-      ],
-      "row_count": 24,
-      "raw_table_rows": [
-        [
-          "' + arrKey[i] + '"
-        ],
-        [
-          "' + ((!col)? '' : col) + '"
-        ]
-      ],
-      "raw_table_row_count": 2,
-      "audit_flags": [
-        "raw_table_rows_too_small",
-        "raw_rows_with_single_cell"
-      ]
-    },
-    {
-      "id": "7538",
-      "title": "Royal Hair / Royal Plastic Surgery Probability",
-      "url": "https://m.nexon.com/probability/7538?language=en",
-      "hash": "b9223c4cd5ad30960997be3a8c2cc8d3c5ba777f48be07fc3c1d4e651d4c403b",
-      "active": true,
-      "first_seen_utc": "2026-05-14T04:07:18Z",
-      "last_changed_utc": "2026-05-14T04:07:18Z",
-      "description_text": null,
-      "columns": [
-        "Type",
-        "Rank",
-        "Item Name",
-        "Probability"
-      ],
-      "meta": {
-        "Type": "box_name_en",
-        "Rank": "itemgrade_name_en",
-        "Item Name": "item_name_en",
-        "Probability": "prob_view"
-      },
-      "rows": [
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Male",
-          "Item Name": "Otter Face",
-          "Probability": "16.60",
-          "_probability_float": 16.6
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Male",
-          "Item Name": "Stunning Face",
-          "Probability": "16.60",
-          "_probability_float": 16.6
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Male",
-          "Item Name": "Melody Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Male",
-          "Item Name": "Languid Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Male",
-          "Item Name": "Polite Interest Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Male",
-          "Item Name": "Puffy Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Female",
-          "Item Name": "Chipmunk Face",
-          "Probability": "16.60",
-          "_probability_float": 16.6
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Female",
-          "Item Name": "Stunning Face",
-          "Probability": "16.60",
-          "_probability_float": 16.6
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Female",
-          "Item Name": "Melody Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Female",
-          "Item Name": "Languid Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Female",
-          "Item Name": "Polite Interest Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Plastic Surgery",
-          "Rank": "Female",
-          "Item Name": "Naughty Face",
-          "Probability": "16.70",
-          "_probability_float": 16.7
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Male",
-          "Item Name": "Slit Wave Hair",
-          "Probability": "10.00",
-          "_probability_float": 10.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Male",
-          "Item Name": "Feathered Bed Head",
-          "Probability": "10.00",
-          "_probability_float": 10.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Male",
-          "Item Name": "Latte Bubble Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Male",
-          "Item Name": "Bling Evan Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Male",
-          "Item Name": "Mountain o' Fuff Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Male",
-          "Item Name": "Scraggly Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Female",
-          "Item Name": "Midi Wave Hair",
-          "Probability": "10.00",
-          "_probability_float": 10.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Female",
-          "Item Name": "Daze Hair",
-          "Probability": "10.00",
-          "_probability_float": 10.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Female",
-          "Item Name": "Magic Ella Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Female",
-          "Item Name": "Sandy Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Female",
-          "Item Name": "Teeny Horn Hair",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Royal Hair",
-          "Rank": "Female",
-          "Item Name": "Diva Bow Hair",
           "Probability": "20.00",
           "_probability_float": 20.0
         }
