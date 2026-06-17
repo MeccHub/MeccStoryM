@@ -1800,6 +1800,27 @@ select.df-ts-input {
   border: 1px solid rgba(148,163,184,0.26) !important;
 }
 
+#tab-newbie .df-panel,
+#tab-newbie details,
+#tab-newbie details > div {
+  background: var(--c-surface) !important;
+  border-color: var(--c-border-soft) !important;
+  box-shadow: 0 10px 22px rgba(2,6,23,0.24) !important;
+  color: var(--c-text-primary) !important;
+}
+#tab-newbie .df-panel-title,
+#tab-newbie .df-note,
+#tab-newbie p,
+#tab-newbie li {
+  color: var(--c-text-primary) !important;
+}
+#tab-newbie details > summary {
+  background: rgba(15,23,42,0.86) !important;
+  color: #f8fafc !important;
+  text-shadow: none !important;
+  border-bottom: 1px solid rgba(148,163,184,0.24) !important;
+}
+
 .ts-item-link {
   color: var(--c-text-primary) !important;
   text-decoration: none !important;
@@ -2237,6 +2258,22 @@ body[data-theme="light"] #tab-info .pr-table td,
 body[data-theme="light"] #tab-info .df-note {
   color: #334155 !important;
 }
+body[data-theme="light"] #tab-newbie .df-panel-title {
+  color: #1f2937 !important;
+}
+body[data-theme="light"] #tab-newbie details > summary,
+body[data-theme="light"] #tab-newbie summary[style*="background:#f8f4ff"] {
+  background: #f8fafc !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+body[data-theme="light"] #tab-newbie details[style*="background:#fff"] {
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+body[data-theme="light"] #tab-newbie .df-note {
+  color: #334155 !important;
+}
 
 /* Dark-mode audit fixes for tab-info table headers */
 body[data-theme="dark"] #tab-info .pr-table thead tr,
@@ -2258,6 +2295,19 @@ body[data-theme="dark"] #tab-info summary[style*="background:#f8f4ff"] {
 body[data-theme="dark"] #tab-info details[style*="background:#fff"] {
   background: rgba(15,23,42,0.86) !important;
   border-color: rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] #tab-newbie details > summary,
+body[data-theme="dark"] #tab-newbie summary[style*="background:#f8f4ff"] {
+  background: rgba(30,41,59,0.92) !important;
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] #tab-newbie details[style*="background:#fff"] {
+  background: rgba(15,23,42,0.86) !important;
+  border-color: rgba(148,163,184,0.24) !important;
+}
+body[data-theme="dark"] #tab-newbie .df-note {
+  color: #e2e8f0 !important;
 }
 body[data-theme="dark"] #tab-info pre[style*="background:#f8f4ff"] {
   background: rgba(15,23,42,0.88) !important;
