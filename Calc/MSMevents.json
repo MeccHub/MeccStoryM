@@ -1,55 +1,55 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-06-17T04:00:06Z",
-  "count": 6,
+  "generated_at_utc": "2026-06-18T04:00:22Z",
+  "count": 5,
   "events": [
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3465100",
-      "title": "🦋 Naptime for Lucid 🛌",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3465100",
-      "posted_utc": "2026-06-04T02:00:00Z",
-      "event_period_raw": "2026/06/04 (Thu) 10:00 - 2026/06/17 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Connect butterflies to form Butterfly Sets that add up to 10! The more butterflies you connect, the higher your score. You can earn Coin rewards based on the score achieved. [How to Participate] ① You can participate in the event through event main page located on [Menu] > [Event] > [M4U Boss Invitation] > [Naptime for Lucid]. ② Within the 1-minute time l",
-      "start_utc": "2026-06-04T18:00:00Z",
-      "end_utc": "2026-06-17T17:59:00Z",
-      "first_seen_utc": "2026-06-04T04:00:07Z"
+      "thread_id": "3477959",
+      "title": "💧 Sol Erda Pass B 💧",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477959",
+      "posted_utc": "2026-06-18T00:00:00Z",
+      "event_period_raw": "Event Period: 2026/06/18 (Thu) 10:00 - 2026/07/15 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/07/15 (Wed) 10:00 - 2026/07/22 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-06-18T18:00:00Z",
+      "end_utc": "2026-07-15T17:59:00Z",
+      "first_seen_utc": "2026-06-18T04:00:10Z"
     },
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3465098",
-      "title": "Lotus &amp; Orchid's Daily Mission 📅",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3465098",
-      "posted_utc": "2026-06-03T16:00:00Z",
-      "event_period_raw": "2026/06/04 (Thu) 00:00 - 2026/06/17 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Complete a Daily Mission each day during the event period to earn rewards. As your total Daily Mission clears accumulate, you can also earn additional rewards. [How to Participate] ① You can participate in the event through [Menu] > [Event] > [M4U Boss Invitation] > [Lotus & Orchid's Daily Mission] event main page. ② Daily Missions are provided every day ",
-      "start_utc": "2026-06-04T08:00:00Z",
-      "end_utc": "2026-06-17T17:59:00Z",
-      "first_seen_utc": "2026-06-04T04:00:08Z"
+      "thread_id": "3477955",
+      "title": "Mapler's Adventure Log 📝",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477955",
+      "posted_utc": "2026-06-18T00:00:00Z",
+      "event_period_raw": "Event Period: 2026/06/19 (Fri) 00:00 - 2026/07/30 ( Thu) 23:59 (Server Time) (Adventure Pass+ Purchase Only) Additional Reward Claim Period : 2026/07/ 30 (Thu) 23:59 - 2026/08/06 (Thu) 23:59 *",
+      "start_utc": "2026-06-19T08:00:00Z",
+      "end_utc": "2026-07-31T07:59:00Z",
+      "first_seen_utc": "2026-06-18T04:00:12Z"
     },
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3453932",
-      "title": "💧 Sol Erda Pass A 💧",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3453932",
-      "posted_utc": "2026-05-28T02:00:00Z",
-      "event_period_raw": "Event Period : 2026/05/28 (Thu) 10:00 ~ 2026/06/17 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/06/17 (Wed) 10:00 ~ 2026/06/24 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-05-28T18:00:00Z",
-      "end_utc": "2026-06-17T17:59:00Z",
-      "first_seen_utc": "2026-05-28T04:00:06Z"
+      "thread_id": "3477949",
+      "title": "🚤 New Summer Events! 🌴",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477949",
+      "posted_utc": "2026-06-18T00:00:00Z",
+      "event_period_raw": "2026/06/18 (Thu) After Update - 2026/07/08 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-06-18T08:00:00Z",
+      "end_utc": "2026-07-08T17:59:00Z",
+      "first_seen_utc": "2026-06-18T04:00:14Z"
     },
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3448935",
-      "title": "M4U Boss Invitation Part 2 ✉️",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3448935",
-      "posted_utc": "2026-05-21T00:00:00Z",
-      "event_period_raw": "After the 2026/05/21 (Thu) Maintenance - 2026/06/17 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-05-21T08:00:00Z",
-      "end_utc": "2026-06-17T17:59:00Z",
-      "first_seen_utc": "2026-05-21T04:00:11Z"
+      "thread_id": "3477944",
+      "title": "☀️ Sunshine Gift Event 🎁",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477944",
+      "posted_utc": "2026-06-18T00:00:00Z",
+      "event_period_raw": "Sunshine Points Acquisition Period : 2026/06/18 ( Thu ) After Update –2026/07/15 (Wed) 09:59 (Server Time) Reward Claim Period: After 2026/06/18 ( Thu ) After Update – 2026/07/22 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-06-18T08:00:00Z",
+      "end_utc": "2026-07-15T17:59:00Z",
+      "first_seen_utc": "2026-06-18T04:00:16Z"
     },
     {
       "board_id": 2692,
@@ -62,18 +62,6 @@
       "start_utc": "2026-05-21T08:00:00Z",
       "end_utc": "2026-07-08T17:59:00Z",
       "first_seen_utc": "2026-05-21T04:00:13Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3424212",
-      "title": "🔥 M4U Boss Invitation ✉️",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3424212",
-      "posted_utc": "2026-04-16T00:00:00Z",
-      "event_period_raw": "After the 2026/04/16 (Thu) Maintenance - 2026 /06/17 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-04-16T08:00:00Z",
-      "end_utc": "2026-06-17T17:59:00Z",
-      "first_seen_utc": "2026-04-20T14:41:47Z"
     }
   ]
 }
