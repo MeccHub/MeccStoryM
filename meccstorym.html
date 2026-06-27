@@ -3133,7 +3133,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
             <div class="pr-controls" style="margin-bottom:10px;">
               <div class="pr-ctrl-field" style="flex:2;min-width:220px;">
                 <div class="pr-ctrl-label">Search boss</div>
-                <input class="pr-ctrl-input" id="uiSearch" type="text" placeholder="e.g. Lotus, Verus, Damien..." oninput="uiRenderTable()" />
+                <input class="pr-ctrl-input" id="uiSearch" type="text" placeholder="e.g. Lotus, hil, Will..." oninput="uiRenderTable()" />
               </div>
             </div>
 
@@ -5655,8 +5655,16 @@ const UI_BOSS_ROWS = [
 function uiFmt(v){ return (v==null||Number.isNaN(v)) ? '—' : Number(v).toLocaleString(undefined,{maximumFractionDigits:3}); }
 
 function uiRenderTable(){
-  const q = (document.getElementById('uiSearch')?.value || '').toLowerCase().trim();
-  const rows = UI_BOSS_ROWS.filter(r => !q || (r.boss + ' ' + r.contrib).toLowerCase().includes(q));
+  const terms = (document.getElementById('uiSearch')?.value || '')
+    .toLowerCase()
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+  const rows = UI_BOSS_ROWS.filter(r => {
+    if (!terms.length) return true;
+    const haystack = (r.boss + ' ' + r.contrib).toLowerCase();
+    return terms.some(term => haystack.includes(term));
+  });
 
   const bar = document.getElementById('uiResultsBar');
   const wrap = document.getElementById('uiTableWrap');
