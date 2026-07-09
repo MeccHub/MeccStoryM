@@ -1,8 +1,56 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-07-08T04:00:09Z",
+  "generated_at_utc": "2026-07-09T04:00:14Z",
   "count": 8,
   "events": [
+    {
+      "board_id": 2691,
+      "type": "announcement",
+      "thread_id": "3497060",
+      "title": "📌 07.08/09 Patch Notice",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2691&thread=3497060",
+      "posted_utc": "2026-07-09T03:53:41Z",
+      "event_period_raw": "has been scheduled. 📆 Patch Schedule 📆 2026/07/08 (Wed) 20:30 - 20:50 (America / UTC-8) 2026/07/09 (Thu) 06:30 - 06:50 (Europe / UTC+2) 2026/07/09 (Thu) 12:30 - 12:50 (Asia / UTC+8) ✅",
+      "start_utc": "2026-07-09T04:30:00Z",
+      "end_utc": "2026-07-09T04:50:00Z",
+      "first_seen_utc": "2026-07-09T04:00:05Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3496447",
+      "title": "📱 Maple M Account Link Event 💻",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3496447",
+      "posted_utc": "2026-07-09T00:00:00Z",
+      "event_period_raw": "2026/07/09 (Thu) After Update - 2026/08/26 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-07-09T08:00:00Z",
+      "end_utc": "2026-08-26T17:59:00Z",
+      "first_seen_utc": "2026-07-09T04:00:08Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3496446",
+      "title": "☀️ Challenge! Summer Growth Special Training! 🥊",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3496446",
+      "posted_utc": "2026-07-09T00:00:00Z",
+      "event_period_raw": "2026/7/10 (Fri) 00:00 – 2026/7/29 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-07-10T08:00:00Z",
+      "end_utc": "2026-07-29T17:59:00Z",
+      "first_seen_utc": "2026-07-09T04:00:10Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3496443",
+      "title": "🪜 Pink Bean Slides and Ladders Event 🛝",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3496443",
+      "posted_utc": "2026-07-09T00:00:00Z",
+      "event_period_raw": "2026/07/09 After Update – 2026/07/23 (Thu) 09:59 (Server Time) *",
+      "start_utc": "2026-07-09T08:00:00Z",
+      "end_utc": "2026-07-23T17:59:00Z",
+      "first_seen_utc": "2026-07-09T04:00:11Z"
+    },
     {
       "board_id": 2691,
       "type": "announcement",
@@ -14,30 +62,6 @@
       "start_utc": "2026-07-06T08:00:00Z",
       "end_utc": "2026-07-13T07:59:00Z",
       "first_seen_utc": "2026-07-07T04:00:06Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3480886",
-      "title": "🏆 Punch King Championship 🥊",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3480886",
-      "posted_utc": "2026-06-25T02:00:00Z",
-      "event_period_raw": "Punch King Event Schedule : 2026/06/25 (Thu) 10:00 – 2026/07/08 (Wed) 09:59 (Server Time) Rank Calculation Schedule : 2026/07/08 (Wed) 10:00 – 2026/07/10 (Fri) 10:00 (Server Time) Reward Claim Schedule : 2026/07/08 (Wed) 10:10 – 2026/07/10 (Fri) 10:00 (Server Time) * Server Time: America UTC-8 | Europe UTC+2 | Asia 1&2 UTC+8 Event Details Hit the Punch King Machine within the time limit to gain a high score. You can get one reward per day as well as an achievement reward depending on how high yo",
-      "start_utc": "2026-06-25T18:00:00Z",
-      "end_utc": "2026-07-08T17:59:00Z",
-      "first_seen_utc": "2026-06-25T04:00:08Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3480884",
-      "title": "🌴 Summer Vacation Mission Bingo 🎯",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3480884",
-      "posted_utc": "2026-06-24T16:00:00Z",
-      "event_period_raw": "2026/06/25 (Thu) 00:00 – 2026/07/08 (Wed) 09:59 (Server Time) * Server Time: America UTC-8 | Europe UTC+2 | Asia 1&2 UTC+8 Event Details Finish the daily missions on the Bingo board and receive rewards! You can receive rewards when clearing mission or achieving Bingo. In addition, you can receive more rewards with cumulative Bingo counts. [How to Participate] ① You can participate in this event in the [Menu] > [Events] > [Summer Vacation Mission Bingo] tab. ② You can receive reward when clearing",
-      "start_utc": "2026-06-25T08:00:00Z",
-      "end_utc": "2026-07-08T17:59:00Z",
-      "first_seen_utc": "2026-06-25T04:00:10Z"
     },
     {
       "board_id": 2692,
@@ -66,18 +90,6 @@
     {
       "board_id": 2692,
       "type": "event",
-      "thread_id": "3477949",
-      "title": "🚤 New Summer Events! 🌴",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477949",
-      "posted_utc": "2026-06-18T00:00:00Z",
-      "event_period_raw": "2026/06/18 (Thu) After Update - 2026/07/08 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-06-18T08:00:00Z",
-      "end_utc": "2026-07-08T17:59:00Z",
-      "first_seen_utc": "2026-06-18T04:00:14Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
       "thread_id": "3477944",
       "title": "☀️ Sunshine Gift Event 🎁",
       "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477944",
@@ -86,18 +98,6 @@
       "start_utc": "2026-06-18T08:00:00Z",
       "end_utc": "2026-07-15T17:59:00Z",
       "first_seen_utc": "2026-06-18T04:00:16Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3448916",
-      "title": "🔥 Aran &amp; Shade Growth Support Event 🔥",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3448916",
-      "posted_utc": "2026-05-21T00:00:00Z",
-      "event_period_raw": "After the 2026/05/21 (Thu) Maintenance - 2026/07/08 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-05-21T08:00:00Z",
-      "end_utc": "2026-07-08T17:59:00Z",
-      "first_seen_utc": "2026-05-21T04:00:13Z"
     }
   ]
 }
