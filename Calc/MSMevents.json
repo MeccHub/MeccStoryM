@@ -1,20 +1,8 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-07-09T04:00:14Z",
-  "count": 8,
+  "generated_at_utc": "2026-07-10T04:00:08Z",
+  "count": 7,
   "events": [
-    {
-      "board_id": 2691,
-      "type": "announcement",
-      "thread_id": "3497060",
-      "title": "📌 07.08/09 Patch Notice",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2691&thread=3497060",
-      "posted_utc": "2026-07-09T03:53:41Z",
-      "event_period_raw": "has been scheduled. 📆 Patch Schedule 📆 2026/07/08 (Wed) 20:30 - 20:50 (America / UTC-8) 2026/07/09 (Thu) 06:30 - 06:50 (Europe / UTC+2) 2026/07/09 (Thu) 12:30 - 12:50 (Asia / UTC+8) ✅",
-      "start_utc": "2026-07-09T04:30:00Z",
-      "end_utc": "2026-07-09T04:50:00Z",
-      "first_seen_utc": "2026-07-09T04:00:05Z"
-    },
     {
       "board_id": 2692,
       "type": "event",
