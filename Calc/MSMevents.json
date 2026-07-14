@@ -1,7 +1,7 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-07-13T04:00:05Z",
-  "count": 7,
+  "generated_at_utc": "2026-07-14T04:00:05Z",
+  "count": 6,
   "events": [
     {
       "board_id": 2692,
@@ -38,18 +38,6 @@
       "start_utc": "2026-07-09T08:00:00Z",
       "end_utc": "2026-07-23T17:59:00Z",
       "first_seen_utc": "2026-07-09T04:00:11Z"
-    },
-    {
-      "board_id": 2691,
-      "type": "announcement",
-      "thread_id": "3493917",
-      "title": "[Notice] Notice Regarding the Issue with Undelivered Log-in Rewards from 7/1 – 7/3 (NA Only)",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2691&thread=3493917",
-      "posted_utc": "2026-07-06T06:29:33Z",
-      "event_period_raw": "[Reward] - Distribution Period: 2026/7/6 (Mon) After this Notice – 2026/7/12 (Sun) 23:59 Reward Qty",
-      "start_utc": "2026-07-06T08:00:00Z",
-      "end_utc": "2026-07-13T07:59:00Z",
-      "first_seen_utc": "2026-07-07T04:00:06Z"
     },
     {
       "board_id": 2692,
