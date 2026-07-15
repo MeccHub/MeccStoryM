@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-07-14T04:07:08Z",
-  "active_count": 32,
-  "total_tracked": 61,
-  "change_count": 101,
+  "generated_at_utc": "2026-07-15T04:07:35Z",
+  "active_count": 33,
+  "total_tracked": 63,
+  "change_count": 104,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -610,6 +610,24 @@
       "type": "removed",
       "id": "7618",
       "title": "Royal Hair / Royal Plastic Surgery Probability"
+    },
+    {
+      "ts_utc": "2026-07-15T04:07:23Z",
+      "type": "new",
+      "id": "7701",
+      "title": "Royal Style: Zodiac Magician Set"
+    },
+    {
+      "ts_utc": "2026-07-15T04:07:24Z",
+      "type": "new",
+      "id": "7700",
+      "title": "Master Label Season 11: Master Destiny Set"
+    },
+    {
+      "ts_utc": "2026-07-15T04:07:35Z",
+      "type": "removed",
+      "id": "7617",
+      "title": "Master Label Season 11: Master Destiny Set"
     }
   ],
   "items": [
@@ -365118,13 +365136,13 @@
       ]
     },
     {
-      "id": "7617",
+      "id": "7700",
       "title": "Master Label Season 11: Master Destiny Set",
-      "url": "https://m.nexon.com/probability/7617?language=en",
-      "hash": "9b514822825cc74c9e4c4bdde84f5dac42cafaa7c0cabeb79ac096425b0cb680",
+      "url": "https://m.nexon.com/probability/7700?language=en",
+      "hash": "f7c2ed23cbea0b955c51d3f4f7f46867487c4135171d597ed1128bfe1c4390a2",
       "active": true,
-      "first_seen_utc": "2026-06-15T04:07:16Z",
-      "last_changed_utc": "2026-06-15T04:07:16Z",
+      "first_seen_utc": "2026-07-15T04:07:24Z",
+      "last_changed_utc": "2026-07-15T04:07:24Z",
       "description_text": "* The individual probability of each item has been rounded up to the nearest hundredth. * The obtainable items from Masterpiece Fusion will match the noted gender of the base item.",
       "columns": [
         "Type",
@@ -365144,14 +365162,6 @@
         {
           "Type": "Weapon (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Stalwart Sunfish",
-          "Gender": "Default",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Weapon (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Oasis Seeker's Rod",
           "Gender": "Default",
           "Probability": "8.50",
@@ -365223,6 +365233,14 @@
         },
         {
           "Type": "Weapon (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "White Chocolate Bear",
+          "Gender": "Default",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Weapon (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Destiny",
           "Gender": "Default",
@@ -365236,22 +365254,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Hat (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seashore Bear",
-          "Gender": "Default",
-          "Probability": "4.48",
-          "_probability_float": 4.48
-        },
-        {
-          "Type": "Hat (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seabreeze Bear",
-          "Gender": "Default",
-          "Probability": "4.48",
-          "_probability_float": 4.48
         },
         {
           "Type": "Hat (Special Label Base)",
@@ -365298,16 +365300,16 @@
           "Rank": "Red Label",
           "Item Name": "Firefly Bonnet",
           "Gender": "Default",
-          "Probability": "4.47",
-          "_probability_float": 4.47
+          "Probability": "4.48",
+          "_probability_float": 4.48
         },
         {
           "Type": "Hat (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Star Goggles",
           "Gender": "Default",
-          "Probability": "4.47",
-          "_probability_float": 4.47
+          "Probability": "4.48",
+          "_probability_float": 4.48
         },
         {
           "Type": "Hat (Special Label Base)",
@@ -365391,6 +365393,22 @@
         },
         {
           "Type": "Hat (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Sucre",
+          "Gender": "Default",
+          "Probability": "4.47",
+          "_probability_float": 4.47
+        },
+        {
+          "Type": "Hat (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Frill Lace Cap",
+          "Gender": "Default",
+          "Probability": "4.47",
+          "_probability_float": 4.47
+        },
+        {
+          "Type": "Hat (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Eternal Oath",
           "Gender": "Default",
@@ -365408,22 +365426,6 @@
         {
           "Type": "Outfit (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Sparkling Seashore Marine (M)",
-          "Gender": "Male",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Outfit (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seabreeze Marine (F)",
-          "Gender": "Female",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Outfit (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Rolling Oasis Explorer Outfit (M)",
           "Gender": "Male",
           "Probability": "8.50",
@@ -365567,6 +365569,22 @@
         },
         {
           "Type": "Outfit (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cream Chocolatier Coat (M)",
+          "Gender": "Male",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Outfit (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Chocolate (F)",
+          "Gender": "Female",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Outfit (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -365588,22 +365606,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Top (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seashore Marine (M)",
-          "Gender": "Male",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Top (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seabreeze Marine (F)",
-          "Gender": "Female",
-          "Probability": "8.50",
-          "_probability_float": 8.5
         },
         {
           "Type": "Top (Special Label Base)",
@@ -365751,6 +365753,22 @@
         },
         {
           "Type": "Top (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cream Chocolatier Coat (M)",
+          "Gender": "Male",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Top (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Chocolate (F)",
+          "Gender": "Female",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Top (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -365772,22 +365790,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Bottom (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seashore Marine (M)",
-          "Gender": "Male",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Bottom (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Seabreeze Marine (F)",
-          "Gender": "Female",
-          "Probability": "8.50",
-          "_probability_float": 8.5
         },
         {
           "Type": "Bottom (Special Label Base)",
@@ -365935,6 +365937,22 @@
         },
         {
           "Type": "Bottom (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cream Chocolatier Coat (M)",
+          "Gender": "Male",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Bottom (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Chocolate (F)",
+          "Gender": "Female",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Bottom (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -365956,14 +365974,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Gloves (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Sparkling Sea Bear Bubble",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
         },
         {
           "Type": "Gloves (Special Label Base)",
@@ -365994,8 +366004,8 @@
           "Rank": "Red Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.09",
+          "_probability_float": 7.09
         },
         {
           "Type": "Gloves (Special Label Base)",
@@ -366048,6 +366058,14 @@
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
+          "Item Name": "Candy Stellar",
+          "Gender": "Default",
+          "Probability": "7.08",
+          "_probability_float": 7.08
+        },
+        {
+          "Type": "Gloves (Special Label Base)",
+          "Rank": "Red Label",
           "Item Name": "Pom Pom Pincushion",
           "Gender": "Default",
           "Probability": "7.08",
@@ -366072,114 +366090,122 @@
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Crab On The Way",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
-        },
-        {
-          "Type": "Shoes (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Rolling-Along Explorer Shoes",
           "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Thorny Steps (M)",
           "Gender": "Male",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Thorny Vine (F)",
           "Gender": "Female",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Firefly Sneakers",
           "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Firefly Shoes",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Starry Belle Boots",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Dreamland Socks",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Starland Socks",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Pom Pom Boots (M)",
           "Gender": "Male",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Pom Pom Shoes (F)",
           "Gender": "Female",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Crimson Spirit Clogs",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Bumper Car Shoes",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Retro Teen Derby Skates",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "6.54",
+          "_probability_float": 6.54
+        },
+        {
+          "Type": "Shoes (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cream Berry Knee Socks",
+          "Gender": "Default",
+          "Probability": "6.53",
+          "_probability_float": 6.53
+        },
+        {
+          "Type": "Shoes (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Berry Knee Socks",
+          "Gender": "Default",
+          "Probability": "6.53",
+          "_probability_float": 6.53
         },
         {
           "Type": "Shoes (Special Label Base)",
@@ -366208,14 +366234,6 @@
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Sparkling Sea Bear Bubble",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
-        },
-        {
-          "Type": "Cape (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Brown Hare Expedition Backpack",
           "Gender": "Default",
           "Probability": "7.09",
@@ -366242,8 +366260,8 @@
           "Rank": "Red Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.09",
+          "_probability_float": 7.09
         },
         {
           "Type": "Cape (Special Label Base)",
@@ -366296,6 +366314,14 @@
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
+          "Item Name": "Candy Stellar",
+          "Gender": "Default",
+          "Probability": "7.08",
+          "_probability_float": 7.08
+        },
+        {
+          "Type": "Cape (Special Label Base)",
+          "Rank": "Red Label",
           "Item Name": "Pom Pom Pincushion",
           "Gender": "Default",
           "Probability": "7.08",
@@ -366316,14 +366342,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Weapon (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Stalwart Sunfish",
-          "Gender": "Default",
-          "Probability": "7.00",
-          "_probability_float": 7.0
         },
         {
           "Type": "Weapon (Red Label Base)",
@@ -366399,6 +366417,14 @@
         },
         {
           "Type": "Weapon (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "White Chocolate Bear",
+          "Gender": "Default",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Weapon (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Destiny",
           "Gender": "Default",
@@ -366412,22 +366438,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Hat (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seashore Bear",
-          "Gender": "Default",
-          "Probability": "3.69",
-          "_probability_float": 3.69
-        },
-        {
-          "Type": "Hat (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seabreeze Bear",
-          "Gender": "Default",
-          "Probability": "3.69",
-          "_probability_float": 3.69
         },
         {
           "Type": "Hat (Red Label Base)",
@@ -366482,16 +366492,16 @@
           "Rank": "Black Label",
           "Item Name": "Star Goggles",
           "Gender": "Default",
-          "Probability": "3.68",
-          "_probability_float": 3.68
+          "Probability": "3.69",
+          "_probability_float": 3.69
         },
         {
           "Type": "Hat (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Dream Stella",
           "Gender": "Default",
-          "Probability": "3.68",
-          "_probability_float": 3.68
+          "Probability": "3.69",
+          "_probability_float": 3.69
         },
         {
           "Type": "Hat (Red Label Base)",
@@ -366567,6 +366577,22 @@
         },
         {
           "Type": "Hat (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cherry Sucre",
+          "Gender": "Default",
+          "Probability": "3.68",
+          "_probability_float": 3.68
+        },
+        {
+          "Type": "Hat (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cherry Frill Lace Cap",
+          "Gender": "Default",
+          "Probability": "3.68",
+          "_probability_float": 3.68
+        },
+        {
+          "Type": "Hat (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Eternal Oath",
           "Gender": "Default",
@@ -366584,22 +366610,6 @@
         {
           "Type": "Outfit (Red Label Base)",
           "Rank": "Black Label",
-          "Item Name": "Sparkling Seashore Marine (M)",
-          "Gender": "Male",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Outfit (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seabreeze Marine (F)",
-          "Gender": "Female",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Outfit (Red Label Base)",
-          "Rank": "Black Label",
           "Item Name": "Rolling Oasis Explorer Outfit (M)",
           "Gender": "Male",
           "Probability": "7.00",
@@ -366743,6 +366753,22 @@
         },
         {
           "Type": "Outfit (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cream Chocolatier Coat (M)",
+          "Gender": "Male",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Outfit (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cherry Chocolate (F)",
+          "Gender": "Female",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Outfit (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -366764,22 +366790,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Top (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seashore Marine (M)",
-          "Gender": "Male",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Top (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seabreeze Marine (F)",
-          "Gender": "Female",
-          "Probability": "7.00",
-          "_probability_float": 7.0
         },
         {
           "Type": "Top (Red Label Base)",
@@ -366927,6 +366937,22 @@
         },
         {
           "Type": "Top (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cream Chocolatier Coat (M)",
+          "Gender": "Male",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Top (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cherry Chocolate (F)",
+          "Gender": "Female",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Top (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -366948,22 +366974,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Bottom (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seashore Marine (M)",
-          "Gender": "Male",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Bottom (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Seabreeze Marine (F)",
-          "Gender": "Female",
-          "Probability": "7.00",
-          "_probability_float": 7.0
         },
         {
           "Type": "Bottom (Red Label Base)",
@@ -367111,6 +367121,22 @@
         },
         {
           "Type": "Bottom (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cream Chocolatier Coat (M)",
+          "Gender": "Male",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Bottom (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cherry Chocolate (F)",
+          "Gender": "Female",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Bottom (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -367132,14 +367158,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Gloves (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Sea Bear Bubble",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
         },
         {
           "Type": "Gloves (Red Label Base)",
@@ -367170,8 +367188,8 @@
           "Rank": "Black Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.84",
+          "_probability_float": 5.84
         },
         {
           "Type": "Gloves (Red Label Base)",
@@ -367217,6 +367235,14 @@
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Splashy Sling Bag",
+          "Gender": "Default",
+          "Probability": "5.83",
+          "_probability_float": 5.83
+        },
+        {
+          "Type": "Gloves (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Candy Stellar",
           "Gender": "Default",
           "Probability": "5.83",
           "_probability_float": 5.83
@@ -367248,114 +367274,122 @@
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
-          "Item Name": "Crab On The Way",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
-        },
-        {
-          "Type": "Shoes (Red Label Base)",
-          "Rank": "Black Label",
           "Item Name": "Rolling-Along Explorer Shoes",
           "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Thorny Steps (M)",
           "Gender": "Male",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Thorny Vine (F)",
           "Gender": "Female",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Firefly Sneakers",
           "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Firefly Shoes",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Starry Belle Boots",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Dreamland Socks",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Starland Socks",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.38",
+          "_probability_float": 5.38
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Pom Pom Boots (M)",
           "Gender": "Male",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.38",
+          "_probability_float": 5.38
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Pom Pom Shoes (F)",
           "Gender": "Female",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.38",
+          "_probability_float": 5.38
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Crimson Spirit Clogs",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.38",
+          "_probability_float": 5.38
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Bumper Car Shoes",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.38",
+          "_probability_float": 5.38
         },
         {
           "Type": "Shoes (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Retro Teen Derby Skates",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.38",
+          "_probability_float": 5.38
+        },
+        {
+          "Type": "Shoes (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cream Berry Knee Socks",
+          "Gender": "Default",
+          "Probability": "5.38",
+          "_probability_float": 5.38
+        },
+        {
+          "Type": "Shoes (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cherry Berry Knee Socks",
+          "Gender": "Default",
+          "Probability": "5.38",
+          "_probability_float": 5.38
         },
         {
           "Type": "Shoes (Red Label Base)",
@@ -367380,14 +367414,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Cape (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Sparkling Sea Bear Bubble",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
         },
         {
           "Type": "Cape (Red Label Base)",
@@ -367418,8 +367444,8 @@
           "Rank": "Black Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "5.84",
+          "_probability_float": 5.84
         },
         {
           "Type": "Cape (Red Label Base)",
@@ -367465,6 +367491,14 @@
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Splashy Sling Bag",
+          "Gender": "Default",
+          "Probability": "5.83",
+          "_probability_float": 5.83
+        },
+        {
+          "Type": "Cape (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Candy Stellar",
           "Gender": "Default",
           "Probability": "5.83",
           "_probability_float": 5.83
@@ -367494,7 +367528,7 @@
           "_probability_float": 6.0
         }
       ],
-      "row_count": 294,
+      "row_count": 296,
       "raw_table_rows": [
         [
           "' + arrKey[i] + '"
@@ -386002,6 +386036,326 @@
         }
       ],
       "row_count": 24,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
+      "id": "7701",
+      "title": "Royal Style: Zodiac Magician Set",
+      "url": "https://m.nexon.com/probability/7701?language=en",
+      "hash": "3c3bf455275d534977dd74be6a52ba760eaf6524717692634e1a15397562f854",
+      "active": true,
+      "first_seen_utc": "2026-07-15T04:07:23Z",
+      "last_changed_utc": "2026-07-15T04:07:23Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Gender",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Gender": "gender_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Starshine Hairpin",
+          "Gender": "Default",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Starshine Headband",
+          "Gender": "Default",
+          "Probability": "1.20",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "2.20",
+          "_probability_float": 2.2
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "2.20",
+          "_probability_float": 2.2
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Observer's Footsteps",
+          "Gender": "Default",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Cosmic Rings",
+          "Gender": "Default",
+          "Probability": "1.80",
+          "_probability_float": 1.8
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Special Label Item",
+          "Item Name": "Zodiac Staff",
+          "Gender": "Default",
+          "Probability": "1.90",
+          "_probability_float": 1.9
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Starlight Magic Hat",
+          "Gender": "Default",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Bottled Starlight",
+          "Gender": "Default",
+          "Probability": "3.10",
+          "_probability_float": 3.1
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Zooming Tangerine Helmet",
+          "Gender": "Default",
+          "Probability": "2.90",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Sunny Tangerine Cap",
+          "Gender": "Default",
+          "Probability": "2.70",
+          "_probability_float": 2.7
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Zooming Tangerine Outfit (M)",
+          "Gender": "Male",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Sunny Tangerine Outfit (F)",
+          "Gender": "Female",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Tangerine Slippers",
+          "Gender": "Default",
+          "Probability": "2.90",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Tangerine Kickboard",
+          "Gender": "Default",
+          "Probability": "2.60",
+          "_probability_float": 2.6
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Zippy Citrus Snail",
+          "Gender": "Default",
+          "Probability": "2.80",
+          "_probability_float": 2.8
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Candy Glow",
+          "Gender": "Default",
+          "Probability": "4.00",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Sour Candy (M)",
+          "Gender": "Male",
+          "Probability": "4.10",
+          "_probability_float": 4.1
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Delightful Candy (F)",
+          "Gender": "Female",
+          "Probability": "4.10",
+          "_probability_float": 4.1
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Candy Typing Shoes",
+          "Gender": "Default",
+          "Probability": "4.00",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Shining Candy",
+          "Gender": "Default",
+          "Probability": "4.00",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Candy Typing",
+          "Gender": "Default",
+          "Probability": "4.10",
+          "_probability_float": 4.1
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Roundy Round Fairy Hat",
+          "Gender": "Default",
+          "Probability": "4.30",
+          "_probability_float": 4.3
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Roundy Round Fairy Outfit",
+          "Gender": "Default",
+          "Probability": "4.20",
+          "_probability_float": 4.2
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Dewdrop Parasol",
+          "Gender": "Default",
+          "Probability": "4.30",
+          "_probability_float": 4.3
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Rabbit and Bear Shirt",
+          "Gender": "Default",
+          "Probability": "4.50",
+          "_probability_float": 4.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Accessory Item",
+          "Item Name": "Teddy Hip Pants",
+          "Gender": "Default",
+          "Probability": "4.50",
+          "_probability_float": 4.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Power Elixir",
+          "Gender": "Default",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Uniquely Rad Megaphone",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Legit Best of the Bunch Megaphone",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Mrs. Ming Ming's Grub Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "VIP Teleport Rock",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Auto-Battle Charge Ticket (30 Min)",
+          "Gender": "Default",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Destiny Label Ring (30 Day)",
+          "Gender": "Default",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Royal Style Season 98",
+          "Rank": "Functional Item",
+          "Item Name": "Destiny Chat Ring (30 Day)",
+          "Gender": "Default",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        }
+      ],
+      "row_count": 35,
       "raw_table_rows": [
         [
           "' + arrKey[i] + '"
