@@ -1,8 +1,20 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-07-24T04:00:05Z",
-  "count": 5,
+  "generated_at_utc": "2026-07-25T04:00:09Z",
+  "count": 6,
   "events": [
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3508499",
+      "title": "🎂 Maple M 8th Anniversary Thank You Gift 🎁",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3508499",
+      "posted_utc": "2026-07-24T16:00:00Z",
+      "event_period_raw": "2026/07/25 (Sat) 00:00 - 2026/08/28 (Fri) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details MapleStory M is celebrating its 8th anniversary thanks to everyone's dedication! Special reward is here for all Maplers who have been with us for the 8th anniversary, so check the event page to receive special login rewards! [How to Participate] ① You can check the event on [Event] > [Maple M 8th Anniversary",
+      "start_utc": "2026-07-25T08:00:00Z",
+      "end_utc": "2026-08-28T17:59:00Z",
+      "first_seen_utc": "2026-07-25T04:00:09Z"
+    },
     {
       "board_id": 2692,
       "type": "event",
