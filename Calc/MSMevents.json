@@ -1,7 +1,7 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-07-31T04:00:07Z",
-  "count": 12,
+  "generated_at_utc": "2026-08-01T04:00:11Z",
+  "count": 11,
   "events": [
     {
       "board_id": 2693,
@@ -134,18 +134,6 @@
       "start_utc": "2026-07-09T08:00:00Z",
       "end_utc": "2026-08-26T17:59:00Z",
       "first_seen_utc": "2026-07-09T04:00:08Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3477955",
-      "title": "Mapler's Adventure Log 📝",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3477955",
-      "posted_utc": "2026-06-18T00:00:00Z",
-      "event_period_raw": "Event Period: 2026/06/19 (Fri) 00:00 - 2026/07/30 ( Thu) 23:59 (Server Time) (Adventure Pass+ Purchase Only) Additional Reward Claim Period : 2026/07/ 30 (Thu) 23:59 - 2026/08/06 (Thu) 23:59 *",
-      "start_utc": "2026-06-19T08:00:00Z",
-      "end_utc": "2026-07-31T07:59:00Z",
-      "first_seen_utc": "2026-06-18T04:00:12Z"
     }
   ]
 }
