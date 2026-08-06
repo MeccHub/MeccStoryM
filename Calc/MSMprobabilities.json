@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-08-05T04:06:22Z",
-  "active_count": 32,
-  "total_tracked": 68,
-  "change_count": 115,
+  "generated_at_utc": "2026-08-06T04:06:31Z",
+  "active_count": 34,
+  "total_tracked": 70,
+  "change_count": 117,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -694,6 +694,18 @@
       "type": "removed",
       "id": "7701",
       "title": "Royal Style: Zodiac Magician Set"
+    },
+    {
+      "ts_utc": "2026-08-06T04:06:20Z",
+      "type": "new",
+      "id": "7759",
+      "title": "Royal Hair / Royal Plastic Surgery Probability"
+    },
+    {
+      "ts_utc": "2026-08-06T04:06:21Z",
+      "type": "new",
+      "id": "7755",
+      "title": "Wisp's Wondrous Wonderberry Season 22"
     }
   ],
   "items": [
@@ -272155,6 +272167,212 @@
       "audit_flags": []
     },
     {
+      "id": "7759",
+      "title": "Royal Hair / Royal Plastic Surgery Probability",
+      "url": "https://m.nexon.com/probability/7759?language=en",
+      "hash": "ac19bd012fdf8ee7d79773790012cbf69064b398ea1efdd028d5c9b6044aa461",
+      "active": true,
+      "first_seen_utc": "2026-08-06T04:06:20Z",
+      "last_changed_utc": "2026-08-06T04:06:20Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Male",
+          "Item Name": "Asha Face",
+          "Probability": "16.60",
+          "_probability_float": 16.6
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Male",
+          "Item Name": "Pure Face",
+          "Probability": "16.60",
+          "_probability_float": 16.6
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Male",
+          "Item Name": "Steadfast Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Male",
+          "Item Name": "Colored Pencil Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Male",
+          "Item Name": "Sweet Candy Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Male",
+          "Item Name": "Why Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Female",
+          "Item Name": "Asha Face",
+          "Probability": "16.60",
+          "_probability_float": 16.6
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Female",
+          "Item Name": "Sleepy Time Face",
+          "Probability": "16.60",
+          "_probability_float": 16.6
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Female",
+          "Item Name": "Sharp Butterfly Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Female",
+          "Item Name": "Colored Pencil Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Female",
+          "Item Name": "Sweet Candy Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Plastic Surgery",
+          "Rank": "Female",
+          "Item Name": "Why Face",
+          "Probability": "16.70",
+          "_probability_float": 16.7
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Male",
+          "Item Name": "Otherworld Prince Hair",
+          "Probability": "10.00",
+          "_probability_float": 10.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Male",
+          "Item Name": "V Hair",
+          "Probability": "10.00",
+          "_probability_float": 10.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Male",
+          "Item Name": "Ash Surfer Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Male",
+          "Item Name": "Textured Bangs Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Male",
+          "Item Name": "Beastly Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Male",
+          "Item Name": "Half Chic Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Female",
+          "Item Name": "Coy Girl Hair",
+          "Probability": "10.00",
+          "_probability_float": 10.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Female",
+          "Item Name": "Huggable Locks",
+          "Probability": "10.00",
+          "_probability_float": 10.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Female",
+          "Item Name": "Extra Long Twin Tails Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Female",
+          "Item Name": "High Pigtails Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Female",
+          "Item Name": "Beastly Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        },
+        {
+          "Type": "Royal Hair",
+          "Rank": "Female",
+          "Item Name": "Half Chic Hair",
+          "Probability": "20.00",
+          "_probability_float": 20.0
+        }
+      ],
+      "row_count": 24,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
       "id": "7669",
       "title": "Royal Hair / Royal Plastic Surgery Probability",
       "url": "https://m.nexon.com/probability/7669?language=en",
@@ -273095,6 +273313,128 @@
       ],
       "raw_table_row_count": 11,
       "audit_flags": []
+    },
+    {
+      "id": "7755",
+      "title": "Wisp's Wondrous Wonderberry Season 22",
+      "url": "https://m.nexon.com/probability/7755?language=en",
+      "hash": "8fcf3d14964273dfc5998dce9736f574e7b38fb9f229bf7d4617aee406c0daf7",
+      "active": true,
+      "first_seen_utc": "2026-08-06T04:06:21Z",
+      "last_changed_utc": "2026-08-06T04:06:21Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Black",
+          "Item Name": "[Wonder Black] Baby Hippo Exchange Ticket",
+          "Probability": "3.32",
+          "_probability_float": 3.32
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Black",
+          "Item Name": "[Wonder Black] Wolf Pup Exchange Ticket",
+          "Probability": "3.32",
+          "_probability_float": 3.32
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Black",
+          "Item Name": "[Wonder Black] Lion Cub Exchange Ticket",
+          "Probability": "3.32",
+          "_probability_float": 3.32
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Blue",
+          "Item Name": "[Wonder Blue] Yellow Moon Butterfly Exchange Ticket",
+          "Probability": "9.80",
+          "_probability_float": 9.8
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Blue",
+          "Item Name": "[Wonder Blue] Blue Moon Butterfly Exchange Ticket",
+          "Probability": "9.80",
+          "_probability_float": 9.8
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Blue",
+          "Item Name": "[Wonder Blue] Pink Moon Butterfly Exchange Ticket",
+          "Probability": "9.80",
+          "_probability_float": 9.8
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Silver",
+          "Item Name": "[Wonder Silver] Salmon Nigiri Exchange Ticket",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Silver",
+          "Item Name": "[Wonder Silver] Peppy Slime Exchange Ticket",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "Wonder Black Water of Life Exchange Ticket",
+          "Probability": "6.64",
+          "_probability_float": 6.64
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "3 Premium Water of Life (15 Day) Exchange Tickets",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "20 Organic Pet Food Exchange Tickets",
+          "Probability": "11.55",
+          "_probability_float": 11.55
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "30 Organic Pet Food Exchange Tickets",
+          "Probability": "11.45",
+          "_probability_float": 11.45
+        }
+      ],
+      "row_count": 12,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
     }
   ]
 }
