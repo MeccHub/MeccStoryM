@@ -35,6 +35,20 @@ body[data-theme="dark"] {
   gap: 16px;
 }
 
+.boss-session-gate {
+  display: none;
+}
+
+.boss-needs-session .boss-session-gate {
+  display: block;
+}
+
+.boss-needs-session .boss-hero,
+.boss-needs-session .boss-summary-panel,
+.boss-needs-session .boss-layout {
+  display: none;
+}
+
 .boss-hero {
   display: flex;
   align-items: end;
@@ -758,6 +772,22 @@ window.MSM_SITE = {
 <div id="site-nav"></div>
 
 <main class="msm-page msm-page-wide boss-page">
+  <section class="boss-panel boss-session-gate" id="sessionGate">
+    <div class="boss-panel-head">
+      <h1 class="boss-panel-title">Boss Signup Session</h1>
+    </div>
+    <div class="boss-panel-body">
+      <form class="boss-form-grid" id="sessionForm">
+        <label class="boss-field">
+          <span class="boss-label">Session ID</span>
+          <input class="boss-input" id="sessionInput" autocomplete="off" placeholder="my-group">
+        </label>
+        <button class="boss-btn primary" type="submit">Open Session</button>
+        <button class="boss-btn" type="button" id="generateSessionBtn">Generate New</button>
+      </form>
+    </div>
+  </section>
+
   <section class="boss-hero">
     <div>
       <h1 class="boss-title">Boss Signup Planner</h1>
@@ -773,7 +803,7 @@ window.MSM_SITE = {
     </div>
   </section>
 
-  <section class="boss-panel">
+  <section class="boss-panel boss-summary-panel">
     <div class="boss-panel-body">
       <div class="boss-counts" id="summaryCounts"></div>
     </div>
@@ -945,7 +975,7 @@ window.MSM_SITE = {
   let boardId = initialBoardId();
   let storageKey = storageKeyForBoard(boardId);
   let restoredFromUrl = false;
-  let remoteLoaded = !configuredBoardApi;
+  let remoteLoaded = !configuredBoardApi || !boardId;
   let saveTimer = null;
   let lastRemoteJson = "";
   const bossHpById = {
@@ -988,6 +1018,10 @@ window.MSM_SITE = {
 
   const $ = selector => document.querySelector(selector);
   const els = {
+    sessionGate: $("#sessionGate"),
+    sessionForm: $("#sessionForm"),
+    sessionInput: $("#sessionInput"),
+    generateSessionBtn: $("#generateSessionBtn"),
     bossForm: $("#bossForm"),
     bossName: $("#bossName"),
     bossParty: $("#bossParty"),
@@ -1029,7 +1063,7 @@ window.MSM_SITE = {
 
   function initialBoardId() {
     const params = new URLSearchParams(window.location.search);
-    return sanitizeBoardId(params.get("board")) || "current";
+    return sanitizeBoardId(params.get("board"));
   }
 
   function sanitizeBoardId(value) {
@@ -1042,11 +1076,11 @@ window.MSM_SITE = {
   }
 
   function storageKeyForBoard(id) {
-    return `${baseStorageKey}:${id}`;
+    return `${baseStorageKey}:${id || "pending"}`;
   }
 
   function boardApiUrl() {
-    if (!configuredBoardApi) return "";
+    if (!configuredBoardApi || !boardId) return "";
     try {
       const url = new URL(configuredBoardApi);
       const parts = url.pathname.split("/").filter(Boolean);
@@ -1064,7 +1098,11 @@ window.MSM_SITE = {
 
   function sessionShareUrl(id = boardId) {
     const url = new URL(window.location.href);
-    url.searchParams.set("board", id);
+    if (id) {
+      url.searchParams.set("board", id);
+    } else {
+      url.searchParams.delete("board");
+    }
     url.hash = "";
     return url.toString();
   }
@@ -1111,6 +1149,7 @@ window.MSM_SITE = {
   }
 
   function loadState() {
+    if (!boardId) return cleanState();
     const hashData = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("data");
     if (hashData) {
       try {
@@ -1131,6 +1170,8 @@ window.MSM_SITE = {
   }
 
   function save() {
+    renderSessionGate();
+    if (!boardId) return;
     localStorage.setItem(storageKey, JSON.stringify(state));
     els.backupCode.value = encode(state);
     if (configuredBoardApi && (remoteLoaded || restoredFromUrl)) {
@@ -1174,6 +1215,10 @@ window.MSM_SITE = {
   }
 
   async function loadRemoteBoard() {
+    if (!boardId) {
+      setSyncStatus("Choose session");
+      return;
+    }
     if (!configuredBoardApi) {
       setSyncStatus("Local only");
       return;
@@ -1204,10 +1249,15 @@ window.MSM_SITE = {
     }
   }
 
-  function switchToNewSession() {
-    boardId = newBoardId();
+  function startSession(id, useBlankState = false) {
+    const nextId = sanitizeBoardId(id);
+    if (!nextId) {
+      alert("Enter a session ID first.");
+      return;
+    }
+    boardId = nextId;
     storageKey = storageKeyForBoard(boardId);
-    state = defaultBoardState();
+    state = useBlankState ? defaultBoardState() : loadState();
     restoredFromUrl = false;
     remoteLoaded = !configuredBoardApi;
     lastRemoteJson = "";
@@ -1217,6 +1267,10 @@ window.MSM_SITE = {
     scheduleBossFilter = "all";
     render();
     loadRemoteBoard();
+  }
+
+  function switchToNewSession() {
+    startSession(newBoardId(), true);
     navigator.clipboard?.writeText(sessionShareUrl(boardId)).then(
       () => notify("Session link copied"),
       () => notify("New session")
@@ -1288,6 +1342,7 @@ window.MSM_SITE = {
   }
 
   function render() {
+    renderSessionGate();
     renderBosses();
     renderTimezones();
     renderNeedMatrix();
@@ -1298,6 +1353,11 @@ window.MSM_SITE = {
     renderValidation();
     renderSummary();
     save();
+  }
+
+  function renderSessionGate() {
+    document.body.classList.toggle("boss-needs-session", !boardId);
+    if (els.sessionInput && boardId) els.sessionInput.value = boardId;
   }
 
   function renderBosses() {
@@ -2196,6 +2256,11 @@ window.MSM_SITE = {
     renderSchedule();
   });
 
+  els.sessionForm.addEventListener("submit", event => {
+    event.preventDefault();
+    startSession(els.sessionInput.value, false);
+  });
+  els.generateSessionBtn.addEventListener("click", switchToNewSession);
   $("#autoAssignBtn").addEventListener("click", autoAssign);
   $("#addGroupBtn").addEventListener("click", () => {
     const firstBoss = state.bosses[0];
@@ -2240,6 +2305,10 @@ window.MSM_SITE = {
     switchToNewSession();
   });
   $("#copyLinkBtn").addEventListener("click", async () => {
+    if (!boardId) {
+      alert("Open or generate a session first.");
+      return;
+    }
     await navigator.clipboard.writeText(sessionShareUrl());
     notify("Session link copied");
   });
