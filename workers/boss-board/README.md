@@ -30,3 +30,5 @@ The browser calls:
 
 - `GET /current` to load the shared board.
 - `PUT /current` with `{ "board": ... }` to save it.
+
+Each save applies a rolling 30-day KV expiration. Active board sessions extend their expiry on every save; inactive sessions purge automatically after 30 days.

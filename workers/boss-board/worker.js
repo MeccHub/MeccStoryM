@@ -3,6 +3,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "GET, PUT, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type"
 };
+const boardTtlSeconds = 60 * 60 * 24 * 30;
 
 function json(data, init = {}) {
   return new Response(JSON.stringify(data), {
@@ -49,8 +50,8 @@ export default {
         board,
         updatedAt: new Date().toISOString()
       };
-      await env.BOSS_BOARD.put(key, JSON.stringify(record));
-      return json({ ok: true, updatedAt: record.updatedAt });
+      await env.BOSS_BOARD.put(key, JSON.stringify(record), { expirationTtl: boardTtlSeconds });
+      return json({ ok: true, updatedAt: record.updatedAt, expiresInSeconds: boardTtlSeconds });
     }
 
     return json({ ok: false, error: "Method not allowed" }, { status: 405 });
