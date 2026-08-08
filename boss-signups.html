@@ -768,6 +768,7 @@ window.MSM_SITE = {
       <button class="boss-btn" type="button" id="copyLinkBtn">Copy Link</button>
       <button class="boss-btn" type="button" id="exportBtn">Export Code</button>
       <button class="boss-btn danger" type="button" id="resetBtn">New Week</button>
+      <span class="boss-pill" id="syncStatus">Local only</span>
     </div>
   </section>
 
@@ -935,9 +936,15 @@ window.MSM_SITE = {
 </main>
 
 <script src="assets/js/site-nav.js"></script>
+<script src="assets/js/boss-board-config.js"></script>
 <script>
 (function () {
   const storageKey = "msm_boss_signup_beta_v1";
+  const boardApi = String(window.MSM_BOSS_BOARD_API || "").replace(/\/+$/, "");
+  let restoredFromUrl = false;
+  let remoteLoaded = !boardApi;
+  let saveTimer = null;
+  let lastRemoteJson = "";
   const bossHpById = {
     arkarium: { 2: 4.74, 3: 6.63, 4: 8.53, 5: 10.42, 6: 12.13, 7: 13.83, 8: 15.54, 9: 17.06, 10: 18.95 },
     "normal-archon": { 2: 13.04, 3: 18.25, 4: 23.46, 5: 28.68, 6: 33.37, 7: 38.06, 8: 42.75, 9: 46.93, 10: 52.14 },
@@ -1005,6 +1012,7 @@ window.MSM_SITE = {
     unassignedTotal: $("#unassignedTotal"),
     backupCode: $("#backupCode"),
     csvBox: $("#csvBox"),
+    syncStatus: $("#syncStatus"),
     summaryCounts: $("#summaryCounts")
   };
 
@@ -1048,6 +1056,7 @@ window.MSM_SITE = {
     if (hashData) {
       try {
         const restored = decode(hashData);
+        restoredFromUrl = true;
         localStorage.setItem(storageKey, JSON.stringify(restored));
         return cleanState(restored);
       } catch (error) {
@@ -1065,6 +1074,75 @@ window.MSM_SITE = {
   function save() {
     localStorage.setItem(storageKey, JSON.stringify(state));
     els.backupCode.value = encode(state);
+    if (boardApi && (remoteLoaded || restoredFromUrl)) {
+      queueRemoteSave();
+    }
+  }
+
+  function setSyncStatus(text, kind = "") {
+    if (!els.syncStatus) return;
+    els.syncStatus.textContent = text;
+    els.syncStatus.classList.toggle("green", kind === "green");
+    els.syncStatus.classList.toggle("warn", kind === "warn");
+    els.syncStatus.classList.toggle("danger", kind === "danger");
+  }
+
+  function queueRemoteSave() {
+    window.clearTimeout(saveTimer);
+    setSyncStatus("Saving...", "warn");
+    saveTimer = window.setTimeout(saveRemoteBoard, 650);
+  }
+
+  async function saveRemoteBoard() {
+    const payload = JSON.stringify({ board: state });
+    if (payload === lastRemoteJson) {
+      setSyncStatus("Synced", "green");
+      return;
+    }
+    try {
+      const response = await fetch(boardApi, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: payload
+      });
+      if (!response.ok) throw new Error(`Save failed: ${response.status}`);
+      lastRemoteJson = payload;
+      setSyncStatus("Synced", "green");
+    } catch (error) {
+      console.warn("Unable to save shared board", error);
+      setSyncStatus("Local changes", "danger");
+    }
+  }
+
+  async function loadRemoteBoard() {
+    if (!boardApi) {
+      setSyncStatus("Local only");
+      return;
+    }
+    if (restoredFromUrl) {
+      remoteLoaded = true;
+      setSyncStatus("Saving restore...", "warn");
+      queueRemoteSave();
+      return;
+    }
+    setSyncStatus("Loading...", "warn");
+    try {
+      const response = await fetch(boardApi, { headers: { Accept: "application/json" } });
+      if (!response.ok) throw new Error(`Load failed: ${response.status}`);
+      const payload = await response.json();
+      remoteLoaded = true;
+      if (payload?.board) {
+        state = cleanState(payload.board);
+        lastRemoteJson = JSON.stringify({ board: state });
+        render();
+      }
+      setSyncStatus("Synced", "green");
+      if (!payload?.board) queueRemoteSave();
+    } catch (error) {
+      console.warn("Unable to load shared board", error);
+      remoteLoaded = true;
+      setSyncStatus("Local only", "danger");
+    }
   }
 
   function encode(value) {
@@ -2103,6 +2181,7 @@ window.MSM_SITE = {
   });
 
   render();
+  loadRemoteBoard();
 })();
 </script>
 </body>
