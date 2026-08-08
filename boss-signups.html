@@ -761,10 +761,11 @@ window.MSM_SITE = {
   <section class="boss-hero">
     <div>
       <h1 class="boss-title">Boss Signup Planner</h1>
-      <p class="boss-subtitle">Build weekly carry groups from local signups, then share the board with a restore code or URL.</p>
+      <p class="boss-subtitle">Build weekly carry groups from shared session links, then keep restore codes as a backup.</p>
     </div>
     <div class="boss-actions">
       <button class="boss-btn primary" type="button" id="autoAssignBtn">Generate Teams</button>
+      <button class="boss-btn" type="button" id="newSessionBtn">New Session</button>
       <button class="boss-btn" type="button" id="copyLinkBtn">Copy Link</button>
       <button class="boss-btn" type="button" id="exportBtn">Export Code</button>
       <button class="boss-btn danger" type="button" id="resetBtn">New Week</button>
@@ -939,10 +940,12 @@ window.MSM_SITE = {
 <script src="assets/js/boss-board-config.js"></script>
 <script>
 (function () {
-  const storageKey = "msm_boss_signup_beta_v1";
-  const boardApi = String(window.MSM_BOSS_BOARD_API || "").replace(/\/+$/, "");
+  const baseStorageKey = "msm_boss_signup_beta_v1";
+  const configuredBoardApi = String(window.MSM_BOSS_BOARD_API || "").replace(/\/+$/, "");
+  let boardId = initialBoardId();
+  let storageKey = storageKeyForBoard(boardId);
   let restoredFromUrl = false;
-  let remoteLoaded = !boardApi;
+  let remoteLoaded = !configuredBoardApi;
   let saveTimer = null;
   let lastRemoteJson = "";
   const bossHpById = {
@@ -1024,6 +1027,62 @@ window.MSM_SITE = {
     return text.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || uid("boss");
   }
 
+  function initialBoardId() {
+    const params = new URLSearchParams(window.location.search);
+    return sanitizeBoardId(params.get("board")) || "current";
+  }
+
+  function sanitizeBoardId(value) {
+    const clean = String(value || "").trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
+    return clean || "";
+  }
+
+  function newBoardId() {
+    return `group-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+  }
+
+  function storageKeyForBoard(id) {
+    return `${baseStorageKey}:${id}`;
+  }
+
+  function boardApiUrl() {
+    if (!configuredBoardApi) return "";
+    try {
+      const url = new URL(configuredBoardApi);
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (parts.length) {
+        parts[parts.length - 1] = encodeURIComponent(boardId);
+      } else {
+        parts.push(encodeURIComponent(boardId));
+      }
+      url.pathname = `/${parts.join("/")}`;
+      return url.toString();
+    } catch (error) {
+      return `${configuredBoardApi}/${encodeURIComponent(boardId)}`;
+    }
+  }
+
+  function sessionShareUrl(id = boardId) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("board", id);
+    url.hash = "";
+    return url.toString();
+  }
+
+  function updateUrlForBoard(id) {
+    window.history.replaceState(null, "", sessionShareUrl(id));
+  }
+
+  function defaultBoardState() {
+    return cleanState({
+      bosses: defaults.bosses.map(boss => ({ ...boss })),
+      needs: [],
+      carries: [],
+      schedule: [],
+      unassigned: []
+    });
+  }
+
   function cleanState(input) {
     const next = Object.assign({}, defaults, input || {});
     next.bosses = Array.isArray(next.bosses) && next.bosses.length ? next.bosses : defaults.bosses;
@@ -1074,7 +1133,7 @@ window.MSM_SITE = {
   function save() {
     localStorage.setItem(storageKey, JSON.stringify(state));
     els.backupCode.value = encode(state);
-    if (boardApi && (remoteLoaded || restoredFromUrl)) {
+    if (configuredBoardApi && (remoteLoaded || restoredFromUrl)) {
       queueRemoteSave();
     }
   }
@@ -1096,18 +1155,18 @@ window.MSM_SITE = {
   async function saveRemoteBoard() {
     const payload = JSON.stringify({ board: state });
     if (payload === lastRemoteJson) {
-      setSyncStatus("Synced", "green");
+      setSyncStatus(`Synced: ${boardId}`, "green");
       return;
     }
     try {
-      const response = await fetch(boardApi, {
+      const response = await fetch(boardApiUrl(), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: payload
       });
       if (!response.ok) throw new Error(`Save failed: ${response.status}`);
       lastRemoteJson = payload;
-      setSyncStatus("Synced", "green");
+      setSyncStatus(`Synced: ${boardId}`, "green");
     } catch (error) {
       console.warn("Unable to save shared board", error);
       setSyncStatus("Local changes", "danger");
@@ -1115,7 +1174,7 @@ window.MSM_SITE = {
   }
 
   async function loadRemoteBoard() {
-    if (!boardApi) {
+    if (!configuredBoardApi) {
       setSyncStatus("Local only");
       return;
     }
@@ -1125,9 +1184,9 @@ window.MSM_SITE = {
       queueRemoteSave();
       return;
     }
-    setSyncStatus("Loading...", "warn");
+    setSyncStatus(`Loading: ${boardId}`, "warn");
     try {
-      const response = await fetch(boardApi, { headers: { Accept: "application/json" } });
+      const response = await fetch(boardApiUrl(), { headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error(`Load failed: ${response.status}`);
       const payload = await response.json();
       remoteLoaded = true;
@@ -1136,13 +1195,32 @@ window.MSM_SITE = {
         lastRemoteJson = JSON.stringify({ board: state });
         render();
       }
-      setSyncStatus("Synced", "green");
+      setSyncStatus(`Synced: ${boardId}`, "green");
       if (!payload?.board) queueRemoteSave();
     } catch (error) {
       console.warn("Unable to load shared board", error);
       remoteLoaded = true;
       setSyncStatus("Local only", "danger");
     }
+  }
+
+  function switchToNewSession() {
+    boardId = newBoardId();
+    storageKey = storageKeyForBoard(boardId);
+    state = defaultBoardState();
+    restoredFromUrl = false;
+    remoteLoaded = !configuredBoardApi;
+    lastRemoteJson = "";
+    window.clearTimeout(saveTimer);
+    updateUrlForBoard(boardId);
+    scheduleView = "list";
+    scheduleBossFilter = "all";
+    render();
+    loadRemoteBoard();
+    navigator.clipboard?.writeText(sessionShareUrl(boardId)).then(
+      () => notify("Session link copied"),
+      () => notify("New session")
+    );
   }
 
   function encode(value) {
@@ -2157,10 +2235,13 @@ window.MSM_SITE = {
     notify("CSV copied");
   });
   $("#importCsvBtn").addEventListener("click", importRosterCsv);
+  $("#newSessionBtn").addEventListener("click", () => {
+    if (!confirm("Create a new blank board session and switch this page to it?")) return;
+    switchToNewSession();
+  });
   $("#copyLinkBtn").addEventListener("click", async () => {
-    const url = `${location.origin}${location.pathname}#data=${encode(state)}`;
-    await navigator.clipboard.writeText(url);
-    notify("Link copied");
+    await navigator.clipboard.writeText(sessionShareUrl());
+    notify("Session link copied");
   });
   $("#restoreBtn").addEventListener("click", () => {
     try {
