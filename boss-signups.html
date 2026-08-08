@@ -734,6 +734,70 @@ body[data-theme="dark"] {
     flex-direction: column;
   }
 
+  .boss-table-wrap {
+    overflow-x: visible;
+  }
+
+  .boss-matrix,
+  .boss-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .boss-matrix th,
+  .boss-matrix td {
+    font-size: 12px;
+  }
+
+  .boss-matrix tbody td {
+    padding: 6px;
+  }
+
+  .boss-need-matrix th:first-child,
+  .boss-need-matrix td:first-child {
+    width: 70%;
+  }
+
+  .boss-need-matrix th:last-child,
+  .boss-need-matrix td:last-child {
+    width: 30%;
+  }
+
+  .boss-carry-matrix th:first-child,
+  .boss-carry-matrix td:first-child {
+    width: 34%;
+  }
+
+  .boss-carry-matrix th:nth-child(2),
+  .boss-carry-matrix td:nth-child(2) {
+    width: 44%;
+  }
+
+  .boss-carry-matrix th:last-child,
+  .boss-carry-matrix td:last-child {
+    width: 22%;
+  }
+
+  .boss-matrix-check {
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .boss-matrix-check span {
+    overflow-wrap: anywhere;
+  }
+
+  .boss-number {
+    max-width: none;
+    min-width: 0;
+    padding: 6px;
+  }
+
+  .boss-time-input {
+    min-width: 0;
+    padding: 6px;
+  }
+
   .boss-run-line {
     grid-template-columns: minmax(96px, 1.1fr) 60px;
   }
@@ -852,7 +916,7 @@ window.MSM_SITE = {
             <div class="boss-field wide">
               <span class="boss-label">Bosses Needed</span>
               <div class="boss-table-wrap">
-                <table class="boss-matrix">
+                <table class="boss-matrix boss-need-matrix">
                   <thead><tr><th>Boss</th><th>Qty</th></tr></thead>
                   <tbody id="needBossMatrix"></tbody>
                 </table>
@@ -890,7 +954,7 @@ window.MSM_SITE = {
             <div class="boss-field wide">
               <span class="boss-label">Bosses Available To Carry</span>
               <div class="boss-table-wrap">
-                <table class="boss-matrix">
+                <table class="boss-matrix boss-carry-matrix">
                   <thead><tr><th>Boss</th><th>Time Slot</th><th>Party</th></tr></thead>
                   <tbody id="carryBossMatrix"></tbody>
                 </table>
