@@ -135,7 +135,7 @@ body[data-theme="dark"] {
 
 .boss-layout {
   display: grid;
-  grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 16px;
   align-items: start;
 }
@@ -153,15 +153,18 @@ body[data-theme="dark"] {
   overflow: hidden;
 }
 
-.boss-panel-details {
+.boss-panel-details,
+.boss-section-details {
   display: block;
 }
 
-.boss-panel-details > summary {
+.boss-panel-details > summary,
+.boss-section-details > summary {
   list-style: none;
 }
 
-.boss-panel-details > summary::-webkit-details-marker {
+.boss-panel-details > summary::-webkit-details-marker,
+.boss-section-details > summary::-webkit-details-marker {
   display: none;
 }
 
@@ -185,7 +188,8 @@ body[data-theme="dark"] {
   text-align: center;
 }
 
-.boss-panel-details[open] .boss-panel-toggle::after {
+.boss-panel-details[open] .boss-panel-toggle::after,
+.boss-section-details[open] .boss-panel-toggle::after {
   content: "Hide";
 }
 
@@ -366,7 +370,7 @@ body[data-theme="dark"] {
 }
 
 .boss-run-line.boss-run-list {
-  grid-template-columns: minmax(116px, 1.05fr) 68px minmax(220px, 2.4fr) auto;
+  grid-template-columns: minmax(116px, 1.05fr) 84px minmax(220px, 2.4fr) auto auto;
 }
 
 .boss-run-line.completed {
@@ -510,7 +514,7 @@ body[data-theme="dark"] {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 6px;
-  min-width: 420px;
+  min-width: 620px;
 }
 
 .boss-matrix th,
@@ -566,6 +570,10 @@ body[data-theme="dark"] {
   max-width: 74px;
   min-height: 34px;
   padding: 6px 8px;
+}
+
+.boss-time-input {
+  min-width: 178px;
 }
 
 .boss-table {
@@ -697,12 +705,6 @@ body[data-theme="dark"] {
   font-weight: 900;
 }
 
-@media (max-width: 980px) {
-  .boss-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 700px) {
   .boss-hero {
     align-items: stretch;
@@ -801,10 +803,10 @@ window.MSM_SITE = {
         </div>
       </details>
 
-      <section class="boss-panel">
-        <div class="boss-panel-head">
+      <details class="boss-panel boss-section-details" open>
+        <summary class="boss-panel-head boss-panel-toggle">
           <h2 class="boss-panel-title">Backup</h2>
-        </div>
+        </summary>
         <div class="boss-panel-body">
           <label class="boss-field wide">
             <span class="boss-label">Restore Code</span>
@@ -826,15 +828,15 @@ window.MSM_SITE = {
             </div>
           </div>
         </div>
-      </section>
+      </details>
     </div>
 
     <div class="boss-stack">
-      <section class="boss-panel">
-        <div class="boss-panel-head">
+      <details class="boss-panel boss-section-details" open>
+        <summary class="boss-panel-head boss-panel-toggle">
           <h2 class="boss-panel-title">Needs</h2>
           <span class="boss-pill" id="needTotal">0 clears</span>
-        </div>
+        </summary>
         <div class="boss-panel-body">
           <form class="boss-form-grid" id="needForm">
             <label class="boss-field">
@@ -866,13 +868,13 @@ window.MSM_SITE = {
             </div>
           </details>
         </div>
-      </section>
+      </details>
 
-      <section class="boss-panel">
-        <div class="boss-panel-head">
+      <details class="boss-panel boss-section-details" open>
+        <summary class="boss-panel-head boss-panel-toggle">
           <h2 class="boss-panel-title">Carries</h2>
           <span class="boss-pill green" id="carryTotal">0 runs</span>
-        </div>
+        </summary>
         <div class="boss-panel-body">
           <form class="boss-form-grid" id="carryForm">
             <label class="boss-field">
@@ -880,22 +882,14 @@ window.MSM_SITE = {
               <input class="boss-input" id="carryPlayer" autocomplete="off" placeholder="IGN">
             </label>
             <label class="boss-field">
-              <span class="boss-label">Time Slot</span>
-              <input class="boss-input" id="carryDateTime" type="datetime-local">
-            </label>
-            <label class="boss-field">
               <span class="boss-label">Time Zone</span>
               <select class="boss-select" id="carryTimezone"></select>
-            </label>
-            <label class="boss-field">
-              <span class="boss-label">Max Party</span>
-              <input class="boss-input" id="carryMaxParty" type="number" min="2" max="10" value="10">
             </label>
             <div class="boss-field wide">
               <span class="boss-label">Bosses Available To Carry</span>
               <div class="boss-table-wrap">
                 <table class="boss-matrix">
-                  <thead><tr><th>Boss</th><th>Runs</th><th>Boss Max</th></tr></thead>
+                  <thead><tr><th>Boss</th><th>Runs</th><th>Time Slot</th><th>Party</th></tr></thead>
                   <tbody id="carryBossMatrix"></tbody>
                 </table>
               </div>
@@ -912,12 +906,15 @@ window.MSM_SITE = {
             </div>
           </details>
         </div>
-      </section>
+      </details>
 
-      <section class="boss-panel">
-        <div class="boss-panel-head">
+      <details class="boss-panel boss-section-details" open>
+        <summary class="boss-panel-head boss-panel-toggle">
           <h2 class="boss-panel-title">Schedule</h2>
-          <div class="boss-row-actions">
+          <span class="boss-pill" id="validationTotal">0 warnings</span>
+        </summary>
+        <div class="boss-panel-body">
+          <div class="boss-row-actions" style="margin-bottom:10px;">
             <select class="boss-select boss-filter" id="scheduleBossFilter" aria-label="Filter schedule boss">
               <option value="all">All Bosses</option>
             </select>
@@ -926,16 +923,13 @@ window.MSM_SITE = {
               <button class="boss-tab" type="button" id="scheduleEditTab" data-schedule-view="edit">Edit</button>
             </div>
             <button class="boss-btn" type="button" id="addGroupBtn">Add Group</button>
-            <span class="boss-pill" id="validationTotal">0 warnings</span>
             <span class="boss-pill warn" id="unassignedTotal">0 unassigned</span>
           </div>
-        </div>
-        <div class="boss-panel-body">
           <div class="boss-validation-list" id="validationList"></div>
           <div class="boss-schedule" id="scheduleList"></div>
           <div id="unassignedList" style="margin-top:12px;"></div>
         </div>
-      </section>
+      </details>
     </div>
   </div>
 </main>
@@ -997,9 +991,7 @@ window.MSM_SITE = {
     needTotal: $("#needTotal"),
     carryForm: $("#carryForm"),
     carryPlayer: $("#carryPlayer"),
-    carryDateTime: $("#carryDateTime"),
     carryTimezone: $("#carryTimezone"),
-    carryMaxParty: $("#carryMaxParty"),
     carryBossMatrix: $("#carryBossMatrix"),
     carryRows: $("#carryRows"),
     carryTotal: $("#carryTotal"),
@@ -1108,9 +1100,24 @@ window.MSM_SITE = {
     return Math.min(Math.max(Number(value) || fallback, 2), 10);
   }
 
+  function currentPartySize(group) {
+    return (group.players || []).length + 1;
+  }
+
   function groupMaxParty(group) {
     const boss = bossById(group.bossId);
     return Math.min(partySize(boss || {}), maxPartySize(group.maxPartySize, partySize(boss || {})));
+  }
+
+  function bossSortIndex(id) {
+    const index = state.bosses.findIndex(boss => boss.id === id);
+    return index < 0 ? Number.MAX_SAFE_INTEGER : index;
+  }
+
+  function compareBossIds(a, b) {
+    const orderCompare = bossSortIndex(a) - bossSortIndex(b);
+    if (orderCompare) return orderCompare;
+    return bossName(a).localeCompare(bossName(b));
   }
 
   function bossValueForParty(boss) {
@@ -1177,7 +1184,8 @@ window.MSM_SITE = {
           </label>
         </td>
         <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-carry-runs="${boss.id}"></td>
-        <td>${partySize(boss)}</td>
+        <td><input class="boss-input boss-time-input" type="datetime-local" data-carry-time="${boss.id}"></td>
+        <td><input class="boss-input boss-number" type="number" min="2" max="${partySize(boss)}" value="${partySize(boss)}" data-carry-max="${boss.id}" aria-label="${escapeAttr(boss.name)} party size"></td>
       </tr>
     `).join("");
   }
@@ -1202,7 +1210,7 @@ window.MSM_SITE = {
   function renderNeeds() {
     const sortedNeeds = [...state.needs].sort((a, b) => (
       a.player.localeCompare(b.player) ||
-      bossName(a.bossId).localeCompare(bossName(b.bossId))
+      compareBossIds(a.bossId, b.bossId)
     ));
     els.needRows.innerHTML = sortedNeeds.map(need => `
       <tr>
@@ -1374,21 +1382,25 @@ window.MSM_SITE = {
     return rows.filter(row => row.bossId === scheduleBossFilter);
   }
 
-  function renderScheduleListRow({ group }) {
+  function renderScheduleListRow({ group, index }) {
     const boss = bossById(group.bossId) || {};
-    const partyCap = groupMaxParty(group);
     const assignedPlayers = group.players || [];
+    const currentParty = currentPartySize(group);
     const statusText = [group.locked ? "Locked" : "", group.completed ? "Done" : ""].filter(Boolean).join(" / ");
     const statusClass = group.locked ? "locked" : (group.completed ? "" : "pending");
     return `
       <div class="boss-run-line boss-run-list ${group.completed ? "completed" : ""}">
         <div class="boss-carry-name">${escapeHtml(boss.name || "Unknown")}</div>
-        <div class="boss-seat-inline">Party ${partyCap}</div>
+        <div class="boss-seat-inline">Party ${currentParty}</div>
         <div class="boss-run-players list-only">
-          <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: partyCap }))}</span>
+          <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: currentParty }))}</span>
           <div class="boss-name-chips">${playerChips(assignedPlayers) || `<span class="boss-carry-time">Open</span>`}</div>
         </div>
         <div class="boss-run-status ${statusClass}">${statusText}</div>
+        <label class="boss-check boss-complete">
+          <input type="checkbox" data-schedule-field="completed" data-schedule-index="${index}" ${group.completed ? "checked" : ""}>
+          <span>Done</span>
+        </label>
       </div>
     `;
   }
@@ -1445,6 +1457,9 @@ window.MSM_SITE = {
         groups.push(byKey.get(key));
       }
       byKey.get(key).rows.push({ group, index });
+    });
+    groups.forEach(group => {
+      group.rows.sort((a, b) => compareBossIds(a.group.bossId, b.group.bossId) || (a.group.runNumber || 0) - (b.group.runNumber || 0));
     });
     return groups;
   }
@@ -1537,7 +1552,7 @@ window.MSM_SITE = {
       const aShortage = (capacityByBoss[a.bossId] || 0) - (demandByBoss[a.bossId] || 0);
       const bShortage = (capacityByBoss[b.bossId] || 0) - (demandByBoss[b.bossId] || 0);
       if (aShortage !== bShortage) return aShortage - bShortage;
-      return bossName(a.bossId).localeCompare(bossName(b.bossId)) || a.player.localeCompare(b.player);
+      return compareBossIds(a.bossId, b.bossId) || a.player.localeCompare(b.player);
     });
 
     const unassigned = [];
@@ -1558,7 +1573,7 @@ window.MSM_SITE = {
         if (timeCompare) return timeCompare;
         const carryCompare = String(a.carry || "").localeCompare(String(b.carry || ""));
         if (carryCompare) return carryCompare;
-        return bossName(a.bossId).localeCompare(bossName(b.bossId)) || (a.runNumber || 0) - (b.runNumber || 0);
+        return compareBossIds(a.bossId, b.bossId) || (a.runNumber || 0) - (b.runNumber || 0);
       });
     state.unassigned = unassigned;
     scheduleView = "list";
@@ -1603,7 +1618,9 @@ window.MSM_SITE = {
       const aLoad = slots.filter(slot => slot.carry === a.carry).reduce((sum, slot) => sum + slot.players.length, 0);
       const bLoad = slots.filter(slot => slot.carry === b.carry).reduce((sum, slot) => sum + slot.players.length, 0);
       if (aLoad !== bLoad) return aLoad - bLoad;
-      return String(a.time || "").localeCompare(String(b.time || "")) || String(a.carry || "").localeCompare(String(b.carry || ""));
+      return String(a.time || "").localeCompare(String(b.time || "")) ||
+        String(a.carry || "").localeCompare(String(b.carry || "")) ||
+        compareBossIds(a.bossId, b.bossId);
     });
     return candidates[0] || null;
   }
@@ -1863,25 +1880,24 @@ window.MSM_SITE = {
     const player = els.carryPlayer.value.trim();
     const bossIds = [...els.carryBossMatrix.querySelectorAll("[data-carry-boss]:checked")].map(input => input.value);
     if (!player || !bossIds.length) return;
-    const time = formatTimeSlot(els.carryDateTime.value, els.carryTimezone.value);
-    const maxCarryParty = maxPartySize(els.carryMaxParty.value);
     bossIds.forEach(bossId => {
       const runsInput = els.carryBossMatrix.querySelector(`[data-carry-runs="${cssEscape(bossId)}"]`);
+      const timeInput = els.carryBossMatrix.querySelector(`[data-carry-time="${cssEscape(bossId)}"]`);
+      const maxInput = els.carryBossMatrix.querySelector(`[data-carry-max="${cssEscape(bossId)}"]`);
+      const boss = bossById(bossId) || {};
       const runsEach = Number(runsInput?.value) || 0;
       if (runsEach < 1) return;
       state.carries.push({
         id: uid("carry"),
         player,
-        time,
+        time: formatTimeSlot(timeInput?.value, els.carryTimezone.value),
         timeZone: els.carryTimezone.value,
-        maxPartySize: maxCarryParty,
+        maxPartySize: maxPartySize(maxInput?.value, partySize(boss)),
         runsEach,
         bossIds: [bossId]
       });
     });
     els.carryPlayer.value = "";
-    els.carryDateTime.value = "";
-    els.carryMaxParty.value = 10;
     render();
   });
 
