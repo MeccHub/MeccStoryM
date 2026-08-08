@@ -889,7 +889,7 @@ window.MSM_SITE = {
               <span class="boss-label">Bosses Available To Carry</span>
               <div class="boss-table-wrap">
                 <table class="boss-matrix">
-                  <thead><tr><th>Boss</th><th>Runs</th><th>Time Slot</th><th>Party</th></tr></thead>
+                  <thead><tr><th>Boss</th><th>Time Slot</th><th>Party</th></tr></thead>
                   <tbody id="carryBossMatrix"></tbody>
                 </table>
               </div>
@@ -900,7 +900,7 @@ window.MSM_SITE = {
             <summary>Carry list</summary>
             <div class="boss-table-wrap" style="margin-top:8px;">
               <table class="boss-table">
-                <thead><tr><th>Carry</th><th>Time</th><th>Bosses</th><th>Runs</th><th>Party</th><th></th></tr></thead>
+                <thead><tr><th>Carry</th><th>Time</th><th>Bosses</th><th>Party</th><th></th></tr></thead>
                 <tbody id="carryRows"></tbody>
               </table>
             </div>
@@ -1028,6 +1028,7 @@ window.MSM_SITE = {
     next.needs = Array.isArray(next.needs) ? next.needs : [];
     next.carries = Array.isArray(next.carries) ? next.carries.map(carry => ({
       ...carry,
+      runsEach: 1,
       maxPartySize: maxPartySize(carry.maxPartySize)
     })) : [];
     next.schedule = Array.isArray(next.schedule) ? next.schedule.map(group => {
@@ -1183,7 +1184,6 @@ window.MSM_SITE = {
             <span>${escapeHtml(boss.name)}</span>
           </label>
         </td>
-        <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-carry-runs="${boss.id}"></td>
         <td><input class="boss-input boss-time-input" type="datetime-local" data-carry-time="${boss.id}"></td>
         <td><input class="boss-input boss-number" type="number" min="2" max="${partySize(boss)}" value="${partySize(boss)}" data-carry-max="${boss.id}" aria-label="${escapeAttr(boss.name)} party size"></td>
       </tr>
@@ -1232,11 +1232,10 @@ window.MSM_SITE = {
         <td>${escapeHtml(carry.player)}</td>
         <td>${escapeHtml(carry.time || "Anytime")}</td>
         <td>${carry.bossIds.map(id => `<span class="boss-pill">${escapeHtml(bossName(id))}</span>`).join(" ")}</td>
-        <td>${Number(carry.runsEach) || 1}</td>
         <td>${maxPartySize(carry.maxPartySize)}</td>
         <td><button class="boss-btn danger" type="button" data-remove-carry="${carry.id}">Remove</button></td>
       </tr>
-    `).join("") || `<tr><td colspan="6"><div class="boss-empty">No carries yet.</div></td></tr>`;
+    `).join("") || `<tr><td colspan="5"><div class="boss-empty">No carries yet.</div></td></tr>`;
 
     const total = state.carries.reduce((sum, carry) => sum + ((Number(carry.runsEach) || 1) * carry.bossIds.length), 0);
     els.carryTotal.textContent = `${total} run${total === 1 ? "" : "s"}`;
@@ -1741,7 +1740,7 @@ window.MSM_SITE = {
     });
     state.carries.forEach(carry => {
       carry.bossIds.forEach(bossId => {
-        rows.push(["carry", carry.player, bossName(bossId), Number(carry.runsEach) || 1, carry.time || "Anytime", carry.timeZone || "", maxPartySize(carry.maxPartySize), ""]);
+        rows.push(["carry", carry.player, bossName(bossId), 1, carry.time || "Anytime", carry.timeZone || "", maxPartySize(carry.maxPartySize), ""]);
       });
     });
     return rows.map(row => row.map(csvCell).join(",")).join("\n");
@@ -1777,7 +1776,7 @@ window.MSM_SITE = {
             time: time || "Anytime",
             timeZone,
             maxPartySize: maxPartySize(maxParty),
-            runsEach: qty,
+            runsEach: 1,
             bossIds: [bossId]
           });
         } else {
@@ -1881,19 +1880,16 @@ window.MSM_SITE = {
     const bossIds = [...els.carryBossMatrix.querySelectorAll("[data-carry-boss]:checked")].map(input => input.value);
     if (!player || !bossIds.length) return;
     bossIds.forEach(bossId => {
-      const runsInput = els.carryBossMatrix.querySelector(`[data-carry-runs="${cssEscape(bossId)}"]`);
       const timeInput = els.carryBossMatrix.querySelector(`[data-carry-time="${cssEscape(bossId)}"]`);
       const maxInput = els.carryBossMatrix.querySelector(`[data-carry-max="${cssEscape(bossId)}"]`);
       const boss = bossById(bossId) || {};
-      const runsEach = Number(runsInput?.value) || 0;
-      if (runsEach < 1) return;
       state.carries.push({
         id: uid("carry"),
         player,
         time: formatTimeSlot(timeInput?.value, els.carryTimezone.value),
         timeZone: els.carryTimezone.value,
         maxPartySize: maxPartySize(maxInput?.value, partySize(boss)),
-        runsEach,
+        runsEach: 1,
         bossIds: [bossId]
       });
     });
@@ -1931,13 +1927,8 @@ window.MSM_SITE = {
 
   document.addEventListener("input", event => {
     const needId = event.target.dataset.needQty;
-    const carryId = event.target.dataset.carryRuns;
     if (needId) {
       const checkbox = els.needBossMatrix.querySelector(`[data-need-boss][value="${cssEscape(needId)}"]`);
-      if (checkbox) checkbox.checked = Number(event.target.value) > 0;
-    }
-    if (carryId) {
-      const checkbox = els.carryBossMatrix.querySelector(`[data-carry-boss][value="${cssEscape(carryId)}"]`);
       if (checkbox) checkbox.checked = Number(event.target.value) > 0;
     }
   });
@@ -1945,7 +1936,6 @@ window.MSM_SITE = {
   document.addEventListener("change", event => {
     const bossPartyId = event.target.dataset.bossParty;
     const needId = event.target.matches("[data-need-boss]") ? event.target.value : "";
-    const carryId = event.target.matches("[data-carry-boss]") ? event.target.value : "";
     if (bossPartyId) {
       const boss = bossById(bossPartyId);
       if (!boss) return;
@@ -1957,11 +1947,6 @@ window.MSM_SITE = {
       const qty = els.needBossMatrix.querySelector(`[data-need-qty="${cssEscape(needId)}"]`);
       if (qty && event.target.checked && Number(qty.value) < 1) qty.value = 1;
       if (qty && !event.target.checked) qty.value = 0;
-    }
-    if (carryId) {
-      const runs = els.carryBossMatrix.querySelector(`[data-carry-runs="${cssEscape(carryId)}"]`);
-      if (runs && event.target.checked && Number(runs.value) < 1) runs.value = 1;
-      if (runs && !event.target.checked) runs.value = 0;
     }
   });
 
