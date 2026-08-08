@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boss Signup Planner - MeccStoryM</title>
+<title>Bossing Planner - MeccStoryM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -758,7 +758,7 @@ window.MSM_SITE = {
   active: "bossing",
   navItems: [
     { id: "home", label: "Home", icon: "🏠", href: "index.html#home" },
-    { id: "bossing", label: "Boss Planner", icon: "🗓️", href: "boss-signups.html" },
+    { id: "bossing", label: "Bossing Planner", icon: "🗓️", href: "boss-signups.html" },
     { id: "resets", label: "Resets", icon: "⏰", href: "index.html#resets" },
     { id: "events", label: "Events", icon: "🎉", href: "index.html#events" },
     { id: "guides", label: "Guides", icon: "🧭", href: "index.html#guides" },
@@ -774,7 +774,7 @@ window.MSM_SITE = {
 <main class="msm-page msm-page-wide boss-page">
   <section class="boss-panel boss-session-gate" id="sessionGate">
     <div class="boss-panel-head">
-      <h1 class="boss-panel-title">Boss Signup Session</h1>
+      <h1 class="boss-panel-title">Bossing Session</h1>
     </div>
     <div class="boss-panel-body">
       <form class="boss-form-grid" id="sessionForm">
@@ -790,7 +790,7 @@ window.MSM_SITE = {
 
   <section class="boss-hero">
     <div>
-      <h1 class="boss-title">Boss Signup Planner</h1>
+      <h1 class="boss-title">Bossing Planner</h1>
       <p class="boss-subtitle">Build weekly carry groups from shared session links, then keep restore codes as a backup.</p>
     </div>
     <div class="boss-actions">
@@ -811,59 +811,29 @@ window.MSM_SITE = {
 
   <div class="boss-layout">
     <div class="boss-stack">
-      <details class="boss-panel boss-panel-details">
-        <summary class="boss-panel-head boss-panel-toggle">
-          <h2 class="boss-panel-title">Bosses</h2>
-        </summary>
-        <div class="boss-panel-body">
-          <form class="boss-form-grid" id="bossForm">
-            <label class="boss-field">
-              <span class="boss-label">Boss</span>
-              <input class="boss-input" id="bossName" autocomplete="off" placeholder="Lotus">
-            </label>
-            <label class="boss-field">
-              <span class="boss-label">Party Size</span>
-              <input class="boss-input" id="bossParty" type="number" min="2" max="10" value="10">
-            </label>
-            <label class="boss-field">
-              <span class="boss-label">2% HP Fallback</span>
-              <input class="boss-input" id="bossValue" type="number" min="0" step="0.01" placeholder="15.81">
-            </label>
-            <button class="boss-btn primary" type="submit">Add Boss</button>
-          </form>
-          <div class="boss-list" id="bossList" style="margin-top:12px;"></div>
-        </div>
-      </details>
-
       <details class="boss-panel boss-section-details" open>
         <summary class="boss-panel-head boss-panel-toggle">
-          <h2 class="boss-panel-title">Backup</h2>
+          <h2 class="boss-panel-title">Schedule</h2>
+          <span class="boss-pill" id="validationTotal">0 warnings</span>
         </summary>
         <div class="boss-panel-body">
-          <label class="boss-field wide">
-            <span class="boss-label">Restore Code</span>
-            <textarea class="boss-textarea boss-backup-code" id="backupCode" spellcheck="false"></textarea>
-          </label>
-          <div class="boss-row-actions" style="margin-top:8px;">
-            <button class="boss-btn primary" type="button" id="restoreBtn">Restore</button>
-            <button class="boss-btn" type="button" id="copyCodeBtn">Copy Code</button>
-          </div>
-          <div class="boss-csv-tools">
-            <label class="boss-field wide">
-              <span class="boss-label">Roster CSV</span>
-              <textarea class="boss-textarea boss-csv-box" id="csvBox" spellcheck="false" placeholder="type,player,boss,qty,time,timezone,maxParty,note"></textarea>
-            </label>
-            <div class="boss-row-actions">
-              <button class="boss-btn primary" type="button" id="importCsvBtn">Import CSV</button>
-              <button class="boss-btn" type="button" id="exportCsvBtn">Export CSV</button>
-              <button class="boss-btn" type="button" id="copyCsvBtn">Copy CSV</button>
+          <div class="boss-row-actions" style="margin-bottom:10px;">
+            <select class="boss-select boss-filter" id="scheduleBossFilter" aria-label="Filter schedule boss">
+              <option value="all">All Bosses</option>
+            </select>
+            <div class="boss-tabs" role="tablist" aria-label="Schedule view">
+              <button class="boss-tab active" type="button" id="scheduleListTab" data-schedule-view="list">List</button>
+              <button class="boss-tab" type="button" id="scheduleEditTab" data-schedule-view="edit">Edit</button>
             </div>
+            <button class="boss-btn" type="button" id="addGroupBtn">Add Group</button>
+            <span class="boss-pill warn" id="unassignedTotal">0 unassigned</span>
           </div>
+          <div class="boss-validation-list" id="validationList"></div>
+          <div class="boss-schedule" id="scheduleList"></div>
+          <div id="unassignedList" style="margin-top:12px;"></div>
         </div>
       </details>
-    </div>
 
-    <div class="boss-stack">
       <details class="boss-panel boss-section-details" open>
         <summary class="boss-panel-head boss-panel-toggle">
           <h2 class="boss-panel-title">Needs</h2>
@@ -883,7 +853,7 @@ window.MSM_SITE = {
               <span class="boss-label">Bosses Needed</span>
               <div class="boss-table-wrap">
                 <table class="boss-matrix">
-                  <thead><tr><th>Boss</th><th>Qty</th><th>Value</th></tr></thead>
+                  <thead><tr><th>Boss</th><th>Qty</th></tr></thead>
                   <tbody id="needBossMatrix"></tbody>
                 </table>
               </div>
@@ -940,26 +910,54 @@ window.MSM_SITE = {
         </div>
       </details>
 
-      <details class="boss-panel boss-section-details" open>
+      <details class="boss-panel boss-panel-details">
         <summary class="boss-panel-head boss-panel-toggle">
-          <h2 class="boss-panel-title">Schedule</h2>
-          <span class="boss-pill" id="validationTotal">0 warnings</span>
+          <h2 class="boss-panel-title">Bosses</h2>
         </summary>
         <div class="boss-panel-body">
-          <div class="boss-row-actions" style="margin-bottom:10px;">
-            <select class="boss-select boss-filter" id="scheduleBossFilter" aria-label="Filter schedule boss">
-              <option value="all">All Bosses</option>
-            </select>
-            <div class="boss-tabs" role="tablist" aria-label="Schedule view">
-              <button class="boss-tab active" type="button" id="scheduleListTab" data-schedule-view="list">List</button>
-              <button class="boss-tab" type="button" id="scheduleEditTab" data-schedule-view="edit">Edit</button>
-            </div>
-            <button class="boss-btn" type="button" id="addGroupBtn">Add Group</button>
-            <span class="boss-pill warn" id="unassignedTotal">0 unassigned</span>
+          <form class="boss-form-grid" id="bossForm">
+            <label class="boss-field">
+              <span class="boss-label">Boss</span>
+              <input class="boss-input" id="bossName" autocomplete="off" placeholder="Lotus">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">Party Size</span>
+              <input class="boss-input" id="bossParty" type="number" min="2" max="10" value="10">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">2% HP Fallback</span>
+              <input class="boss-input" id="bossValue" type="number" min="0" step="0.01" placeholder="15.81">
+            </label>
+            <button class="boss-btn primary" type="submit">Add Boss</button>
+          </form>
+          <div class="boss-list" id="bossList" style="margin-top:12px;"></div>
+        </div>
+      </details>
+
+      <details class="boss-panel boss-section-details">
+        <summary class="boss-panel-head boss-panel-toggle">
+          <h2 class="boss-panel-title">Backup</h2>
+        </summary>
+        <div class="boss-panel-body">
+          <label class="boss-field wide">
+            <span class="boss-label">Restore Code</span>
+            <textarea class="boss-textarea boss-backup-code" id="backupCode" spellcheck="false"></textarea>
+          </label>
+          <div class="boss-row-actions" style="margin-top:8px;">
+            <button class="boss-btn primary" type="button" id="restoreBtn">Restore</button>
+            <button class="boss-btn" type="button" id="copyCodeBtn">Copy Code</button>
           </div>
-          <div class="boss-validation-list" id="validationList"></div>
-          <div class="boss-schedule" id="scheduleList"></div>
-          <div id="unassignedList" style="margin-top:12px;"></div>
+          <div class="boss-csv-tools">
+            <label class="boss-field wide">
+              <span class="boss-label">Roster CSV</span>
+              <textarea class="boss-textarea boss-csv-box" id="csvBox" spellcheck="false" placeholder="type,player,boss,qty,time,timezone,maxParty,note"></textarea>
+            </label>
+            <div class="boss-row-actions">
+              <button class="boss-btn primary" type="button" id="importCsvBtn">Import CSV</button>
+              <button class="boss-btn" type="button" id="exportCsvBtn">Export CSV</button>
+              <button class="boss-btn" type="button" id="copyCsvBtn">Copy CSV</button>
+            </div>
+          </div>
         </div>
       </details>
     </div>
@@ -1386,7 +1384,6 @@ window.MSM_SITE = {
           </label>
         </td>
         <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-need-qty="${boss.id}"></td>
-        <td>${formatValue(bossValueForParty(boss))}</td>
       </tr>
     `).join("");
   }
@@ -1845,13 +1842,39 @@ window.MSM_SITE = {
   }
 
   function playerColor(name) {
-    const colors = ["#2563eb", "#c026d3", "#16a34a", "#ea580c", "#0891b2", "#be123c", "#7c3aed", "#0f766e", "#b45309", "#4f46e5"];
+    const colors = [
+      "#1d4ed8", "#be123c", "#15803d", "#c2410c", "#7e22ce", "#0f766e",
+      "#a16207", "#4338ca", "#b91c1c", "#047857", "#0369a1", "#a21caf",
+      "#ca8a04", "#4d7c0f", "#c026d3", "#0e7490", "#dc2626", "#2563eb",
+      "#16a34a", "#ea580c", "#9333ea", "#0891b2", "#65a30d", "#e11d48"
+    ];
     const key = normalizePlayerName(name);
+    if (!key) return colors[0];
+    const players = allPlayerNames();
+    const index = players.indexOf(key);
+    const colorIndex = index >= 0 ? index : playerHash(key);
+    if (colorIndex < colors.length) return colors[colorIndex];
+    return `hsl(${Math.round((colorIndex * 137.508) % 360)}deg 78% 34%)`;
+  }
+
+  function playerHash(key) {
     let hash = 0;
     for (let i = 0; i < key.length; i += 1) {
       hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
     }
-    return colors[hash % colors.length];
+    return hash;
+  }
+
+  function allPlayerNames() {
+    return unique([
+      ...state.needs.map(need => normalizePlayerName(need.player)),
+      ...state.carries.map(carry => normalizePlayerName(carry.player)),
+      ...state.schedule.flatMap(group => [
+        normalizePlayerName(group.carry),
+        ...(group.players || []).map(normalizePlayerName)
+      ]),
+      ...state.unassigned.map(item => normalizePlayerName(item.player))
+    ]).sort((a, b) => playerHash(a) - playerHash(b) || a.localeCompare(b));
   }
 
   function unique(items) {
