@@ -6,6 +6,7 @@
 
   const defaultItems = [
     { id: "home", label: "Home", icon: "🏠", href: "index.html#home" },
+    { id: "bossing", label: "Boss Planner", icon: "🗓️", href: "boss-signups.html" },
     { id: "events", label: "Events", icon: "🎉", href: "index.html#events" },
     { id: "resets", label: "Resets", icon: "⏰", href: "index.html#resets" },
     { id: "guides", label: "Guides", icon: "🧭", href: "index.html#guides" },

@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boss Signup Planner - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+:root {
+  --boss-panel: rgba(255, 255, 255, 0.96);
+  --boss-panel-soft: rgba(248, 250, 252, 0.94);
+  --boss-ink: #182033;
+  --boss-muted: #667085;
+  --boss-line: rgba(148, 163, 184, 0.34);
+  --boss-accent: #6d28d9;
+  --boss-sky: #0ea5e9;
+  --boss-green: #16a34a;
+  --boss-warn: #f97316;
+  --boss-red: #dc2626;
+}
+
+body[data-theme="dark"] {
+  --boss-panel: rgba(15, 23, 42, 0.88);
+  --boss-panel-soft: rgba(30, 41, 59, 0.74);
+  --boss-ink: #e2e8f0;
+  --boss-muted: #a8b3c7;
+  --boss-line: rgba(148, 163, 184, 0.28);
+}
+
+.boss-page {
+  display: grid;
+  gap: 16px;
+}
+
+.boss-hero {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  color: #fff;
+  padding: 8px 2px 4px;
+}
+
+.boss-title {
+  margin: 0;
+  font-family: "Fredoka One", "Nunito", sans-serif;
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.boss-subtitle {
+  margin: 8px 0 0;
+  max-width: 720px;
+  color: #dbeafe;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.boss-actions,
+.boss-form-grid,
+.boss-row-actions,
+.boss-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.boss-tabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  background: var(--boss-panel-soft);
+}
+
+.boss-tab {
+  min-height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--boss-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 5px 10px;
+}
+
+.boss-tab.active {
+  background: var(--boss-panel);
+  color: var(--boss-ink);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+
+.boss-filter {
+  width: auto;
+  min-width: 128px;
+  min-height: 36px;
+  font-size: 13px;
+  padding: 7px 28px 7px 10px;
+}
+
+.boss-btn {
+  min-height: 38px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  background: var(--boss-panel);
+  color: var(--boss-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 8px 12px;
+}
+
+.boss-btn:hover {
+  border-color: var(--boss-accent);
+}
+
+.boss-btn.primary {
+  border-color: transparent;
+  background: linear-gradient(135deg, #8b5cf6, #0ea5e9);
+  color: #fff;
+}
+
+.boss-btn.danger {
+  color: var(--boss-red);
+}
+
+.boss-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.boss-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.boss-panel {
+  background: var(--boss-panel);
+  border: 1px solid var(--boss-line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(2, 6, 23, 0.16);
+  overflow: hidden;
+}
+
+.boss-panel-details {
+  display: block;
+}
+
+.boss-panel-details > summary {
+  list-style: none;
+}
+
+.boss-panel-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.boss-panel-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.boss-panel-toggle::after {
+  content: "Show";
+  min-width: 56px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  color: var(--boss-muted);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 7px 10px;
+  text-align: center;
+}
+
+.boss-panel-details[open] .boss-panel-toggle::after {
+  content: "Hide";
+}
+
+.boss-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--boss-line);
+}
+
+.boss-panel-title {
+  margin: 0;
+  color: var(--boss-ink);
+  font-family: "Fredoka One", "Nunito", sans-serif;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.boss-panel-body {
+  padding: 16px;
+}
+
+.boss-form-grid {
+  align-items: end;
+}
+
+.boss-field {
+  display: grid;
+  gap: 5px;
+  flex: 1 1 130px;
+}
+
+.boss-field.wide {
+  flex-basis: 100%;
+}
+
+.boss-label {
+  color: var(--boss-muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.boss-input,
+.boss-select,
+.boss-textarea {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  background: var(--boss-panel-soft);
+  color: var(--boss-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 8px 10px;
+}
+
+.boss-textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.boss-csv-tools {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--boss-line);
+}
+
+.boss-list {
+  display: grid;
+  gap: 8px;
+}
+
+.boss-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 86px auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  background: var(--boss-panel-soft);
+}
+
+.boss-item-main {
+  min-width: 0;
+}
+
+.boss-item-title {
+  color: var(--boss-ink);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.boss-item-meta {
+  margin-top: 2px;
+  color: var(--boss-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.boss-check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.boss-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  background: var(--boss-panel-soft);
+  color: var(--boss-ink);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.boss-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--boss-accent);
+}
+
+.boss-schedule {
+  display: grid;
+  gap: 10px;
+}
+
+.boss-carry-block {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--boss-line);
+}
+
+.boss-carry-block:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.boss-carry-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 28px;
+}
+
+.boss-carry-name {
+  color: var(--boss-ink);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.boss-carry-time {
+  color: var(--boss-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.boss-run-line {
+  display: grid;
+  grid-template-columns: minmax(116px, 1.05fr) 68px minmax(220px, 2.4fr) auto auto auto;
+  gap: 6px;
+  align-items: center;
+  min-height: 34px;
+}
+
+.boss-run-line.boss-run-list {
+  grid-template-columns: minmax(116px, 1.05fr) 68px minmax(220px, 2.4fr) auto;
+}
+
+.boss-run-line.completed {
+  background: rgba(22, 163, 74, 0.08);
+  border-radius: 8px;
+}
+
+.boss-run-line .boss-select,
+.boss-run-line .boss-input {
+  min-height: 32px;
+  border-radius: 8px;
+  font-size: 13px;
+  padding: 5px 7px;
+}
+
+.boss-seat-inline {
+  color: var(--boss-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.boss-run-players {
+  display: grid;
+  gap: 2px;
+}
+
+.boss-run-players.list-only {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.boss-player-strip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.boss-hp-inline {
+  flex: 0 0 auto;
+  border: 1px solid rgba(14, 165, 233, 0.24);
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--boss-sky);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 4px 7px;
+  white-space: nowrap;
+}
+
+.boss-name-chips {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+
+.boss-name-chip {
+  border: 1px solid color-mix(in srgb, var(--player-color), transparent 48%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--player-color), transparent 86%);
+  color: var(--player-color);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  padding: 4px 7px;
+}
+
+.boss-name-chip[draggable="true"] {
+  cursor: grab;
+}
+
+.boss-name-chip.dragging {
+  opacity: 0.5;
+}
+
+.boss-run-status {
+  color: var(--boss-green);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: right;
+}
+
+.boss-run-status.pending {
+  color: var(--boss-muted);
+}
+
+.boss-run-status.locked {
+  color: var(--boss-warn);
+}
+
+.boss-complete {
+  justify-content: center;
+  min-height: 32px;
+  padding: 5px 7px;
+  white-space: nowrap;
+}
+
+.boss-inline-details {
+  margin-top: 10px;
+  border-top: 1px solid var(--boss-line);
+  padding-top: 8px;
+}
+
+.boss-inline-details > summary {
+  align-items: center;
+  color: var(--boss-muted);
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  font-weight: 900;
+  gap: 6px;
+  list-style: none;
+}
+
+.boss-inline-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.boss-inline-details > summary::before {
+  content: "Show";
+  border: 1px solid var(--boss-line);
+  border-radius: 999px;
+  color: var(--boss-muted);
+  font-size: 11px;
+  padding: 2px 7px;
+}
+
+.boss-inline-details[open] > summary::before {
+  content: "Hide";
+}
+
+.boss-table-wrap {
+  overflow-x: auto;
+}
+
+.boss-matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  min-width: 420px;
+}
+
+.boss-matrix th,
+.boss-matrix td {
+  color: var(--boss-ink);
+  font-size: 13px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.boss-matrix th {
+  color: var(--boss-muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.boss-matrix tbody tr {
+  background: var(--boss-panel-soft);
+}
+
+.boss-matrix tbody td {
+  border-bottom: 1px solid var(--boss-line);
+  border-top: 1px solid var(--boss-line);
+  padding: 7px 9px;
+}
+
+.boss-matrix tbody td:first-child {
+  border-left: 1px solid var(--boss-line);
+  border-radius: 10px 0 0 10px;
+}
+
+.boss-matrix tbody td:last-child {
+  border-right: 1px solid var(--boss-line);
+  border-radius: 0 10px 10px 0;
+}
+
+.boss-matrix-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+}
+
+.boss-matrix-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--boss-accent);
+}
+
+.boss-number {
+  max-width: 74px;
+  min-height: 34px;
+  padding: 6px 8px;
+}
+
+.boss-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+
+.boss-table th,
+.boss-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--boss-line);
+  color: var(--boss-ink);
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.boss-table th {
+  color: var(--boss-muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.boss-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.12);
+  color: var(--boss-sky);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 3px 8px;
+}
+
+.boss-pill.green {
+  background: rgba(22, 163, 74, 0.13);
+  color: var(--boss-green);
+}
+
+.boss-pill.warn {
+  background: rgba(249, 115, 22, 0.13);
+  color: var(--boss-warn);
+}
+
+.boss-pill.danger {
+  background: rgba(220, 38, 38, 0.12);
+  color: var(--boss-red);
+}
+
+.boss-backup-code {
+  min-height: 92px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.boss-csv-box {
+  min-height: 116px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.boss-empty {
+  padding: 18px;
+  border: 1px dashed var(--boss-line);
+  border-radius: 10px;
+  color: var(--boss-muted);
+  font-weight: 800;
+  text-align: center;
+}
+
+.boss-validation-list {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.boss-validation-item {
+  border: 1px solid rgba(249, 115, 22, 0.26);
+  border-radius: 8px;
+  background: rgba(249, 115, 22, 0.08);
+  color: var(--boss-ink);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.35;
+  padding: 8px 10px;
+}
+
+.boss-validation-item.danger {
+  border-color: rgba(220, 38, 38, 0.25);
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.boss-validation-item span {
+  color: var(--boss-muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.boss-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.boss-count {
+  padding: 10px;
+  border: 1px solid var(--boss-line);
+  border-radius: 10px;
+  background: var(--boss-panel-soft);
+}
+
+.boss-count strong {
+  display: block;
+  color: var(--boss-ink);
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.boss-count span {
+  color: var(--boss-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+@media (max-width: 980px) {
+  .boss-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .boss-hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .boss-actions .boss-btn {
+    flex: 1 1 140px;
+  }
+
+  .boss-carry-line {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .boss-run-line {
+    grid-template-columns: minmax(96px, 1.1fr) 60px;
+  }
+
+  .boss-run-players,
+  .boss-run-status,
+  .boss-run-line .boss-complete,
+  .boss-run-line .boss-lock,
+  .boss-run-line .boss-btn {
+    grid-column: 1 / -1;
+  }
+
+  .boss-run-status {
+    text-align: left;
+  }
+}
+</style>
+</head>
+<body data-nav-active="bossing">
+<script>
+window.MSM_SITE = {
+  active: "bossing",
+  navItems: [
+    { id: "home", label: "Home", icon: "🏠", href: "index.html#home" },
+    { id: "bossing", label: "Boss Planner", icon: "🗓️", href: "boss-signups.html" },
+    { id: "resets", label: "Resets", icon: "⏰", href: "index.html#resets" },
+    { id: "events", label: "Events", icon: "🎉", href: "index.html#events" },
+    { id: "guides", label: "Guides", icon: "🧭", href: "index.html#guides" },
+    { id: "dmg", label: "DMG Calculator", icon: "💥", href: "index.html#dmg" },
+    { id: "mdc", label: "MDC Checker", icon: "🎯", href: "index.html#mdc" },
+    { id: "meso", label: "Meso/hr", icon: "💰", href: "index.html#meso" },
+    { id: "links", label: "Links", icon: "🔗", href: "index.html#links" }
+  ]
+};
+</script>
+<div id="site-nav"></div>
+
+<main class="msm-page msm-page-wide boss-page">
+  <section class="boss-hero">
+    <div>
+      <h1 class="boss-title">Boss Signup Planner</h1>
+      <p class="boss-subtitle">Build weekly carry groups from local signups, then share the board with a restore code or URL.</p>
+    </div>
+    <div class="boss-actions">
+      <button class="boss-btn primary" type="button" id="autoAssignBtn">Generate Teams</button>
+      <button class="boss-btn" type="button" id="copyLinkBtn">Copy Link</button>
+      <button class="boss-btn" type="button" id="exportBtn">Export Code</button>
+      <button class="boss-btn danger" type="button" id="resetBtn">New Week</button>
+    </div>
+  </section>
+
+  <section class="boss-panel">
+    <div class="boss-panel-body">
+      <div class="boss-counts" id="summaryCounts"></div>
+    </div>
+  </section>
+
+  <div class="boss-layout">
+    <div class="boss-stack">
+      <details class="boss-panel boss-panel-details">
+        <summary class="boss-panel-head boss-panel-toggle">
+          <h2 class="boss-panel-title">Bosses</h2>
+        </summary>
+        <div class="boss-panel-body">
+          <form class="boss-form-grid" id="bossForm">
+            <label class="boss-field">
+              <span class="boss-label">Boss</span>
+              <input class="boss-input" id="bossName" autocomplete="off" placeholder="Lotus">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">Party Size</span>
+              <input class="boss-input" id="bossParty" type="number" min="2" max="10" value="10">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">2% HP Fallback</span>
+              <input class="boss-input" id="bossValue" type="number" min="0" step="0.01" placeholder="15.81">
+            </label>
+            <button class="boss-btn primary" type="submit">Add Boss</button>
+          </form>
+          <div class="boss-list" id="bossList" style="margin-top:12px;"></div>
+        </div>
+      </details>
+
+      <section class="boss-panel">
+        <div class="boss-panel-head">
+          <h2 class="boss-panel-title">Backup</h2>
+        </div>
+        <div class="boss-panel-body">
+          <label class="boss-field wide">
+            <span class="boss-label">Restore Code</span>
+            <textarea class="boss-textarea boss-backup-code" id="backupCode" spellcheck="false"></textarea>
+          </label>
+          <div class="boss-row-actions" style="margin-top:8px;">
+            <button class="boss-btn primary" type="button" id="restoreBtn">Restore</button>
+            <button class="boss-btn" type="button" id="copyCodeBtn">Copy Code</button>
+          </div>
+          <div class="boss-csv-tools">
+            <label class="boss-field wide">
+              <span class="boss-label">Roster CSV</span>
+              <textarea class="boss-textarea boss-csv-box" id="csvBox" spellcheck="false" placeholder="type,player,boss,qty,time,timezone,maxParty,note"></textarea>
+            </label>
+            <div class="boss-row-actions">
+              <button class="boss-btn primary" type="button" id="importCsvBtn">Import CSV</button>
+              <button class="boss-btn" type="button" id="exportCsvBtn">Export CSV</button>
+              <button class="boss-btn" type="button" id="copyCsvBtn">Copy CSV</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="boss-stack">
+      <section class="boss-panel">
+        <div class="boss-panel-head">
+          <h2 class="boss-panel-title">Needs</h2>
+          <span class="boss-pill" id="needTotal">0 clears</span>
+        </div>
+        <div class="boss-panel-body">
+          <form class="boss-form-grid" id="needForm">
+            <label class="boss-field">
+              <span class="boss-label">Player</span>
+              <input class="boss-input" id="needPlayer" autocomplete="off" placeholder="IGN">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">Note</span>
+              <input class="boss-input" id="needNote" autocomplete="off" placeholder="optional">
+            </label>
+            <div class="boss-field wide">
+              <span class="boss-label">Bosses Needed</span>
+              <div class="boss-table-wrap">
+                <table class="boss-matrix">
+                  <thead><tr><th>Boss</th><th>Qty</th><th>Value</th></tr></thead>
+                  <tbody id="needBossMatrix"></tbody>
+                </table>
+              </div>
+            </div>
+            <button class="boss-btn primary" type="submit">Add Needs</button>
+          </form>
+          <details class="boss-inline-details">
+            <summary>Player list</summary>
+            <div class="boss-table-wrap" style="margin-top:8px;">
+              <table class="boss-table">
+                <thead><tr><th>Player</th><th>Boss</th><th>Qty</th><th>Note</th><th></th></tr></thead>
+                <tbody id="needRows"></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="boss-panel">
+        <div class="boss-panel-head">
+          <h2 class="boss-panel-title">Carries</h2>
+          <span class="boss-pill green" id="carryTotal">0 runs</span>
+        </div>
+        <div class="boss-panel-body">
+          <form class="boss-form-grid" id="carryForm">
+            <label class="boss-field">
+              <span class="boss-label">Carry</span>
+              <input class="boss-input" id="carryPlayer" autocomplete="off" placeholder="IGN">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">Time Slot</span>
+              <input class="boss-input" id="carryDateTime" type="datetime-local">
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">Time Zone</span>
+              <select class="boss-select" id="carryTimezone"></select>
+            </label>
+            <label class="boss-field">
+              <span class="boss-label">Max Party</span>
+              <input class="boss-input" id="carryMaxParty" type="number" min="2" max="10" value="10">
+            </label>
+            <div class="boss-field wide">
+              <span class="boss-label">Bosses Available To Carry</span>
+              <div class="boss-table-wrap">
+                <table class="boss-matrix">
+                  <thead><tr><th>Boss</th><th>Runs</th><th>Boss Max</th></tr></thead>
+                  <tbody id="carryBossMatrix"></tbody>
+                </table>
+              </div>
+            </div>
+            <button class="boss-btn primary" type="submit">Add Carries</button>
+          </form>
+          <details class="boss-inline-details">
+            <summary>Carry list</summary>
+            <div class="boss-table-wrap" style="margin-top:8px;">
+              <table class="boss-table">
+                <thead><tr><th>Carry</th><th>Time</th><th>Bosses</th><th>Runs</th><th>Party</th><th></th></tr></thead>
+                <tbody id="carryRows"></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="boss-panel">
+        <div class="boss-panel-head">
+          <h2 class="boss-panel-title">Schedule</h2>
+          <div class="boss-row-actions">
+            <select class="boss-select boss-filter" id="scheduleBossFilter" aria-label="Filter schedule boss">
+              <option value="all">All Bosses</option>
+            </select>
+            <div class="boss-tabs" role="tablist" aria-label="Schedule view">
+              <button class="boss-tab active" type="button" id="scheduleListTab" data-schedule-view="list">List</button>
+              <button class="boss-tab" type="button" id="scheduleEditTab" data-schedule-view="edit">Edit</button>
+            </div>
+            <button class="boss-btn" type="button" id="addGroupBtn">Add Group</button>
+            <span class="boss-pill" id="validationTotal">0 warnings</span>
+            <span class="boss-pill warn" id="unassignedTotal">0 unassigned</span>
+          </div>
+        </div>
+        <div class="boss-panel-body">
+          <div class="boss-validation-list" id="validationList"></div>
+          <div class="boss-schedule" id="scheduleList"></div>
+          <div id="unassignedList" style="margin-top:12px;"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/site-nav.js"></script>
+<script>
+(function () {
+  const storageKey = "msm_boss_signup_beta_v1";
+  const bossHpById = {
+    arkarium: { 2: 4.74, 3: 6.63, 4: 8.53, 5: 10.42, 6: 12.13, 7: 13.83, 8: 15.54, 9: 17.06, 10: 18.95 },
+    "normal-archon": { 2: 13.04, 3: 18.25, 4: 23.46, 5: 28.68, 6: 33.37, 7: 38.06, 8: 42.75, 9: 46.93, 10: 52.14 },
+    lotus: { 2: 15.81, 3: 22.13, 4: 28.46, 5: 34.78, 6: 40.47, 7: 46.17, 8: 51.86, 9: 56.92, 10: 63.24 },
+    damien: { 2: 22.82, 3: 31.94, 4: 41.07, 5: 50.19, 6: 58.41, 7: 66.62, 8: 74.83, 9: 82.13, 10: 91.26 },
+    lucid: { 2: 25.23, 3: 35.32, 4: 45.41, 5: 55.5, 6: 64.58, 7: 73.66, 8: 82.74, 9: 90.81, 10: 100.9 },
+    "hard-lucid": { 2: 25.23, 3: 35.32, 4: 45.41, 5: 55.5, 6: 64.58, 7: 73.66, 8: 82.74, 9: 90.81, 10: 100.9 },
+    gloom: { 2: 71.82, 3: 100.55, 4: 129.28, 5: 158, 6: 183.86, 7: 209.71, 8: 235.57, 9: 258.55, 10: 287.28 },
+    harchon: { 2: 95.72, 3: 134, 4: 172.29, 5: 210.57, 6: 245.03, 7: 279.49, 8: 313.95, 9: 344.57, 10: 382.86 },
+    "hard-archon": { 2: 95.72, 3: 134, 4: 172.29, 5: 210.57, 6: 245.03, 7: 279.49, 8: 313.95, 9: 344.57, 10: 382.86 },
+    will: { 2: 125.2, 3: 175.5, 4: 225.4, 5: 275.5, 6: 320.6, 7: 365.7, 8: 410.8, 9: 450.9, 10: 500.98 },
+    "normal-azazelle": { 2: 211.2, 3: 295.68, 4: 380.16, 5: 464.64, 6: 540.67, 7: 616.7, 8: 692.74, 9: 760.32, 10: 844.8 },
+    "normal-verus-hilla": { 2: 271.17, 3: 379.63, 4: 488.1, 5: 596.56, 6: 694.18, 7: 791.8, 8: 889.42, 9: 976.19, 10: 1084.66 },
+    "hard-verus-hilla": { 2: 362, 3: 506.8, 4: 651.6, 5: 796.4, 6: 926.72, 7: 1057.04, 8: 1187.36, 9: 1303.2, 10: 1448 },
+    "chaos-lucid": { 2: 494.5, 3: 692.3, 4: 890.1, 5: 1087.9, 6: 1265.92, 7: 1443.94, 8: 1621.96, 9: 1780.2, 10: 1978 },
+    "hard-azazelle": { 2: 704.75, 3: 986.65, 4: 1268.55, 5: 1550.45, 6: 1804.16, 7: 2057.87, 8: 2311.58, 9: 2537.1, 10: 2819 },
+    darknell: { 10: 5685.4 },
+    "black-mage": { 10: 16232.8 }
+  };
+  const defaults = {
+    bosses: [
+      { id: "lotus", name: "Lotus", partySize: 10, value: 63.24 },
+      { id: "damien", name: "Damien", partySize: 10, value: 91.26 },
+      { id: "lucid", name: "Lucid", partySize: 10, value: 100.9 },
+      { id: "gloom", name: "Gloom", partySize: 10, value: 287.28 },
+      { id: "harchon", name: "HArchon", partySize: 10, value: 382.86 },
+      { id: "will", name: "Will", partySize: 10, value: 500.98 }
+    ],
+    needs: [],
+    carries: [],
+    schedule: [],
+    unassigned: []
+  };
+
+  let state = loadState();
+  let scheduleView = "list";
+  let scheduleBossFilter = "all";
+
+  const $ = selector => document.querySelector(selector);
+  const els = {
+    bossForm: $("#bossForm"),
+    bossName: $("#bossName"),
+    bossParty: $("#bossParty"),
+    bossValue: $("#bossValue"),
+    bossList: $("#bossList"),
+    needForm: $("#needForm"),
+    needPlayer: $("#needPlayer"),
+    needNote: $("#needNote"),
+    needBossMatrix: $("#needBossMatrix"),
+    needRows: $("#needRows"),
+    needTotal: $("#needTotal"),
+    carryForm: $("#carryForm"),
+    carryPlayer: $("#carryPlayer"),
+    carryDateTime: $("#carryDateTime"),
+    carryTimezone: $("#carryTimezone"),
+    carryMaxParty: $("#carryMaxParty"),
+    carryBossMatrix: $("#carryBossMatrix"),
+    carryRows: $("#carryRows"),
+    carryTotal: $("#carryTotal"),
+    scheduleList: $("#scheduleList"),
+    scheduleBossFilter: $("#scheduleBossFilter"),
+    scheduleListTab: $("#scheduleListTab"),
+    scheduleEditTab: $("#scheduleEditTab"),
+    validationList: $("#validationList"),
+    validationTotal: $("#validationTotal"),
+    unassignedList: $("#unassignedList"),
+    unassignedTotal: $("#unassignedTotal"),
+    backupCode: $("#backupCode"),
+    csvBox: $("#csvBox"),
+    summaryCounts: $("#summaryCounts")
+  };
+
+  function uid(prefix) {
+    return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
+  function slug(text) {
+    return text.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || uid("boss");
+  }
+
+  function cleanState(input) {
+    const next = Object.assign({}, defaults, input || {});
+    next.bosses = Array.isArray(next.bosses) && next.bosses.length ? next.bosses : defaults.bosses;
+    const defaultBossIds = new Set(defaults.bosses.map(boss => boss.id));
+    next.bosses = next.bosses.map(boss => ({
+      ...boss,
+      hpTable: bossHpTableFor(boss),
+      partySize: defaultBossIds.has(boss.id) && Number(boss.partySize) === 6 ? 10 : (Number(boss.partySize) || 10)
+    }));
+    next.needs = Array.isArray(next.needs) ? next.needs : [];
+    next.carries = Array.isArray(next.carries) ? next.carries.map(carry => ({
+      ...carry,
+      maxPartySize: maxPartySize(carry.maxPartySize)
+    })) : [];
+    next.schedule = Array.isArray(next.schedule) ? next.schedule.map(group => {
+      const boss = next.bosses.find(item => item.id === group.bossId);
+      return {
+        ...group,
+        locked: Boolean(group.locked),
+        maxPartySize: maxPartySize(group.maxPartySize, partySize(boss || {}))
+      };
+    }) : [];
+    next.unassigned = Array.isArray(next.unassigned) ? next.unassigned : [];
+    return next;
+  }
+
+  function loadState() {
+    const hashData = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("data");
+    if (hashData) {
+      try {
+        const restored = decode(hashData);
+        localStorage.setItem(storageKey, JSON.stringify(restored));
+        return cleanState(restored);
+      } catch (error) {
+        console.warn("Unable to restore URL state", error);
+      }
+    }
+
+    try {
+      return cleanState(JSON.parse(localStorage.getItem(storageKey)));
+    } catch (error) {
+      return cleanState();
+    }
+  }
+
+  function save() {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    els.backupCode.value = encode(state);
+  }
+
+  function encode(value) {
+    const json = JSON.stringify(value);
+    return btoa(unescape(encodeURIComponent(json))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+
+  function decode(code) {
+    const padded = code.trim().replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(code.trim().length / 4) * 4, "=");
+    return JSON.parse(decodeURIComponent(escape(atob(padded))));
+  }
+
+  function bossName(id) {
+    return (state.bosses.find(boss => boss.id === id) || {}).name || "Unknown";
+  }
+
+  function bossById(id) {
+    return state.bosses.find(boss => boss.id === id);
+  }
+
+  function bossHpTableFor(boss) {
+    return bossHpById[boss.id] || bossHpById[normalizeBossId(boss.name)] || boss.hpTable || null;
+  }
+
+  function normalizeBossId(name) {
+    return slug(String(name || "").replace(/\(n\/h\)/i, "").replace(/^hard\s+/i, "hard-"));
+  }
+
+  function partySize(boss) {
+    return Math.min(Math.max(Number(boss.partySize) || 10, 2), 10);
+  }
+
+  function maxPartySize(value, fallback = 10) {
+    return Math.min(Math.max(Number(value) || fallback, 2), 10);
+  }
+
+  function groupMaxParty(group) {
+    const boss = bossById(group.bossId);
+    return Math.min(partySize(boss || {}), maxPartySize(group.maxPartySize, partySize(boss || {})));
+  }
+
+  function bossValueForParty(boss) {
+    const table = bossHpTableFor(boss);
+    const size = partySize(boss);
+    return table && table[size] != null ? table[size] : Number(boss.value || 0);
+  }
+
+  function formatValue(value) {
+    return value == null || Number.isNaN(Number(value)) ? "-" : Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+
+  function render() {
+    renderBosses();
+    renderTimezones();
+    renderNeedMatrix();
+    renderCarryMatrix();
+    renderNeeds();
+    renderCarries();
+    renderSchedule();
+    renderValidation();
+    renderSummary();
+    save();
+  }
+
+  function renderBosses() {
+    els.bossList.innerHTML = state.bosses.map(boss => `
+      <div class="boss-item">
+        <div class="boss-item-main">
+          <div class="boss-item-title">${escapeHtml(boss.name)}</div>
+          <div class="boss-item-meta">2% HP ${formatValue(bossValueForParty(boss))} at party ${partySize(boss)}</div>
+        </div>
+        <label class="boss-field" style="max-width:86px;">
+          <span class="boss-label">Party</span>
+          <input class="boss-input boss-number" type="number" min="2" max="10" value="${partySize(boss)}" data-boss-party="${escapeAttr(boss.id)}">
+        </label>
+        <button class="boss-btn danger" type="button" data-remove-boss="${boss.id}">Remove</button>
+      </div>
+    `).join("");
+  }
+
+  function renderNeedMatrix() {
+    els.needBossMatrix.innerHTML = state.bosses.map(boss => `
+      <tr>
+        <td>
+          <label class="boss-matrix-check">
+            <input type="checkbox" value="${boss.id}" data-need-boss>
+            <span>${escapeHtml(boss.name)}</span>
+          </label>
+        </td>
+        <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-need-qty="${boss.id}"></td>
+        <td>${formatValue(bossValueForParty(boss))}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderCarryMatrix() {
+    els.carryBossMatrix.innerHTML = state.bosses.map(boss => `
+      <tr>
+        <td>
+          <label class="boss-matrix-check">
+            <input type="checkbox" value="${boss.id}" data-carry-boss>
+            <span>${escapeHtml(boss.name)}</span>
+          </label>
+        </td>
+        <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-carry-runs="${boss.id}"></td>
+        <td>${partySize(boss)}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderTimezones() {
+    if (els.carryTimezone.dataset.ready) return;
+    const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Toronto";
+    const zones = unique([
+      localZone,
+      "America/Toronto",
+      "America/New_York",
+      "America/Chicago",
+      "America/Denver",
+      "America/Los_Angeles",
+      "UTC"
+    ]);
+    els.carryTimezone.innerHTML = zones.map(zone => `<option value="${escapeAttr(zone)}">${escapeHtml(zoneLabel(zone))}</option>`).join("");
+    els.carryTimezone.value = localZone;
+    els.carryTimezone.dataset.ready = "true";
+  }
+
+  function renderNeeds() {
+    const sortedNeeds = [...state.needs].sort((a, b) => (
+      a.player.localeCompare(b.player) ||
+      bossName(a.bossId).localeCompare(bossName(b.bossId))
+    ));
+    els.needRows.innerHTML = sortedNeeds.map(need => `
+      <tr>
+        <td>${escapeHtml(need.player)}</td>
+        <td>${escapeHtml(bossName(need.bossId))}</td>
+        <td>${Number(need.qty) || 1}</td>
+        <td>${escapeHtml(need.note || "")}</td>
+        <td><button class="boss-btn danger" type="button" data-remove-need="${need.id}">Remove</button></td>
+      </tr>
+    `).join("") || `<tr><td colspan="5"><div class="boss-empty">No needs yet.</div></td></tr>`;
+
+    const total = state.needs.reduce((sum, need) => sum + (Number(need.qty) || 0), 0);
+    els.needTotal.textContent = `${total} clear${total === 1 ? "" : "s"}`;
+  }
+
+  function renderCarries() {
+    els.carryRows.innerHTML = state.carries.map(carry => `
+      <tr>
+        <td>${escapeHtml(carry.player)}</td>
+        <td>${escapeHtml(carry.time || "Anytime")}</td>
+        <td>${carry.bossIds.map(id => `<span class="boss-pill">${escapeHtml(bossName(id))}</span>`).join(" ")}</td>
+        <td>${Number(carry.runsEach) || 1}</td>
+        <td>${maxPartySize(carry.maxPartySize)}</td>
+        <td><button class="boss-btn danger" type="button" data-remove-carry="${carry.id}">Remove</button></td>
+      </tr>
+    `).join("") || `<tr><td colspan="6"><div class="boss-empty">No carries yet.</div></td></tr>`;
+
+    const total = state.carries.reduce((sum, carry) => sum + ((Number(carry.runsEach) || 1) * carry.bossIds.length), 0);
+    els.carryTotal.textContent = `${total} run${total === 1 ? "" : "s"}`;
+  }
+
+  function renderSchedule() {
+    els.scheduleListTab.classList.toggle("active", scheduleView === "list");
+    els.scheduleEditTab.classList.toggle("active", scheduleView === "edit");
+    renderScheduleBossFilter();
+    const groups = groupScheduleByCarry();
+    els.scheduleList.innerHTML = groups.map(carryGroup => `
+      <section class="boss-carry-block">
+        <div class="boss-carry-line">
+          <div class="boss-carry-name">${escapeHtml(carryGroup.carry)}</div>
+          <div class="boss-carry-time">${escapeHtml(carryGroup.time)}</div>
+        </div>
+        ${carryGroup.rows.map(row => scheduleView === "edit" ? renderScheduleEditRow(row) : renderScheduleListRow(row)).join("")}
+      </section>
+    `).join("") || `<div class="boss-empty">No schedule generated yet.</div>`;
+
+    const filteredUnassigned = filteredScheduleRows(state.unassigned);
+    els.unassignedList.innerHTML = filteredUnassigned.length ? `
+      <div class="boss-empty">
+        <strong>Unassigned:</strong>
+        ${filteredUnassigned.map(item => `${escapeHtml(item.player)} (${escapeHtml(bossName(item.bossId))})`).join(", ")}
+      </div>
+    ` : "";
+    els.unassignedTotal.textContent = scheduleBossFilter === "all"
+      ? `${state.unassigned.length} unassigned`
+      : `${filteredUnassigned.length}/${state.unassigned.length} unassigned`;
+  }
+
+  function renderValidation() {
+    const warnings = validationWarnings();
+    els.validationTotal.textContent = `${warnings.length} warning${warnings.length === 1 ? "" : "s"}`;
+    els.validationTotal.classList.toggle("danger", warnings.some(warning => warning.level === "danger"));
+    els.validationTotal.classList.toggle("warn", warnings.length > 0 && !warnings.some(warning => warning.level === "danger"));
+    els.validationList.innerHTML = warnings.map(warning => `
+      <div class="boss-validation-item ${warning.level === "danger" ? "danger" : ""}">
+        ${escapeHtml(warning.title)}
+        <span>${escapeHtml(warning.detail)}</span>
+      </div>
+    `).join("");
+  }
+
+  function validationWarnings() {
+    const warnings = [];
+    const scheduledByTime = {};
+    state.schedule.forEach(group => {
+      const players = group.players || [];
+      const label = scheduleGroupLabel(group);
+      const capacity = slotPlayerCapacity(group);
+      if (!players.length) {
+        warnings.push({
+          level: "warn",
+          title: "Empty party",
+          detail: `${label} has no assigned players.`
+        });
+      }
+      if (players.length > capacity) {
+        warnings.push({
+          level: "danger",
+          title: "Over party cap",
+          detail: `${label} has ${players.length}/${capacity} players plus carry.`
+        });
+      }
+      const carryName = normalizePlayerName(group.carry);
+      if (carryName && players.some(player => normalizePlayerName(player) === carryName)) {
+        warnings.push({
+          level: "danger",
+          title: "Self-carry",
+          detail: `${group.carry} is assigned as a player in their own ${bossName(group.bossId)} run.`
+        });
+      }
+      const seenInGroup = {};
+      players.forEach(player => {
+        const key = normalizePlayerName(player);
+        if (!key) return;
+        seenInGroup[key] = (seenInGroup[key] || 0) + 1;
+      });
+      Object.entries(seenInGroup).forEach(([key, count]) => {
+        if (count < 2) return;
+        warnings.push({
+          level: "danger",
+          title: "Duplicate player in run",
+          detail: `${displayPlayerName(key, players)} appears ${count} times in ${label}.`
+        });
+      });
+      if (String(group.time || "Anytime") !== "Anytime") {
+        players.forEach(player => {
+          const key = `${normalizePlayerName(player)}\u0000${group.time}`;
+          if (!normalizePlayerName(player)) return;
+          scheduledByTime[key] = scheduledByTime[key] || { player, time: group.time, groups: [] };
+          scheduledByTime[key].groups.push(label);
+        });
+      }
+    });
+    Object.values(scheduledByTime).forEach(item => {
+      if (item.groups.length < 2) return;
+      warnings.push({
+        level: "warn",
+        title: "Player time conflict",
+        detail: `${item.player} is scheduled ${item.groups.length} times at ${item.time}.`
+      });
+    });
+
+    const needsByPlayerBoss = {};
+    state.needs.forEach(need => {
+      const key = playerBossKey(need.player, need.bossId);
+      needsByPlayerBoss[key] = needsByPlayerBoss[key] || { player: need.player, bossId: need.bossId, rows: 0 };
+      needsByPlayerBoss[key].rows += 1;
+    });
+    Object.values(needsByPlayerBoss).forEach(item => {
+      if (item.rows < 2) return;
+      warnings.push({
+        level: "warn",
+        title: "Duplicate roster need",
+        detail: `${item.player} has ${item.rows} separate ${bossName(item.bossId)} need rows.`
+      });
+    });
+    return warnings;
+  }
+
+  function scheduleGroupLabel(group) {
+    return `${group.carry || "Manual"} / ${bossName(group.bossId)} / ${group.time || "Anytime"}`;
+  }
+
+  function displayPlayerName(normalizedName, players) {
+    return players.find(player => normalizePlayerName(player) === normalizedName) || normalizedName;
+  }
+
+  function renderScheduleBossFilter() {
+    const currentValue = state.bosses.some(boss => boss.id === scheduleBossFilter) ? scheduleBossFilter : "all";
+    scheduleBossFilter = currentValue;
+    els.scheduleBossFilter.innerHTML = [
+      `<option value="all">All Bosses</option>`,
+      ...state.bosses.map(boss => `<option value="${escapeAttr(boss.id)}" ${boss.id === currentValue ? "selected" : ""}>${escapeHtml(boss.name)}</option>`)
+    ].join("");
+  }
+
+  function filteredScheduleRows(rows) {
+    if (scheduleBossFilter === "all") return rows;
+    return rows.filter(row => row.bossId === scheduleBossFilter);
+  }
+
+  function renderScheduleListRow({ group }) {
+    const boss = bossById(group.bossId) || {};
+    const partyCap = groupMaxParty(group);
+    const assignedPlayers = group.players || [];
+    const statusText = [group.locked ? "Locked" : "", group.completed ? "Done" : ""].filter(Boolean).join(" / ");
+    const statusClass = group.locked ? "locked" : (group.completed ? "" : "pending");
+    return `
+      <div class="boss-run-line boss-run-list ${group.completed ? "completed" : ""}">
+        <div class="boss-carry-name">${escapeHtml(boss.name || "Unknown")}</div>
+        <div class="boss-seat-inline">Party ${partyCap}</div>
+        <div class="boss-run-players list-only">
+          <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: partyCap }))}</span>
+          <div class="boss-name-chips">${playerChips(assignedPlayers) || `<span class="boss-carry-time">Open</span>`}</div>
+        </div>
+        <div class="boss-run-status ${statusClass}">${statusText}</div>
+      </div>
+    `;
+  }
+
+  function renderScheduleEditRow({ group, index }) {
+    const boss = bossById(group.bossId) || {};
+    const bossOptions = state.bosses.map(item => `<option value="${item.id}" ${item.id === group.bossId ? "selected" : ""}>${escapeHtml(item.name)}</option>`).join("");
+    const partyCap = groupMaxParty(group);
+    const assignedPlayers = group.players || [];
+    const playerCapacity = slotPlayerCapacity(group);
+    return `
+      <div class="boss-run-line ${group.completed ? "completed" : ""}">
+        <select class="boss-select" data-schedule-field="bossId" data-schedule-index="${index}" aria-label="Boss">${bossOptions}</select>
+        <input class="boss-input boss-number" type="number" min="2" max="10" value="${partyCap}" data-schedule-field="maxPartySize" data-schedule-index="${index}" aria-label="Party size">
+        <div class="boss-run-players">
+          <div class="boss-player-strip">
+            <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: partyCap }))}</span>
+            <div class="boss-name-chips">${playerChips(assignedPlayers, index) || `<span class="boss-carry-time">Open</span>`}</div>
+          </div>
+          <input class="boss-input" value="${escapeAttr(assignedPlayers.join(", "))}" data-schedule-field="players" data-schedule-index="${index}" aria-label="Assigned players">
+          <span class="boss-seat-inline">${assignedPlayers.length}/${playerCapacity} players + carry</span>
+        </div>
+        <label class="boss-check boss-complete">
+          <input type="checkbox" data-schedule-field="completed" data-schedule-index="${index}" ${group.completed ? "checked" : ""}>
+          <span>Done</span>
+        </label>
+        <label class="boss-check boss-lock">
+          <input type="checkbox" data-schedule-field="locked" data-schedule-index="${index}" ${group.locked ? "checked" : ""}>
+          <span>Lock</span>
+        </label>
+        <button class="boss-btn danger" type="button" data-remove-group="${index}">Remove</button>
+      </div>
+    `;
+  }
+
+  function playerChips(players, scheduleIndex = null) {
+    return players.map((player, playerIndex) => `
+      <span class="boss-name-chip" style="--player-color:${playerColor(player)}" ${scheduleIndex == null ? "" : `draggable="true" data-drag-group="${scheduleIndex}" data-drag-player="${playerIndex}" title="Drag to reorder"`}>${escapeHtml(player)}</span>
+    `).join("");
+  }
+
+  function groupScheduleByCarry() {
+    const groups = [];
+    const byKey = new Map();
+    state.schedule.forEach((group, index) => {
+      if (scheduleBossFilter !== "all" && group.bossId !== scheduleBossFilter) return;
+      const key = `${group.carry || "Manual"}\u0000${group.time || "Anytime"}`;
+      if (!byKey.has(key)) {
+        byKey.set(key, {
+          carry: group.carry || "Manual",
+          time: group.time || "Anytime",
+          rows: []
+        });
+        groups.push(byKey.get(key));
+      }
+      byKey.get(key).rows.push({ group, index });
+    });
+    return groups;
+  }
+
+  function renderSummary() {
+    const needsByBoss = countByBoss(state.needs, "qty");
+    const carryRunsByBoss = {};
+    state.carries.forEach(carry => {
+      carry.bossIds.forEach(id => {
+        carryRunsByBoss[id] = (carryRunsByBoss[id] || 0) + (Number(carry.runsEach) || 1);
+      });
+    });
+
+    els.summaryCounts.innerHTML = state.bosses.map(boss => `
+      <div class="boss-count">
+        <strong>${needsByBoss[boss.id] || 0} / ${carryRunsByBoss[boss.id] || 0}</strong>
+        <span>${escapeHtml(boss.name)} need / carry runs</span>
+      </div>
+    `).join("");
+  }
+
+  function countByBoss(rows, qtyKey) {
+    return rows.reduce((map, row) => {
+      map[row.bossId] = (map[row.bossId] || 0) + (Number(row[qtyKey]) || 0);
+      return map;
+    }, {});
+  }
+
+  function autoAssign() {
+    const lockedSchedule = state.schedule
+      .filter(group => group.locked)
+      .map(group => ({
+        ...group,
+        players: Array.isArray(group.players) ? [...group.players] : []
+      }));
+    const slots = [];
+    state.carries.forEach(carry => {
+      carry.bossIds.forEach(bossId => {
+        const runs = Number(carry.runsEach) || 1;
+        for (let i = 0; i < runs; i += 1) {
+          slots.push({
+            id: uid("group"),
+            bossId,
+            carry: carry.player,
+            time: carry.time || "Anytime",
+            maxPartySize: maxPartySize(carry.maxPartySize),
+            completed: false,
+            locked: false,
+            runNumber: i + 1,
+            players: []
+          });
+        }
+      });
+    });
+    lockedSchedule.forEach(lockedGroup => {
+      const matchingIndex = slots.findIndex(slot => sameCarrySlot(slot, lockedGroup));
+      if (matchingIndex >= 0) slots.splice(matchingIndex, 1);
+    });
+
+    const demand = [];
+    const lockedDemand = lockedPlayerDemand(lockedSchedule);
+    state.needs.forEach(need => {
+      const qty = Number(need.qty) || 1;
+      for (let i = 0; i < qty; i += 1) {
+        const demandKey = playerBossKey(need.player, need.bossId);
+        if ((lockedDemand[demandKey] || 0) > 0) {
+          lockedDemand[demandKey] -= 1;
+          continue;
+        }
+        demand.push({
+          id: `${need.id}:${i}`,
+          player: need.player,
+          bossId: need.bossId,
+          note: need.note || "",
+          qtyIndex: i
+        });
+      }
+    });
+
+    const capacityByBoss = {};
+    slots.forEach(slot => {
+      capacityByBoss[slot.bossId] = (capacityByBoss[slot.bossId] || 0) + slotPlayerCapacity(slot);
+    });
+
+    const demandByBoss = demand.reduce((map, need) => {
+      map[need.bossId] = (map[need.bossId] || 0) + 1;
+      return map;
+    }, {});
+    demand.sort((a, b) => {
+      const aShortage = (capacityByBoss[a.bossId] || 0) - (demandByBoss[a.bossId] || 0);
+      const bShortage = (capacityByBoss[b.bossId] || 0) - (demandByBoss[b.bossId] || 0);
+      if (aShortage !== bShortage) return aShortage - bShortage;
+      return bossName(a.bossId).localeCompare(bossName(b.bossId)) || a.player.localeCompare(b.player);
+    });
+
+    const unassigned = [];
+    demand.forEach(need => {
+      const group = bestSlotForNeed(slots, need);
+
+      if (group) {
+        group.players.push(need.player);
+      } else {
+        unassigned.push(need);
+      }
+    });
+
+    state.schedule = lockedSchedule.concat(slots)
+      .filter(slot => slot.locked || slot.players.length)
+      .sort((a, b) => {
+        const timeCompare = String(a.time || "").localeCompare(String(b.time || ""));
+        if (timeCompare) return timeCompare;
+        const carryCompare = String(a.carry || "").localeCompare(String(b.carry || ""));
+        if (carryCompare) return carryCompare;
+        return bossName(a.bossId).localeCompare(bossName(b.bossId)) || (a.runNumber || 0) - (b.runNumber || 0);
+      });
+    state.unassigned = unassigned;
+    scheduleView = "list";
+    render();
+  }
+
+  function sameCarrySlot(slot, group) {
+    return slot.bossId === group.bossId &&
+      String(slot.carry || "") === String(group.carry || "") &&
+      String(slot.time || "") === String(group.time || "");
+  }
+
+  function playerBossKey(player, bossId) {
+    return `${normalizePlayerName(player)}\u0000${bossId}`;
+  }
+
+  function lockedPlayerDemand(groups) {
+    return groups.reduce((map, group) => {
+      (group.players || []).forEach(player => {
+        const key = playerBossKey(player, group.bossId);
+        map[key] = (map[key] || 0) + 1;
+      });
+      return map;
+    }, {});
+  }
+
+  function slotPlayerCapacity(slot) {
+    return Math.max(groupMaxParty(slot) - 1, 1);
+  }
+
+  function bestSlotForNeed(slots, need) {
+    const candidates = slots.filter(slot => (
+      slot.bossId === need.bossId &&
+      slot.players.length < slotPlayerCapacity(slot) &&
+      !slot.players.includes(need.player) &&
+      normalizePlayerName(slot.carry) !== normalizePlayerName(need.player)
+    ));
+    candidates.sort((a, b) => {
+      const aOpen = slotPlayerCapacity(a) - a.players.length;
+      const bOpen = slotPlayerCapacity(b) - b.players.length;
+      if (aOpen !== bOpen) return aOpen - bOpen;
+      const aLoad = slots.filter(slot => slot.carry === a.carry).reduce((sum, slot) => sum + slot.players.length, 0);
+      const bLoad = slots.filter(slot => slot.carry === b.carry).reduce((sum, slot) => sum + slot.players.length, 0);
+      if (aLoad !== bLoad) return aLoad - bLoad;
+      return String(a.time || "").localeCompare(String(b.time || "")) || String(a.carry || "").localeCompare(String(b.carry || ""));
+    });
+    return candidates[0] || null;
+  }
+
+  function normalizePlayerName(name) {
+    return String(name || "").trim().toLowerCase();
+  }
+
+  function playerColor(name) {
+    const colors = ["#2563eb", "#c026d3", "#16a34a", "#ea580c", "#0891b2", "#be123c", "#7c3aed", "#0f766e", "#b45309", "#4f46e5"];
+    const key = normalizePlayerName(name);
+    let hash = 0;
+    for (let i = 0; i < key.length; i += 1) {
+      hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+    }
+    return colors[hash % colors.length];
+  }
+
+  function unique(items) {
+    return [...new Set(items.filter(Boolean))];
+  }
+
+  function zoneLabel(zone) {
+    const labels = {
+      "America/Toronto": "Eastern - Toronto",
+      "America/New_York": "Eastern - New York",
+      "America/Chicago": "Central",
+      "America/Denver": "Mountain",
+      "America/Los_Angeles": "Pacific",
+      UTC: "UTC"
+    };
+    return labels[zone] || zone;
+  }
+
+  function formatTimeSlot(dateTime, zone) {
+    if (!dateTime) return "Anytime";
+    const [date, time] = dateTime.split("T");
+    return `${date} ${time} ${zone}`;
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    let row = [];
+    let cell = "";
+    let quoted = false;
+    for (let i = 0; i < text.length; i += 1) {
+      const char = text[i];
+      const next = text[i + 1];
+      if (quoted) {
+        if (char === "\"" && next === "\"") {
+          cell += "\"";
+          i += 1;
+        } else if (char === "\"") {
+          quoted = false;
+        } else {
+          cell += char;
+        }
+      } else if (char === "\"") {
+        quoted = true;
+      } else if (char === ",") {
+        row.push(cell);
+        cell = "";
+      } else if (char === "\n") {
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+      } else if (char !== "\r") {
+        cell += char;
+      }
+    }
+    row.push(cell);
+    rows.push(row);
+    return rows.filter(items => items.some(item => item.trim()));
+  }
+
+  function csvCell(value) {
+    const text = String(value ?? "");
+    return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, "\"\"")}"` : text;
+  }
+
+  function normalizeHeaderKey(value) {
+    return String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  function csvValue(row, headers, names) {
+    for (const name of names) {
+      const index = headers.indexOf(name);
+      if (index >= 0) return row[index] || "";
+    }
+    return "";
+  }
+
+  function splitBossNames(value) {
+    return String(value || "").split(/[;|]/).map(item => item.trim()).filter(Boolean);
+  }
+
+  function ensureBoss(name) {
+    const normalized = normalizeBossId(name);
+    let boss = state.bosses.find(item => item.id === normalized || normalizeBossId(item.name) === normalized);
+    if (boss) return boss.id;
+    const id = slug(name);
+    boss = {
+      id,
+      name: name.trim(),
+      hpTable: bossHpById[id] || bossHpById[normalized] || null,
+      partySize: 10,
+      value: 0
+    };
+    state.bosses.push(boss);
+    return boss.id;
+  }
+
+  function exportRosterCsv() {
+    const rows = [["type", "player", "boss", "qty", "time", "timezone", "maxParty", "note"]];
+    state.needs.forEach(need => {
+      rows.push(["need", need.player, bossName(need.bossId), Number(need.qty) || 1, "", "", "", need.note || ""]);
+    });
+    state.carries.forEach(carry => {
+      carry.bossIds.forEach(bossId => {
+        rows.push(["carry", carry.player, bossName(bossId), Number(carry.runsEach) || 1, carry.time || "Anytime", carry.timeZone || "", maxPartySize(carry.maxPartySize), ""]);
+      });
+    });
+    return rows.map(row => row.map(csvCell).join(",")).join("\n");
+  }
+
+  function importRosterCsv() {
+    const rows = parseCsv(els.csvBox.value);
+    if (rows.length < 2) {
+      alert("Paste a CSV with a header row first.");
+      return;
+    }
+    const headers = rows[0].map(normalizeHeaderKey);
+    const importedNeeds = [];
+    const importedCarries = [];
+    rows.slice(1).forEach(row => {
+      const type = normalizeHeaderKey(csvValue(row, headers, ["type", "kind", "role"]));
+      const player = csvValue(row, headers, ["player", "ign", "name", "carry"]).trim();
+      const bossNames = splitBossNames(csvValue(row, headers, ["boss", "bosses"]));
+      if (!player || !bossNames.length) return;
+      const qty = Number(csvValue(row, headers, ["qty", "quantity", "runs", "count"])) || 1;
+      const time = csvValue(row, headers, ["time", "timeslot", "slot"]).trim();
+      const timeZone = csvValue(row, headers, ["timezone", "tz"]).trim();
+      const maxPartyRaw = csvValue(row, headers, ["maxparty", "party", "partysize", "partycap"]).trim();
+      const maxParty = Number(maxPartyRaw) || 10;
+      const note = csvValue(row, headers, ["note", "notes"]).trim();
+      const isCarry = type.includes("carry") || (!type && (time || maxPartyRaw));
+      bossNames.forEach(bossNameValue => {
+        const bossId = ensureBoss(bossNameValue);
+        if (isCarry) {
+          importedCarries.push({
+            id: uid("carry"),
+            player,
+            time: time || "Anytime",
+            timeZone,
+            maxPartySize: maxPartySize(maxParty),
+            runsEach: qty,
+            bossIds: [bossId]
+          });
+        } else {
+          importedNeeds.push({
+            id: uid("need"),
+            player,
+            bossId,
+            qty,
+            note
+          });
+        }
+      });
+    });
+    if (!importedNeeds.length && !importedCarries.length) {
+      alert("No roster rows could be imported.");
+      return;
+    }
+    const replace = state.needs.length || state.carries.length
+      ? confirm("Replace current Needs and Carries with this CSV? Cancel to append.")
+      : true;
+    if (replace) {
+      state.needs = importedNeeds;
+      state.carries = importedCarries;
+      state.schedule = [];
+      state.unassigned = [];
+    } else {
+      state.needs.push(...importedNeeds);
+      state.carries.push(...importedCarries);
+    }
+    render();
+    notify(`Imported ${importedNeeds.length + importedCarries.length}`);
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[char]);
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value).replace(/`/g, "&#096;");
+  }
+
+  function cssEscape(value) {
+    return window.CSS?.escape ? CSS.escape(value) : String(value).replace(/["\\]/g, "\\$&");
+  }
+
+  function notify(text) {
+    const old = document.title;
+    document.title = `${text} - MeccStoryM`;
+    window.setTimeout(() => { document.title = old; }, 900);
+  }
+
+  els.bossForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const name = els.bossName.value.trim();
+    if (!name) return;
+    const id = slug(name);
+    const hpTable = bossHpById[id] || bossHpById[normalizeBossId(name)] || null;
+    state.bosses.push({
+      id,
+      name,
+      hpTable,
+      partySize: Number(els.bossParty.value) || 10,
+      value: Number(els.bossValue.value) || 0
+    });
+    els.bossForm.reset();
+    els.bossParty.value = 10;
+    render();
+  });
+
+  els.needForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const player = els.needPlayer.value.trim();
+    const selectedBosses = [...els.needBossMatrix.querySelectorAll("[data-need-boss]:checked")].map(input => input.value);
+    if (!player || !selectedBosses.length) return;
+    selectedBosses.forEach(bossId => {
+      const qtyInput = els.needBossMatrix.querySelector(`[data-need-qty="${cssEscape(bossId)}"]`);
+      const qty = Number(qtyInput?.value) || 0;
+      if (qty < 1) return;
+      state.needs.push({
+        id: uid("need"),
+        player,
+        bossId,
+        qty,
+        note: els.needNote.value.trim()
+      });
+    });
+    els.needPlayer.value = "";
+    els.needNote.value = "";
+    render();
+  });
+
+  els.carryForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const player = els.carryPlayer.value.trim();
+    const bossIds = [...els.carryBossMatrix.querySelectorAll("[data-carry-boss]:checked")].map(input => input.value);
+    if (!player || !bossIds.length) return;
+    const time = formatTimeSlot(els.carryDateTime.value, els.carryTimezone.value);
+    const maxCarryParty = maxPartySize(els.carryMaxParty.value);
+    bossIds.forEach(bossId => {
+      const runsInput = els.carryBossMatrix.querySelector(`[data-carry-runs="${cssEscape(bossId)}"]`);
+      const runsEach = Number(runsInput?.value) || 0;
+      if (runsEach < 1) return;
+      state.carries.push({
+        id: uid("carry"),
+        player,
+        time,
+        timeZone: els.carryTimezone.value,
+        maxPartySize: maxCarryParty,
+        runsEach,
+        bossIds: [bossId]
+      });
+    });
+    els.carryPlayer.value = "";
+    els.carryDateTime.value = "";
+    els.carryMaxParty.value = 10;
+    render();
+  });
+
+  document.addEventListener("click", event => {
+    const bossId = event.target.dataset.removeBoss;
+    const needId = event.target.dataset.removeNeed;
+    const carryId = event.target.dataset.removeCarry;
+    const groupIndex = event.target.dataset.removeGroup;
+
+    if (bossId) {
+      state.bosses = state.bosses.filter(boss => boss.id !== bossId);
+      state.needs = state.needs.filter(need => need.bossId !== bossId);
+      state.carries.forEach(carry => { carry.bossIds = carry.bossIds.filter(id => id !== bossId); });
+      state.carries = state.carries.filter(carry => carry.bossIds.length);
+      state.schedule = state.schedule.filter(group => group.bossId !== bossId);
+      render();
+    }
+    if (needId) {
+      state.needs = state.needs.filter(need => need.id !== needId);
+      render();
+    }
+    if (carryId) {
+      state.carries = state.carries.filter(carry => carry.id !== carryId);
+      render();
+    }
+    if (groupIndex !== undefined) {
+      state.schedule.splice(Number(groupIndex), 1);
+      render();
+    }
+  });
+
+  document.addEventListener("input", event => {
+    const needId = event.target.dataset.needQty;
+    const carryId = event.target.dataset.carryRuns;
+    if (needId) {
+      const checkbox = els.needBossMatrix.querySelector(`[data-need-boss][value="${cssEscape(needId)}"]`);
+      if (checkbox) checkbox.checked = Number(event.target.value) > 0;
+    }
+    if (carryId) {
+      const checkbox = els.carryBossMatrix.querySelector(`[data-carry-boss][value="${cssEscape(carryId)}"]`);
+      if (checkbox) checkbox.checked = Number(event.target.value) > 0;
+    }
+  });
+
+  document.addEventListener("change", event => {
+    const bossPartyId = event.target.dataset.bossParty;
+    const needId = event.target.matches("[data-need-boss]") ? event.target.value : "";
+    const carryId = event.target.matches("[data-carry-boss]") ? event.target.value : "";
+    if (bossPartyId) {
+      const boss = bossById(bossPartyId);
+      if (!boss) return;
+      boss.partySize = partySize({ partySize: event.target.value });
+      render();
+      return;
+    }
+    if (needId) {
+      const qty = els.needBossMatrix.querySelector(`[data-need-qty="${cssEscape(needId)}"]`);
+      if (qty && event.target.checked && Number(qty.value) < 1) qty.value = 1;
+      if (qty && !event.target.checked) qty.value = 0;
+    }
+    if (carryId) {
+      const runs = els.carryBossMatrix.querySelector(`[data-carry-runs="${cssEscape(carryId)}"]`);
+      if (runs && event.target.checked && Number(runs.value) < 1) runs.value = 1;
+      if (runs && !event.target.checked) runs.value = 0;
+    }
+  });
+
+  function updateScheduleField(event) {
+    const field = event.target.dataset.scheduleField;
+    const index = event.target.dataset.scheduleIndex;
+    if (!field || index === undefined) return;
+    const group = state.schedule[Number(index)];
+    if (!group) return;
+    if (field === "players") {
+      group.players = event.target.value.split(",").map(item => item.trim()).filter(Boolean);
+    } else if (field === "completed") {
+      group.completed = event.target.checked;
+    } else if (field === "locked") {
+      group.locked = event.target.checked;
+    } else if (field === "maxPartySize") {
+      group.maxPartySize = groupMaxParty({ ...group, maxPartySize: event.target.value });
+      event.target.value = group.maxPartySize;
+    } else if (field === "bossId") {
+      group[field] = event.target.value;
+      group.maxPartySize = groupMaxParty(group);
+    } else {
+      group[field] = event.target.value;
+    }
+    if (event.type === "change") {
+      render();
+    } else {
+      renderValidation();
+      save();
+    }
+  }
+
+  function moveScheduledPlayer(groupIndex, fromIndex, toIndex) {
+    const group = state.schedule[groupIndex];
+    if (!group || !Array.isArray(group.players) || fromIndex === toIndex) return;
+    if (fromIndex < 0 || toIndex < 0 || fromIndex >= group.players.length || toIndex >= group.players.length) return;
+    const [player] = group.players.splice(fromIndex, 1);
+    group.players.splice(toIndex, 0, player);
+    save();
+    renderSchedule();
+  }
+
+  document.addEventListener("input", updateScheduleField);
+  document.addEventListener("change", updateScheduleField);
+
+  document.addEventListener("dragstart", event => {
+    const chip = event.target.closest("[data-drag-group][data-drag-player]");
+    if (!chip) return;
+    chip.classList.add("dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      groupIndex: Number(chip.dataset.dragGroup),
+      playerIndex: Number(chip.dataset.dragPlayer)
+    }));
+  });
+
+  document.addEventListener("dragend", event => {
+    event.target.closest("[data-drag-group][data-drag-player]")?.classList.remove("dragging");
+  });
+
+  document.addEventListener("dragover", event => {
+    if (!event.target.closest("[data-drag-group][data-drag-player]")) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  });
+
+  document.addEventListener("drop", event => {
+    const chip = event.target.closest("[data-drag-group][data-drag-player]");
+    if (!chip) return;
+    event.preventDefault();
+    try {
+      const payload = JSON.parse(event.dataTransfer.getData("text/plain"));
+      const toGroupIndex = Number(chip.dataset.dragGroup);
+      const toPlayerIndex = Number(chip.dataset.dragPlayer);
+      if (payload.groupIndex !== toGroupIndex) return;
+      moveScheduledPlayer(toGroupIndex, Number(payload.playerIndex), toPlayerIndex);
+    } catch (error) {
+      console.warn("Unable to reorder scheduled players", error);
+    }
+  });
+
+  document.addEventListener("click", event => {
+    const view = event.target.dataset.scheduleView;
+    if (!view) return;
+    scheduleView = view;
+    renderSchedule();
+  });
+
+  els.scheduleBossFilter.addEventListener("change", event => {
+    scheduleBossFilter = event.target.value;
+    renderSchedule();
+  });
+
+  $("#autoAssignBtn").addEventListener("click", autoAssign);
+  $("#addGroupBtn").addEventListener("click", () => {
+    const firstBoss = state.bosses[0];
+    const firstCarry = state.carries[0];
+    if (!firstBoss) return;
+    state.schedule.push({
+      id: uid("group"),
+      bossId: firstBoss.id,
+      carry: firstCarry?.player || "Manual",
+      time: firstCarry?.time || "Anytime",
+      maxPartySize: maxPartySize(firstCarry?.maxPartySize, partySize(firstBoss)),
+      completed: false,
+      locked: false,
+      players: []
+    });
+    scheduleView = "edit";
+    render();
+  });
+  $("#exportBtn").addEventListener("click", () => {
+    els.backupCode.value = encode(state);
+    els.backupCode.select();
+    notify("Exported");
+  });
+  $("#copyCodeBtn").addEventListener("click", async () => {
+    els.backupCode.value = encode(state);
+    await navigator.clipboard.writeText(els.backupCode.value);
+    notify("Copied");
+  });
+  $("#exportCsvBtn").addEventListener("click", () => {
+    els.csvBox.value = exportRosterCsv();
+    els.csvBox.select();
+    notify("CSV exported");
+  });
+  $("#copyCsvBtn").addEventListener("click", async () => {
+    els.csvBox.value = exportRosterCsv();
+    await navigator.clipboard.writeText(els.csvBox.value);
+    notify("CSV copied");
+  });
+  $("#importCsvBtn").addEventListener("click", importRosterCsv);
+  $("#copyLinkBtn").addEventListener("click", async () => {
+    const url = `${location.origin}${location.pathname}#data=${encode(state)}`;
+    await navigator.clipboard.writeText(url);
+    notify("Link copied");
+  });
+  $("#restoreBtn").addEventListener("click", () => {
+    try {
+      state = cleanState(decode(els.backupCode.value));
+      render();
+      notify("Restored");
+    } catch (error) {
+      alert("That restore code could not be read.");
+    }
+  });
+  $("#resetBtn").addEventListener("click", () => {
+    if (!confirm("Clear signups, carries, and schedule for a new week?")) return;
+    state.needs = [];
+    state.carries = [];
+    state.schedule = [];
+    state.unassigned = [];
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
