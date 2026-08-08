@@ -1,0 +1,7 @@
+name = "meccstorym-boss-board"
+main = "worker.js"
+compatibility_date = "2026-08-08"
+
+[[kv_namespaces]]
+binding = "BOSS_BOARD"
+id = "83668faab68a4db2a1c561a0380f87b2"
