@@ -241,6 +241,12 @@ body {
   gap: 18px;
   margin-bottom: 18px;
 }
+.dmg-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-bottom: 18px;
+}
 .dmg-panel {
   background: white; border-radius: 18px;
   padding: 22px 24px; box-shadow: var(--shadow);
@@ -281,6 +287,52 @@ body {
   padding-right: 28px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234ecb71' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 10px center;
+}
+
+/* Live sliders */
+.dmg-slider-panel {
+  display: grid;
+  gap: 12px;
+}
+.dmg-slider-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.dmg-slider-note {
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.dmg-slider-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.dmg-slider-row {
+  display: grid;
+  grid-template-columns: minmax(116px, 0.75fr) minmax(120px, 1fr) 92px;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #e8f8e8;
+  border-radius: 12px;
+  background: #f6fef9;
+}
+.dmg-slider-value {
+  width: 100%;
+  min-width: 0;
+  padding: 7px 9px;
+  text-align: right;
+}
+.dmg-range {
+  width: 100%;
+  min-width: 0;
+  accent-color: var(--green);
 }
 
 /* Action buttons */
@@ -365,9 +417,20 @@ body {
 @media(max-width:700px) {
   #dmg-content { padding: 14px 10px 26px !important; }
   .dmg-grid { grid-template-columns: 1fr; gap: 10px; }
+  .dmg-main-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
   .dmg-panel { padding: 14px 12px; border-radius: 12px; margin-bottom: 10px; }
   .dmg-panel-title { font-size: 15px; margin-bottom: 10px; }
   .dmg-form { grid-template-columns: 1fr; }
+  .dmg-slider-head { display: block; }
+  .dmg-slider-note { margin-top: 4px; }
+  .dmg-slider-grid { grid-template-columns: 1fr; gap: 8px; }
+  .dmg-slider-row {
+    grid-template-columns: minmax(84px, 0.8fr) minmax(90px, 1fr) 74px;
+    gap: 8px;
+    padding: 9px 8px;
+  }
+  .dmg-slider-row .dmg-label { letter-spacing: 1px; }
+  .dmg-slider-value { padding: 7px 6px; }
   .dmg-opt-form { grid-template-columns: 1fr; }
   .dmg-kpi-grid { grid-template-columns: 1fr; gap: 8px; }
   .dmg-btn-row { gap: 8px; }
@@ -1611,6 +1674,7 @@ select.df-ts-input {
 
 #dmg-content .dmg-label,
 #dmg-content .dmg-panel-title,
+#dmg-content .dmg-slider-note,
 #dmg-content .dmg-upload-title,
 #dmg-content .dmg-ocr-status,
 #dmg-content .dmg-upload input[type="file"],
@@ -1637,6 +1701,7 @@ select.df-ts-input {
 
 #dmg-content .dmg-input,
 #dmg-content .dmg-select,
+#dmg-content .dmg-slider-row,
 #events-content input,
 #events-content select,
 #discord-content input,
@@ -5014,7 +5079,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
     <section class="tab-section active" id="tab-dmg" style="display:block;">
 
       <!-- Row 1: Stats input + Results -->
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px;">
+      <div class="dmg-main-grid">
 
         <!-- Stats Input -->
         <div class="dmg-panel" style="margin-bottom:0;">
@@ -5042,6 +5107,15 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
           <div class="dmg-kpi-grid" id="dmgResults"></div>
         </div>
 
+      </div>
+
+      <!-- Row 2: Live sliders -->
+      <div class="dmg-panel">
+        <div class="dmg-slider-head">
+          <div class="dmg-panel-title" style="margin-bottom:0;"><div class="dmg-dot dot-green-s"></div> Live Stat Sliders</div>
+          <div class="dmg-slider-note">Slide or type any stat. Damage updates instantly.</div>
+        </div>
+        <div class="dmg-slider-grid" id="dmgSliderGrid"></div>
       </div>
 
       <!-- Row 2: Optimizer -->
@@ -5955,6 +6029,19 @@ const DMG_FIELDS = [
   ['skillFinalDmg','Skill Final Damage %'],
 ];
 
+const DMG_SLIDER_DEFS = {
+  atk:           { min: 0, max: 500000, step: 100 },
+  atkIncrease:   { min: 0, max: 300,    step: 0.1 },
+  dmgIncrease:   { min: 0, max: 300,    step: 0.1 },
+  bossAtk:       { min: 0, max: 300,    step: 0.1 },
+  skillDmg:      { min: 0, max: 1000,   step: 1 },
+  skillHit:      { min: 1, max: 30,     step: 1 },
+  critRate:      { min: 0, max: 100,    step: 0.1 },
+  critDmg:       { min: 0, max: 500,    step: 0.1 },
+  finalDmg:      { min: 0, max: 300,    step: 0.1 },
+  skillFinalDmg: { min: 0, max: 300,    step: 0.1 },
+};
+
 const DMG_RESULTS = [
   ['dmgAvg',          'Avg Total',     'is-normal', 'kpi-normal'],
   ['dmgNonCritLine',  'Non-Crit / Line','is-normal', 'kpi-normal'],
@@ -5982,6 +6069,23 @@ const DMG_STAT_DEFS = [
     d.className = 'dmg-field';
     d.innerHTML = `<div class="dmg-label">${label}</div><input class="dmg-input" id="di_${key}" type="number" step="any" placeholder="0" />`;
     form.appendChild(d);
+    d.querySelector('input').addEventListener('input', () => dmgSyncSliderFromInput(key, true));
+  });
+
+  // Build live sliders
+  const sliderGrid = document.getElementById('dmgSliderGrid');
+  DMG_FIELDS.forEach(([key, label]) => {
+    const cfg = DMG_SLIDER_DEFS[key];
+    const row = document.createElement('div');
+    row.className = 'dmg-slider-row';
+    row.innerHTML = `
+      <div class="dmg-label">${label}</div>
+      <input class="dmg-range" id="ds_${key}" type="range" min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${cfg.min}" />
+      <input class="dmg-input dmg-slider-value" id="dsv_${key}" type="number" step="${cfg.step}" placeholder="0" />
+    `;
+    sliderGrid.appendChild(row);
+    row.querySelector(`#ds_${key}`).addEventListener('input', () => dmgSetStatValue(key, document.getElementById('ds_' + key).value));
+    row.querySelector(`#dsv_${key}`).addEventListener('input', () => dmgSetStatValue(key, document.getElementById('dsv_' + key).value));
   });
 
   // Build results KPIs
@@ -6004,6 +6108,55 @@ const DMG_STAT_DEFS = [
   toSel.value   = 'bossAtk';
 })();
 
+function dmgSliderCfg(key) { return DMG_SLIDER_DEFS[key] || { min: 0, max: 100, step: 1 }; }
+
+function dmgGrowSliderRange(key, value) {
+  const range = document.getElementById('ds_' + key);
+  if (!range || !Number.isFinite(value)) return;
+  const cfg = dmgSliderCfg(key);
+  if (value > Number(range.max)) {
+    const rounded = Math.ceil(value / cfg.step) * cfg.step;
+    range.max = String(Math.max(rounded, value));
+  }
+}
+
+function dmgSetStatValue(key, value, skipCalculate = false) {
+  const input = document.getElementById('di_' + key);
+  const range = document.getElementById('ds_' + key);
+  const valueInput = document.getElementById('dsv_' + key);
+  const numeric = Number(value);
+
+  if (input) input.value = value;
+  if (valueInput) valueInput.value = value;
+  if (Number.isFinite(numeric)) {
+    dmgGrowSliderRange(key, numeric);
+    if (range) range.value = String(Math.max(Number(range.min), Math.min(Number(range.max), numeric)));
+  }
+  if (!skipCalculate) dmgCalculate();
+}
+
+function dmgSyncSliderFromInput(key, shouldCalculate = false) {
+  const input = document.getElementById('di_' + key);
+  const value = input?.value || '';
+  const numeric = Number(value);
+  const range = document.getElementById('ds_' + key);
+  const valueInput = document.getElementById('dsv_' + key);
+  if (valueInput) valueInput.value = value;
+  if (range) {
+    if (Number.isFinite(numeric)) {
+      dmgGrowSliderRange(key, numeric);
+      range.value = String(Math.max(Number(range.min), Math.min(Number(range.max), numeric)));
+    } else {
+      range.value = range.min;
+    }
+  }
+  if (shouldCalculate) dmgCalculate();
+}
+
+function dmgSyncSlidersFromInputs() {
+  DMG_FIELDS.forEach(([key]) => dmgSyncSliderFromInput(key));
+}
+
 function dmgN(key) { return Number(document.getElementById('di_' + key).value || 0); }
 
 function dmgGetStats() {
@@ -6013,6 +6166,7 @@ function dmgGetStats() {
   if (!document.getElementById('di_skillHit').value)     { s.skillHit = 1;   document.getElementById('di_skillHit').value = 1; }
   if (!document.getElementById('di_skillFinalDmg').value){ s.skillFinalDmg = 0; }
   s.critRate = Math.min(100, s.critRate);
+  dmgSyncSlidersFromInputs();
   return s;
 }
 
@@ -6045,6 +6199,15 @@ function dmgCalculate() {
 
 function dmgReset() {
   DMG_FIELDS.forEach(([key]) => document.getElementById('di_' + key).value = '');
+  DMG_FIELDS.forEach(([key]) => {
+    const range = document.getElementById('ds_' + key);
+    const valueInput = document.getElementById('dsv_' + key);
+    if (range) {
+      range.max = String(dmgSliderCfg(key).max);
+      range.value = range.min;
+    }
+    if (valueInput) valueInput.value = '';
+  });
   DMG_RESULTS.forEach(([key]) => document.getElementById(key).textContent = '—');
 }
 
@@ -6164,6 +6327,7 @@ function dmgApply(obj) {
     const el = document.getElementById('di_' + k);
     if (el && Number.isFinite(v)) el.value = v;
   }
+  dmgSyncSlidersFromInputs();
 }
 
 async function dmgRunOCR() {
