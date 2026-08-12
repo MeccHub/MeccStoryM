@@ -855,7 +855,7 @@ window.MSM_SITE = {
   <section class="boss-hero">
     <div>
       <h1 class="boss-title">Bossing Planner</h1>
-      <p class="boss-subtitle">Build weekly carry groups from shared session links, then keep restore codes as a backup.</p>
+      <p class="boss-subtitle">Build weekly main groups from shared session links, then keep restore codes as a backup.</p>
     </div>
     <div class="boss-actions">
       <button class="boss-btn primary" type="button" id="autoAssignBtn">Generate Teams</button>
@@ -900,14 +900,14 @@ window.MSM_SITE = {
 
       <details class="boss-panel boss-section-details" open>
         <summary class="boss-panel-head boss-panel-toggle">
-          <h2 class="boss-panel-title">Needs</h2>
+          <h2 class="boss-panel-title">Alts</h2>
           <span class="boss-pill" id="needTotal">0 clears</span>
         </summary>
         <div class="boss-panel-body">
           <form class="boss-form-grid" id="needForm">
             <label class="boss-field">
-              <span class="boss-label">Player</span>
-              <input class="boss-input" id="needPlayer" autocomplete="off" placeholder="IGN">
+              <span class="boss-label">Account Name</span>
+              <input class="boss-input" id="needPlayer" autocomplete="off" placeholder="Account Name">
             </label>
             <label class="boss-field">
               <span class="boss-label">Note</span>
@@ -922,13 +922,13 @@ window.MSM_SITE = {
                 </table>
               </div>
             </div>
-            <button class="boss-btn primary" type="submit">Add Needs</button>
+            <button class="boss-btn primary" type="submit">Add Alts</button>
           </form>
           <details class="boss-inline-details">
-            <summary>Player list</summary>
+            <summary>Alt list</summary>
             <div class="boss-table-wrap" style="margin-top:8px;">
               <table class="boss-table">
-                <thead><tr><th>Player</th><th>Boss</th><th>Qty</th><th>Note</th><th></th></tr></thead>
+                <thead><tr><th>Account Name</th><th>Boss</th><th>Qty</th><th>Note</th><th></th></tr></thead>
                 <tbody id="needRows"></tbody>
               </table>
             </div>
@@ -938,21 +938,21 @@ window.MSM_SITE = {
 
       <details class="boss-panel boss-section-details" open>
         <summary class="boss-panel-head boss-panel-toggle">
-          <h2 class="boss-panel-title">Carries</h2>
+          <h2 class="boss-panel-title">Mains</h2>
           <span class="boss-pill green" id="carryTotal">0 runs</span>
         </summary>
         <div class="boss-panel-body">
           <form class="boss-form-grid" id="carryForm">
             <label class="boss-field">
-              <span class="boss-label">Carry</span>
-              <input class="boss-input" id="carryPlayer" autocomplete="off" placeholder="IGN">
+              <span class="boss-label">Account Name</span>
+              <input class="boss-input" id="carryPlayer" autocomplete="off" placeholder="Account Name">
             </label>
             <label class="boss-field">
               <span class="boss-label">Time Zone</span>
               <select class="boss-select" id="carryTimezone"></select>
             </label>
             <div class="boss-field wide">
-              <span class="boss-label">Bosses Available To Carry</span>
+              <span class="boss-label">Bosses Available To Main</span>
               <div class="boss-table-wrap">
                 <table class="boss-matrix boss-carry-matrix">
                   <thead><tr><th>Boss</th><th>Time Slot</th><th>Party</th></tr></thead>
@@ -960,13 +960,13 @@ window.MSM_SITE = {
                 </table>
               </div>
             </div>
-            <button class="boss-btn primary" type="submit">Add Carries</button>
+            <button class="boss-btn primary" type="submit">Add Mains</button>
           </form>
           <details class="boss-inline-details">
-            <summary>Carry list</summary>
+            <summary>Main list</summary>
             <div class="boss-table-wrap" style="margin-top:8px;">
               <table class="boss-table">
-                <thead><tr><th>Carry</th><th>Time</th><th>Bosses</th><th>Party</th><th></th></tr></thead>
+                <thead><tr><th>Account Name</th><th>Time</th><th>Bosses</th><th>Party</th><th></th></tr></thead>
                 <tbody id="carryRows"></tbody>
               </table>
             </div>
@@ -1014,7 +1014,7 @@ window.MSM_SITE = {
           <div class="boss-csv-tools">
             <label class="boss-field wide">
               <span class="boss-label">Roster CSV</span>
-              <textarea class="boss-textarea boss-csv-box" id="csvBox" spellcheck="false" placeholder="type,player,boss,qty,time,timezone,maxParty,note"></textarea>
+              <textarea class="boss-textarea boss-csv-box" id="csvBox" spellcheck="false" placeholder="type,accountName,boss,qty,time,timezone,maxParty,note"></textarea>
             </label>
             <div class="boss-row-actions">
               <button class="boss-btn primary" type="button" id="importCsvBtn">Import CSV</button>
@@ -1497,7 +1497,7 @@ window.MSM_SITE = {
         <td>${escapeHtml(need.note || "")}</td>
         <td><button class="boss-btn danger" type="button" data-remove-need="${need.id}">Remove</button></td>
       </tr>
-    `).join("") || `<tr><td colspan="5"><div class="boss-empty">No needs yet.</div></td></tr>`;
+    `).join("") || `<tr><td colspan="5"><div class="boss-empty">No alts yet.</div></td></tr>`;
 
     const total = state.needs.reduce((sum, need) => sum + (Number(need.qty) || 0), 0);
     els.needTotal.textContent = `${total} clear${total === 1 ? "" : "s"}`;
@@ -1512,7 +1512,7 @@ window.MSM_SITE = {
         <td>${maxPartySize(carry.maxPartySize)}</td>
         <td><button class="boss-btn danger" type="button" data-remove-carry="${carry.id}">Remove</button></td>
       </tr>
-    `).join("") || `<tr><td colspan="5"><div class="boss-empty">No carries yet.</div></td></tr>`;
+    `).join("") || `<tr><td colspan="5"><div class="boss-empty">No mains yet.</div></td></tr>`;
 
     const total = state.carries.reduce((sum, carry) => sum + ((Number(carry.runsEach) || 1) * carry.bossIds.length), 0);
     els.carryTotal.textContent = `${total} run${total === 1 ? "" : "s"}`;
@@ -1569,22 +1569,22 @@ window.MSM_SITE = {
         warnings.push({
           level: "warn",
           title: "Empty party",
-          detail: `${label} has no assigned players.`
+          detail: `${label} has no assigned alts.`
         });
       }
       if (players.length > capacity) {
         warnings.push({
           level: "danger",
           title: "Over party cap",
-          detail: `${label} has ${players.length}/${capacity} players plus carry.`
+          detail: `${label} has ${players.length}/${capacity} alts plus main.`
         });
       }
       const carryName = normalizePlayerName(group.carry);
       if (carryName && players.some(player => normalizePlayerName(player) === carryName)) {
         warnings.push({
           level: "danger",
-          title: "Self-carry",
-          detail: `${group.carry} is assigned as a player in their own ${bossName(group.bossId)} run.`
+          title: "Self-main",
+          detail: `${group.carry} is assigned as an alt in their own ${bossName(group.bossId)} run.`
         });
       }
       const seenInGroup = {};
@@ -1597,7 +1597,7 @@ window.MSM_SITE = {
         if (count < 2) return;
         warnings.push({
           level: "danger",
-          title: "Duplicate player in run",
+          title: "Duplicate alt in run",
           detail: `${displayPlayerName(key, players)} appears ${count} times in ${label}.`
         });
       });
@@ -1614,7 +1614,7 @@ window.MSM_SITE = {
       if (item.groups.length < 2) return;
       warnings.push({
         level: "warn",
-        title: "Player time conflict",
+        title: "Alt time conflict",
         detail: `${item.player} is scheduled ${item.groups.length} times at ${item.time}.`
       });
     });
@@ -1629,8 +1629,8 @@ window.MSM_SITE = {
       if (item.rows < 2) return;
       warnings.push({
         level: "warn",
-        title: "Duplicate roster need",
-        detail: `${item.player} has ${item.rows} separate ${bossName(item.bossId)} need rows.`
+        title: "Duplicate roster alt",
+        detail: `${item.player} has ${item.rows} separate ${bossName(item.bossId)} alt rows.`
       });
     });
     return warnings;
@@ -1696,8 +1696,8 @@ window.MSM_SITE = {
             <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: partyCap }))}</span>
             <div class="boss-name-chips">${playerChips(assignedPlayers, index) || `<span class="boss-carry-time">Open</span>`}</div>
           </div>
-          <input class="boss-input" value="${escapeAttr(assignedPlayers.join(", "))}" data-schedule-field="players" data-schedule-index="${index}" aria-label="Assigned players">
-          <span class="boss-seat-inline">${assignedPlayers.length}/${playerCapacity} players + carry</span>
+          <input class="boss-input" value="${escapeAttr(assignedPlayers.join(", "))}" data-schedule-field="players" data-schedule-index="${index}" aria-label="Assigned alts">
+          <span class="boss-seat-inline">${assignedPlayers.length}/${playerCapacity} alts + main</span>
         </div>
         <label class="boss-check boss-complete">
           <input type="checkbox" data-schedule-field="completed" data-schedule-index="${index}" ${group.completed ? "checked" : ""}>
@@ -1752,7 +1752,7 @@ window.MSM_SITE = {
     els.summaryCounts.innerHTML = state.bosses.map(boss => `
       <div class="boss-count">
         <strong>${needsByBoss[boss.id] || 0} / ${carryRunsByBoss[boss.id] || 0}</strong>
-        <span>${escapeHtml(boss.name)} need / carry runs</span>
+        <span>${escapeHtml(boss.name)} alt / main runs</span>
       </div>
     `).join("");
   }
@@ -2037,13 +2037,13 @@ window.MSM_SITE = {
   }
 
   function exportRosterCsv() {
-    const rows = [["type", "player", "boss", "qty", "time", "timezone", "maxParty", "note"]];
+    const rows = [["type", "accountName", "boss", "qty", "time", "timezone", "maxParty", "note"]];
     state.needs.forEach(need => {
-      rows.push(["need", need.player, bossName(need.bossId), Number(need.qty) || 1, "", "", "", need.note || ""]);
+      rows.push(["alt", need.player, bossName(need.bossId), Number(need.qty) || 1, "", "", "", need.note || ""]);
     });
     state.carries.forEach(carry => {
       carry.bossIds.forEach(bossId => {
-        rows.push(["carry", carry.player, bossName(bossId), 1, carry.time || "Anytime", carry.timeZone || "", maxPartySize(carry.maxPartySize), ""]);
+        rows.push(["main", carry.player, bossName(bossId), 1, carry.time || "Anytime", carry.timeZone || "", maxPartySize(carry.maxPartySize), ""]);
       });
     });
     return rows.map(row => row.map(csvCell).join(",")).join("\n");
@@ -2060,7 +2060,7 @@ window.MSM_SITE = {
     const importedCarries = [];
     rows.slice(1).forEach(row => {
       const type = normalizeHeaderKey(csvValue(row, headers, ["type", "kind", "role"]));
-      const player = csvValue(row, headers, ["player", "ign", "name", "carry"]).trim();
+      const player = csvValue(row, headers, ["accountname", "account", "player", "ign", "name", "carry", "main"]).trim();
       const bossNames = splitBossNames(csvValue(row, headers, ["boss", "bosses"]));
       if (!player || !bossNames.length) return;
       const qty = Number(csvValue(row, headers, ["qty", "quantity", "runs", "count"])) || 1;
@@ -2069,7 +2069,7 @@ window.MSM_SITE = {
       const maxPartyRaw = csvValue(row, headers, ["maxparty", "party", "partysize", "partycap"]).trim();
       const maxParty = Number(maxPartyRaw) || 10;
       const note = csvValue(row, headers, ["note", "notes"]).trim();
-      const isCarry = type.includes("carry") || (!type && (time || maxPartyRaw));
+      const isCarry = type.includes("carry") || type.includes("main") || (!type && (time || maxPartyRaw));
       bossNames.forEach(bossNameValue => {
         const bossId = ensureBoss(bossNameValue);
         if (isCarry) {
@@ -2098,7 +2098,7 @@ window.MSM_SITE = {
       return;
     }
     const replace = state.needs.length || state.carries.length
-      ? confirm("Replace current Needs and Carries with this CSV? Cancel to append.")
+      ? confirm("Replace current Alts and Mains with this CSV? Cancel to append.")
       : true;
     if (replace) {
       state.needs = importedNeeds;
@@ -2409,7 +2409,7 @@ window.MSM_SITE = {
     }
   });
   $("#resetBtn").addEventListener("click", () => {
-    if (!confirm("Clear signups, carries, and schedule for a new week?")) return;
+    if (!confirm("Clear signups, mains, and schedule for a new week?")) return;
     state.needs = [];
     state.carries = [];
     state.schedule = [];
