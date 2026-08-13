@@ -1493,7 +1493,7 @@ window.MSM_SITE = {
       <tr>
         <td>${escapeHtml(need.player)}</td>
         <td>${escapeHtml(bossName(need.bossId))}</td>
-        <td>${Number(need.qty) || 1}</td>
+        <td><input class="boss-input boss-number" type="number" min="0" max="20" value="${Number(need.qty) || 1}" data-edit-need-qty="${escapeAttr(need.id)}" aria-label="${escapeAttr(need.player)} ${escapeAttr(bossName(need.bossId))} quantity"></td>
         <td>${escapeHtml(need.note || "")}</td>
         <td><button class="boss-btn danger" type="button" data-remove-need="${need.id}">Remove</button></td>
       </tr>
@@ -2238,11 +2238,24 @@ window.MSM_SITE = {
 
   document.addEventListener("change", event => {
     const bossPartyId = event.target.dataset.bossParty;
+    const editNeedQtyId = event.target.dataset.editNeedQty;
     const needId = event.target.matches("[data-need-boss]") ? event.target.value : "";
     if (bossPartyId) {
       const boss = bossById(bossPartyId);
       if (!boss) return;
       boss.partySize = partySize({ partySize: event.target.value });
+      render();
+      return;
+    }
+    if (editNeedQtyId) {
+      const need = state.needs.find(item => item.id === editNeedQtyId);
+      if (!need) return;
+      const qty = Math.min(Math.max(Math.floor(Number(event.target.value)) || 0, 0), 20);
+      if (qty < 1) {
+        state.needs = state.needs.filter(item => item.id !== editNeedQtyId);
+      } else {
+        need.qty = qty;
+      }
       render();
       return;
     }
