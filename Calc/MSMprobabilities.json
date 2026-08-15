@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-08-14T04:06:27Z",
-  "active_count": 31,
-  "total_tracked": 71,
-  "change_count": 122,
+  "generated_at_utc": "2026-08-15T04:06:28Z",
+  "active_count": 32,
+  "total_tracked": 73,
+  "change_count": 125,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -736,6 +736,24 @@
       "type": "removed",
       "id": "7762",
       "title": "8th Anniversary Draw (Regular)"
+    },
+    {
+      "ts_utc": "2026-08-15T04:06:17Z",
+      "type": "new",
+      "id": "7757",
+      "title": "Master Label Season 11: Master Destiny Set"
+    },
+    {
+      "ts_utc": "2026-08-15T04:06:19Z",
+      "type": "new",
+      "id": "7756",
+      "title": "Royal Style: Aurora Racer Set"
+    },
+    {
+      "ts_utc": "2026-08-15T04:06:28Z",
+      "type": "removed",
+      "id": "7700",
+      "title": "Master Label Season 11: Master Destiny Set"
     }
   ],
   "items": [
@@ -250264,13 +250282,13 @@
       ]
     },
     {
-      "id": "7700",
+      "id": "7757",
       "title": "Master Label Season 11: Master Destiny Set",
-      "url": "https://m.nexon.com/probability/7700?language=en",
-      "hash": "f7c2ed23cbea0b955c51d3f4f7f46867487c4135171d597ed1128bfe1c4390a2",
+      "url": "https://m.nexon.com/probability/7757?language=en",
+      "hash": "453885b1d092572c95b9fe83f8c4fb8bfc8ede6827869a6dade265d5bab4a4f9",
       "active": true,
-      "first_seen_utc": "2026-07-15T04:07:24Z",
-      "last_changed_utc": "2026-07-15T04:07:24Z",
+      "first_seen_utc": "2026-08-15T04:06:17Z",
+      "last_changed_utc": "2026-08-15T04:06:17Z",
       "description_text": "* The individual probability of each item has been rounded up to the nearest hundredth. * The obtainable items from Masterpiece Fusion will match the noted gender of the base item.",
       "columns": [
         "Type",
@@ -250290,14 +250308,6 @@
         {
           "Type": "Weapon (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Oasis Seeker's Rod",
-          "Gender": "Default",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Weapon (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Grim Medic",
           "Gender": "Default",
           "Probability": "8.50",
@@ -250369,6 +250379,14 @@
         },
         {
           "Type": "Weapon (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Zodiac Staff",
+          "Gender": "Default",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Weapon (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Destiny",
           "Gender": "Default",
@@ -250382,22 +250400,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Hat (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Bouncy Desert Rabbit",
-          "Gender": "Default",
-          "Probability": "4.48",
-          "_probability_float": 4.48
-        },
-        {
-          "Type": "Hat (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Bouncy Checkered Headband",
-          "Gender": "Default",
-          "Probability": "4.48",
-          "_probability_float": 4.48
         },
         {
           "Type": "Hat (Special Label Base)",
@@ -250444,16 +250446,16 @@
           "Rank": "Red Label",
           "Item Name": "Dream Stella",
           "Gender": "Default",
-          "Probability": "4.47",
-          "_probability_float": 4.47
+          "Probability": "4.48",
+          "_probability_float": 4.48
         },
         {
           "Type": "Hat (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Dream Crescent",
           "Gender": "Default",
-          "Probability": "4.47",
-          "_probability_float": 4.47
+          "Probability": "4.48",
+          "_probability_float": 4.48
         },
         {
           "Type": "Hat (Special Label Base)",
@@ -250537,6 +250539,22 @@
         },
         {
           "Type": "Hat (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Starshine Hairpin",
+          "Gender": "Default",
+          "Probability": "4.47",
+          "_probability_float": 4.47
+        },
+        {
+          "Type": "Hat (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Starshine Headband",
+          "Gender": "Default",
+          "Probability": "4.47",
+          "_probability_float": 4.47
+        },
+        {
+          "Type": "Hat (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Eternal Oath",
           "Gender": "Default",
@@ -250554,22 +250572,6 @@
         {
           "Type": "Outfit (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (M)",
-          "Gender": "Male",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Outfit (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (F)",
-          "Gender": "Female",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Outfit (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Grim Silence (M)",
           "Gender": "Male",
           "Probability": "8.50",
@@ -250713,6 +250715,22 @@
         },
         {
           "Type": "Outfit (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Outfit (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Outfit (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -250734,22 +250752,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Top (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (M)",
-          "Gender": "Male",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Top (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (F)",
-          "Gender": "Female",
-          "Probability": "8.50",
-          "_probability_float": 8.5
         },
         {
           "Type": "Top (Special Label Base)",
@@ -250897,6 +250899,22 @@
         },
         {
           "Type": "Top (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Top (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Top (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -250918,22 +250936,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Bottom (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (M)",
-          "Gender": "Male",
-          "Probability": "8.50",
-          "_probability_float": 8.5
-        },
-        {
-          "Type": "Bottom (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (F)",
-          "Gender": "Female",
-          "Probability": "8.50",
-          "_probability_float": 8.5
         },
         {
           "Type": "Bottom (Special Label Base)",
@@ -251081,6 +251083,22 @@
         },
         {
           "Type": "Bottom (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Bottom (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "8.50",
+          "_probability_float": 8.5
+        },
+        {
+          "Type": "Bottom (Special Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -251102,102 +251120,94 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Gloves (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Brown Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
-        },
-        {
-          "Type": "Gloves (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "White Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Faded Drip",
           "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Firefly Glow",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Ice Snowboard",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Dreamy Milky Way",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Crimson Spirit",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Whooshing Rollercoaster",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Splashy Sling Bag",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Candy Stellar",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.72",
+          "_probability_float": 7.72
+        },
+        {
+          "Type": "Gloves (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cosmic Rings",
+          "Gender": "Default",
+          "Probability": "7.72",
+          "_probability_float": 7.72
         },
         {
           "Type": "Gloves (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Pom Pom Pincushion",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.72",
+          "_probability_float": 7.72
         },
         {
           "Type": "Gloves (Special Label Base)",
@@ -251214,14 +251224,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Shoes (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "Rolling-Along Explorer Shoes",
-          "Gender": "Default",
-          "Probability": "6.54",
-          "_probability_float": 6.54
         },
         {
           "Type": "Shoes (Special Label Base)",
@@ -251324,13 +251326,21 @@
           "Rank": "Red Label",
           "Item Name": "Cream Berry Knee Socks",
           "Gender": "Default",
+          "Probability": "6.54",
+          "_probability_float": 6.54
+        },
+        {
+          "Type": "Shoes (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cherry Berry Knee Socks",
+          "Gender": "Default",
           "Probability": "6.53",
           "_probability_float": 6.53
         },
         {
           "Type": "Shoes (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Cherry Berry Knee Socks",
+          "Item Name": "Observer's Footsteps",
           "Gender": "Default",
           "Probability": "6.53",
           "_probability_float": 6.53
@@ -251362,98 +251372,90 @@
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
-          "Item Name": "Brown Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
-        },
-        {
-          "Type": "Cape (Special Label Base)",
-          "Rank": "Red Label",
-          "Item Name": "White Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
-        },
-        {
-          "Type": "Cape (Special Label Base)",
-          "Rank": "Red Label",
           "Item Name": "Faded Drip",
           "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "7.09",
-          "_probability_float": 7.09
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Firefly Glow",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Ice Snowboard",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Dreamy Milky Way",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Crimson Spirit",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Whooshing Rollercoaster",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Splashy Sling Bag",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.73",
+          "_probability_float": 7.73
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Candy Stellar",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.72",
+          "_probability_float": 7.72
+        },
+        {
+          "Type": "Cape (Special Label Base)",
+          "Rank": "Red Label",
+          "Item Name": "Cosmic Rings",
+          "Gender": "Default",
+          "Probability": "7.72",
+          "_probability_float": 7.72
         },
         {
           "Type": "Cape (Special Label Base)",
           "Rank": "Red Label",
           "Item Name": "Pom Pom Pincushion",
           "Gender": "Default",
-          "Probability": "7.08",
-          "_probability_float": 7.08
+          "Probability": "7.72",
+          "_probability_float": 7.72
         },
         {
           "Type": "Cape (Special Label Base)",
@@ -251470,14 +251472,6 @@
           "Gender": "Default",
           "Probability": "3.00",
           "_probability_float": 3.0
-        },
-        {
-          "Type": "Weapon (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Oasis Seeker's Rod",
-          "Gender": "Default",
-          "Probability": "7.00",
-          "_probability_float": 7.0
         },
         {
           "Type": "Weapon (Red Label Base)",
@@ -251553,6 +251547,14 @@
         },
         {
           "Type": "Weapon (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Zodiac Staff",
+          "Gender": "Default",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Weapon (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Destiny",
           "Gender": "Default",
@@ -251566,22 +251568,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Hat (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Bouncy Desert Rabbit",
-          "Gender": "Default",
-          "Probability": "3.69",
-          "_probability_float": 3.69
-        },
-        {
-          "Type": "Hat (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Bouncy Checkered Headband",
-          "Gender": "Default",
-          "Probability": "3.69",
-          "_probability_float": 3.69
         },
         {
           "Type": "Hat (Red Label Base)",
@@ -251636,16 +251622,16 @@
           "Rank": "Black Label",
           "Item Name": "Dream Crescent",
           "Gender": "Default",
-          "Probability": "3.68",
-          "_probability_float": 3.68
+          "Probability": "3.69",
+          "_probability_float": 3.69
         },
         {
           "Type": "Hat (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Pom Pom Beret",
           "Gender": "Default",
-          "Probability": "3.68",
-          "_probability_float": 3.68
+          "Probability": "3.69",
+          "_probability_float": 3.69
         },
         {
           "Type": "Hat (Red Label Base)",
@@ -251721,6 +251707,22 @@
         },
         {
           "Type": "Hat (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Starshine Hairpin",
+          "Gender": "Default",
+          "Probability": "3.68",
+          "_probability_float": 3.68
+        },
+        {
+          "Type": "Hat (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Starshine Headband",
+          "Gender": "Default",
+          "Probability": "3.68",
+          "_probability_float": 3.68
+        },
+        {
+          "Type": "Hat (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Eternal Oath",
           "Gender": "Default",
@@ -251738,22 +251740,6 @@
         {
           "Type": "Outfit (Red Label Base)",
           "Rank": "Black Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (M)",
-          "Gender": "Male",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Outfit (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (F)",
-          "Gender": "Female",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Outfit (Red Label Base)",
-          "Rank": "Black Label",
           "Item Name": "Grim Silence (M)",
           "Gender": "Male",
           "Probability": "7.00",
@@ -251897,6 +251883,22 @@
         },
         {
           "Type": "Outfit (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Outfit (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Outfit (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -251918,22 +251920,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Top (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (M)",
-          "Gender": "Male",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Top (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (F)",
-          "Gender": "Female",
-          "Probability": "7.00",
-          "_probability_float": 7.0
         },
         {
           "Type": "Top (Red Label Base)",
@@ -252081,6 +252067,22 @@
         },
         {
           "Type": "Top (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Top (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Top (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -252102,22 +252104,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Bottom (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (M)",
-          "Gender": "Male",
-          "Probability": "7.00",
-          "_probability_float": 7.0
-        },
-        {
-          "Type": "Bottom (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Rolling Oasis Explorer Outfit (F)",
-          "Gender": "Female",
-          "Probability": "7.00",
-          "_probability_float": 7.0
         },
         {
           "Type": "Bottom (Red Label Base)",
@@ -252265,6 +252251,22 @@
         },
         {
           "Type": "Bottom (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Cape (M)",
+          "Gender": "Male",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Bottom (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Dress (F)",
+          "Gender": "Female",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Bottom (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Fated Judge (M)",
           "Gender": "Male",
@@ -252286,102 +252288,94 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Gloves (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Brown Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
-        },
-        {
-          "Type": "Gloves (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "White Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Faded Drip",
           "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Firefly Glow",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Ice Snowboard",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Dreamy Milky Way",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Crimson Spirit",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Whooshing Rollercoaster",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Splashy Sling Bag",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Candy Stellar",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
+        },
+        {
+          "Type": "Gloves (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cosmic Rings",
+          "Gender": "Default",
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Gloves (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Pom Pom Pincushion",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Gloves (Red Label Base)",
@@ -252398,14 +252392,6 @@
           "Gender": "Default",
           "Probability": "6.00",
           "_probability_float": 6.0
-        },
-        {
-          "Type": "Shoes (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "Rolling-Along Explorer Shoes",
-          "Gender": "Default",
-          "Probability": "5.39",
-          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
@@ -252460,8 +252446,8 @@
           "Rank": "Black Label",
           "Item Name": "Starland Socks",
           "Gender": "Default",
-          "Probability": "5.38",
-          "_probability_float": 5.38
+          "Probability": "5.39",
+          "_probability_float": 5.39
         },
         {
           "Type": "Shoes (Red Label Base)",
@@ -252521,6 +252507,14 @@
         },
         {
           "Type": "Shoes (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Observer's Footsteps",
+          "Gender": "Default",
+          "Probability": "5.38",
+          "_probability_float": 5.38
+        },
+        {
+          "Type": "Shoes (Red Label Base)",
           "Rank": "Master Label",
           "Item Name": "Residing Eternity (M)",
           "Gender": "Male",
@@ -252546,98 +252540,90 @@
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
-          "Item Name": "Brown Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
-        },
-        {
-          "Type": "Cape (Red Label Base)",
-          "Rank": "Black Label",
-          "Item Name": "White Hare Expedition Backpack",
-          "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
-        },
-        {
-          "Type": "Cape (Red Label Base)",
-          "Rank": "Black Label",
           "Item Name": "Faded Drip",
           "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Hanging Drip",
           "Gender": "Default",
-          "Probability": "5.84",
-          "_probability_float": 5.84
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Firefly Glow",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Ice Snowboard",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.37",
+          "_probability_float": 6.37
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Dreamy Milky Way",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Crimson Spirit",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Whooshing Rollercoaster",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Splashy Sling Bag",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Candy Stellar",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
+        },
+        {
+          "Type": "Cape (Red Label Base)",
+          "Rank": "Black Label",
+          "Item Name": "Cosmic Rings",
+          "Gender": "Default",
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Cape (Red Label Base)",
           "Rank": "Black Label",
           "Item Name": "Pom Pom Pincushion",
           "Gender": "Default",
-          "Probability": "5.83",
-          "_probability_float": 5.83
+          "Probability": "6.36",
+          "_probability_float": 6.36
         },
         {
           "Type": "Cape (Red Label Base)",
@@ -252656,7 +252642,7 @@
           "_probability_float": 6.0
         }
       ],
-      "row_count": 296,
+      "row_count": 292,
       "raw_table_rows": [
         [
           "' + arrKey[i] + '"
@@ -271164,6 +271150,334 @@
         }
       ],
       "row_count": 24,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
+      "id": "7756",
+      "title": "Royal Style: Aurora Racer Set",
+      "url": "https://m.nexon.com/probability/7756?language=en",
+      "hash": "e4216cd952c3495f7775df902d41ec83c88ec253838888d865de6578606b21f2",
+      "active": true,
+      "first_seen_utc": "2026-08-15T04:06:19Z",
+      "last_changed_utc": "2026-08-15T04:06:19Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Gender",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Gender": "gender_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Stellari Racer Goggles",
+          "Gender": "Default",
+          "Probability": "1.10",
+          "_probability_float": 1.1
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Lumina Racer Headset",
+          "Gender": "Default",
+          "Probability": "1.10",
+          "_probability_float": 1.1
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Stellari Racer Jumpsuit (M)",
+          "Gender": "Male",
+          "Probability": "2.20",
+          "_probability_float": 2.2
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Lumina Racer Jumpsuit (F)",
+          "Gender": "Female",
+          "Probability": "2.20",
+          "_probability_float": 2.2
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Stellari Racer Shoes (M)",
+          "Gender": "Male",
+          "Probability": "2.10",
+          "_probability_float": 2.1
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Lumina Racer Shoes (F)",
+          "Gender": "Female",
+          "Probability": "2.10",
+          "_probability_float": 2.1
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Aurora Racing Circuit",
+          "Gender": "Default",
+          "Probability": "1.70",
+          "_probability_float": 1.7
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Special Label Item",
+          "Item Name": "Zooming Blue Race Car",
+          "Gender": "Default",
+          "Probability": "1.80",
+          "_probability_float": 1.8
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Aurora Racer Helmet",
+          "Gender": "Default",
+          "Probability": "2.80",
+          "_probability_float": 2.8
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Smarty Cat Beanie",
+          "Gender": "Default",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Purr-ty Sharp Hairpin",
+          "Gender": "Default",
+          "Probability": "3.10",
+          "_probability_float": 3.1
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Smarty Cat Labwear (M)",
+          "Gender": "Male",
+          "Probability": "2.70",
+          "_probability_float": 2.7
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Purr-ty Smart Labwear (F)",
+          "Gender": "Female",
+          "Probability": "2.70",
+          "_probability_float": 2.7
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Smarty Cat Shoes (M)",
+          "Gender": "Male",
+          "Probability": "2.90",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Purr-ty Smart Shoes (F)",
+          "Gender": "Female",
+          "Probability": "2.90",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Purr-fect Assistant",
+          "Gender": "Default",
+          "Probability": "2.60",
+          "_probability_float": 2.6
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Poofy Bichon Hat",
+          "Gender": "Default",
+          "Probability": "2.90",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Bichon Outfit",
+          "Gender": "Default",
+          "Probability": "3.60",
+          "_probability_float": 3.6
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Bichon Shoes",
+          "Gender": "Default",
+          "Probability": "3.70",
+          "_probability_float": 3.7
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Bichon Gloves",
+          "Gender": "Default",
+          "Probability": "3.80",
+          "_probability_float": 3.8
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Floating Bichon",
+          "Gender": "Default",
+          "Probability": "4.00",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Bichon Bam",
+          "Gender": "Default",
+          "Probability": "4.00",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "New Orange Blush",
+          "Gender": "Default",
+          "Probability": "4.10",
+          "_probability_float": 4.1
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Lumin Wings",
+          "Gender": "Default",
+          "Probability": "4.30",
+          "_probability_float": 4.3
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Shoulder Blanche",
+          "Gender": "Default",
+          "Probability": "4.20",
+          "_probability_float": 4.2
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Paper Boat Hat",
+          "Gender": "Default",
+          "Probability": "4.30",
+          "_probability_float": 4.3
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Cherry Rabbit Ear Hood",
+          "Gender": "Default",
+          "Probability": "4.50",
+          "_probability_float": 4.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Accessory Item",
+          "Item Name": "Dark Slate Jeans",
+          "Gender": "Default",
+          "Probability": "4.50",
+          "_probability_float": 4.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Power Elixir",
+          "Gender": "Default",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Uniquely Rad Megaphone",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Legit Best of the Bunch Megaphone",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Mrs. Ming Ming's Grub Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "VIP Teleport Rock",
+          "Gender": "Default",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Auto-Battle Charge Ticket (30 Min)",
+          "Gender": "Default",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Meow Label Ring (30 Days)",
+          "Gender": "Default",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Royal Style Season 99",
+          "Rank": "Functional Item",
+          "Item Name": "Meow Chat Ring (30 Days)",
+          "Gender": "Default",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        }
+      ],
+      "row_count": 36,
       "raw_table_rows": [
         [
           "' + arrKey[i] + '"
