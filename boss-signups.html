@@ -1040,6 +1040,7 @@ window.MSM_SITE = {
   let remoteLoaded = !configuredBoardApi || !boardId;
   let saveTimer = null;
   let lastRemoteJson = "";
+  let lastRemoteState = null;
   const bossHpById = {
     arkarium: { 2: 4.74, 3: 6.63, 4: 8.53, 5: 10.42, 6: 12.13, 7: 13.83, 8: 15.54, 9: 17.06, 10: 18.95 },
     "normal-archon": { 2: 13.04, 3: 18.25, 4: 23.46, 5: 28.68, 6: 33.37, 7: 38.06, 8: 42.75, 9: 46.93, 10: 52.14 },
@@ -1210,6 +1211,76 @@ window.MSM_SITE = {
     return next;
   }
 
+  function cloneState(value) {
+    return cleanState(JSON.parse(JSON.stringify(value || {})));
+  }
+
+  function itemJson(item) {
+    return item == null ? "" : JSON.stringify(item);
+  }
+
+  function mergeRows(baseRows, localRows, remoteRows) {
+    const hasIds = rows => rows.every(row => row && row.id);
+    const base = Array.isArray(baseRows) ? baseRows : [];
+    const local = Array.isArray(localRows) ? localRows : [];
+    const remote = Array.isArray(remoteRows) ? remoteRows : [];
+    if (![base, local, remote].every(hasIds)) return local;
+
+    const baseById = new Map(base.map(row => [row.id, row]));
+    const localById = new Map(local.map(row => [row.id, row]));
+    const remoteById = new Map(remote.map(row => [row.id, row]));
+    const ids = unique([...remote, ...local, ...base].map(row => row.id));
+
+    return ids.reduce((rows, id) => {
+      const baseRow = baseById.get(id);
+      const localRow = localById.get(id);
+      const remoteRow = remoteById.get(id);
+
+      if (!baseRow) {
+        if (localRow) rows.push(localRow);
+        else if (remoteRow) rows.push(remoteRow);
+        return rows;
+      }
+
+      const localChanged = itemJson(localRow) !== itemJson(baseRow);
+      const remoteChanged = itemJson(remoteRow) !== itemJson(baseRow);
+
+      if (!localRow && !remoteRow) return rows;
+      if (!localRow) {
+        if (remoteChanged) rows.push(remoteRow);
+        return rows;
+      }
+      if (!remoteRow) {
+        if (localChanged) rows.push(localRow);
+        return rows;
+      }
+      if (localChanged) rows.push(localRow);
+      else if (remoteChanged) rows.push(remoteRow);
+      else rows.push(localRow);
+      return rows;
+    }, []);
+  }
+
+  function mergeBoardStates(baseState, localState, remoteState) {
+    const base = cleanState(baseState);
+    const local = cleanState(localState);
+    const remote = cleanState(remoteState);
+    return cleanState({
+      ...remote,
+      bosses: mergeRows(base.bosses, local.bosses, remote.bosses),
+      needs: mergeRows(base.needs, local.needs, remote.needs),
+      carries: mergeRows(base.carries, local.carries, remote.carries),
+      schedule: mergeRows(base.schedule, local.schedule, remote.schedule),
+      unassigned: mergeRows(base.unassigned, local.unassigned, remote.unassigned)
+    });
+  }
+
+  function persistLocalState() {
+    if (!boardId) return;
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    els.backupCode.value = encode(state);
+  }
+
   function loadState() {
     if (!boardId) return cleanState();
     const hashData = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("data");
@@ -1234,8 +1305,7 @@ window.MSM_SITE = {
   function save() {
     renderSessionGate();
     if (!boardId) return;
-    localStorage.setItem(storageKey, JSON.stringify(state));
-    els.backupCode.value = encode(state);
+    persistLocalState();
     if (configuredBoardApi && (remoteLoaded || restoredFromUrl)) {
       queueRemoteSave();
     }
@@ -1256,12 +1326,23 @@ window.MSM_SITE = {
   }
 
   async function saveRemoteBoard() {
-    const payload = JSON.stringify({ board: state });
-    if (payload === lastRemoteJson) {
-      setSyncStatus(`Synced: ${boardId}`, "green");
-      return;
-    }
     try {
+      const remoteResponse = lastRemoteState
+        ? await fetch(boardApiUrl(), { headers: { Accept: "application/json" }, cache: "no-store" })
+        : null;
+      if (remoteResponse && remoteResponse.ok) {
+        const remotePayload = await remoteResponse.json();
+        if (remotePayload?.board) {
+          state = mergeBoardStates(lastRemoteState, state, remotePayload.board);
+          persistLocalState();
+        }
+      }
+
+      const payload = JSON.stringify({ board: state });
+      if (payload === lastRemoteJson) {
+        setSyncStatus(`Synced: ${boardId}`, "green");
+        return;
+      }
       const response = await fetch(boardApiUrl(), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -1269,7 +1350,9 @@ window.MSM_SITE = {
       });
       if (!response.ok) throw new Error(`Save failed: ${response.status}`);
       lastRemoteJson = payload;
+      lastRemoteState = cloneState(state);
       setSyncStatus(`Synced: ${boardId}`, "green");
+      render();
     } catch (error) {
       console.warn("Unable to save shared board", error);
       setSyncStatus("Local changes", "danger");
@@ -1299,6 +1382,7 @@ window.MSM_SITE = {
       remoteLoaded = true;
       if (payload?.board) {
         state = cleanState(payload.board);
+        lastRemoteState = cloneState(state);
         lastRemoteJson = JSON.stringify({ board: state });
         render();
       }
@@ -1323,6 +1407,7 @@ window.MSM_SITE = {
     restoredFromUrl = false;
     remoteLoaded = !configuredBoardApi;
     lastRemoteJson = "";
+    lastRemoteState = null;
     window.clearTimeout(saveTimer);
     updateUrlForBoard(boardId);
     scheduleView = "list";
