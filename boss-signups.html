@@ -345,8 +345,8 @@ body[data-theme="dark"] {
 
 .boss-carry-block {
   display: grid;
-  gap: 4px;
-  padding-bottom: 8px;
+  gap: 6px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--boss-line);
 }
 
@@ -381,10 +381,15 @@ body[data-theme="dark"] {
   gap: 6px;
   align-items: center;
   min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
 }
 
 .boss-run-line.boss-run-list {
-  grid-template-columns: minmax(116px, 1.05fr) 84px minmax(220px, 2.4fr) auto auto;
+  grid-template-columns: minmax(104px, 0.85fr) 76px 106px minmax(240px, 2.4fr) minmax(54px, auto) auto;
+  border-color: var(--boss-line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--boss-panel-soft), transparent 16%);
 }
 
 .boss-run-line.completed {
@@ -413,8 +418,6 @@ body[data-theme="dark"] {
 
 .boss-run-players.list-only {
   align-items: center;
-  display: flex;
-  gap: 6px;
   min-width: 0;
 }
 
@@ -437,6 +440,10 @@ body[data-theme="dark"] {
   white-space: nowrap;
 }
 
+.boss-run-line.boss-run-list .boss-hp-inline {
+  justify-self: start;
+}
+
 .boss-name-chips {
   display: flex;
   flex: 1 1 auto;
@@ -454,6 +461,12 @@ body[data-theme="dark"] {
   font-weight: 900;
   line-height: 1;
   padding: 4px 7px;
+}
+
+body[data-theme="dark"] .boss-name-chip {
+  border-color: color-mix(in srgb, var(--player-color), white 10%);
+  background: color-mix(in srgb, var(--player-color), transparent 68%);
+  color: color-mix(in srgb, var(--player-color), white 48%);
 }
 
 .boss-name-chip[draggable="true"] {
@@ -800,6 +813,10 @@ body[data-theme="dark"] {
 
   .boss-run-line {
     grid-template-columns: minmax(96px, 1.1fr) 60px;
+  }
+
+  .boss-run-line.boss-run-list {
+    grid-template-columns: minmax(86px, 1fr) auto auto;
   }
 
   .boss-run-players,
@@ -1753,8 +1770,8 @@ window.MSM_SITE = {
       <div class="boss-run-line boss-run-list ${group.completed ? "completed" : ""}">
         <div class="boss-carry-name">${escapeHtml(boss.name || "Unknown")}</div>
         <div class="boss-seat-inline">Party ${currentParty}</div>
+        <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: currentParty }))}</span>
         <div class="boss-run-players list-only">
-          <span class="boss-hp-inline">2% ${formatValue(bossValueForParty({ ...boss, partySize: currentParty }))}</span>
           <div class="boss-name-chips">${playerChips(assignedPlayers) || `<span class="boss-carry-time">Open</span>`}</div>
         </div>
         <div class="boss-run-status ${statusClass}">${statusText}</div>
