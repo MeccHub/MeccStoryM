@@ -1216,16 +1216,44 @@ window.MSM_SITE = {
       runsEach: 1,
       maxPartySize: maxPartySize(carry.maxPartySize)
     })) : [];
-    next.schedule = Array.isArray(next.schedule) ? next.schedule.map(group => {
+    next.schedule = Array.isArray(next.schedule) ? dedupeSchedule(next.schedule.map(group => {
       const boss = next.bosses.find(item => item.id === group.bossId);
       return {
         ...group,
         locked: Boolean(group.locked),
+        completed: Boolean(group.completed),
         maxPartySize: maxPartySize(group.maxPartySize, partySize(boss || {}))
       };
-    }) : [];
+    })) : [];
     next.unassigned = Array.isArray(next.unassigned) ? next.unassigned : [];
     return next;
+  }
+
+  function dedupeSchedule(groups) {
+    const byKey = new Map();
+    groups.forEach(group => {
+      const key = scheduleDuplicateKey(group);
+      const existing = byKey.get(key);
+      if (!existing) {
+        byKey.set(key, group);
+        return;
+      }
+      existing.locked = existing.locked || group.locked;
+      existing.completed = existing.completed || group.completed;
+      if (!existing.id && group.id) existing.id = group.id;
+    });
+    return Array.from(byKey.values());
+  }
+
+  function scheduleDuplicateKey(group) {
+    const players = Array.isArray(group.players) ? group.players.map(normalizePlayerName).filter(Boolean).sort() : [];
+    return [
+      group.bossId || "",
+      normalizePlayerName(group.carry || "Manual"),
+      String(group.time || "Anytime"),
+      String(group.runNumber || 1),
+      players.join("\u0001")
+    ].join("\u0000");
   }
 
   function cloneState(value) {
@@ -1400,8 +1428,13 @@ window.MSM_SITE = {
       if (payload?.board) {
         state = cleanState(payload.board);
         lastRemoteState = cloneState(state);
-        lastRemoteJson = JSON.stringify({ board: state });
+        lastRemoteJson = JSON.stringify({ board: payload.board });
+        const cleanedJson = JSON.stringify({ board: state });
         render();
+        if (cleanedJson !== lastRemoteJson) {
+          queueRemoteSave();
+          return;
+        }
       }
       setSyncStatus(`Synced: ${boardId}`, "green");
       if (!payload?.board) queueRemoteSave();
@@ -1961,7 +1994,8 @@ window.MSM_SITE = {
   function sameCarrySlot(slot, group) {
     return slot.bossId === group.bossId &&
       String(slot.carry || "") === String(group.carry || "") &&
-      String(slot.time || "") === String(group.time || "");
+      String(slot.time || "") === String(group.time || "") &&
+      Number(slot.runNumber || 1) === Number(group.runNumber || 1);
   }
 
   function playerBossKey(player, bossId) {
