@@ -1,8 +1,56 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-08-26T04:00:05Z",
+  "generated_at_utc": "2026-08-27T04:00:16Z",
   "count": 12,
   "events": [
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3532979",
+      "title": "✨ Stellar Pass ✨",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532979",
+      "posted_utc": "2026-08-27T00:00:00Z",
+      "event_period_raw": "Event Period: 2026/8/27 (Thu) After Update - 2026/9/16 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/9/16 (Wed) 10:00 - 2026/9/23 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-08-27T08:00:00Z",
+      "end_utc": "2026-09-16T17:59:00Z",
+      "first_seen_utc": "2026-08-27T04:00:06Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3532976",
+      "title": "🎁 Starlight Shop Part 2 ✨",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532976",
+      "posted_utc": "2026-08-27T00:00:00Z",
+      "event_period_raw": "Reward Points Gain: 2026/7/30 (Thu) After Update - 2026/9/16 (Wed) 09:59 (Server Time) Reward Points Shop - Starlight Fragment Special Shop: 2026/7/30 (Thu) After Update – 2026/9/23 (Wed) 9:59 (Server Time) Starlight Fragment Shop (1st): 2026/7/30 (Thu) After Update – 2026/9/3 (Thu) 9:59 (Server Time) Starlight Fragment Shop (2nd): 2026/8/27 (Thu) After Update – 2026/9/23 (Wed) 9:59 (Server Time) *",
+      "start_utc": "2026-07-30T08:00:00Z",
+      "end_utc": "2026-09-16T17:59:00Z",
+      "first_seen_utc": "2026-08-27T04:00:08Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3532975",
+      "title": "✨ Forge Pass Event ⚒️",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532975",
+      "posted_utc": "2026-08-27T00:00:00Z",
+      "event_period_raw": "2026/8/27 (Thu) After Maintenance - 2026/9/16 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-08-27T08:00:00Z",
+      "end_utc": "2026-09-16T17:59:00Z",
+      "first_seen_utc": "2026-08-27T04:00:09Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3532973",
+      "title": "🎉 8th Anniversary Maple Momentree Part 2 🍁",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532973",
+      "posted_utc": "2026-08-27T00:00:00Z",
+      "event_period_raw": "After the 2026/08/27 (Thu) Maintenance - 2026/09/16 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-08-27T08:00:00Z",
+      "end_utc": "2026-09-16T17:59:00Z",
+      "first_seen_utc": "2026-08-27T04:00:12Z"
+    },
     {
       "board_id": 2692,
       "type": "event",
@@ -13,43 +61,7 @@
       "event_period_raw": "Event Period: 2026/08/20 (Thu) 10:00 - 2026/09/09 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/09/09 (Wed) 10:00 - 2026/09/16 (Wed) 09:59 (Server Time) *",
       "start_utc": "2026-08-20T18:00:00Z",
       "end_utc": "2026-09-09T17:59:00Z",
-      "first_seen_utc": "2026-08-20T04:00:06Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3517249",
-      "title": "🎉 Snapshots with Friends 📷",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3517249",
-      "posted_utc": "2026-08-13T02:00:00Z",
-      "event_period_raw": "2026/08/13 (Thu) 10:00 - 2026/08/26 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-08-13T18:00:00Z",
-      "end_utc": "2026-08-26T17:59:00Z",
-      "first_seen_utc": "2026-08-13T04:00:07Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3517248",
-      "title": "🧑‍🍳 Kenly's Festival Cooking 🍽️",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3517248",
-      "posted_utc": "2026-08-12T16:00:00Z",
-      "event_period_raw": "2026/08/13 (Thu) 00:00 - 2026/08/26 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Complete daily missions to collect 4 types of festival ingredients, then use them to enter a mini-game! Earn various rewards based on your mini-game result. [How to Participate] ① Go to [Menu] > [Event] > [Maple Momentree] > [Kenly's Festival Cooking] to participate in the event. * This event is an account-based event with no level requirement. ② Complete",
-      "start_utc": "2026-08-13T08:00:00Z",
-      "end_utc": "2026-08-26T17:59:00Z",
-      "first_seen_utc": "2026-08-13T04:00:09Z"
-    },
-    {
-      "board_id": 2693,
-      "type": "market",
-      "thread_id": "3512065",
-      "title": "✨ MapleStory M 8th Anniversary x Razer Gold Promotion Package",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2693&thread=3512065",
-      "posted_utc": "2026-07-30T04:00:01Z",
-      "event_period_raw": "✨ MapleStory M 8 th Anniversary x Razer Gold Promotion Package ✨ Razer Gold Promotion Package Special Razer Gold packages packed with Crystals and Mesos, available for a limited time! ▶ Sales Period: 2026/07/30 10:00 – 2026/08/26 09:59 (Server Time) *Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 ▶Package Details Package Name Purchase Limit Details Razer Gold Currency Combo Package X1 per account Crystals x1,500 1,000,000,000 Meso Exchange Ticket x2 Razer Gold Crystal Full Pack",
-      "start_utc": "2026-07-30T18:00:00Z",
-      "end_utc": "2026-08-26T17:59:00Z",
-      "first_seen_utc": "2026-07-31T04:00:07Z"
+      "first_seen_utc": "2026-08-26T11:46:11Z"
     },
     {
       "board_id": 2691,
@@ -61,7 +73,7 @@
       "event_period_raw": "📅 Various Events are planned as below! Check the schedule and don’t miss it! For more information visit the Razer Gold Webpage: ( Link ) Event Schedule Summer Special Event 2026/07/30 (Thu) 11:00 - 2026/09/16 (Wed) 23:59 (UTC+8) SNS Anniversary Event 2026/07/30 (Thu) 11:00 - 2026/08/12 (Wed) 23:59 (UTC+8) Anniversary Lucky Draw 2026/07/30 (Thu) 11:00 - 2026/08/26 (Wed) 23:59 (UTC+8) Also, stay tuned as many influencers will celebrate MapleStory M 8 th Anniversary together! Celebrate together to ",
       "start_utc": "2026-07-30T19:00:00Z",
       "end_utc": "2026-09-17T07:59:00Z",
-      "first_seen_utc": "2026-07-30T04:00:06Z"
+      "first_seen_utc": "2026-08-26T11:46:07Z"
     },
     {
       "board_id": 2692,
@@ -73,7 +85,7 @@
       "event_period_raw": "After the 2026/07/30 (Thu) Maintenance - 2026/09/16 (Wed) 09:59 (Server Time) *",
       "start_utc": "2026-07-30T08:00:00Z",
       "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-07-30T04:00:13Z"
+      "first_seen_utc": "2026-08-26T11:46:17Z"
     },
     {
       "board_id": 2692,
@@ -85,7 +97,7 @@
       "event_period_raw": "After the 2026/07/30 (Thu) Update - 2026/09/10 (Thu) 09:59 (Server Time) *",
       "start_utc": "2026-07-30T08:00:00Z",
       "end_utc": "2026-09-10T17:59:00Z",
-      "first_seen_utc": "2026-07-30T04:00:15Z"
+      "first_seen_utc": "2026-08-26T11:46:19Z"
     },
     {
       "board_id": 2692,
@@ -97,7 +109,7 @@
       "event_period_raw": "After the 2026/07/30 (Thu) Update - 2026/09/24 (Thu) 09:59 (Server Time) *",
       "start_utc": "2026-07-30T08:00:00Z",
       "end_utc": "2026-09-24T17:59:00Z",
-      "first_seen_utc": "2026-07-30T04:00:18Z"
+      "first_seen_utc": "2026-08-26T11:46:21Z"
     },
     {
       "board_id": 2692,
@@ -109,7 +121,7 @@
       "event_period_raw": "After the 2026/07/30 (Thu) Update - 2026/09/24 (Thu) 09:59 (Each Server Time) *",
       "start_utc": "2026-07-30T08:00:00Z",
       "end_utc": "2026-09-24T17:59:00Z",
-      "first_seen_utc": "2026-07-30T04:00:20Z"
+      "first_seen_utc": "2026-08-26T11:46:23Z"
     },
     {
       "board_id": 2692,
@@ -121,7 +133,7 @@
       "event_period_raw": "Reward Points Gain: 2026/07/30 (Thu) After Update - 2026/09/16 (Wed) 09:59 (Server Time) Reward Points Shop - Starlight Fragment Special Shop: 2026/07/30 (Thu) After Update – 2026/09/23 (Wed) 9:59 (Server Time) Starlight Fragment Shop (1st): 2026/07/30 (Thu) After Update – 2026/09/03 (Thu) 9:59 (Server Time) Starlight Fragment Shop (2nd): 2026/08/27 (Thu) After Update – 2026/09/23 (Wed) 9:59 (Server Time) *",
       "start_utc": "2026-07-30T08:00:00Z",
       "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-07-30T04:00:24Z"
+      "first_seen_utc": "2026-08-26T11:46:27Z"
     },
     {
       "board_id": 2692,
@@ -134,18 +146,6 @@
       "start_utc": "2026-07-25T08:00:00Z",
       "end_utc": "2026-08-28T17:59:00Z",
       "first_seen_utc": "2026-07-25T04:00:09Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3496447",
-      "title": "📱 Maple M Account Link Event 💻",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3496447",
-      "posted_utc": "2026-07-09T00:00:00Z",
-      "event_period_raw": "2026/07/09 (Thu) After Update - 2026/08/26 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-07-09T08:00:00Z",
-      "end_utc": "2026-08-26T17:59:00Z",
-      "first_seen_utc": "2026-07-09T04:00:08Z"
     }
   ]
 }
