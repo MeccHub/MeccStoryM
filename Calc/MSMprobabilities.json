@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-08-26T04:06:24Z",
-  "active_count": 31,
-  "total_tracked": 73,
-  "change_count": 126,
+  "generated_at_utc": "2026-08-27T04:06:22Z",
+  "active_count": 35,
+  "total_tracked": 77,
+  "change_count": 131,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -760,6 +760,36 @@
       "type": "removed",
       "id": "7752",
       "title": "Golden Apple Rewards in the 2nd week of August"
+    },
+    {
+      "ts_utc": "2026-08-27T04:06:06Z",
+      "type": "changed",
+      "id": "7383",
+      "title": "Jewel (Fusion / Boxes)"
+    },
+    {
+      "ts_utc": "2026-08-27T04:06:08Z",
+      "type": "new",
+      "id": "7816",
+      "title": "Star Chorus - Top Chorus"
+    },
+    {
+      "ts_utc": "2026-08-27T04:06:09Z",
+      "type": "new",
+      "id": "7819",
+      "title": "Earthseer Style"
+    },
+    {
+      "ts_utc": "2026-08-27T04:06:10Z",
+      "type": "new",
+      "id": "7822",
+      "title": "Special Magnificent Soul Coupon"
+    },
+    {
+      "ts_utc": "2026-08-27T04:06:10Z",
+      "type": "new",
+      "id": "7821",
+      "title": "Premium Magnificent Soul Coupon"
     }
   ],
   "items": [
@@ -249164,6 +249194,1030 @@
       "audit_flags": []
     },
     {
+      "id": "7819",
+      "title": "Earthseer Style",
+      "url": "https://m.nexon.com/probability/7819?language=en",
+      "hash": "e55dbd42c178e56c47a740d5c27b3044238e360f8b81be9d9a77771a2eef5d57",
+      "active": true,
+      "first_seen_utc": "2026-08-27T04:06:09Z",
+      "last_changed_utc": "2026-08-27T04:06:09Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Gender",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Gender": "gender_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Azazelle's Red Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Azazelle's Orange Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Azazelle's Blue Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Azazelle's Green Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Archon's Red Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Archon's Orange Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Archon's Blue Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Archon's Green Stigmata",
+          "Gender": "Default",
+          "Probability": "0.0050",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Jewel Choice Box (SSS) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0100",
+          "_probability_float": 0.01
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Earthseer Hair (F) Selection Coupon",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Earthseer Hair (M) Selection Coupon",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Dewy Antlers",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Idyllic Blustery Robe (M)",
+          "Gender": "Male",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Idyllic Gusty Robe (F)",
+          "Gender": "Female",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Nature's Breath Staff",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Idyllic Sunbeam Cape",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Earthseer's Footsteps",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Earthseer's Dream",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Sky Wanderer Scroll Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Rambunctious Spirit",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Idyllic Damage Skin Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Feng Shui Effect Damage Skin (Unit) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Earthseer Megaphone x3 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Princess Android Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0150",
+          "_probability_float": 0.015
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Flapjack Octoroid Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0150",
+          "_probability_float": 0.015
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Moon Ribbon",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Princess Dress (F)",
+          "Gender": "Female",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Prince Tunic (M)",
+          "Gender": "Male",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Rainbow Pearl",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Gem Tree",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Deep Sea Flower",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Soft White Puppy Ears",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy White Puppy (F)",
+          "Gender": "Female",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Pudgy White Puppy (M)",
+          "Gender": "Male",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "White Puppy Wiggle (F)",
+          "Gender": "Female",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "White Puppy Toddle (M)",
+          "Gender": "Male",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "White Puppy Boomerang",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Furry White Puppy Tail",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Soft Plush Chat Ring",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Soft Plush Label Ring",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiss Kiss Pew Pew Headset",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiss Kiss Pew Pew Hoodie (M)",
+          "Gender": "Male",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiss Kiss Pew Pew Hoodie (F)",
+          "Gender": "Female",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiss Kiss Pew Pew Hearts",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiss Kiss Pew Pew Kicks",
+          "Gender": "Default",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiss Kiss Pew Pew Gun",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Sweet Bite Hairband",
+          "Gender": "Default",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Saccharine Memories (M)",
+          "Gender": "Male",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Saccharine Wishes (F)",
+          "Gender": "Female",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Sweet Strawberry Shoes (M)",
+          "Gender": "Male",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Sweet Strawberry Flats (F)",
+          "Gender": "Female",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Sweet Wind-Up Crank",
+          "Gender": "Default",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Cheery Candle",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lop-Eared Bunny Head",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lop-Eared Bunny Costume",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lop-Eared Shoes",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Trim Heart Frame",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy Cat Head",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Calico Overalls",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy Kitty Paws",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Love in the Air",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Pink Ribbon Red Panda Head",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy Red Panda Costume",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy Red Panda Paws",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Sentimental Chocolate Paw",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy Black Sheep Hat",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fluffy Black Sheep Costume",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Bundle of Fluff",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Purrfect Passenger",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Kiddie Piggy",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Flower Quokka Friends",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Perky Rabbit Snapback",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Puppy Ribbon Hairband",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Rabbit Ear Hairpins",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Bunny Sailor Cap",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Snoozing Kitty Beret",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Panda Hairpin",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Meow Beans Hairpin",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Teddy Trim Cap",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fetching Fox Beret",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Purple Cow Bucket Hat",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Hammy on Head",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Epic Azazelle's Stigmata Box",
+          "Gender": "Default",
+          "Probability": "0.0600",
+          "_probability_float": 0.06
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Epic Archon's Stigmata Box",
+          "Gender": "Default",
+          "Probability": "0.0600",
+          "_probability_float": 0.06
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Customized Soul Enchanter Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.1000",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Unique Potential Scroll (50%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.1500",
+          "_probability_float": 0.15
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Chaos Mastercraft Scroll (Weapon) (5%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0400",
+          "_probability_float": 0.04
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Chaos Mastercraft Scroll (Armor) (5%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0400",
+          "_probability_float": 0.04
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Ancient Mastercraft Scroll (10%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Ancient Mastercraft Scroll (6%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Jewel Choice Box (SS) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.1000",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Jewel Box (SS) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Master Jewel (SS) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.4500",
+          "_probability_float": 0.45
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Jewel (SS) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Jewel (S) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Rebirth Flame (Legendary) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Soul Enchanter (30%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Mysterious Weapon Whetstone (Legendary) x50 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Mysterious Armor Whetstone (Legendary) x50 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Shield Scroll x1 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Shielding Ward x1 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Lucky Day Scroll (5%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Orange EXP Increase Ticket",
+          "Gender": "Default",
+          "Probability": "3.0000",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Yellow EXP Increase Ticket",
+          "Gender": "Default",
+          "Probability": "3.0000",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Snake Soup",
+          "Gender": "Default",
+          "Probability": "3.0000",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Ginseng Soup",
+          "Gender": "Default",
+          "Probability": "2.4000",
+          "_probability_float": 2.4
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Cronos's Egg",
+          "Gender": "Default",
+          "Probability": "2.4000",
+          "_probability_float": 2.4
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Auto-Battle Charge Ticket (10 Min)",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Auto-Battle Charge Ticket (1 Hr)",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Red Cube",
+          "Gender": "Default",
+          "Probability": "2.6000",
+          "_probability_float": 2.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Carrot Juice",
+          "Gender": "Default",
+          "Probability": "2.6000",
+          "_probability_float": 2.6
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fried Shrimp",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Chestnut",
+          "Gender": "Default",
+          "Probability": "2.9000",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fruity Yogurt & Grape Juice Choice Box",
+          "Gender": "Default",
+          "Probability": "2.5000",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Wedding Cake",
+          "Gender": "Default",
+          "Probability": "2.5000",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Mushroom Candy",
+          "Gender": "Default",
+          "Probability": "2.5700",
+          "_probability_float": 2.57
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Fruity Candy",
+          "Gender": "Default",
+          "Probability": "2.5000",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Dumpling",
+          "Gender": "Default",
+          "Probability": "2.4500",
+          "_probability_float": 2.45
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Candy Basket/Candy Cane Choice Box",
+          "Gender": "Default",
+          "Probability": "2.4500",
+          "_probability_float": 2.45
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Power Elixir",
+          "Gender": "Default",
+          "Probability": "2.3000",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Power Elixir",
+          "Gender": "Default",
+          "Probability": "2.3000",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Shield Scroll",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "Earthseer Style",
+          "Rank": "",
+          "Item Name": "Shielding Ward",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        }
+      ],
+      "row_count": 123,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
       "id": "7240",
       "title": "Golden Apple Exchange and Puzzle Fusion Reward Probability",
       "url": "https://m.nexon.com/probability/7240?language=en",
@@ -249314,10 +250368,10 @@
       "id": "7383",
       "title": "Jewel (Fusion / Boxes)",
       "url": "https://m.nexon.com/probability/7383?language=en",
-      "hash": "6106c81e06f2ff3c9c833f5e73f0b2b43696dcdb8e05656c791e762875020115",
+      "hash": "5e1af7573bcfd06dae694db82d50209dc4c070e060c4b228d0a91158809381e6",
       "active": true,
       "first_seen_utc": "2026-03-15T05:22:10Z",
-      "last_changed_utc": "2026-03-15T05:22:10Z",
+      "last_changed_utc": "2026-08-27T04:06:06Z",
       "description_text": "Rank",
       "columns": [
         "Rank",
@@ -249359,9 +250413,15 @@
           "Higher Rank": "SSS",
           "Probability": "2%",
           "_probability_float": null
+        },
+        {
+          "Rank": "SSS",
+          "Higher Rank": "EX",
+          "Probability": "2%",
+          "_probability_float": null
         }
       ],
-      "row_count": 5,
+      "row_count": 6,
       "raw_table_rows": [
         [
           "Rank",
@@ -249392,11 +250452,16 @@
           "SS",
           "SSS",
           "2%"
+        ],
+        [
+          "SSS",
+          "EX",
+          "2%"
         ]
       ],
-      "raw_table_row_count": 6,
+      "raw_table_row_count": 7,
       "audit_flags": [
-        "non_numeric_probability_rows:5"
+        "non_numeric_probability_rows:6"
       ]
     },
     {
@@ -252016,6 +253081,150 @@
         }
       ],
       "row_count": 1,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
+      "id": "7821",
+      "title": "Premium Magnificent Soul Coupon",
+      "url": "https://m.nexon.com/probability/7821?language=en",
+      "hash": "9c94c79db6c0156aa39365e650cf5de1a322d77f3816e96e4990cb3f477f6e8f",
+      "active": true,
+      "first_seen_utc": "2026-08-27T04:06:10Z",
+      "last_changed_utc": "2026-08-27T04:06:10Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Number Acquired",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Number Acquired": "item_count_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Hilla Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Von Bon Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Pierre Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Crimson Queen Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Vellum Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "10.00",
+          "_probability_float": 10.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Magnus Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Arkarium Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Lotus Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Damien Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "9.00",
+          "_probability_float": 9.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Lucid Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Will Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "3.50",
+          "_probability_float": 3.5
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Verus Hilla Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "2.50",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "Premium Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Darknell Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "1.00",
+          "_probability_float": 1.0
+        }
+      ],
+      "row_count": 13,
       "raw_table_rows": [
         [
           "' + arrKey[i] + '"
@@ -271565,6 +272774,216 @@
       ],
       "raw_table_row_count": 11,
       "audit_flags": []
+    },
+    {
+      "id": "7822",
+      "title": "Special Magnificent Soul Coupon",
+      "url": "https://m.nexon.com/probability/7822?language=en",
+      "hash": "9f93f7ef2d70dc47d12e8ff0679fdc39eef65b8f37986b05f3d25ef4f339d34e",
+      "active": true,
+      "first_seen_utc": "2026-08-27T04:06:10Z",
+      "last_changed_utc": "2026-08-27T04:06:10Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Number Acquired",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Number Acquired": "item_count_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Hilla Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Von Bon Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Pierre Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Crimson Queen Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Vellum Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "10.00",
+          "_probability_float": 10.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Magnus Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Arkarium Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Lotus Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Damien Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "9.00",
+          "_probability_float": 9.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Lucid Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "8.00",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Will Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "3.00",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "Special Magnificent Soul Coupon",
+          "Rank": "",
+          "Item Name": "Magnificent Verus Hilla Soul Exchange Ticket",
+          "Number Acquired": "1",
+          "Probability": "2.00",
+          "_probability_float": 2.0
+        }
+      ],
+      "row_count": 12,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
+      "id": "7816",
+      "title": "Star Chorus - Top Chorus",
+      "url": "https://m.nexon.com/probability/7816?language=en",
+      "hash": "1b14267fd38b766a8cabc680ce4bf061c762a7be9302158a30868ea2e91394bd",
+      "active": true,
+      "first_seen_utc": "2026-08-27T04:06:08Z",
+      "last_changed_utc": "2026-08-27T04:06:08Z",
+      "description_text": "[Top Chorus Initial Unlock] - Top Chorus is a special Chorus that assigns stats within a predetermined range. - When the Top Chorus is first unlocked, the options below are guaranteed to appear.",
+      "columns": [
+        "Category",
+        "Option",
+        "Probability",
+        "Stat"
+      ],
+      "meta": {
+        "Category": "Category",
+        "Option": "Option",
+        "Probability": "Probability",
+        "Stat": "Stat"
+      },
+      "rows": [
+        {
+          "Category": "Top Chorus",
+          "Option": "Boss ATK Increase",
+          "Probability": "100%",
+          "Stat": "5.00%",
+          "_probability_float": null
+        },
+        {
+          "Category": "Max DMG",
+          "Option": "100%",
+          "Probability": "12,000,000",
+          "Stat": "",
+          "_probability_float": null
+        },
+        {
+          "Category": "Final DMG Increase",
+          "Option": "100%",
+          "Probability": "2.40%",
+          "Stat": "",
+          "_probability_float": null
+        }
+      ],
+      "row_count": 3,
+      "raw_table_rows": [
+        [
+          "Category",
+          "Option",
+          "Probability",
+          "Stat"
+        ],
+        [
+          "Top Chorus",
+          "Boss ATK Increase",
+          "100%",
+          "5.00%"
+        ],
+        [
+          "Max DMG",
+          "100%",
+          "12,000,000"
+        ],
+        [
+          "Final DMG Increase",
+          "100%",
+          "2.40%"
+        ]
+      ],
+      "raw_table_row_count": 4,
+      "audit_flags": [
+        "non_numeric_probability_rows:3"
+      ]
     },
     {
       "id": "7755",
