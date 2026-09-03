@@ -1,8 +1,44 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-09-02T04:00:05Z",
-  "count": 12,
+  "generated_at_utc": "2026-09-03T04:00:31Z",
+  "count": 15,
   "events": [
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3536668",
+      "title": "🛎️ Steady Server 🍽️",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3536668",
+      "posted_utc": "2026-09-03T02:00:00Z",
+      "event_period_raw": "2026/09/03 (Thu) 10:00 ~ 2026/09/16 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Participate in the serving mini-game and earn up to 600 Momentree Coins per day based on your Serving Rank! [How to Participate] ① Go to [Menu] > [Event] > [Maple Momentree] > [Steady Server] to participate in the event. *This event is an account-based event with no level requirement. ② Touch the [Serve] button to start the mini-game. Press or release the",
+      "start_utc": "2026-09-03T18:00:00Z",
+      "end_utc": "2026-09-16T17:59:00Z",
+      "first_seen_utc": "2026-09-03T04:00:26Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3536676",
+      "title": "💤Chill Out with Lucky🥱",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3536676",
+      "posted_utc": "2026-09-02T16:00:00Z",
+      "event_period_raw": "2026/09/03 (Thu) 00:00 - 2026/09/16 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details When you log in during the event, time starts accumulating from the moment of your first login. The EXP Gauge charges every hour, and you can receive the accumulated EXP (up to 24 hours) in your Personal Mailbox. Complete Auto-Battle daily missions to earn additional charging time, and earn Momentree Coins upon completing the final mission. [How to Partic",
+      "start_utc": "2026-09-03T08:00:00Z",
+      "end_utc": "2026-09-16T17:59:00Z",
+      "first_seen_utc": "2026-09-03T04:00:27Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3536663",
+      "title": "💪 Commander's Test 🗡️",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3536663",
+      "posted_utc": "2026-09-02T16:00:00Z",
+      "event_period_raw": "Event Period: 2026/09/03 (Thu) 00:00 - 2026/09/23 (Wed) 23:59 (Server Time) Loot Shop Period: 2026/09/03 (Thu) 00:00 - 2026/09/30 (Wed) 23:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details During the event, defeat the designated daily and weekly bosses to earn Loot Keys and Shiny Loot Keys. Use them to exchange for items at the Commander's Test Loot Shop. [How to Participate] ① Go to [Menu] > [Event] > [Commander's Test] to participate in the event",
+      "start_utc": "2026-09-03T08:00:00Z",
+      "end_utc": "2026-09-24T07:59:00Z",
+      "first_seen_utc": "2026-09-03T04:00:28Z"
+    },
     {
       "board_id": 2691,
       "type": "announcement",
