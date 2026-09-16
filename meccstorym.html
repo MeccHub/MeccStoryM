@@ -5803,22 +5803,22 @@ cdColorFromHex();
    USEFUL INFORMATION TABLE
 ═══════════════════════════════════════════════════════ */
 const UI_BOSS_ROWS = [
-  { boss:'Arkarium', hp:947.6, req:37.9, p2:15.92, p3:22.36, p4:28.43, p5:34.87, p6:37.9, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Normal Archon', hp:2607.0, req:104.28, p2:43.8, p3:61.53, p4:78.21, p5:95.94, p6:104.28, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Lotus', hp:3162.0, req:126.48, p2:53.12, p3:74.62, p4:94.86, p5:116.36, p6:126.48, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Damien (N/H)', hp:4563.0, req:182.52, p2:76.66, p3:107.69, p4:136.89, p5:167.92, p6:182.52, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Hard Lucid', hp:5045.0, req:201.8, p2:84.76, p3:119.06, p4:151.35, p5:185.66, p6:201.8, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Gloom', hp:14364.0, req:574.56, p2:241.32, p3:338.99, p4:430.92, p5:528.6, p6:574.56, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Hard Archon', hp:19143.0, req:765.72, p2:321.6, p3:451.77, p4:574.29, p5:704.46, p6:765.72, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Hard Will', hp:25049.0, req:1001.96, p2:420.82, p3:591.16, p4:751.47, p5:921.8, p6:1001.96, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Normal Azazelle', hp:42240.0, req:1689.6, p2:709.63, p3:996.86, p4:1267.2, p5:1554.43, p6:1689.6, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Normal Verus Hilla', hp:54233.0, req:2169.32, p2:911.11, p3:1279.9, p4:1626.99, p5:1995.77, p6:2169.32, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Hard Verus Hilla', hp:72400.0, req:2896.0, p2:1216.32, p3:1708.64, p4:2172.0, p5:2664.32, p6:2896.0, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Chaos Lucid', hp:98900.0, req:3956.0, p2:1661.52, p3:2334.04, p4:2967.0, p5:3639.52, p6:3956.0, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Hard Azazelle', hp:140950.0, req:5638.0, p2:2367.96, p3:3326.42, p4:4228.5, p5:5186.96, p6:5638.0, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Chaos Will', hp:221730.0, req:8869.2, p2:3725.06, p3:5232.83, p4:6651.9, p5:8159.66, p6:8869.2, contrib:'4% requirement; Payuki NA Scania table' },
-  { boss:'Darknell', hp:284270.0, req:5685.4, p2:5685.4, p3:5685.4, p4:5685.4, p5:5685.4, p6:5685.4, contrib:'2% requirement; fixed 10-player HP' },
-  { boss:'Black Mage', hp:811640.0, req:16232.8, p2:16232.8, p3:16232.8, p4:16232.8, p5:16232.8, p6:16232.8, contrib:'2% requirement; fixed 10-player HP' }
+  { boss:'Arkarium', hp:605.44, req:24.22, p2:10.17, p3:14.29, p4:18.16, p5:22.28, p6:24.22, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Normal Archon', hp:1676.8, req:67.07, p2:28.17, p3:39.57, p4:50.3, p5:61.71, p6:67.07, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Lotus', hp:1926.4, req:77.06, p2:32.36, p3:45.46, p4:57.79, p5:70.89, p6:77.06, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Damien (N/H)', hp:2918.4, req:116.74, p2:49.03, p3:68.87, p4:87.55, p5:107.4, p6:116.74, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Hard Lucid', hp:3232, req:129.28, p2:54.3, p3:76.28, p4:96.96, p5:118.94, p6:129.28, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Gloom', hp:7040, req:281.6, p2:118.27, p3:166.14, p4:211.2, p5:259.07, p6:281.6, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Hard Archon', hp:12448, req:497.92, p2:209.13, p3:293.77, p4:373.44, p5:458.09, p6:497.92, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Hard Will', hp:16320, req:652.8, p2:274.18, p3:385.15, p4:489.6, p5:600.58, p6:652.8, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Normal Azazelle', hp:27072, req:1082.88, p2:454.81, p3:638.9, p4:812.16, p5:996.25, p6:1082.88, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Normal Verus Hilla', hp:33152, req:1326.08, p2:556.95, p3:782.39, p4:994.56, p5:1219.99, p6:1326.08, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Hard Verus Hilla', hp:45152, req:1806.08, p2:758.55, p3:1065.59, p4:1354.56, p5:1661.59, p6:1806.08, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Chaos Lucid', hp:59200, req:2368, p2:994.56, p3:1397.12, p4:1776, p5:2178.56, p6:2368, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Hard Azazelle', hp:90240, req:3609.6, p2:1516.03, p3:2129.66, p4:2707.2, p5:3320.83, p6:3609.6, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Chaos Will', hp:135040, req:5401.6, p2:2268.67, p3:3186.94, p4:4051.2, p5:4969.47, p6:5401.6, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Darknell', hp:181932.8, req:7277.31, p2:3056.47, p3:4293.61, p4:5457.98, p5:6695.13, p6:7277.31, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' },
+  { boss:'Black Mage', hp:502604.8, req:20104.19, p2:8443.76, p3:11861.47, p4:15078.14, p5:18495.86, p6:20104.19, contrib:'4% requirement; old 10-player HP x 64% current full-party HP' }
 ];
 
 function uiIsMobile(){
@@ -5856,12 +5856,11 @@ function uiRenderTable(){
   </tr>`).join('');
 
   const hpBody = rows.map(r => {
-    const fixedHp = r.contrib.startsWith('2%');
     const round2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
-    const h2 = fixedHp ? r.hp : round2(r.hp * 0.42);
-    const h3 = fixedHp ? r.hp : round2(r.hp * 0.59);
-    const h4 = fixedHp ? r.hp : round2(r.hp * 0.75);
-    const h5 = fixedHp ? r.hp : round2(r.hp * 0.92);
+    const h2 = round2(r.hp * 0.42);
+    const h3 = round2(r.hp * 0.59);
+    const h4 = round2(r.hp * 0.75);
+    const h5 = round2(r.hp * 0.92);
     const h6 = r.hp;
     return `<tr><td title="${r.contrib}">${r.boss}</td><td>${uiFmt(h2)}</td><td>${uiFmt(h3)}</td><td>${uiFmt(h4)}</td><td>${uiFmt(h5)}</td><td>${uiFmt(h6)}</td></tr>`;
   }).join('');
