@@ -5802,17 +5802,17 @@ const UI_BOSS_ROWS = [
   { boss:'Normal Archon', hp:2607.0, req:52.14, p2:21.9, p3:30.76, p4:39.11, p5:47.97, p6:52.14, contrib:'09.16/17 patch HP scaling' },
   { boss:'Lotus', hp:3162.0, req:63.24, p2:26.56, p3:37.31, p4:47.43, p5:58.18, p6:63.24, contrib:'09.16/17 patch HP scaling' },
   { boss:'Damien (N/H)', hp:4563.0, req:91.26, p2:38.33, p3:53.84, p4:68.45, p5:83.96, p6:91.26, contrib:'09.16/17 patch HP scaling' },
-  { boss:'Hard Lucid', hp:5045.0, req:100.9, p2:42.38, p3:59.53, p4:75.67, p5:92.83, p6:100.9, contrib:'09.16/17 patch HP scaling' },
+  { boss:'Hard Lucid', hp:5045.0, req:100.9, p2:42.38, p3:59.53, p4:75.68, p5:92.83, p6:100.9, contrib:'09.16/17 patch HP scaling' },
   { boss:'Gloom', hp:14364.0, req:287.28, p2:120.66, p3:169.5, p4:215.46, p5:264.3, p6:287.28, contrib:'09.16/17 patch HP scaling' },
-  { boss:'Hard Archon', hp:19143.0, req:382.86, p2:160.8, p3:225.89, p4:287.14, p5:352.23, p6:382.86, contrib:'09.16/17 patch HP scaling' },
+  { boss:'Hard Archon', hp:19143.0, req:382.86, p2:160.8, p3:225.89, p4:287.15, p5:352.23, p6:382.86, contrib:'09.16/17 patch HP scaling' },
   { boss:'Will', hp:25049.0, req:500.98, p2:210.41, p3:295.58, p4:375.74, p5:460.9, p6:500.98, contrib:'09.16/17 patch HP scaling' },
   { boss:'Normal Azazelle', hp:42240.0, req:844.8, p2:354.82, p3:498.43, p4:633.6, p5:777.22, p6:844.8, contrib:'09.16/17 patch HP scaling' },
   { boss:'Normal Verus Hilla', hp:54233.0, req:1084.66, p2:455.56, p3:639.95, p4:813.5, p5:997.89, p6:1084.66, contrib:'09.16/17 patch HP scaling' },
   { boss:'Hard Verus Hilla', hp:72400.0, req:1448.0, p2:608.16, p3:854.32, p4:1086.0, p5:1332.16, p6:1448.0, contrib:'09.16/17 patch HP scaling' },
   { boss:'Chaos Lucid', hp:98900.0, req:1978.0, p2:830.76, p3:1167.02, p4:1483.5, p5:1819.76, p6:1978.0, contrib:'09.16/17 patch HP scaling' },
   { boss:'Hard Azazelle', hp:140950.0, req:2819.0, p2:1183.98, p3:1663.21, p4:2114.25, p5:2593.48, p6:2819.0, contrib:'09.16/17 patch HP scaling' },
-  { boss:'Darknell', hp:284270.0, req:5685.4, p2:null, p3:null, p4:null, p5:null, p6:null, contrib:'Full HP reference; not listed in 09.16/17 HP scaling' },
-  { boss:'Black Mage', hp:811640.0, req:16232.8, p2:null, p3:null, p4:null, p5:null, p6:null, contrib:'Full HP reference; not listed in 09.16/17 HP scaling' }
+  { boss:'Darknell', hp:181932.8, req:3638.66, p2:null, p3:null, p4:null, p5:null, p6:3638.66, contrib:'New full-party HP uses previous 6-player HP' },
+  { boss:'Black Mage', hp:519449.6, req:10388.99, p2:null, p3:null, p4:null, p5:null, p6:10388.99, contrib:'New full-party HP uses previous 6-player HP' }
 ];
 
 function uiFmt(v){ return (v==null||Number.isNaN(v)) ? '—' : Number(v).toLocaleString(undefined,{maximumFractionDigits:3}); }
@@ -5851,7 +5851,7 @@ function uiRenderTable(){
   }).join('');
 
   wrap.innerHTML = rows.length
-    ? `<div class="pr-note" style="margin-bottom:8px;">Updated for 09.16/17 patch: listed bosses use 42% / 59% / 75% / 92% / 100% HP scaling for 2-6 players. Darknell and Black Mage keep their Full 2% reference because Nexon did not list them in the HP scaling changes.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:70px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
+    ? `<div class="pr-note" style="margin-bottom:8px;">Updated for 09.16/17 patch: listed bosses use 42% / 59% / 75% / 92% / 100% HP scaling for 2-6 players. Darknell and Black Mage use their previous 6-player HP as the new full-party HP reference.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:70px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
 
   hpWrap.innerHTML = rows.length
