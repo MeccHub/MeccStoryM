@@ -5867,7 +5867,7 @@ function uiRenderTable(){
   }).join('');
 
   wrap.innerHTML = rows.length
-    ? `<div class="pr-note" style="margin-bottom:8px;">Updated from Payuki's 09.16 summary: listed bosses show the current 4% contribution requirement for 2-6 players. Darknell and Black Mage are fixed at 10-player HP and remain 2% contribution. Credit to Payuki - NA Scania.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
+    ? `<div class="pr-note" style="margin-bottom:8px;">Credit to Payuki - NA Scania.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
 
   hpWrap.innerHTML = rows.length
