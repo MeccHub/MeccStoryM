@@ -880,6 +880,10 @@ select.pr-ctrl-input {
   background: rgba(30,41,59,0.9); border-bottom: 1px solid rgba(148,163,184,0.24);
 }
 .pr-table th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(30,41,59,0.96);
   padding: 11px 14px; text-align: left;
   font-size: 10px; font-weight: 800; letter-spacing: 2px;
   text-transform: uppercase; color: var(--c-text-secondary); cursor: pointer;
@@ -2405,6 +2409,9 @@ body[data-theme="light"] #tab-info .pr-table td,
 body[data-theme="light"] #tab-info .df-note {
   color: #334155 !important;
 }
+body[data-theme="light"] .pr-table th {
+  background: #f3f4f6;
+}
 body[data-theme="light"] #tab-newbie .df-panel-title {
   color: #1f2937 !important;
 }
@@ -2432,6 +2439,9 @@ body[data-theme="dark"] #tab-info .hexa-table thead th {
 body[data-theme="dark"] #tab-info .pr-table th,
 body[data-theme="dark"] #tab-info .hexa-table th {
   color: #cbd5e1 !important;
+}
+body[data-theme="dark"] .pr-table th {
+  background: rgba(30,41,59,0.96);
 }
 /* HEXA summary rows use inline light bg in markup; force dark in dark mode */
 body[data-theme="dark"] #tab-info summary[style*="background:#f8f4ff"] {
@@ -5813,7 +5823,16 @@ const UI_BOSS_ROWS = [
   { boss:'Black Mage', hp:519449.6, req:10388.99, p2:4058.2, p3:5681.48, p4:7304.76, p5:8928.04, p6:10388.99, contrib:'Uses previous 2-6 player HP scaling' }
 ];
 
-function uiFmt(v){ return (v==null||Number.isNaN(v)) ? '—' : Number(v).toLocaleString(undefined,{maximumFractionDigits:3}); }
+function uiIsMobile(){
+  return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+}
+function uiFmt(v){
+  if (v==null||Number.isNaN(v)) return '—';
+  const n = Number(v);
+  return uiIsMobile()
+    ? Math.ceil(n).toLocaleString()
+    : n.toLocaleString(undefined,{maximumFractionDigits:3});
+}
 
 function uiRenderTable(){
   const terms = (document.getElementById('uiSearch')?.value || '')
