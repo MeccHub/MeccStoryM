@@ -5811,8 +5811,8 @@ const UI_BOSS_ROWS = [
   { boss:'Hard Verus Hilla', hp:72400.0, req:1448.0, p2:608.16, p3:854.32, p4:1086.0, p5:1332.16, p6:1448.0, contrib:'09.16/17 patch HP scaling' },
   { boss:'Chaos Lucid', hp:98900.0, req:1978.0, p2:830.76, p3:1167.02, p4:1483.5, p5:1819.76, p6:1978.0, contrib:'09.16/17 patch HP scaling' },
   { boss:'Hard Azazelle', hp:140950.0, req:2819.0, p2:1183.98, p3:1663.21, p4:2114.25, p5:2593.48, p6:2819.0, contrib:'09.16/17 patch HP scaling' },
-  { boss:'Darknell', hp:181932.8, req:3638.66, p2:null, p3:null, p4:null, p5:null, p6:3638.66, contrib:'New full-party HP uses previous 6-player HP' },
-  { boss:'Black Mage', hp:519449.6, req:10388.99, p2:null, p3:null, p4:null, p5:null, p6:10388.99, contrib:'New full-party HP uses previous 6-player HP' }
+  { boss:'Darknell', hp:181932.8, req:3638.66, p2:1421.35, p3:1989.89, p4:2558.43, p5:3126.97, p6:3638.66, contrib:'Uses previous 2-6 player HP scaling' },
+  { boss:'Black Mage', hp:519449.6, req:10388.99, p2:4058.2, p3:5681.48, p4:7304.76, p5:8928.04, p6:10388.99, contrib:'Uses previous 2-6 player HP scaling' }
 ];
 
 function uiFmt(v){ return (v==null||Number.isNaN(v)) ? '—' : Number(v).toLocaleString(undefined,{maximumFractionDigits:3}); }
@@ -5835,27 +5835,26 @@ function uiRenderTable(){
   if (!bar || !wrap || !hpWrap) return;
   bar.innerHTML = `Showing <strong>${rows.length}</strong> of <strong>${UI_BOSS_ROWS.length}</strong> bosses`;
 
-  const head = `<thead><tr><th>Boss</th><th>Boss HP</th><th>Full 2%</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>`;
+  const head = `<thead><tr><th>Boss</th><th>Boss HP</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>`;
   const body = rows.map(r => `<tr>
-    <td title="${r.contrib}">${r.boss}</td><td>${uiFmt(r.hp)}</td><td>${uiFmt(r.req)}</td><td>${uiFmt(r.p2)}</td><td>${uiFmt(r.p3)}</td><td>${uiFmt(r.p4)}</td><td>${uiFmt(r.p5)}</td><td>${uiFmt(r.p6)}</td>
+    <td title="${r.contrib}">${r.boss}</td><td>${uiFmt(r.hp)}</td><td>${uiFmt(r.p2)}</td><td>${uiFmt(r.p3)}</td><td>${uiFmt(r.p4)}</td><td>${uiFmt(r.p5)}</td><td>${uiFmt(r.p6)}</td>
   </tr>`).join('');
 
   const hpBody = rows.map(r => {
-    const fullHp = r.hp;
     const h2 = r.p2!=null ? r.p2*50 : null;
     const h3 = r.p3!=null ? r.p3*50 : null;
     const h4 = r.p4!=null ? r.p4*50 : null;
     const h5 = r.p5!=null ? r.p5*50 : null;
     const h6 = r.p6!=null ? r.p6*50 : null;
-    return `<tr><td title="${r.contrib}">${r.boss}</td><td>${uiFmt(fullHp)}</td><td>${uiFmt(h2)}</td><td>${uiFmt(h3)}</td><td>${uiFmt(h4)}</td><td>${uiFmt(h5)}</td><td>${uiFmt(h6)}</td></tr>`;
+    return `<tr><td title="${r.contrib}">${r.boss}</td><td>${uiFmt(h2)}</td><td>${uiFmt(h3)}</td><td>${uiFmt(h4)}</td><td>${uiFmt(h5)}</td><td>${uiFmt(h6)}</td></tr>`;
   }).join('');
 
   wrap.innerHTML = rows.length
-    ? `<div class="pr-note" style="margin-bottom:8px;">Updated for 09.16/17 patch: listed bosses use 42% / 59% / 75% / 92% / 100% HP scaling for 2-6 players. Darknell and Black Mage use their previous 6-player HP as the new full-party HP reference.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:70px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
+    ? `<div class="pr-note" style="margin-bottom:8px;">Updated for 09.16/17 patch: listed bosses use 42% / 59% / 75% / 92% / 100% HP scaling for 2-6 players. Darknell and Black Mage use their previous 2-6 player HP scaling, with previous 6-player HP as the new full-party max.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
 
   hpWrap.innerHTML = rows.length
-    ? `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><thead><tr><th>Boss</th><th>Full HP</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody>${hpBody}</tbody></table></div>`
+    ? `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><thead><tr><th>Boss</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody>${hpBody}</tbody></table></div>`
     : '';
 }
 uiRenderTable();
