@@ -1,8 +1,92 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-09-16T04:00:05Z",
-  "count": 14,
+  "generated_at_utc": "2026-09-17T04:00:19Z",
+  "count": 13,
   "events": [
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546281",
+      "title": "🔥 Rebirth Alchemist 🪄",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546281",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "After the 2026/09/17 (Thu) Update – 2026/10/01 (Thu) 9:59 (Server Time) *",
+      "start_utc": "2026-09-17T08:00:00Z",
+      "end_utc": "2026-10-01T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:07Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546277",
+      "title": "🧑‍🍳 Chu Chu Food Festival 🍽️",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546277",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "After the 2026/ 09 /1 7 (Thu) Update - 2026/ 10/ 14 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-09-01T08:00:00Z",
+      "end_utc": "2026-10-14T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:09Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546272",
+      "title": "🗡️ All Jobs Tera Burning 🔥",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546272",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "After the 2026/09/17 (Thu) Update – 2026/09/24 (Thu) 09:59 (Server Time) *",
+      "start_utc": "2026-09-17T08:00:00Z",
+      "end_utc": "2026-09-24T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:10Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546270",
+      "title": "⚔️ Job Transfer Equipment &amp; Open Advancement Event 🏹",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546270",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "After the 2026/9/17 (Thu) Update - 2026/10/14 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-09-17T08:00:00Z",
+      "end_utc": "2026-10-14T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:12Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546269",
+      "title": "🍓 Spiegelette's Golden Strawberry Farm 🍓",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546269",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "After the 2026/09/17 (Thu) Update - 2026/10/14 (Wed) 09:59 (Server Time) *",
+      "start_utc": "2026-09-17T08:00:00Z",
+      "end_utc": "2026-10-14T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:13Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546261",
+      "title": "🌕 Full Moon Reward Points Event 🎁",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546261",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "Reward Points Gain: After 2026/09/17 (Thu) Update - 2026/10/14 (Wed) 9:59 (Server Time) Reward Points Shop : After 2026/09/17 (Thu) Update - 2026/10/21 (Wed) 9:59 (Server Time) *",
+      "start_utc": "2026-09-17T08:00:00Z",
+      "end_utc": "2026-10-14T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:14Z"
+    },
+    {
+      "board_id": 2692,
+      "type": "event",
+      "thread_id": "3546259",
+      "title": "💎 Lady Blair's Dream Express 💎",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3546259",
+      "posted_utc": "2026-09-17T00:00:00Z",
+      "event_period_raw": "After the 2026/09/17 (Thu) Update – Before 2026/10/15 9:59 (Thu) Maintenance *",
+      "start_utc": "2026-09-17T08:00:00Z",
+      "end_utc": "2026-10-15T17:59:00Z",
+      "first_seen_utc": "2026-09-17T04:00:17Z"
+    },
     {
       "board_id": 2692,
       "type": "event",
@@ -14,30 +98,6 @@
       "start_utc": "2026-09-10T18:00:00Z",
       "end_utc": "2026-09-30T17:59:00Z",
       "first_seen_utc": "2026-09-10T04:00:07Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3536668",
-      "title": "🛎️ Steady Server 🍽️",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3536668",
-      "posted_utc": "2026-09-03T02:00:00Z",
-      "event_period_raw": "2026/09/03 (Thu) 10:00 ~ 2026/09/16 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details Participate in the serving mini-game and earn up to 600 Momentree Coins per day based on your Serving Rank! [How to Participate] ① Go to [Menu] > [Event] > [Maple Momentree] > [Steady Server] to participate in the event. *This event is an account-based event with no level requirement. ② Touch the [Serve] button to start the mini-game. Press or release the",
-      "start_utc": "2026-09-03T18:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-09-03T04:00:26Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3536676",
-      "title": "💤Chill Out with Lucky🥱",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3536676",
-      "posted_utc": "2026-09-02T16:00:00Z",
-      "event_period_raw": "2026/09/03 (Thu) 00:00 - 2026/09/16 (Wed) 09:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 Event Details When you log in during the event, time starts accumulating from the moment of your first login. The EXP Gauge charges every hour, and you can receive the accumulated EXP (up to 24 hours) in your Personal Mailbox. Complete Auto-Battle daily missions to earn additional charging time, and earn Momentree Coins upon completing the final mission. [How to Partic",
-      "start_utc": "2026-09-03T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-09-03T04:00:27Z"
     },
     {
       "board_id": 2692,
@@ -64,54 +124,6 @@
       "first_seen_utc": "2026-08-28T04:00:05Z"
     },
     {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3532979",
-      "title": "✨ Stellar Pass ✨",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532979",
-      "posted_utc": "2026-08-27T00:00:00Z",
-      "event_period_raw": "Event Period: 2026/8/27 (Thu) After Update - 2026/9/16 (Wed) 09:59 (Server Time) (+Pass Purchase Only) Additional Reward Claim Period : 2026/9/16 (Wed) 10:00 - 2026/9/23 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-08-27T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-08-27T04:00:06Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3532976",
-      "title": "🎁 Starlight Shop Part 2 ✨",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532976",
-      "posted_utc": "2026-08-27T00:00:00Z",
-      "event_period_raw": "Reward Points Gain: 2026/7/30 (Thu) After Update - 2026/9/16 (Wed) 09:59 (Server Time) Reward Points Shop - Starlight Fragment Special Shop: 2026/7/30 (Thu) After Update – 2026/9/23 (Wed) 9:59 (Server Time) Starlight Fragment Shop (1st): 2026/7/30 (Thu) After Update – 2026/9/3 (Thu) 9:59 (Server Time) Starlight Fragment Shop (2nd): 2026/8/27 (Thu) After Update – 2026/9/23 (Wed) 9:59 (Server Time) *",
-      "start_utc": "2026-07-30T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-08-27T04:00:08Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3532975",
-      "title": "✨ Forge Pass Event ⚒️",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532975",
-      "posted_utc": "2026-08-27T00:00:00Z",
-      "event_period_raw": "2026/8/27 (Thu) After Maintenance - 2026/9/16 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-08-27T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-08-27T04:00:09Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3532973",
-      "title": "🎉 8th Anniversary Maple Momentree Part 2 🍁",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3532973",
-      "posted_utc": "2026-08-27T00:00:00Z",
-      "event_period_raw": "After the 2026/08/27 (Thu) Maintenance - 2026/09/16 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-08-27T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-08-27T04:00:12Z"
-    },
-    {
       "board_id": 2691,
       "type": "announcement",
       "thread_id": "3511389",
@@ -122,18 +134,6 @@
       "start_utc": "2026-07-30T19:00:00Z",
       "end_utc": "2026-09-17T07:59:00Z",
       "first_seen_utc": "2026-08-26T11:46:07Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3511750",
-      "title": "8th Anniversary Maple Momentree",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3511750",
-      "posted_utc": "2026-07-30T00:00:00Z",
-      "event_period_raw": "After the 2026/07/30 (Thu) Maintenance - 2026/09/16 (Wed) 09:59 (Server Time) *",
-      "start_utc": "2026-07-30T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-08-26T11:46:17Z"
     },
     {
       "board_id": 2692,
@@ -158,18 +158,6 @@
       "start_utc": "2026-07-30T08:00:00Z",
       "end_utc": "2026-09-24T17:59:00Z",
       "first_seen_utc": "2026-08-26T11:46:23Z"
-    },
-    {
-      "board_id": 2692,
-      "type": "event",
-      "thread_id": "3511744",
-      "title": "Starlight Fragment Reward Points Event",
-      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2692&thread=3511744",
-      "posted_utc": "2026-07-30T00:00:00Z",
-      "event_period_raw": "Reward Points Gain: 2026/07/30 (Thu) After Update - 2026/09/16 (Wed) 09:59 (Server Time) Reward Points Shop - Starlight Fragment Special Shop: 2026/07/30 (Thu) After Update – 2026/09/23 (Wed) 9:59 (Server Time) Starlight Fragment Shop (1st): 2026/07/30 (Thu) After Update – 2026/09/03 (Thu) 9:59 (Server Time) Starlight Fragment Shop (2nd): 2026/08/27 (Thu) After Update – 2026/09/23 (Wed) 9:59 (Server Time) *",
-      "start_utc": "2026-07-30T08:00:00Z",
-      "end_utc": "2026-09-16T17:59:00Z",
-      "first_seen_utc": "2026-08-26T11:46:27Z"
     }
   ]
 }
