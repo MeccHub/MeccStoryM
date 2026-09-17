@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-09-16T04:06:24Z",
+  "generated_at_utc": "2026-09-17T01:15:52Z",
   "active_count": 34,
-  "total_tracked": 83,
-  "change_count": 144,
+  "total_tracked": 84,
+  "change_count": 146,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -868,6 +868,18 @@
       "type": "removed",
       "id": "7818",
       "title": "Golden Apple Rewards in the 2nd week of September"
+    },
+    {
+      "ts_utc": "2026-09-17T01:15:31Z",
+      "type": "new",
+      "id": "7869",
+      "title": "Rebirth Flame"
+    },
+    {
+      "ts_utc": "2026-09-17T01:15:52Z",
+      "type": "removed",
+      "id": "6459",
+      "title": "Rebirth Flame"
     }
   ],
   "items": [
@@ -252262,13 +252274,13 @@
       ]
     },
     {
-      "id": "6459",
+      "id": "7869",
       "title": "Rebirth Flame",
-      "url": "https://m.nexon.com/probability/6459?language=en",
+      "url": "https://m.nexon.com/probability/7869?language=en",
       "hash": "d341ab6f017d5bd419b07d50d71ffefe04897794f869de2ad6b4bef5eca2c4a3",
       "active": true,
-      "first_seen_utc": "2026-03-15T05:22:04Z",
-      "last_changed_utc": "2026-03-24T04:07:36Z",
+      "first_seen_utc": "2026-09-17T01:15:31Z",
+      "last_changed_utc": "2026-09-17T01:15:31Z",
       "description_text": "(2026.03.23) Some entries have been updated for more accurate wording. These changes do not affect the actual probabilities.",
       "columns": [
         "Weapon",
