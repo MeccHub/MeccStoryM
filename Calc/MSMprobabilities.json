@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-09-23T04:06:42Z",
-  "active_count": 34,
+  "generated_at_utc": "2026-09-24T04:06:32Z",
+  "active_count": 33,
   "total_tracked": 84,
-  "change_count": 146,
+  "change_count": 147,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -880,6 +880,12 @@
       "type": "removed",
       "id": "6459",
       "title": "Rebirth Flame"
+    },
+    {
+      "ts_utc": "2026-09-24T04:06:32Z",
+      "type": "removed",
+      "id": "7820",
+      "title": "Starlight Fragment Gift Box"
     }
   ],
   "items": [
@@ -272049,174 +272055,6 @@
       "raw_table_row_count": 4,
       "audit_flags": [
         "non_numeric_probability_rows:3"
-      ]
-    },
-    {
-      "id": "7820",
-      "title": "Starlight Fragment Gift Box",
-      "url": "https://m.nexon.com/probability/7820?language=en",
-      "hash": "92b4150c2e70eb488e2c473979a0b293b5bef63f526bee11373fca83c359a1cd",
-      "active": true,
-      "first_seen_utc": "2026-09-03T04:06:43Z",
-      "last_changed_utc": "2026-09-03T04:06:43Z",
-      "description_text": null,
-      "columns": [
-        "Type",
-        "Rank",
-        "Item Name",
-        "Number Acquired",
-        "Probability"
-      ],
-      "meta": {
-        "Type": "box_name_en",
-        "Rank": "itemgrade_name_en",
-        "Item Name": "item_name_en",
-        "Number Acquired": "item_count_name_en",
-        "Probability": "prob_view"
-      },
-      "rows": [
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "50",
-          "Probability": "18.00",
-          "_probability_float": 18.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "80",
-          "Probability": "19.00",
-          "_probability_float": 19.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "100",
-          "Probability": "18.50",
-          "_probability_float": 18.5
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "150",
-          "Probability": "20.00",
-          "_probability_float": 20.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "200",
-          "Probability": "10.70",
-          "_probability_float": 10.7
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "300",
-          "Probability": "5.07",
-          "_probability_float": 5.07
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "400",
-          "Probability": "2.00",
-          "_probability_float": 2.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "500",
-          "Probability": "2.00",
-          "_probability_float": 2.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "800",
-          "Probability": "1.50",
-          "_probability_float": 1.5
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "1000",
-          "Probability": "1.00",
-          "_probability_float": 1.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "6000",
-          "Probability": "1.00",
-          "_probability_float": 1.0
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "7000",
-          "Probability": "0.70",
-          "_probability_float": 0.7
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "8000",
-          "Probability": "0.50",
-          "_probability_float": 0.5
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "9000",
-          "Probability": "0.01",
-          "_probability_float": 0.01
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "10000",
-          "Probability": "0.01",
-          "_probability_float": 0.01
-        },
-        {
-          "Type": "Starlight Fragment Gift Box",
-          "Rank": "",
-          "Item Name": "Starlight Fragment",
-          "Number Acquired": "15000",
-          "Probability": "0.01",
-          "_probability_float": 0.01
-        }
-      ],
-      "row_count": 16,
-      "raw_table_rows": [
-        [
-          "' + arrKey[i] + '"
-        ],
-        [
-          "' + ((!col)? '' : col) + '"
-        ]
-      ],
-      "raw_table_row_count": 2,
-      "audit_flags": [
-        "raw_table_rows_too_small",
-        "raw_rows_with_single_cell"
       ]
     }
   ]
