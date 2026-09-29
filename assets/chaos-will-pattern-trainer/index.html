@@ -206,6 +206,45 @@
   }
   #hint span { color: var(--orange); }
 
+  /* ── Timer settings ── */
+  #timer-settings {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 10px 12px;
+    border-top: 1px solid rgba(255,149,0,0.18);
+    background: rgba(8,6,18,0.58);
+  }
+  .timer-field {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+  }
+  .timer-field label {
+    color: var(--text-dim);
+    font-size: 0.58em;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .timer-field input {
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid rgba(255,149,0,0.28);
+    border-radius: 6px;
+    background: rgba(18,12,34,0.95);
+    color: var(--text);
+    font: 800 0.82em 'Segoe UI', system-ui, Arial, sans-serif;
+    padding: 6px 8px;
+  }
+  .timer-field input:focus {
+    border-color: var(--orange);
+    outline: 2px solid rgba(255,149,0,0.16);
+  }
+  @media (max-width: 560px) {
+    #timer-settings { grid-template-columns: 1fr; }
+  }
+
   /* ── Feedback overlay ── */
   #feedback {
     display: none;
@@ -305,7 +344,7 @@
 
 <div id="page-title">
   <h1>⚔ Chaos Will — Phase 2 Trainer</h1>
-  <p>Study the leg patterns · Predict the safe position · 2 seconds per move</p>
+  <p>Study the leg patterns · Predict the safe position · <span id="move-time-label">2</span> seconds per move</p>
 </div>
 
 <div id="main">
@@ -357,6 +396,22 @@
     </div>
 
     <div id="hint"></div>
+
+    <!-- Timer settings -->
+    <div id="timer-settings" aria-label="Timer settings">
+      <div class="timer-field">
+        <label for="move-time-input">Move time</label>
+        <input id="move-time-input" type="number" min="0.5" max="10" step="0.5" value="2" inputmode="decimal">
+      </div>
+      <div class="timer-field">
+        <label for="feedback-time-input">Feedback pause</label>
+        <input id="feedback-time-input" type="number" min="0.5" max="10" step="0.5" value="3" inputmode="decimal">
+      </div>
+      <div class="timer-field">
+        <label for="break-time-input">Pattern break</label>
+        <input id="break-time-input" type="number" min="0.5" max="10" step="0.5" value="3" inputmode="decimal">
+      </div>
+    </div>
 
     <!-- Hidden debug (kept for internal use, invisible) -->
     <button id="debug-toggle" onclick="toggleDebug()"></button>
@@ -626,10 +681,70 @@ function drawLoading() {
 }
 
 // ─── TIMER ────────────────────────────────────────────────────────────────────
-const TIMER_MS = 2000;
+const TIMER_SETTINGS_KEY = 'chaosWillTrainerTimers';
+const DEFAULT_TIMER_SETTINGS = {
+  moveMs: 2000,
+  feedbackMs: 3000,
+  breakSeconds: 3,
+};
+let timerSettings = loadTimerSettings();
 let timerStart  = null;
 let timerActive = false;
 let rafId       = null;
+
+function clampTimerSeconds(value, fallback) {
+  const seconds = parseFloat(value);
+  if (!Number.isFinite(seconds)) return fallback;
+  return Math.min(10, Math.max(0.5, seconds));
+}
+
+function loadTimerSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(TIMER_SETTINGS_KEY));
+    if (!saved || typeof saved !== 'object') return { ...DEFAULT_TIMER_SETTINGS };
+    return {
+      moveMs: clampTimerSeconds(saved.moveMs / 1000, DEFAULT_TIMER_SETTINGS.moveMs / 1000) * 1000,
+      feedbackMs: clampTimerSeconds(saved.feedbackMs / 1000, DEFAULT_TIMER_SETTINGS.feedbackMs / 1000) * 1000,
+      breakSeconds: clampTimerSeconds(saved.breakSeconds, DEFAULT_TIMER_SETTINGS.breakSeconds),
+    };
+  } catch {
+    return { ...DEFAULT_TIMER_SETTINGS };
+  }
+}
+
+function saveTimerSettings() {
+  try {
+    localStorage.setItem(TIMER_SETTINGS_KEY, JSON.stringify(timerSettings));
+  } catch {
+    // Ignore storage failures; the current page still uses the chosen values.
+  }
+}
+
+function formatSeconds(value) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function updateTimerSettingsUI() {
+  const moveSeconds = timerSettings.moveMs / 1000;
+  const feedbackSeconds = timerSettings.feedbackMs / 1000;
+  document.getElementById('move-time-input').value = formatSeconds(moveSeconds);
+  document.getElementById('feedback-time-input').value = formatSeconds(feedbackSeconds);
+  document.getElementById('break-time-input').value = formatSeconds(timerSettings.breakSeconds);
+  document.getElementById('move-time-label').textContent = formatSeconds(moveSeconds);
+}
+
+function applyTimerInput() {
+  const moveSeconds = clampTimerSeconds(document.getElementById('move-time-input').value, DEFAULT_TIMER_SETTINGS.moveMs / 1000);
+  const feedbackSeconds = clampTimerSeconds(document.getElementById('feedback-time-input').value, DEFAULT_TIMER_SETTINGS.feedbackMs / 1000);
+  const breakSeconds = clampTimerSeconds(document.getElementById('break-time-input').value, DEFAULT_TIMER_SETTINGS.breakSeconds);
+  timerSettings = {
+    moveMs: moveSeconds * 1000,
+    feedbackMs: feedbackSeconds * 1000,
+    breakSeconds,
+  };
+  saveTimerSettings();
+  updateTimerSettingsUI();
+}
 
 function startTimer() {
   timerStart  = performance.now();
@@ -651,9 +766,9 @@ function setTimerBar(ratio) {
 function tickTimer() {
   if (!timerActive) return;
   const elapsed = performance.now() - timerStart;
-  const ratio   = Math.max(0, 1 - elapsed / TIMER_MS);
+  const ratio   = Math.max(0, 1 - elapsed / timerSettings.moveMs);
   setTimerBar(ratio);
-  if (elapsed >= TIMER_MS) { timerActive = false; handleTimeout(); return; }
+  if (elapsed >= timerSettings.moveMs) { timerActive = false; handleTimeout(); return; }
   rafId = requestAnimationFrame(tickTimer);
 }
 
@@ -762,7 +877,7 @@ function scheduleNext(wasCorrect) {
     } else {
       startPart();
     }
-  }, 3000);
+  }, timerSettings.feedbackMs);
 }
 
 function showPatternComplete() {
@@ -773,35 +888,37 @@ function showPatternComplete() {
   showCountdownOverlay(
     '✓ Pattern Complete!',
     `<span style="color:#ffd040">+${bonus} bonus pts</span><br>Score: <strong>${score}</strong> &nbsp;·&nbsp; Streak: <strong>${streak}</strong>`,
-    3,
+    timerSettings.breakSeconds,
     () => nextPattern()
   );
 }
 
 function showCountdownOverlay(title, body, seconds, onDone) {
   const ov = document.getElementById('overlay');
-  let remaining = seconds;
+  const startedAt = performance.now();
 
   function render() {
+    const elapsed = (performance.now() - startedAt) / 1000;
+    const remaining = Math.max(0, seconds - elapsed);
     ov.innerHTML = `
       <h2>${title}</h2>
       <p>${body}</p>
-      <div style="font-size:2.5em;font-weight:800;color:var(--orange);margin-top:8px;font-variant-numeric:tabular-nums;">${remaining}</div>
+      <div style="font-size:2.5em;font-weight:800;color:var(--orange);margin-top:8px;font-variant-numeric:tabular-nums;">${Math.ceil(remaining)}</div>
     `;
     ov.classList.add('visible');
   }
 
   render();
   const interval = setInterval(() => {
-    remaining--;
-    if (remaining <= 0) {
+    const elapsed = (performance.now() - startedAt) / 1000;
+    if (elapsed >= seconds) {
       clearInterval(interval);
       ov.classList.remove('visible');
       onDone();
     } else {
       render();
     }
-  }, 1000);
+  }, 250);
 }
 
 function showGameOver() {
@@ -878,6 +995,10 @@ function hideOverlay() {
 document.querySelectorAll('.lane-btn').forEach(btn => {
   btn.addEventListener('click', () => handleChoice(parseInt(btn.dataset.lane)));
 });
+document.querySelectorAll('#timer-settings input').forEach(input => {
+  input.addEventListener('change', applyTimerInput);
+  input.addEventListener('blur', applyTimerInput);
+});
 document.addEventListener('keydown', e => {
   if (phase !== 'playing') return;
   if      (e.key === 'ArrowLeft')  handleChoice(Math.max(0, (currentPattern.parts[currentPartIdx].playerInImg) - 1));
@@ -894,6 +1015,7 @@ document.getElementById('btn-start').addEventListener('click', () => {
 });
 
 // Draw initial canvas
+updateTimerSettingsUI();
 drawLoading();
 preload(); // preload silently so first start is fast
 
