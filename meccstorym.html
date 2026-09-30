@@ -5867,7 +5867,7 @@ function uiRenderTable(){
   }).join('');
 
   wrap.innerHTML = rows.length
-    ? `<div class="pr-note" style="margin-bottom:8px;">Baseline credit: Payuki - NA Scania. Nine bosses updated from measured completed clears (2026-09-30). HP and 4% values are estimates; rounded contribution percentages affect precision. Party scaling retained: 42% / 59% / 75% / 92% / 100%.</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
+    ? `<div class="pr-note" style="margin-bottom:8px;">Big thanks to Payuki - NA Scania for the collaborative help</div><div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;table-layout:fixed;width:100%;"><colgroup><col style="width:160px"/><col style="width:90px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/><col style="width:60px"/></colgroup>${head}<tbody>${body}</tbody></table></div>`
     : '<div class="pr-state"><div class="pr-state-icon">🔍</div><div class="pr-state-title">No matching bosses</div><div>Try a different search.</div></div>';
 
   hpWrap.innerHTML = rows.length
