@@ -1,8 +1,20 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-11-11T09:00:08Z",
-  "count": 10,
+  "generated_at_utc": "2026-11-11T13:00:08Z",
+  "count": 11,
   "events": [
+    {
+      "board_id": 2691,
+      "type": "announcement",
+      "thread_id": "3579538",
+      "title": "📌 11.11/12 Server Maintenance Notice",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2691&thread=3579538",
+      "posted_utc": "2026-11-11T09:30:00Z",
+      "event_period_raw": "Here is the server maintenance schedule for 11.11/12(Thu). Please check below for detailed schedule and expected work! 📆 Maintenance Schedule 📆 The maintenance is scheduled to take a total of 4 hours as follows. - 2026/11/11(Wed) 13:00 – 17:00 (America / UTC-8) - 2026/11/11(Wed) 23:00 – 2026/11/12(Thu) 03:00 (Europe / UTC+2) - 2026/11/12(Thu) 05:00 – 09:00 (Asia / UTC+8) ✅ Note ✅ - Access to the game will not be available during maintenance hours. ✨ Expected Works ✨ 1) New Contents - TalesWeaver",
+      "start_utc": "2026-11-11T21:00:00Z",
+      "end_utc": "2026-11-12T01:00:00Z",
+      "first_seen_utc": "2026-11-11T13:00:08Z"
+    },
     {
       "board_id": 2692,
       "type": "event",
