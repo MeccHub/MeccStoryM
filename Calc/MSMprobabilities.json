@@ -1,9 +1,9 @@
 {
   "source": "https://m.nexon.com/probability?client_id=MTY3MDg3NDAy&language=en&",
-  "generated_at_utc": "2026-11-11T05:06:12Z",
-  "active_count": 33,
-  "total_tracked": 99,
-  "change_count": 179,
+  "generated_at_utc": "2026-11-12T05:06:10Z",
+  "active_count": 35,
+  "total_tracked": 104,
+  "change_count": 187,
   "changes": [
     {
       "ts_utc": "2026-03-15T04:29:13Z",
@@ -1078,6 +1078,54 @@
       "type": "removed",
       "id": "7913",
       "title": "Golden Apple Rewards in the 1st week of November"
+    },
+    {
+      "ts_utc": "2026-11-12T05:05:58Z",
+      "type": "new",
+      "id": "7961",
+      "title": "Luna Crystal : Lil TalesWeaver"
+    },
+    {
+      "ts_utc": "2026-11-12T05:05:59Z",
+      "type": "new",
+      "id": "7960",
+      "title": "Wisp's Wondrous Wonderberry Season 22"
+    },
+    {
+      "ts_utc": "2026-11-12T05:06:01Z",
+      "type": "new",
+      "id": "7959",
+      "title": "Crystal Treasure Box Probability (Fever)"
+    },
+    {
+      "ts_utc": "2026-11-12T05:06:03Z",
+      "type": "new",
+      "id": "7958",
+      "title": "Crystal Treasure Box Probability (Regular)"
+    },
+    {
+      "ts_utc": "2026-11-12T05:06:04Z",
+      "type": "new",
+      "id": "7957",
+      "title": "TalesWeaver Style"
+    },
+    {
+      "ts_utc": "2026-11-12T05:06:10Z",
+      "type": "removed",
+      "id": "7907",
+      "title": "Crystal Treasure Box Probability (Fever)"
+    },
+    {
+      "ts_utc": "2026-11-12T05:06:10Z",
+      "type": "removed",
+      "id": "7906",
+      "title": "Crystal Treasure Box Probability (Regular)"
+    },
+    {
+      "ts_utc": "2026-11-12T05:06:10Z",
+      "type": "removed",
+      "id": "7533",
+      "title": "Luna Crystal : Lil Shine"
     }
   ],
   "items": [
@@ -1218,13 +1266,13 @@
       ]
     },
     {
-      "id": "7907",
+      "id": "7959",
       "title": "Crystal Treasure Box Probability (Fever)",
-      "url": "https://m.nexon.com/probability/7907?language=en",
-      "hash": "5d6e84957cfda8dab7a57caa1369da2f648451d636b7439cc31fa54c83856d7a",
+      "url": "https://m.nexon.com/probability/7959?language=en",
+      "hash": "0fd2c3c59e6e1da9b3a1dc4320a8cc1ae421a043a12244fb383078c0586646c9",
       "active": true,
-      "first_seen_utc": "2026-10-29T04:06:09Z",
-      "last_changed_utc": "2026-10-29T04:06:09Z",
+      "first_seen_utc": "2026-11-12T05:06:01Z",
+      "last_changed_utc": "2026-11-12T05:06:01Z",
       "description_text": "<Crystal Treasure Box Probability (Regular/Fever)>",
       "columns": [
         "Type",
@@ -59130,9 +59178,1215 @@
           "Job": "",
           "Probability": "1.772",
           "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "",
+          "Item Name": "Ancient Secondary Weapon Crystal",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.020",
+          "_probability_float": 0.02
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.008",
+          "_probability_float": 0.008
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.008",
+          "_probability_float": 0.008
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.008",
+          "_probability_float": 0.008
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.008",
+          "_probability_float": 0.008
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Orders Medallion",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.020",
+          "_probability_float": 0.02
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Chaos",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.005",
+          "_probability_float": 0.005
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.113",
+          "_probability_float": 0.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "",
+          "Item Name": "Chaos Crystal Piece x5 Exchange Ticket",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "8.000",
+          "_probability_float": 8.0
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "",
+          "Item Name": "Chaos Crystal Piece x10 Exchange Ticket",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "4.000",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Orders Medallion",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.400",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.113",
+          "_probability_float": 0.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.113",
+          "_probability_float": 0.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.113",
+          "_probability_float": 0.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.064",
+          "_probability_float": 0.064
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Powers Medallion",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "2.380",
+          "_probability_float": 2.38
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.036",
+          "_probability_float": 1.036
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.036",
+          "_probability_float": 1.036
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.036",
+          "_probability_float": 1.036
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.036",
+          "_probability_float": 1.036
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.593",
+          "_probability_float": 0.593
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.100",
+          "_probability_float": 3.1
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.100",
+          "_probability_float": 3.1
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.100",
+          "_probability_float": 3.1
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.100",
+          "_probability_float": 3.1
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.772",
+          "_probability_float": 1.772
         }
       ],
-      "row_count": 6432,
+      "row_count": 6566,
       "raw_table_rows": [
         [
           "Grade",
@@ -59199,13 +60453,13 @@
       "audit_flags": []
     },
     {
-      "id": "7906",
+      "id": "7958",
       "title": "Crystal Treasure Box Probability (Regular)",
-      "url": "https://m.nexon.com/probability/7906?language=en",
-      "hash": "ee1a7645ece55b8d29c9d9cb9085bb21c48cd9eb55dc1c6c5a153d1204ff58d8",
+      "url": "https://m.nexon.com/probability/7958?language=en",
+      "hash": "2cd4ebea6c5f044cc9488635fa363119795178d22f2327c53776bf9a0e6603a4",
       "active": true,
-      "first_seen_utc": "2026-10-29T04:06:11Z",
-      "last_changed_utc": "2026-10-29T04:06:11Z",
+      "first_seen_utc": "2026-11-12T05:06:03Z",
+      "last_changed_utc": "2026-11-12T05:06:03Z",
       "description_text": "<Crystal Treasure Box Probability (Regular/Fever)>",
       "columns": [
         "Type",
@@ -117111,9 +118365,1215 @@
           "Job": "",
           "Probability": "1.779",
           "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "",
+          "Item Name": "Ancient Secondary Weapon Crystal",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.010",
+          "_probability_float": 0.01
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Orders Medallion",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.010",
+          "_probability_float": 0.01
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.056",
+          "_probability_float": 0.056
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "",
+          "Item Name": "Chaos Crystal Piece x5 Exchange Ticket",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "4.000",
+          "_probability_float": 4.0
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "",
+          "Item Name": "Chaos Crystal Piece x10 Exchange Ticket",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "2.000",
+          "_probability_float": 2.0
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Orders Medallion",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.200",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.056",
+          "_probability_float": 0.056
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.056",
+          "_probability_float": 0.056
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.056",
+          "_probability_float": 0.056
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Ancient",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.032",
+          "_probability_float": 0.032
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Powers Medallion",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.190",
+          "_probability_float": 1.19
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.518",
+          "_probability_float": 0.518
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.518",
+          "_probability_float": 0.518
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.518",
+          "_probability_float": 0.518
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.518",
+          "_probability_float": 0.518
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Mythic",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.296",
+          "_probability_float": 0.296
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.942",
+          "_probability_float": 0.942
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.942",
+          "_probability_float": 0.942
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.942",
+          "_probability_float": 0.942
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.942",
+          "_probability_float": 0.942
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.538",
+          "_probability_float": 0.538
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Legendary",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "0.539",
+          "_probability_float": 0.539
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Briser Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.113",
+          "_probability_float": 3.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Agares Bloody Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.113",
+          "_probability_float": 3.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Jaihin Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.113",
+          "_probability_float": 3.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Utgard Two-Handed Sword",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "3.113",
+          "_probability_float": 3.113
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Eclectic Taragon",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Eclectic Fennel",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Eclectic Bergamot",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Eclectic Grabbe",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Noble Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Blue Gilded Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Sirius Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Agares Bloody Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Agares Bloody Gear",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Grand Agares Gauntlets",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Grand Agares Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Challenger Epaulette",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Rising Sun Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Bloody Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Muspell Warrior Suit",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Muspell Warrior Hat",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Muspell Warrior Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Muspell Warrior Shoes",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Royal Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Extreme Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Explorer's Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Pensalir Battle Mail",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Pensalir Battle Helm",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Pensalir Battle Gloves",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Pensalir Battle Boots",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Knight Shoulder",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Green Buckle Belt",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
+        },
+        {
+          "Type": "Boris Equipment",
+          "Rank": "Unique",
+          "Item Name": "Pensalir Cape",
+          "Gender": "Default",
+          "Job": "",
+          "Probability": "1.779",
+          "_probability_float": 1.779
         }
       ],
-      "row_count": 6432,
+      "row_count": 6566,
       "raw_table_rows": [
         [
           "Grade",
@@ -251407,13 +253867,13 @@
       ]
     },
     {
-      "id": "7533",
-      "title": "Luna Crystal : Lil Shine",
-      "url": "https://m.nexon.com/probability/7533?language=en",
-      "hash": "29897c2de05df0c818288ca1a79b040b35539ef34b6a218c10a4b882ff65b70d",
+      "id": "7961",
+      "title": "Luna Crystal : Lil TalesWeaver",
+      "url": "https://m.nexon.com/probability/7961?language=en",
+      "hash": "80eb4469a1d9dd0cdf227ab2c5da349e8adcaa83ee33dc6cf0cfdc80454e023d",
       "active": true,
-      "first_seen_utc": "2026-04-16T04:07:29Z",
-      "last_changed_utc": "2026-04-16T04:07:29Z",
+      "first_seen_utc": "2026-11-12T05:05:58Z",
+      "last_changed_utc": "2026-11-12T05:05:58Z",
       "description_text": null,
       "columns": [
         "Type",
@@ -251429,182 +253889,182 @@
       },
       "rows": [
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Pyuri Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Pori Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Puri Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Plumpy Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Chubby Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Pudgy Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Lovely Cat Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Lovely Bear Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Sweet Luna",
           "Item Name": "[Sweet Luna] Bonny Rabbit Exchange Ticket",
           "Probability": "9.65",
           "_probability_float": 9.65
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
-          "Item Name": "[Petite Luna] Lil Erel Exchange Ticket",
+          "Item Name": "[Petite Luna] Lil Boris Exchange Ticket",
           "Probability": "3.20",
           "_probability_float": 3.2
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
-          "Item Name": "[Petite Luna] Lil Sia Exchange Ticket",
+          "Item Name": "[Petite Luna] Lil Tichiel Exchange Ticket",
           "Probability": "3.20",
           "_probability_float": 3.2
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
-          "Item Name": "[Petite Luna] Lil Iel Exchange Ticket",
+          "Item Name": "[Petite Luna] Lil Benya Exchange Ticket",
           "Probability": "3.20",
           "_probability_float": 3.2
         },
         {
-          "Type": "Wonder Black Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
           "Item Name": "Luna Crystal Key",
           "Probability": "3.55",
           "_probability_float": 3.55
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Pyuri Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Pori Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Puri Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Plumpy Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Chubby Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Pudgy Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Lovely Cat Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Lovely Bear Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Dream Luna",
           "Item Name": "[Dream Luna] Bonny Rabbit Exchange Ticket",
           "Probability": "8.20",
           "_probability_float": 8.2
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
-          "Item Name": "[Petite Luna] Lil Erel Exchange Ticket",
+          "Item Name": "[Petite Luna] Lil Boris Exchange Ticket",
           "Probability": "6.40",
           "_probability_float": 6.4
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
-          "Item Name": "[Petite Luna] Lil Sia Exchange Ticket",
+          "Item Name": "[Petite Luna] Lil Tichiel Exchange Ticket",
           "Probability": "6.40",
           "_probability_float": 6.4
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
-          "Item Name": "[Petite Luna] Lil Iel Exchange Ticket",
+          "Item Name": "[Petite Luna] Lil Benya Exchange Ticket",
           "Probability": "6.40",
           "_probability_float": 6.4
         },
         {
-          "Type": "Sweet Luna Base Fusion",
+          "Type": "",
           "Rank": "Petite Luna",
           "Item Name": "Luna Crystal Key",
           "Probability": "7.00",
@@ -273453,6 +275913,1280 @@
       "raw_table_row_count": 4,
       "audit_flags": [
         "non_numeric_probability_rows:3"
+      ]
+    },
+    {
+      "id": "7957",
+      "title": "TalesWeaver Style",
+      "url": "https://m.nexon.com/probability/7957?language=en",
+      "hash": "3e24b158b08861bb8a48f32a58cec84aa6c9bc86897d3b204a3210809b3fddff",
+      "active": true,
+      "first_seen_utc": "2026-11-12T05:06:04Z",
+      "last_changed_utc": "2026-11-12T05:06:04Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Gender",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Gender": "gender_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "[TalesWeaver] Unique Azazelle's Stigmata Box",
+          "Gender": "Default",
+          "Probability": "0.0200",
+          "_probability_float": 0.02
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "[TalesWeaver] Unique Archon's Stigmata Box",
+          "Gender": "Default",
+          "Probability": "0.0200",
+          "_probability_float": 0.02
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Shardveil Crystal (Weapon)",
+          "Gender": "Default",
+          "Probability": "0.0200",
+          "_probability_float": 0.02
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mastercraft Failure Count Reduction Scroll (Chaos) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0250",
+          "_probability_float": 0.025
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Winterer",
+          "Gender": "Default",
+          "Probability": "0.1500",
+          "_probability_float": 0.15
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Swordsman in Black Yevgnenroid Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0150",
+          "_probability_float": 0.015
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Noble Solitude Isoletroid Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0150",
+          "_probability_float": 0.015
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Benya Hair Selection Coupon",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Benya Face Selection Coupon",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Benya Outfit",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Benya Flats",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lethe Ataraxia",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lil Jelly King Staff",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Majestic Poison Jelly King Outfit",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Poison Jelly King Shoes",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Poison Jelly King Crown",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Poison Jelly King Dignity",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Jellyppi Drops",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Devil Knight Mount",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "In the Jellyppi Forest",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Megistone Smumanus",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Super Jellyppi Ranger",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Tri-Color Beads",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lil Rongrong",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "TalesWeaver Damage Skin (Unit)",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lil Platina Wings",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lil Grass Wings",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Persian Head Cat",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Winky Hat",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Phantom Scharn Mask",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Carbuncle Bag",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fallen Angel's Horns",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Apostle of Darkness",
+          "Gender": "Male",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Judgment's Mantle",
+          "Gender": "Female",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fettered Footsteps",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Abyssal Judgment",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Wings of Broken Oaths",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Moonlight Magic Academy Halo",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Moonlight Magic Academy Uniform (M)",
+          "Gender": "Male",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Moonlight Magic Academy Uniform (F)",
+          "Gender": "Female",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Moonlight Magic Academy Bracelet",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Moonlight Magic Academy Anklet",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Crescent Moon Magic Wand",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Moonlight Magic Academy Cape",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "[TalesWeaver] Epic Azazelle's Stigmata Box",
+          "Gender": "Default",
+          "Probability": "0.1000",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "[TalesWeaver] Epic Archon's Stigmata Box",
+          "Gender": "Default",
+          "Probability": "0.1000",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Phantasma Crystal (Gloves, Shoes)",
+          "Gender": "Default",
+          "Probability": "0.0800",
+          "_probability_float": 0.08
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Necros Crystal (Cape, Shoulder)",
+          "Gender": "Default",
+          "Probability": "0.0800",
+          "_probability_float": 0.08
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Arachno Crystal (Hat, Outfit)",
+          "Gender": "Default",
+          "Probability": "0.0800",
+          "_probability_float": 0.08
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lucky Chaos Mastercraft Scroll (Weapon) (5%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.1000",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lucky Chaos Mastercraft Scroll (Armor) (5%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.1000",
+          "_probability_float": 0.1
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Unique Potential Scroll (50%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.0800",
+          "_probability_float": 0.08
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Night Bear Hood",
+          "Gender": "Male",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Night Bear Hairband",
+          "Gender": "Male",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Night Bear Outfit (M)",
+          "Gender": "Male",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Night Shoes (M)",
+          "Gender": "Male",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Bear & Ribbon",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Soft Bear",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Sweet Bear Hood",
+          "Gender": "Female",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Sweet Bear Hairband",
+          "Gender": "Female",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Sweet Bear Outfit (F)",
+          "Gender": "Female",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Sweet Shoes (F)",
+          "Gender": "Female",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Hungry Bunny Hood",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Hungry Bunny Suit",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Hungry Corgi Hood",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Hungry Corgi Suit",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fluffy Bunny Hat",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Knit Kitty Beanie",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lovely Knit Bandana",
+          "Gender": "Default",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Winter Lace Bonnet",
+          "Gender": "Default",
+          "Probability": "0.9000",
+          "_probability_float": 0.9
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Roasted Chestnut Teddy Hat",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Teddy Hand Warmer",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cozy Beige Muffler",
+          "Gender": "Default",
+          "Probability": "0.9000",
+          "_probability_float": 0.9
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Warm Winter Penguin Hat",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Warm Winter Bunny Hat",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Warm Winter Bear Hat",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mr. Flopsy Hairband",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mr. Flopsy Hat",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mr. Flopsy Outfit",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Snowflake Pink Bean Outfit",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Snowflake Yeti Outfit",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Gray Cotton Candy Sweater",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cotton Candy Palette Muffler",
+          "Gender": "Default",
+          "Probability": "0.6000",
+          "_probability_float": 0.6
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mochi Puppy",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Floppy Puppy",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Doggy Biscuit",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Choco Pup",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fluff Pup",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Golden Mochi Weapon",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Avocado Lover Hat",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Avocado Lover Outfit",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chunky Cable-Knit Hat",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chunky Cable-Knit Top",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chunky Cable-Knit Bottoms",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chunky Cable-Knit Shoes",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Dango Set Hat",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Dango Set Outfit",
+          "Gender": "Default",
+          "Probability": "0.7000",
+          "_probability_float": 0.7
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Dino Operator Cutie Wig",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chicken Operator Toben Wig",
+          "Gender": "Default",
+          "Probability": "1.2000",
+          "_probability_float": 1.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Stigma Weapon Crystal",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Stigma Crystal",
+          "Gender": "Default",
+          "Probability": "0.2000",
+          "_probability_float": 0.2
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "AbsoLab Crystal",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Stigma Crystal Piece x60 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "AbsoLab Crystal Piece x60 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chaos Crystal Piece x20 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mastercraft Failure Count Reduction Scroll (Ancient) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.3000",
+          "_probability_float": 0.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Ancient Weapon Crystal Piece x60 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.3500",
+          "_probability_float": 0.35
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Ancient Armor Crystal Piece x80 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.4000",
+          "_probability_float": 0.4
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mysterious Weapon Whetstone (Legendary) x50 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mysterious Armor Whetstone (Legendary) x50 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "1.0000",
+          "_probability_float": 1.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Shield Scroll x1 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Shielding Ward x1 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Lucky Day Scroll (5%) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mastercraft Failure Count Reduction Scroll (Mythic) Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "TalesWeaver Megaphone x3 Exchange Ticket",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Baby Boris Envy",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Baby Benya Yawn",
+          "Gender": "Default",
+          "Probability": "0.2500",
+          "_probability_float": 0.25
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Flappi's EXP Increase Ticket",
+          "Gender": "Default",
+          "Probability": "2.7550",
+          "_probability_float": 2.755
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Angelppi's EXP Increase Ticket",
+          "Gender": "Default",
+          "Probability": "2.5900",
+          "_probability_float": 2.59
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Jellyppi's EXP Increase Ticket",
+          "Gender": "Default",
+          "Probability": "2.4800",
+          "_probability_float": 2.48
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Snake Soup",
+          "Gender": "Default",
+          "Probability": "3.0000",
+          "_probability_float": 3.0
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Ginseng Soup",
+          "Gender": "Default",
+          "Probability": "2.4000",
+          "_probability_float": 2.4
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Cronos's Egg",
+          "Gender": "Default",
+          "Probability": "2.4000",
+          "_probability_float": 2.4
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Auto-Battle Charge Ticket (10 Min)",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Auto-Battle Charge Ticket (1 Hr)",
+          "Gender": "Default",
+          "Probability": "0.5000",
+          "_probability_float": 0.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Red Cube",
+          "Gender": "Default",
+          "Probability": "2.5900",
+          "_probability_float": 2.59
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Carrot Juice",
+          "Gender": "Default",
+          "Probability": "2.5900",
+          "_probability_float": 2.59
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fried Shrimp",
+          "Gender": "Default",
+          "Probability": "1.5000",
+          "_probability_float": 1.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Chestnut",
+          "Gender": "Default",
+          "Probability": "2.9000",
+          "_probability_float": 2.9
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fruity Yogurt & Grape Juice Choice Box",
+          "Gender": "Default",
+          "Probability": "2.5000",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Wedding Cake",
+          "Gender": "Default",
+          "Probability": "2.5000",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Mushroom Candy",
+          "Gender": "Default",
+          "Probability": "2.5700",
+          "_probability_float": 2.57
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Fruity Candy",
+          "Gender": "Default",
+          "Probability": "2.5000",
+          "_probability_float": 2.5
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Dumpling",
+          "Gender": "Default",
+          "Probability": "2.4200",
+          "_probability_float": 2.42
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Candy Basket/Candy Cane Choice Box",
+          "Gender": "Default",
+          "Probability": "2.4200",
+          "_probability_float": 2.42
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Power Elixir",
+          "Gender": "Default",
+          "Probability": "2.3000",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Power Elixir",
+          "Gender": "Default",
+          "Probability": "2.3000",
+          "_probability_float": 2.3
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Shield Scroll",
+          "Gender": "Default",
+          "Probability": "1.5500",
+          "_probability_float": 1.55
+        },
+        {
+          "Type": "TalesWeaver Style",
+          "Rank": "",
+          "Item Name": "Shielding Ward",
+          "Gender": "Default",
+          "Probability": "1.5500",
+          "_probability_float": 1.55
+        }
+      ],
+      "row_count": 139,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
+      ]
+    },
+    {
+      "id": "7960",
+      "title": "Wisp's Wondrous Wonderberry Season 22",
+      "url": "https://m.nexon.com/probability/7960?language=en",
+      "hash": "8fcf3d14964273dfc5998dce9736f574e7b38fb9f229bf7d4617aee406c0daf7",
+      "active": true,
+      "first_seen_utc": "2026-11-12T05:05:59Z",
+      "last_changed_utc": "2026-11-12T05:05:59Z",
+      "description_text": null,
+      "columns": [
+        "Type",
+        "Rank",
+        "Item Name",
+        "Probability"
+      ],
+      "meta": {
+        "Type": "box_name_en",
+        "Rank": "itemgrade_name_en",
+        "Item Name": "item_name_en",
+        "Probability": "prob_view"
+      },
+      "rows": [
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Black",
+          "Item Name": "[Wonder Black] Baby Hippo Exchange Ticket",
+          "Probability": "3.32",
+          "_probability_float": 3.32
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Black",
+          "Item Name": "[Wonder Black] Wolf Pup Exchange Ticket",
+          "Probability": "3.32",
+          "_probability_float": 3.32
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Black",
+          "Item Name": "[Wonder Black] Lion Cub Exchange Ticket",
+          "Probability": "3.32",
+          "_probability_float": 3.32
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Blue",
+          "Item Name": "[Wonder Blue] Yellow Moon Butterfly Exchange Ticket",
+          "Probability": "9.80",
+          "_probability_float": 9.8
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Blue",
+          "Item Name": "[Wonder Blue] Blue Moon Butterfly Exchange Ticket",
+          "Probability": "9.80",
+          "_probability_float": 9.8
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Blue",
+          "Item Name": "[Wonder Blue] Pink Moon Butterfly Exchange Ticket",
+          "Probability": "9.80",
+          "_probability_float": 9.8
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Silver",
+          "Item Name": "[Wonder Silver] Salmon Nigiri Exchange Ticket",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Wonder Silver",
+          "Item Name": "[Wonder Silver] Peppy Slime Exchange Ticket",
+          "Probability": "12.00",
+          "_probability_float": 12.0
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "Wonder Black Water of Life Exchange Ticket",
+          "Probability": "6.64",
+          "_probability_float": 6.64
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "3 Premium Water of Life (15 Day) Exchange Tickets",
+          "Probability": "7.00",
+          "_probability_float": 7.0
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "20 Organic Pet Food Exchange Tickets",
+          "Probability": "11.55",
+          "_probability_float": 11.55
+        },
+        {
+          "Type": "Wisp's Wondrous Wonderberry Season 22",
+          "Rank": "Other",
+          "Item Name": "30 Organic Pet Food Exchange Tickets",
+          "Probability": "11.45",
+          "_probability_float": 11.45
+        }
+      ],
+      "row_count": 12,
+      "raw_table_rows": [
+        [
+          "' + arrKey[i] + '"
+        ],
+        [
+          "' + ((!col)? '' : col) + '"
+        ]
+      ],
+      "raw_table_row_count": 2,
+      "audit_flags": [
+        "raw_table_rows_too_small",
+        "raw_rows_with_single_cell"
       ]
     }
   ]
