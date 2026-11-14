@@ -1,8 +1,20 @@
 {
   "source": "Nexon MapleStoryMGlobal board 2680 lanes: 2691(announcement), 2692(event), 2693(market)",
-  "generated_at_utc": "2026-11-14T13:00:09Z",
-  "count": 15,
+  "generated_at_utc": "2026-11-14T17:00:09Z",
+  "count": 16,
   "events": [
+    {
+      "board_id": 2693,
+      "type": "market",
+      "thread_id": "3580708",
+      "title": "💎11.15 Package Shop Update💎",
+      "url": "https://forum.nexon.com/MapleStoryMGlobal/board_view?board=2693&thread=3580708",
+      "posted_utc": "2026-11-14T16:00:00Z",
+      "event_period_raw": "Crystal Step Up Package A Crystal Step-Up Package that comes with plenty of Crystals at every stage! ▶ Sales Period: 2026/11/15 (Sun) 00:00 - 2026/11/28 (Sat) 23:59 (Server Time) * Server Time: America = UTC-8 / Europe = UTC+2 / Asia 1&2 = UTC+8 ▶ Package Details Stage 1 Stage 2 Stage 3 Stage 4 450 1,000 2,050 5,500 Acquire 9,000 Crystals in total! * The Crystal Step Up Package can be purchased once per account",
+      "start_utc": "2026-11-15T08:00:00Z",
+      "end_utc": "2026-11-29T07:59:00Z",
+      "first_seen_utc": "2026-11-14T17:00:09Z"
+    },
     {
       "board_id": 2691,
       "type": "announcement",
