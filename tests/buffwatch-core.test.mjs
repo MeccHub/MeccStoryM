@@ -1,6 +1,6 @@
 // node tests/buffwatch-core.test.mjs
 import assert from 'node:assert/strict';
-import { toGray, integrals, prepTemplate, find, calibrate, step } from '../assets/js/buffwatch-core.js';
+import { toGray, prepBoth, prepFrame, find, calibrate, step } from '../assets/js/buffwatch-core.js';
 
 // Noise background 200×60 with a distinctive 24×24 icon pasted at (130, 20).
 let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
@@ -10,12 +10,14 @@ const frame = (withIcon, ox = 130, oy = 20) => {
   if (withIcon) for (let y = 0; y < 24; y++) for (let x = 0; x < 24; x++) g[(oy + y) * W + ox + x] = icon.g[y * 24 + x];
   return { g, w: W, h: H };
 };
-const T = prepTemplate(icon);
-const on = frame(true), hit = find(on, integrals(on), T, null);
+const T = prepBoth(icon);
+const on = frame(true), hit = find(prepFrame(on), T, null);
 assert.ok(hit.score > 0.99 && hit.x === 130 && hit.y === 20, `found at ${hit.x},${hit.y} score ${hit.score}`);
-const moved = frame(true, 133, 22), near = find(moved, integrals(moved), T, { x: 130, y: 20 });
+const odd = frame(true, 131, 21), oddHit = find(prepFrame(odd), T, null);
+assert.ok(oddHit.x === 131 && oddHit.y === 21 && oddHit.score > 0.99, 'odd offsets still found');
+const moved = frame(true, 133, 22), near = find(prepFrame(moved), T, { x: 130, y: 20 });
 assert.ok(near.x === 133 && near.y === 22 && near.score > 0.99, 'nearby search follows a shifted icon');
-const off = frame(false), miss = find(off, integrals(off), T, { x: 130, y: 20 });
+const off = frame(false), miss = find(prepFrame(off), T, { x: 130, y: 20 });
 assert.ok(miss.score < 0.5, `absent score ${miss.score}`);
 
 const g = toGray({ data: new Uint8ClampedArray([255, 0, 0, 255, 0, 0, 255, 255]), width: 2, height: 1 });

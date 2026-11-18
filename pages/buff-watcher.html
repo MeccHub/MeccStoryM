@@ -64,7 +64,7 @@
 
 <script src="../assets/js/site-nav.js"></script>
 <script type="module">
-  import { toGray, integrals, prepTemplate, find, calibrate, step } from "../assets/js/buffwatch-core.js";
+  import { toGray, prepBoth, prepFrame, find, calibrate, step } from "../assets/js/buffwatch-core.js";
 
   const KEY = "msm_buffwatch_v1";
   const $ = id => document.getElementById(id);
@@ -83,7 +83,7 @@
   const pack = g => btoa(String.fromCharCode(...Uint8Array.from(g, v => Math.round(v))));
   const unpack = s => Float32Array.from(atob(s), c => c.charCodeAt(0));
   const runtime = b => {
-    if (!rt.has(b.id)) rt.set(b.id, { T: prepTemplate({ g: unpack(b.px), w: b.w, h: b.h }), last: null, state: { on: false }, score: 0, checked: 0 });
+    if (!rt.has(b.id)) rt.set(b.id, { T: prepBoth({ g: unpack(b.px), w: b.w, h: b.h }), last: null, state: { on: false }, score: 0, checked: 0 });
     return rt.get(b.id);
   };
 
@@ -165,7 +165,7 @@
   $("addBuff").onclick = async () => {
     stopWatching();
     showRegion(profile.area);
-    const r = await dragRect("Drag a tight box around ONE buff icon (the picture only, not its timer text).");
+    const r = await dragRect("Drag a box over the TOP part of ONE buff icon: above its timer text, and away from any stack number in the corner.");
     const img = frame({ x: profile.area.x + r.x, y: profile.area.y + r.y, w: r.w, h: r.h });
     const name = (prompt("Name this buff (used in callouts):", "") || "").trim().slice(0, 30);
     showRegion(profile.area);
@@ -179,19 +179,19 @@
   function tick() {
     if (!watching || busy || !video.videoWidth) return;
     busy = true;
-    const t0 = performance.now(), img = frame(profile.area), ii = integrals(img), now = Date.now();
+    const t0 = performance.now(), F = prepFrame(frame(profile.area)), now = Date.now();
     // Whole-area scans are the slow part. Buffs that were on but moved (icons slide when another buff ends)
     // always get one; absent buffs share FULL per scan in rotation. Everyone else gets the cheap nearby search.
     const FULL = 6, buffs = profile.buffs, results = new Map(), retry = [];
     for (const b of buffs) {
-      const r = runtime(b), m = find(img, ii, r.T, r.last, b.threshold, false);
+      const r = runtime(b), m = find(F, r.T, r.last, b.threshold, false);
       if (m.skipped) retry.push(b); else results.set(b, m);
     }
     const moved = retry.filter(b => runtime(b).state.on);
     const absent = retry.filter(b => !runtime(b).state.on).sort((a, b) => runtime(a).checked - runtime(b).checked);
     for (const b of moved.concat(absent.slice(0, FULL))) {
       const r = runtime(b);
-      results.set(b, find(img, ii, r.T, null, b.threshold)); r.checked = now;
+      results.set(b, find(F, r.T, null, b.threshold)); r.checked = now;
     }
     const seenNow = new Map([...results].map(([b, m]) => [b, m.score >= b.threshold]));
     const onCount = buffs.filter(b => runtime(b).state.on).length;
@@ -245,8 +245,7 @@
   async function sample(b) {
     const out = [], r = runtime(b);
     for (let i = 0; i < 36; i++) {
-      const img = frame(profile.area);
-      out.push(find(img, integrals(img), r.T, null, 2).score);
+      out.push(find(prepFrame(frame(profile.area)), r.T, null, 2).score);
       await nextTick();
     }
     return out;

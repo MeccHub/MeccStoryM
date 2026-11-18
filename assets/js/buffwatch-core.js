@@ -56,20 +56,47 @@ function scan(img, ii, T, x0, y0, x1, y1, step) {
   return best;
 }
 
+/** 2×2 box-averaged copy: widens match peaks so a coarse pass can't step over them. */
+export function half({ g, w, h }) {
+  const W = w >> 1, H = h >> 1, o = new Float32Array(W * H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = 2 * y * w + 2 * x;
+    o[y * W + x] = (g[i] + g[i + 1] + g[i + w] + g[i + w + 1]) / 4;
+  }
+  return { g: o, w: W, h: H };
+}
+
+/** Template plus its half-size version, prepared once. */
+export function prepBoth(t) { return { ...prepTemplate(t), small: prepTemplate(half(t)) }; }
+
+/** Image plus integrals at full and half size, built once per frame. */
+export function prepFrame(img) { const s = half(img); return { img, ii: integrals(img), s, sii: integrals(s) }; }
+
 /**
- * Finds the template in the image. Searches near `last` first (icons shift a little as buffs come and go),
- * then the whole area on a 2 px grid refined to 1 px. With full=false a failed nearby search
- * returns {skipped: true} instead, so callers can ration the expensive whole-area scans.
+ * Finds the template (from prepBoth) in a frame (from prepFrame). Searches near `last` first (icons shift
+ * as buffs come and go), then the whole area at half size, refining the best 3 spots at full size.
+ * With full=false a failed nearby search returns {skipped: true}, so callers can ration whole-area scans.
  */
-export function find(img, ii, T, last, threshold = 0.85, full = true) {
+export function find(F, T, last, threshold = 0.85, full = true) {
+  const { img, ii } = F;
   if (T.w > img.w || T.h > img.h) return { score: 0, x: 0, y: 0 };
   if (last) {
     const near = scan(img, ii, T, last.x - 6, last.y - 6, last.x + 6, last.y + 6, 1);
-    if (near.score >= threshold || !full) return near.score >= threshold ? near : { ...near, skipped: true };
+    if (near.score >= threshold) return near;
+    if (!full) return { ...near, skipped: true };
   }
   if (!full) return { score: 0, x: 0, y: 0, skipped: true };
-  const coarse = scan(img, ii, T, 0, 0, img.w, img.h, 2);
-  return scan(img, ii, T, coarse.x - 1, coarse.y - 1, coarse.x + 1, coarse.y + 1, 1);
+  const S = T.small, cands = [];
+  for (let y = 0; y <= F.s.h - S.h; y++) for (let x = 0; x <= F.s.w - S.w; x++) {
+    const v = score(F.s, F.sii, S, x, y);
+    if (cands.length < 3 || v > cands[2].v) { cands.push({ v, x, y }); cands.sort((a, b) => b.v - a.v); cands.length = Math.min(3, cands.length); }
+  }
+  let best = { score: -1, x: 0, y: 0 };
+  for (const c of cands) {
+    const m = scan(img, ii, T, 2 * c.x - 2, 2 * c.y - 2, 2 * c.x + 2, 2 * c.y + 2, 1);
+    if (m.score > best.score) best = m;
+  }
+  return best;
 }
 
 const pct = (sorted, p) => sorted[Math.min(sorted.length - 1, Math.max(0, Math.round((p / 100) * (sorted.length - 1))))];
