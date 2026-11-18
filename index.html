@@ -2864,6 +2864,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
   .hub-card { padding: 8px 10px; gap: 8px; }
   .hub-card-desc { display: none; }
 }
+.hub-section .hub-today { margin-top: 8px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 </style>
 </head>
 <body>
@@ -2914,7 +2915,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="home-title"><span class="brand-mecc-blue">Mecc</span><span class="brand-story">Story</span><span class="brand-m-orange">M</span></div>
         <div class="home-sub">Maplestory M tools and guides made for Spades (Scania)</div>
         <div class="home-sub" style="font-weight:700;">Server (UTC−8): <span id="homeServerTime">--:--:--</span> · Local: <span id="homeLocalTime">--:--:--</span></div>
-        <div id="homeAlert" class="df-note" style="display:none;margin-top:8px;border:1px solid #ffd9a6;background:#fff7e9;padding:8px 10px;border-radius:10px;"></div>
+        <div id="homeAlert" class="df-note" style="display:none;margin-top:8px;border:1px solid rgba(245,158,11,0.45);background:rgba(245,158,11,0.12);color:var(--c-text-primary);padding:8px 10px;border-radius:10px;"></div>
       </div>
 
       <div id="hubHome"></div>
@@ -5220,7 +5221,7 @@ const HUB_TOOLS = [
   { href: 'assets/chaos-will-pattern-trainer/index.html', group: 'bossing', icon: '🕷️', name: 'Chaos Will Trainer', desc: 'Practice Chaos Will patterns with timers.', keys: 'will chaos trainer pattern' },
   { tab: 'starforce', group: 'gear',    icon: '⭐', name: 'Star Force Emulator',      desc: 'Simulate meso cost and destroy risk to a target SF.', keys: 'starforce star force sf enhance' },
   { tab: 'cube',      group: 'gear',    icon: '🧊', name: 'Cube Potential Simulator', desc: 'Potential cube rolls with rank-up and line targeting.', keys: 'cube potential roll' },
-  { href: 'pages/mastercraft-scrolls.html', group: 'gear', icon: '🍀', name: 'Lucky Scroll Calculator', desc: 'Absolab → Arcane Umbra: which lucky scrolls are worth it per attempt.', keys: 'mastercraft lucky scroll absolab arcane umbra au reduction' },
+  { href: 'pages/mastercraft-scrolls.html', group: 'gear', icon: '🍀', name: 'Mastercraft Scroll Breakeven', desc: 'Absolab → Arcane Umbra: which lucky scrolls are worth it per attempt.', keys: 'mastercraft lucky scroll absolab arcane umbra au reduction' },
   { tab: 'breakeven', group: 'mesos',   icon: '📈', name: 'Maple Points vs TS',       desc: 'Trade Station meso price vs the crystal route.', keys: 'maple points mp ts trade station crystal breakeven' },
   { tab: 'meso',      group: 'mesos',   icon: '💰', name: 'Meso/hr Calculator',       desc: 'Upload result screenshots and auto-calc mesos per hour.', keys: 'meso mesos per hour farming' },
   { tab: 'newbie',    group: 'info',    icon: '🌱', name: 'Newbie FAQ',               desc: 'Early progression, crystals, dailies, Ark, CRA and Necro basics.', keys: 'new player beginner faq' },
@@ -5233,7 +5234,6 @@ const HUB_TOOLS = [
   { tab: 'char',      group: 'utils',   icon: '📝', name: 'Character Description',    desc: 'MSM character captions with rich formatting and preview.', keys: 'character description caption' }
 ];
 const HUB_SPECIAL_TABS = ['dmg', 'resets', 'events', 'probs'];
-const HUB_RECENT_KEY = 'msm_recent_tools';
 
 function hubIsTab(id) {
   return id === 'home' || HUB_SPECIAL_TABS.includes(id) || !!document.getElementById('tab-' + id);
@@ -5248,16 +5248,16 @@ function hubItem(t, cls) {
   const inner = `<span class="hub-item-icon" aria-hidden="true">${t.icon}</span><span class="hub-item-name">${hubEsc(t.name)}</span>`;
   return t.tab
     ? `<button type="button" class="tab-btn ${cls}" data-tab="${t.tab}" onclick="switchTab('${t.tab}',this);closeMobileNav()">${inner}</button>`
-    : `<a class="tab-btn ${cls}" href="${t.href}" onclick="hubTrackRecent('${t.href}')">${inner}</a>`;
+    : `<a class="tab-btn ${cls}" href="${t.href}">${inner}</a>`;
 }
 
 function hubCard(t) {
   const body = `<div class="hub-card-icon" aria-hidden="true">${t.icon}</div>
-    <div class="hub-card-text"><div class="hub-card-name">${hubEsc(t.name)}</div><div class="hub-card-desc">${hubEsc(t.desc)}</div></div>`;
+    <div class="hub-card-text"><div class="hub-card-name">${hubEsc(t.name)}</div></div>`;
   const attrs = `class="hub-card" data-key="${hubEsc(hubToolKey(t))}" data-search="${hubEsc((t.name + ' ' + t.desc + ' ' + (t.keys || '')).toLowerCase())}"`;
   return t.tab
     ? `<button type="button" ${attrs} onclick="switchTab('${t.tab}', document.querySelector('.hub-nav .tab-btn[data-tab=&quot;${t.tab}&quot;]'))">${body}</button>`
-    : `<a ${attrs} href="${t.href}" onclick="hubTrackRecent('${t.href}')">${body}</a>`;
+    : `<a ${attrs} href="${t.href}">${body}</a>`;
 }
 
 function hubRenderNav() {
@@ -5284,20 +5284,15 @@ function hubRenderHome() {
   root.innerHTML = `
     <div class="hub-search-wrap">
       <span class="hub-search-icon" aria-hidden="true">🔍</span>
-      <input id="hubSearch" class="hub-search" type="search" placeholder="Search tools… (try “boss”, “cube”, “events”)" autocomplete="off" aria-label="Search tools">
+      <input id="hubSearch" class="hub-search" type="search" placeholder="Search tools…" autocomplete="off" aria-label="Search tools">
     </div>
     <div class="hub-empty" id="hubEmpty" hidden>No tools match that search.</div>
-    <section class="hub-section" id="hubRecentSection" hidden>
-      <h2 class="hub-section-title">🕘 Recently used</h2>
-      <div class="hub-grid" id="hubRecent"></div>
-    </section>
     ${HUB_GROUPS.map(g => `
       <section class="hub-section" data-group="${g.id}">
         <h2 class="hub-section-title">${g.icon} ${hubEsc(g.label)}</h2>
         <div class="hub-grid">${HUB_TOOLS.filter(t => t.group === g.id).map(hubCard).join('')}</div>
-      </section>${g.id === 'info' ? '<div class="hub-today" id="hubToday" aria-live="off"></div>' : ''}`).join('')}`;
+      ${g.id === 'today' ? '<div class="hub-today" id="hubToday" aria-live="off"></div>' : ''}</section>`).join('')}`;
   document.getElementById('hubSearch').addEventListener('input', hubFilter);
-  hubRenderRecent();
 }
 
 function hubFilter() {
@@ -5312,27 +5307,9 @@ function hubFilter() {
     });
     sec.hidden = !any; shown += any;
   });
-  document.getElementById('hubRecentSection').hidden = !!q || !hubGetRecent().length;
   document.getElementById('hubEmpty').hidden = shown > 0;
 }
 
-function hubGetRecent() {
-  try { return JSON.parse(localStorage.getItem(HUB_RECENT_KEY)) || []; } catch (e) { return []; }
-}
-function hubTrackRecent(key) {
-  if (!key || key === 'home' || !HUB_TOOLS.some(t => hubToolKey(t) === key)) return;
-  const list = [key].concat(hubGetRecent().filter(k => k !== key)).slice(0, 4);
-  try { localStorage.setItem(HUB_RECENT_KEY, JSON.stringify(list)); } catch (e) {}
-  hubRenderRecent();
-}
-function hubRenderRecent() {
-  const wrap = document.getElementById('hubRecent');
-  if (!wrap) return;
-  const tools = hubGetRecent().map(k => HUB_TOOLS.find(t => hubToolKey(t) === k)).filter(Boolean);
-  wrap.innerHTML = tools.map(hubCard).join('');
-  const q = document.getElementById('hubSearch');
-  document.getElementById('hubRecentSection').hidden = !tools.length || !!(q && q.value.trim());
-}
 
 function hubToggleMenu(id, e) {
   if (e) e.stopPropagation();
@@ -5369,9 +5346,6 @@ function hubTodayTick() {
   const card = (tab, label, value, sub = '') =>
     `<button type="button" class="hub-today-card" onclick="switchTab('${tab}', document.querySelector('.hub-nav .tab-btn[data-tab=&quot;${tab}&quot;]'))"><span class="hub-today-label">${label}</span>${value}${sub}</button>`;
   el.innerHTML =
-    card('resets', 'Daily reset', `<b>${left(rtNextDaily())}</b>`) +
-    card('resets', 'Weekly bosses (Wed)', `<b>${left(rtNextWeekday(3))}</b>`) +
-    card('resets', 'Weekly tasks (Sun)', `<b>${left(rtNextWeekday(0))}</b>`) +
     card('resets', 'Path of Proof', `<b>${left(rtNextPoP())}</b>`) +
     card('events', 'Events', evHtml);
 }
@@ -5406,7 +5380,6 @@ function switchTab(id, btn, fromPop = false) {
     if (id === 'guide') ggInit();
   }
   document.querySelectorAll(`.tab-btn[data-tab="${id}"]`).forEach(b => b.classList.add('active'));
-  hubTrackRecent(id);
   hubCloseMenus();
   // Sync mobile nav active state
   document.querySelectorAll('.mobile-nav .tab-btn').forEach(b => {
@@ -6798,7 +6771,7 @@ function rtTick() {
 
 // Init
 rtLoadAnchor();
-setTimeout(() => { if (typeof evLoad === 'function') evLoad(); }, 0);
+setTimeout(() => { if (typeof evLoad === 'function') evLoad().then(hubTodayTick); }, 0);
 rtTick();
 setInterval(rtTick, 1000);
 
