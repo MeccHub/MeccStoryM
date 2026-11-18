@@ -29,6 +29,10 @@
     .dk-attacks { gap: 4px; }
     .dk-attacks .dk-btn { min-width: 0; flex: 1 1 52px; padding: 7px 4px; font-size: 13px; }
   }
+  .dk-bar { height: 14px; margin-top: 8px; border-radius: 999px; background: var(--msm-soft); overflow: hidden; }
+  .dk-bar i { display: block; height: 100%; width: 0; background: #8b5cf6; }
+  .dk-bar i.fly { background: #ef4444; }
+  .dk-bar i.meteor, .dk-bar i.charge { background: #f59e0b; }
   .dk-status { margin: 10px 0 0; font-weight: 700; color: var(--msm-muted); }
   .dk-status b { color: var(--msm-ink); font-size: 20px; text-transform: capitalize; }
 </style>
@@ -42,6 +46,7 @@
     <h1 class="msm-section-title">Darknell Callouts</h1>
     <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Tap the attack Darknell is doing right now. Callouts come ~1.5s early; Fly gets a 3-2-1 countdown. Tap again any time to resync.</p>
     <p class="dk-status" id="status">Stopped.</p>
+    <div class="dk-bar"><i id="bar"></i></div>
     <button class="dk-btn dk-stop" id="stop" type="button">Stop</button>
   </section>
   <div id="phases" class="dk-grid"></div>
@@ -58,7 +63,7 @@
     "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 meteor 3 push 6 buff 2 charge 9 dash 7 fly 5"
   ].map(s => s.match(/\w+ \d+/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
   const nx = ([p, i]) => p === 0 && i === PHASES[0].length - 1 ? [1, 0] : [p, (i + 1) % PHASES[p].length];
-  const LEAD = 1.5, REACT = 0.5, BIG = ["fly", "meteor", "charge"];
+  const LEAD = 1.5, REACT = 1, BIG = ["fly", "meteor", "charge"];
   const cap = s => s[0].toUpperCase() + s.slice(1);
 
   let timers = [], cur = null;
@@ -74,7 +79,7 @@
   const at = (t, fn, dropLate) => { if (!(dropLate && t < performance.now())) timers.push(setTimeout(fn, t - performance.now())); };
   function clear() { timers.forEach(clearTimeout); timers = []; speechSynthesis.cancel(); }
 
-  function stop() { clear(); cur = null; render(); $("status").textContent = "Stopped."; }
+  function stop() { clear(); cur = null; $("bar").getAnimations().forEach(a => a.cancel()); render(); $("status").textContent = "Stopped."; }
 
   // Attack i of phase p lands at time t: show it and schedule the callouts for the next one.
   function land(p, i, t) {
@@ -83,6 +88,9 @@
     const tn = t + PHASES[p][i][1] * 1000; // chain from scheduled times so delays don't drift
     cur = [p, i]; render();
     $("status").innerHTML = `Now: ${cap(PHASES[p][i][0])} · Next: <b>${cap(name)}</b> in ${PHASES[p][i][1]}s`;
+    const bar = $("bar"), len = PHASES[p][i][1] * 1000;
+    bar.className = name; bar.getAnimations().forEach(a => a.cancel());
+    bar.animate([{ width: "0%" }, { width: "100%" }], { duration: len, delay: tn - len - performance.now(), fill: "forwards" });
     if (name === "fly") {
       at(tn - 3000, () => say("Fly in 3"), true); at(tn - 2000, () => say("2"), true); at(tn - 1000, () => say("1"), true);
     } else {
