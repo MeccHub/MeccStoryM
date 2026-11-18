@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darknell Callouts - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .dk-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .dk-phases, .dk-attacks { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dk-btn {
+    font: 800 15px "Nunito", sans-serif; padding: 10px 14px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink);
+  }
+  .dk-btn.on { border-color: #8b5cf6; box-shadow: inset 0 0 0 1px #8b5cf6; }
+  .dk-attacks .dk-btn { min-width: 84px; text-transform: capitalize; }
+  .dk-attacks .dk-btn.now { background: #8b5cf6; color: #fff; }
+  .dk-attacks .dk-btn.next { border-color: #f59e0b; box-shadow: inset 0 0 0 2px #f59e0b; }
+  .dk-status { margin: 10px 0 0; font-weight: 700; color: var(--msm-muted); }
+  .dk-status b { color: var(--msm-ink); font-size: 20px; text-transform: capitalize; }
+</style>
+</head>
+<body data-nav-active="darknell">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page dk-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Darknell Callouts</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Pick the phase, then tap the attack Darknell is doing right now. The tool calls out the next attack and keeps going on its timings. If it drifts, tap the current attack again to resync.</p>
+    <div class="dk-phases" id="phases"></div>
+  </section>
+  <section class="msm-panel">
+    <div class="dk-attacks" id="attacks"></div>
+    <p class="dk-status" id="status">Stopped.</p>
+    <button class="dk-btn" id="stop" type="button" style="margin-top:10px">Stop</button>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Each phase loops. [attack, seconds until the next attack].
+  // shortcut: every delay is a 5s placeholder until the real timings are measured.
+  const PHASES = [
+    "meteor push buff dash fly meteor buff push fly dash meteor push dash buff fly",
+    "fly buff charge push dash meteor fly buff dash push charge meteor",
+    "fly meteor push dash fly buff charge meteor push dash buff",
+    "meteor buff push dash charge fly meteor push buff charge dash fly"
+  ].map(s => s.split(" ").map(name => [name, 5]));
+
+  let phase = 0, timer = null;
+  const $ = id => document.getElementById(id);
+
+  function say(text) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.2;
+    speechSynthesis.speak(u);
+  }
+
+  function stop() {
+    clearTimeout(timer); timer = null; speechSynthesis.cancel();
+    render(-1); $("status").textContent = "Stopped.";
+  }
+
+  // Attack i is happening now: call out the next one, then repeat when it lands.
+  function at(i, t0 = performance.now()) {
+    clearTimeout(timer);
+    const list = PHASES[phase], next = (i + 1) % list.length;
+    say(list[next][0]);
+    render(i);
+    $("status").innerHTML = `Now: ${list[i][0]} · Next: <b>${list[next][0]}</b> in ${list[i][1]}s`;
+    const due = t0 + list[i][1] * 1000; // chain from the scheduled time so delays don't drift
+    timer = setTimeout(() => at(next, due), due - performance.now());
+  }
+
+  function render(now) {
+    const list = PHASES[phase];
+    $("phases").innerHTML = PHASES.map((_, p) =>
+      `<button class="dk-btn${p === phase ? " on" : ""}" type="button" data-p="${p}">Phase ${p + 1}</button>`).join("");
+    $("attacks").innerHTML = list.map(([name], i) =>
+      `<button class="dk-btn${i === now ? " now" : ""}${now >= 0 && i === (now + 1) % list.length ? " next" : ""}" type="button" data-i="${i}">${name}</button>`).join("");
+  }
+
+  $("phases").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) { phase = +b.dataset.p; stop(); } });
+  $("attacks").addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (b) at(+b.dataset.i); });
+  $("stop").addEventListener("click", stop);
+  render(-1);
+</script>
+</body>
+</html>
