@@ -58,7 +58,7 @@
     "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 meteor 3 push 6 buff 2 charge 9 dash 7 fly 5"
   ].map(s => s.match(/\w+ \d+/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
   const nx = ([p, i]) => p === 0 && i === PHASES[0].length - 1 ? [1, 0] : [p, (i + 1) % PHASES[p].length];
-  const LEAD = 1.5, BIG = ["fly", "meteor", "charge"];
+  const LEAD = 1.5, REACT = 0.5, BIG = ["fly", "meteor", "charge"];
   const cap = s => s[0].toUpperCase() + s.slice(1);
 
   let timers = [], cur = null;
@@ -70,7 +70,8 @@
     u.rate = 1.2;
     speechSynthesis.speak(u);
   }
-  const at = (t, fn) => timers.push(setTimeout(fn, t - performance.now()));
+  // late = callout time already passed; countdown beats that are stale get dropped instead of all firing at once.
+  const at = (t, fn, dropLate) => { if (!(dropLate && t < performance.now())) timers.push(setTimeout(fn, t - performance.now())); };
   function clear() { timers.forEach(clearTimeout); timers = []; speechSynthesis.cancel(); }
 
   function stop() { clear(); cur = null; render(); $("status").textContent = "Stopped."; }
@@ -83,7 +84,7 @@
     cur = [p, i]; render();
     $("status").innerHTML = `Now: ${cap(PHASES[p][i][0])} · Next: <b>${cap(name)}</b> in ${PHASES[p][i][1]}s`;
     if (name === "fly") {
-      at(tn - 3000, () => say("Fly in 3")); at(tn - 2000, () => say("2")); at(tn - 1000, () => say("1"));
+      at(tn - 3000, () => say("Fly in 3"), true); at(tn - 2000, () => say("2"), true); at(tn - 1000, () => say("1"), true);
     } else {
       at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(after) ? " then " + cap(after) + (after === "fly" ? " in " + Math.floor(LEAD + PHASES[np][n][1]) : after === "charge" ? ", face him left" : "") : "")));
     }
@@ -100,7 +101,7 @@
 
   $("phases").addEventListener("pointerdown", e => {
     const b = e.target.closest("[data-i]"); if (!b) return;
-    clear(); land(+b.dataset.p, +b.dataset.i, performance.now());
+    clear(); land(+b.dataset.p, +b.dataset.i, performance.now() - REACT * 1000); // tap lands a beat after the attack started
   });
   $("stop").addEventListener("click", stop);
   render();
