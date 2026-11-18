@@ -83,7 +83,7 @@
     if (name === "fly") {
       at(tn - 3000, () => say("Fly in 3")); at(tn - 2000, () => say("2")); at(tn - 1000, () => say("1"));
     } else {
-      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(list[nn][0]) ? " then " + cap(list[nn][0]) : "")));
+      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(list[nn][0]) ? " then " + cap(list[nn][0]) + (list[nn][0] === "fly" ? " in " + Math.floor(LEAD + list[n][1]) : "") : "")));
     }
     at(tn, () => { if (name === "fly") say("Fly"); land(p, n, tn); });
   }
