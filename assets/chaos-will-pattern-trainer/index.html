@@ -333,7 +333,20 @@
   /* ── Debug panel (hidden but kept for internal use) ── */
   #debug-panel { display: none !important; }
   #debug-toggle { display: none !important; }
+
+  html[data-theme="light"] {
+    --bg: #f4f1fb; --bg2: #ffffff; --bg3: #ede7fb;
+    --text: #1f1a2e; --text-dim: #5b5276; --card-bg: rgba(255,255,255,0.97);
+  }
+  html[data-theme="light"] .timer-field input { background: #ffffff; }
+  html[data-theme="light"] #timer-settings { background: rgba(255,255,255,0.7); }
+  html[data-theme="light"] #site-header { background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%); }
 </style>
+<script>
+// Follow the site's theme; the storage event keeps an embedded copy in sync with its parent page.
+function msmTheme(){ try { document.documentElement.dataset.theme = localStorage.getItem('msm_theme') === 'light' ? 'light' : 'dark'; } catch (e) {} }
+msmTheme(); addEventListener('storage', msmTheme);
+</script>
 </head>
 <body>
 

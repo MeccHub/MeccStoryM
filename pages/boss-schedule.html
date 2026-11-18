@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boss Schedule Maker - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .sm-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .sm-bar .sm-title { flex: 1 1 220px; font-size: 18px; font-weight: 800; }
+  .sm-in, .sm-sel {
+    font: 600 14px "Nunito", sans-serif; padding: 7px 9px; border: 1px solid var(--msm-field-line); border-radius: 8px;
+    background: var(--msm-field); color: var(--msm-ink); min-width: 0;
+  }
+  .sm-in.warn { border-color: #f59e0b; background: rgba(245,158,11,0.12); }
+  .sm-btn {
+    font: 800 13px "Nunito", sans-serif; padding: 7px 12px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--msm-field-line); background: var(--msm-soft); color: var(--msm-ink); white-space: nowrap;
+  }
+  .sm-btn:hover:not(:disabled) { border-color: #7c3aed; }
+  .sm-btn.primary { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+  .sm-btn.on { background: rgba(124,58,237,0.2); border-color: #7c3aed; }
+  .sm-btn:disabled { opacity: .45; cursor: default; }
+  .sm-btn.danger:hover { border-color: #dc2626; color: #dc2626; }
+  .sm-icon { padding: 4px 8px; font-size: 12px; }
+  .sm-note { font-size: 12px; color: var(--msm-muted); line-height: 1.5; margin: 8px 0 0; }
+  .sm-panel-title { margin: 0 0 10px; font: 400 18px "Fredoka One", "Nunito", sans-serif; color: var(--msm-ink); }
+  .sm-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; font-weight: 700; font-size: 13px; color: var(--msm-ink); }
+  .sm-waves { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+  .sm-wave { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--msm-ink); }
+  .sm-pill { padding: 2px 9px; border-radius: 999px; background: #fef3c7; color: #92400e; font-weight: 800; font-size: 12px; }
+  .sm-conflict { margin: 6px 0; padding: 6px 9px; border-radius: 8px; background: #fef2f2; color: #b91c1c; font-size: 12px; font-weight: 700; }
+  .sm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr)); gap: 14px; }
+  .sm-card { display: flex; flex-direction: column; gap: 8px; }
+  .sm-head { display: grid; grid-template-columns: 1fr auto; gap: 6px; }
+  .sm-head-opts { grid-column: 1 / -1; display: flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 700; color: var(--msm-muted); }
+  .sm-head-opts input { width: 64px; }
+  .sm-slot { display: flex; flex-direction: column; gap: 4px; }
+  .sm-slot-row { display: flex; gap: 4px; align-items: center; }
+  .sm-num { width: 16px; text-align: right; font-size: 12px; font-weight: 800; color: #94a3b8; }
+  .sm-pct { width: 62px; font-size: 11px; font-weight: 800; color: #4b5d8c; text-align: right; }
+  .sm-slot-row .sm-in { flex: 1; padding: 5px 8px; }
+  .sm-ma { width: 28px; padding: 4px 0; font-weight: 900; color: #2f855a; }
+  .sm-ma.alt { color: #b7791f; }
+  .sm-actions { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; border-top: 1px solid var(--msm-line); padding-top: 8px; }
+  .sm-add { min-height: 140px; border: 2px dashed var(--msm-field-line); border-radius: 12px; background: transparent; font: 800 18px "Nunito", sans-serif; color: #64748b; cursor: pointer; }
+  .sm-add:hover { border-color: #7c3aed; color: #7c3aed; }
+  .sm-people { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 6px; }
+  .sm-person { display: flex; gap: 4px; }
+  .sm-person .sm-in { flex: 1; }
+  .sm-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 300; padding: 10px 16px; border-radius: 10px; background: #1f2937; color: #fff; font-weight: 700; font-size: 14px; box-shadow: 0 10px 24px rgba(0,0,0,.3); opacity: 0; transition: opacity .2s; pointer-events: none; max-width: calc(100% - 32px); }
+  .sm-toast.show { opacity: 1; }
+  details.msm-panel > summary { cursor: pointer; list-style: none; }
+  details.msm-panel > summary::-webkit-details-marker { display: none; }
+  details.msm-panel > summary .sm-panel-title { display: inline; }
+  details.msm-panel[open] > summary { margin-bottom: 10px; }
+</style>
+</head>
+<body data-nav-active="schedule">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page msm-page-wide" style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Boss Schedule Maker</h1>
+    <p class="msm-muted" style="margin:-6px 0 12px;font-size:14px">Plan boss parties, auto-organize run times and copy the schedule for Discord. Everything is saved in this browser only; nothing is uploaded. Use Export to back up or share a schedule as a file.</p>
+    <div class="sm-bar" id="smBar"></div>
+  </section>
+  <section class="msm-panel" id="smOrganizer" hidden></section>
+  <details class="msm-panel" id="smPeoplePanel">
+    <summary><h2 class="sm-panel-title">👥 Players</h2> <span class="msm-muted" style="font-size:13px" id="smPeopleCount"></span></summary>
+    <div id="smPeople"></div>
+  </details>
+  <div class="sm-grid" id="smGrid"></div>
+</main>
+<datalist id="smBossList"></datalist>
+<datalist id="smPeopleList"></datalist>
+<input type="file" id="smImportFile" accept="application/json,.json" hidden>
+<div class="sm-toast" id="smToast" role="status"></div>
+
+<script src="../assets/js/site-nav.js"></script>
+<script src="../assets/js/boss-data.js"></script>
+<script>
+(function () {
+  // Offline port of the ClubsMSM Boss Schedule Maker: same data model and organizer,
+  // with the player list, bosses and templates kept in localStorage instead of a database.
+  const STORAGE_KEY = 'msm.scheduleMaker.v1';
+  const PEOPLE_KEY = 'msm.scheduleMaker.people';
+  const TEMPLATES_KEY = 'msm.scheduleMaker.templates';
+  const ZONE_KEY = 'msm.scheduleMaker.zone';
+  const ORG_KEY = 'msm.scheduleMaker.organizer';
+  const DEFAULT_SLOTS = 6;
+  const $ = id => document.getElementById(id);
+  const newId = () => Math.random().toString(36).slice(2, 10);
+  const emptySlot = () => ({ name: '', discordId: null, note: '' });
+  const newTable = () => ({ id: newId(), boss: '', start: '', slots: Array.from({ length: DEFAULT_SLOTS }, emptySlot) });
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+
+  function readJson(key, fallback) {
+    try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  function writeJson(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { toast('Could not save: browser storage is unavailable.'); }
+  }
+
+  // Bosses: the site's 4% estimates (p2 covers 1-2 players), indexed by party size - 1.
+  const BOSSES = (window.MSM_BOSS_ROWS || []).map(b => ({ name: b.boss, fourPct: [b.p2, b.p2, b.p3, b.p4, b.p5, b.p6].map(Number) }));
+
+  // ---- Time helpers. All times are IGT "HH:mm" within one bossing day.
+  const pad2 = n => String(n).padStart(2, '0');
+  const toMin = hhmm => { const [h, m] = String(hhmm).split(':').map(Number); return (h || 0) * 60 + (m || 0); };
+  const fromMin = minutes => { const m = ((minutes % 1440) + 1440) % 1440; return `${pad2(Math.floor(m / 60))}:${pad2(m % 60)}`; };
+  const addMinutes = (start, minutes) => fromMin(toMin(start) + minutes);
+  const rel = (hhmm, dayStart) => (toMin(hhmm) - toMin(dayStart) + 1440) % 1440;
+  const PACIFIC_DST = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', timeZoneName: 'short' })
+    .formatToParts(new Date()).some(p => p.type === 'timeZoneName' && p.value === 'PDT');
+  const IGT_OFFSET = PACIFIC_DST ? -7 : -8;
+  const ZONES = ['igt', 'pst', 'cst', 'est'];
+  const zoneOffset = z => z === 'igt' ? IGT_OFFSET : ({ est: -5, cst: -6, pst: -8 }[z] + (PACIFIC_DST ? 1 : 0));
+  const zoneLabel = z => z === 'igt' ? 'IGT' : ({ est: PACIFIC_DST ? 'EDT' : 'EST', cst: PACIFIC_DST ? 'CDT' : 'CST', pst: PACIFIC_DST ? 'PDT' : 'PST' }[z]);
+  function convert(value, from, to) {
+    if (!/^\d{2}:\d{2}/.test(value || '')) return '';
+    return fromMin(toMin(value) + (zoneOffset(to) - zoneOffset(from)) * 60);
+  }
+  const fromIgt = (v, z) => v ? convert(v, 'igt', z) : '';
+  const toIgt = (v, z) => v ? convert(v, z, 'igt') : '';
+  const compact = hhmm => hhmm.replace(':', '');
+  const shortTime = (hhmm, z = 'igt') => `${zoneLabel(z)} ${compact(fromIgt(hhmm, z))}`;
+  const zoneLine = hhmm => ['igt', 'pst', 'est'].map(z => `${zoneLabel(z)} ${compact(fromIgt(hhmm, z))}`).join(' - ');
+  const clock12 = hhmm => { const m = toMin(hhmm); return `${Math.floor(m / 60) % 12 || 12}:${pad2(m % 60)} ${m >= 720 ? 'PM' : 'AM'}`; };
+  const zoneLine12 = hhmm => ['igt', 'pst', 'est'].map(z => `${zoneLabel(z)} ${clock12(fromIgt(hhmm, z))}`).join('  ·  ');
+
+  const filledSlots = t => t.slots.filter(s => s.name.trim());
+  // One Discord user = one person, even across mains and alts.
+  const playerKey = s => s.discordId ? `id:${s.discordId}` : `name:${s.name.trim().toLowerCase()}`;
+  // Filled slots show the 4% for the current party size; empty slots show what that slot's party size would need.
+  function contribution(t, i) {
+    const v = t.fourPct;
+    if (!v || !v.length) return null;
+    const size = t.slots[i] && t.slots[i].name.trim() ? filledSlots(t).length : i + 1;
+    return v[Math.min(size, v.length) - 1] ?? null;
+  }
+  const pctLabel = v => v === null || v === undefined ? '' : `${Number(v).toFixed(2)}B`;
+  const tag = s => s.name.trim() ? (s.alt ? 'A' : 'M') : '';
+
+  function tableText(t) {
+    const head = [...(t.start ? [`**${zoneLine(t.start)}**`] : []), `**${t.boss || 'Boss'}**`];
+    const rows = t.slots.map((s, i) => {
+      const who = s.discordId ? `<@${s.discordId}>` : s.name;
+      const pct = pctLabel(contribution(t, i));
+      const extra = s.name.trim() ? ` (${tag(s)})${s.note ? ` — ${s.note}` : ''}` : '';
+      return `> ${i + 1}. ${pct ? `${pct} | ` : ''}${who}${extra}`;
+    });
+    return [...head, '', ...(t.fourPct && t.fourPct.length ? ['**4% contribution**'] : []), ...rows].join('\n');
+  }
+  const scheduleText = s => [`# ${s.title}`, ...s.tables.map(tableText)].join('\n\n');
+
+  // ---- Organizer. Fixed runs keep their time; every other run, in table order, takes the
+  // earliest step where no Discord user is in two overlapping runs, no more than maxAtOnce
+  // runs overlap, and every player's time rules hold.
+  const RULE_LABEL = { notBefore: 'not before', notAfter: 'done by', unavailable: 'unavailable' };
+  const runLength = (t, step) => t.duration > 0 ? t.duration : step;
+  function brokenRule(rules, keys, startRel, len, dayStart) {
+    const s = startRel, e = s + len;
+    return rules.find(r => {
+      if (!keys.includes(r.key) || !r.from) return false;
+      const from = rel(r.from, dayStart);
+      if (r.type === 'notBefore') return s < from;
+      if (r.type === 'notAfter') return e > from;
+      return !!r.to && s < rel(r.to, dayStart) && e > from;
+    }) || null;
+  }
+  const describeRule = (r, z) => `${r.name} ${RULE_LABEL[r.type]} ${shortTime(r.from, z)}${r.type === 'unavailable' && r.to ? `–${shortTime(r.to, z)}` : ''}`;
+  const overlaps = (a, b) => a.s < b.e && b.s < a.e;
+  function peakWith(placed, s, e) {
+    const inside = placed.filter(p => overlaps(p, { s, e }));
+    return 1 + Math.max(0, ...[s, ...inside.map(p => p.s).filter(x => x > s)].map(x => inside.filter(p => p.s <= x && x < p.e).length));
+  }
+  function organize(tables, rules, start, stepMinutes, maxAtOnce) {
+    const unplaced = [];
+    if (!start) return { waves: [], unplaced };
+    const step = Math.max(1, stepMinutes);
+    const placed = tables.filter(t => t.fixed && t.start).map(t => {
+      const s = rel(t.start, start);
+      return { id: t.id, s, e: s + runLength(t, step), keys: filledSlots(t).map(playerKey) };
+    });
+    for (const t of tables) {
+      if (t.fixed && t.start) continue;
+      const keys = filledSlots(t).map(playerKey);
+      const len = runLength(t, step);
+      let lastBroken = null, done = false;
+      for (let i = 0; i < 200 && !done; i++) {
+        const s = i * step, e = s + len;
+        if (placed.some(p => overlaps(p, { s, e }) && p.keys.some(k => keys.includes(k)))) continue;
+        if (peakWith(placed, s, e) > maxAtOnce) continue;
+        const broken = brokenRule(rules, keys, s, len, start);
+        if (broken) { lastBroken = broken; continue; }
+        placed.push({ id: t.id, s, e, keys });
+        done = true;
+      }
+      if (!done) unplaced.push({ tableId: t.id, rule: lastBroken });
+    }
+    const byStart = new Map();
+    placed.sort((a, b) => a.s - b.s).forEach(p => byStart.set(p.s, [...(byStart.get(p.s) || []), p.id]));
+    return { waves: [...byStart.entries()].map(([s, ids]) => ({ start: addMinutes(start, s), tableIds: ids })), unplaced };
+  }
+  function conflictsFor(t, tables, rules, step, dayStart, z) {
+    if (!t.start) return [];
+    const span = x => { const s = rel(x.start, dayStart); return { s, e: s + runLength(x, step) }; };
+    const mine = new Map(filledSlots(t).map(s => [playerKey(s), s.name]));
+    const hits = new Set();
+    tables.forEach(o => {
+      if (o.id === t.id || !o.start || !overlaps(span(t), span(o))) return;
+      filledSlots(o).forEach(s => { const n = mine.get(playerKey(s)); if (n) hits.add(`${n} also in ${o.boss || 'Boss'}`); });
+    });
+    rules.forEach(r => { if (brokenRule([r], [...mine.keys()], span(t).s, runLength(t, step), dayStart)) hits.add(describeRule(r, z)); });
+    return [...hits];
+  }
+
+  // ---- Image export: fixed grid of mini tables (IGNs, since mentions can't ping from a picture).
+  const IMG = { colW: 268, pad: 16, gap: 14, head: 42, row: 18, title: 32, scale: 2, maxCols: 4 };
+  const SOLO_COLOR = '#4b5d8c';
+  const GROUP_COLORS = ['#2b7a78', '#8e4b9e', '#c0602b', '#2f6db5', '#a83a5b', '#5b8a2b'];
+  const FONT = 'Nunito, Arial, sans-serif';
+  function headerColors(tables) {
+    const byStart = new Map();
+    tables.forEach(t => { if (t.start) byStart.set(t.start, [...(byStart.get(t.start) || []), t.id]); });
+    const colors = new Map();
+    [...byStart.values()].filter(ids => ids.length > 1).forEach((ids, i) => ids.forEach(id => colors.set(id, GROUP_COLORS[i % GROUP_COLORS.length])));
+    return colors;
+  }
+  const miniHeight = t => IMG.head + t.slots.length * IMG.row + 4;
+  function drawMini(ctx, t, x, y, cellH, color) {
+    const w = IMG.colW;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, cellH);
+    ctx.fillStyle = color; ctx.fillRect(x, y, w, IMG.head);
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffffff'; ctx.font = `bold 12px ${FONT}`;
+    const when = t.start ? zoneLine12(t.start) : '';
+    ctx.fillText(t.boss || 'Boss', x + 7, y + (when ? 11 : IMG.head / 2), w - 14);
+    if (when) {
+      ctx.fillStyle = 'rgba(0,0,0,0.28)'; ctx.fillRect(x, y + 21, w, IMG.head - 21);
+      ctx.font = `800 11.5px ${FONT}`; ctx.fillStyle = '#ffd666';
+      ctx.fillText(when, x + 7, y + 21 + (IMG.head - 21) / 2, w - 14);
+    }
+    const hasPct = !!(t.fourPct && t.fourPct.length);
+    t.slots.forEach((s, i) => {
+      const ry = y + IMG.head + 2 + i * IMG.row, cy = ry + IMG.row / 2;
+      if (i % 2) { ctx.fillStyle = '#f3f6fc'; ctx.fillRect(x, ry, w, IMG.row); }
+      ctx.font = `bold 10px ${FONT}`; ctx.fillStyle = '#8a94a8'; ctx.fillText(String(i + 1), x + 6, cy);
+      if (hasPct) { ctx.fillStyle = '#4b5d8c'; ctx.fillText(pctLabel(contribution(t, i)), x + 18, cy); }
+      const nameX = x + (hasPct ? 64 : 18);
+      ctx.font = `bold 11px ${FONT}`; ctx.fillStyle = s.name ? '#1f2937' : '#c3c9d6';
+      ctx.fillText(s.name || '—', nameX, cy, w - (nameX - x) - 22);
+      if (s.name.trim()) {
+        ctx.font = `bold 9px ${FONT}`; ctx.fillStyle = s.alt ? '#b7791f' : '#2f855a';
+        ctx.textAlign = 'right'; ctx.fillText(tag(s), x + w - 6, cy); ctx.textAlign = 'left';
+      }
+    });
+    ctx.fillStyle = color; ctx.fillRect(x, y, 3, cellH);
+  }
+  function renderImage(title, tables) {
+    const cols = Math.max(1, Math.min(IMG.maxCols, tables.length));
+    const rows = Math.ceil(tables.length / cols);
+    const cellH = Math.max(...tables.map(miniHeight));
+    const colors = headerColors(tables);
+    const top = IMG.pad + (title ? IMG.title : 0);
+    const width = IMG.pad * 2 + cols * IMG.colW + (cols - 1) * IMG.gap;
+    const height = top + rows * cellH + (rows - 1) * IMG.gap + IMG.pad;
+    const canvas = document.createElement('canvas');
+    canvas.width = width * IMG.scale; canvas.height = height * IMG.scale;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(IMG.scale, IMG.scale);
+    ctx.fillStyle = '#e8edf7'; ctx.fillRect(0, 0, width, height);
+    ctx.textBaseline = 'middle';
+    if (title) { ctx.fillStyle = '#1f2937'; ctx.font = `bold 17px ${FONT}`; ctx.fillText(title, IMG.pad, IMG.pad + 10); }
+    tables.forEach((t, i) => drawMini(ctx, t, IMG.pad + (i % cols) * (IMG.colW + IMG.gap), top + Math.floor(i / cols) * (cellH + IMG.gap), cellH, colors.get(t.id) || SOLO_COLOR));
+    return new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('Could not render image.')), 'image/png'));
+  }
+  function download(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  async function exportImage(title, tables, filename) {
+    if (!tables.length) return;
+    const blob = await renderImage(title, tables);
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      toast('Image copied — paste it into Discord. Also downloaded.');
+    } catch (e) { toast('Image downloaded.'); }
+    download(blob, filename);
+  }
+  const fileSafe = s => s.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'schedule';
+
+  // ---- State
+  const stripDate = v => v && v.includes('T') ? v.slice(v.indexOf('T') + 1, v.indexOf('T') + 6) : v;
+  function normalize(s) {
+    const tables = Array.isArray(s && s.tables) ? s.tables : [];
+    return {
+      title: (s && s.title) || 'Bossing Schedule',
+      tables: tables.map(t => ({ ...t, id: t.id || newId(), start: stripDate(t.start) || '', slots: (t.slots || []).map(x => ({ ...emptySlot(), ...x })) })),
+      rules: ((s && s.rules) || []).map(r => ({ ...r, from: stripDate(r.from) || '', to: stripDate(r.to) }))
+    };
+  }
+  let schedule = normalize(readJson(STORAGE_KEY, null) || { tables: [newTable()] });
+  let people = readJson(PEOPLE_KEY, []);
+  let templates = readJson(TEMPLATES_KEY, []);
+  let zone = ZONES.includes(readJson(ZONE_KEY, 'igt')) ? readJson(ZONE_KEY, 'igt') : 'igt';
+  let org = Object.assign({ start: '18:00', gap: 30, simultaneous: true, maxAtOnce: 3, open: false }, readJson(ORG_KEY, {}));
+  const save = () => writeJson(STORAGE_KEY, schedule);
+  const savePeople = () => writeJson(PEOPLE_KEY, people);
+
+  let toastTimer;
+  function toast(msg) {
+    const el = $('smToast');
+    el.textContent = msg; el.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    toast(text.length > 2000 ? `Copied — ${text.length} characters is over Discord's 2000 limit; consider the image.` : 'Copied to clipboard.');
+  }
+
+  // Typing a saved player's IGN or pasting a Discord ID / mention links the slot to that person.
+  const findPerson = v => people.find(p => p.name.trim().toLowerCase() === v.trim().toLowerCase());
+  function resolvePlayer(value) {
+    const id = value.trim().match(/^<@!?(\d{17,20})>$|^(\d{17,20})$/);
+    if (id) {
+      const did = id[1] || id[2];
+      const p = people.find(x => x.discordId === did);
+      return p ? { name: p.name, discordId: did } : { name: value.trim(), discordId: did };
+    }
+    const p = findPerson(value);
+    return p ? { name: p.name, discordId: p.discordId || null } : { name: value, discordId: null };
+  }
+
+  // ---- Rendering. Whole sections re-render; focus and caret are restored by data-path.
+  function render() {
+    const active = document.activeElement;
+    const path = active && active.dataset ? active.dataset.path : null;
+    const caret = path && typeof active.selectionStart === 'number' ? [active.selectionStart, active.selectionEnd] : null;
+    renderBar(); renderOrganizer(); renderPeople(); renderGrid();
+    if (path) {
+      const el = document.querySelector(`[data-path="${CSS.escape(path)}"]`);
+      if (el) { el.focus(); if (caret && el.setSelectionRange) try { el.setSelectionRange(caret[0], caret[1]); } catch (e) {} }
+    }
+  }
+  function timeInput(path, value, title) {
+    return `<input type="time" class="sm-in" data-path="${path}" data-kind="time" title="${esc(title || '')}" value="${fromIgt(value || '', zone)}">`;
+  }
+
+  function renderBar() {
+    const text = scheduleText(schedule);
+    $('smBar').innerHTML = `
+      <input class="sm-in sm-title" data-path="title" value="${esc(schedule.title)}" placeholder="Schedule title" aria-label="Schedule title">
+      <button class="sm-btn ${org.open ? 'on' : ''}" data-act="toggleOrg">⚙️ Organize</button>
+      <button class="sm-btn" data-act="copyAll">📋 Copy all (${text.length})</button>
+      <button class="sm-btn primary" data-act="imageAll">🖼️ Image</button>
+      <select class="sm-sel" data-path="zone" title="Timezone for entering and showing times">${ZONES.map(z => `<option value="${z}" ${z === zone ? 'selected' : ''}>${zoneLabel(z)}</option>`).join('')}</select>
+      <button class="sm-btn" data-act="new">New</button>
+      <select class="sm-sel" data-act="loadTemplate" title="Load a saved template"><option value="">Templates${templates.length ? ` (${templates.length})` : ''}…</option>${templates.map((t, i) => `<option value="${i}">${esc(t.name)}</option>`).join('')}</select>
+      <button class="sm-btn" data-act="saveTemplate">Save template</button>
+      ${templates.length ? `<select class="sm-sel" data-act="deleteTemplate" title="Delete a template"><option value="">Delete…</option>${templates.map((t, i) => `<option value="${i}">${esc(t.name)}</option>`).join('')}</select>` : ''}
+      <button class="sm-btn" data-act="export" title="Download schedule, players and templates as a file">⬇️ Export</button>
+      <button class="sm-btn" data-act="import" title="Load a previously exported file">⬆️ Import</button>`;
+  }
+
+  function renderOrganizer() {
+    const el = $('smOrganizer');
+    el.hidden = !org.open;
+    if (!org.open) return;
+    const { waves, unplaced } = currentPlan();
+    const bossName = id => (schedule.tables.find(t => t.id === id) || {}).boss || 'Boss';
+    const fixed = new Set(schedule.tables.filter(t => t.fixed && t.start).map(t => t.id));
+    el.innerHTML = `
+      <h2 class="sm-panel-title">⚙️ Organizer</h2>
+      <div class="sm-row">
+        <label>Start ${timeInput('org.start', org.start)}</label>
+        <label><input type="number" min="0" step="5" class="sm-in" style="width:64px" data-path="org.gap" value="${org.gap}"> min steps</label>
+        <label><input type="checkbox" data-path="org.simultaneous" ${org.simultaneous ? 'checked' : ''}> Allow simultaneous runs</label>
+        ${org.simultaneous ? `<label>max <input type="number" min="1" class="sm-in" style="width:56px" data-path="org.maxAtOnce" value="${org.maxAtOnce}"> at once</label>` : ''}
+        <button class="sm-btn primary" data-act="apply" ${org.start ? '' : 'disabled'}>Apply times</button>
+      </div>
+      <div class="sm-waves">${org.start ? waves.map(w => `<div class="sm-wave"><b>${shortTime(w.start, zone)}</b>${w.tableIds.map(id => `<span class="sm-pill">${fixed.has(id) ? '🔒 ' : ''}${esc(bossName(id))}</span>`).join('')}</div>`).join('') : ''}</div>
+      ${unplaced.length ? `<div class="sm-conflict">Can't place: ${unplaced.map(u => `${esc(bossName(u.tableId))} (${u.rule ? esc(describeRule(u.rule, zone)) : 'no free time'})`).join(', ')}</div>` : ''}
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+        ${schedule.rules.map((r, i) => `
+          <div class="sm-row" style="margin:0">
+            <input class="sm-in" list="smPeopleList" placeholder="Player" data-path="rules.${i}.name" value="${esc(r.name)}" style="width:170px">
+            <select class="sm-sel" data-path="rules.${i}.type">
+              <option value="notBefore" ${r.type === 'notBefore' ? 'selected' : ''}>can't start before</option>
+              <option value="notAfter" ${r.type === 'notAfter' ? 'selected' : ''}>must be done by</option>
+              <option value="unavailable" ${r.type === 'unavailable' ? 'selected' : ''}>unavailable from</option>
+            </select>
+            ${timeInput(`rules.${i}.from`, r.from)}
+            ${r.type === 'unavailable' ? `to ${timeInput(`rules.${i}.to`, r.to)}` : ''}
+            <button class="sm-btn sm-icon" data-act="removeRule" data-i="${i}" title="Remove rule">✕</button>
+          </div>`).join('')}
+        <div><button class="sm-btn sm-icon" data-act="addRule">+ player rule</button></div>
+      </div>
+      <p class="sm-note">Runs sharing a Discord user (main or alt) never overlap. 🔒 runs keep their time; others fill in around them in table order, starting on the minute steps above. A run lasts its own minutes, or the step if blank. Rules apply to all of a player's characters.</p>`;
+  }
+
+  function renderPeople() {
+    $('smPeopleCount').textContent = `${people.length} saved · used for autofill and Discord mentions`;
+    $('smPeopleList').innerHTML = people.map(p => `<option value="${esc(p.name)}">`).join('');
+    $('smPeople').innerHTML = `
+      <div class="sm-people">${people.map((p, i) => `
+        <div class="sm-person">
+          <input class="sm-in" data-path="people.${i}.name" value="${esc(p.name)}" placeholder="IGN">
+          <input class="sm-in" data-path="people.${i}.discordId" value="${esc(p.discordId || '')}" placeholder="Discord ID (optional)" inputmode="numeric">
+          <button class="sm-btn sm-icon danger" data-act="removePerson" data-i="${i}" title="Remove player">✕</button>
+        </div>`).join('')}</div>
+      <div class="sm-row" style="margin-top:8px">
+        <button class="sm-btn sm-icon" data-act="addPerson">+ player</button>
+        <button class="sm-btn sm-icon" data-act="collectPeople" title="Add every name used in the tables to this list">+ add names from tables</button>
+      </div>
+      <p class="sm-note">Add a Discord ID (right-click a user in Discord → Copy User ID, with Developer Mode on) so copied text pings them as &lt;@id&gt;. Pasting an ID or mention straight into a slot works too.</p>`;
+  }
+
+  function renderGrid() {
+    $('smBossList').innerHTML = BOSSES.map(b => `<option value="${esc(b.name)}">`).join('');
+    $('smGrid').innerHTML = schedule.tables.map((t, ti) => {
+      const conflicts = conflictsFor(t, schedule.tables, schedule.rules, org.gap, org.start, zone);
+      const hasPct = !!(t.fourPct && t.fourPct.length);
+      return `<div class="msm-panel sm-card">
+        <div class="sm-head">
+          <input class="sm-in" list="smBossList" placeholder="Boss" data-path="t.${ti}.boss" value="${esc(t.boss)}" aria-label="Boss">
+          ${timeInput(`t.${ti}.start`, t.start, `Scheduled time (${zoneLabel(zone)})`)}
+          <div class="sm-head-opts">
+            <button class="sm-btn sm-icon ${t.fixed ? 'on' : ''}" data-act="fixed" data-t="${ti}" ${!t.start && !t.fixed ? 'disabled' : ''} title="${t.fixed ? 'Fixed: the organizer will not move this run' : 'Lock this time so the organizer keeps it'}">${t.fixed ? '🔒 fixed' : '🔓'}</button>
+            <label title="How long this run takes; blank uses the organizer's step"><input type="number" min="5" step="5" class="sm-in" data-path="t.${ti}.duration" placeholder="${org.gap}" value="${t.duration || ''}"> min</label>
+          </div>
+        </div>
+        ${conflicts.length ? `<div class="sm-conflict">${esc(conflicts.join(' · '))}</div>` : ''}
+        <div style="display:flex;flex-direction:column;gap:4px">${t.slots.map((s, i) => `
+          <div class="sm-slot">
+            <div class="sm-slot-row">
+              <span class="sm-num">${i + 1}</span>
+              ${hasPct ? `<span class="sm-pct">${pctLabel(contribution(t, i))}</span>` : ''}
+              <input class="sm-in ${s.name && !s.discordId ? 'warn' : ''}" list="smPeopleList" placeholder="IGN / Discord ID" data-path="t.${ti}.s.${i}.name" value="${esc(s.name)}" title="${s.discordId ? `<@${s.discordId}>` : s.name ? 'No Discord ID — copies as plain name' : ''}">
+              <button class="sm-btn sm-icon sm-ma ${s.alt ? 'alt' : ''}" data-act="alt" data-t="${ti}" data-i="${i}" title="Main / alt">${s.alt ? 'A' : 'M'}</button>
+              <button class="sm-btn sm-icon ${s.note ? 'on' : ''}" data-act="note" data-t="${ti}" data-i="${i}" title="Note">+</button>
+              <button class="sm-btn sm-icon" data-act="removeSlot" data-t="${ti}" data-i="${i}" title="Remove slot">✕</button>
+            </div>
+            ${s.showNote || s.note ? `<input class="sm-in" style="margin-left:20px" placeholder="Note" data-path="t.${ti}.s.${i}.note" value="${esc(s.note)}">` : ''}
+          </div>`).join('')}</div>
+        <div class="sm-actions">
+          <button class="sm-btn sm-icon" data-act="addSlot" data-t="${ti}">+ slot</button>
+          <button class="sm-btn sm-icon" data-act="copyTable" data-t="${ti}">Copy</button>
+          <button class="sm-btn sm-icon" data-act="imageTable" data-t="${ti}">Image</button>
+          <span style="flex:1"></span>
+          <button class="sm-btn sm-icon" data-act="up" data-t="${ti}" ${ti === 0 ? 'disabled' : ''} title="Move up">▲</button>
+          <button class="sm-btn sm-icon" data-act="down" data-t="${ti}" ${ti === schedule.tables.length - 1 ? 'disabled' : ''} title="Move down">▼</button>
+          <button class="sm-btn sm-icon" data-act="dup" data-t="${ti}" title="Duplicate">⧉</button>
+          <button class="sm-btn sm-icon danger" data-act="removeTable" data-t="${ti}" title="Remove table">🗑</button>
+        </div>
+      </div>`;
+    }).join('') + `<button class="sm-add" data-act="addTable">+ Boss</button>`;
+  }
+
+  const currentPlan = () => organize(schedule.tables, schedule.rules, org.start, org.gap, org.simultaneous ? Math.max(1, org.maxAtOnce) : 1);
+
+  // ---- Edits by data-path
+  function setPath(path, el) {
+    const parts = path.split('.');
+    const raw = el.type === 'checkbox' ? el.checked : el.value;
+    const value = el.dataset.kind === 'time' ? toIgt(raw, zone) : raw;
+    if (path === 'title') { schedule.title = value; return 'light'; }
+    if (path === 'zone') { zone = value; writeJson(ZONE_KEY, zone); return 'full'; }
+    if (parts[0] === 'org') {
+      const k = parts[1];
+      org[k] = k === 'gap' ? Math.max(0, Number(value) || 0) : k === 'maxAtOnce' ? Math.max(1, Number(value) || 1) : value;
+      writeJson(ORG_KEY, org); return 'full';
+    }
+    if (parts[0] === 'rules') {
+      const r = schedule.rules[+parts[1]];
+      if (parts[2] === 'name') {
+        const p = findPerson(value);
+        r.name = p ? p.name : value;
+        r.key = playerKey({ name: r.name, discordId: p ? p.discordId : null });
+      } else r[parts[2]] = value;
+      return 'full';
+    }
+    if (parts[0] === 'people') {
+      const p = people[+parts[1]];
+      p[parts[2]] = parts[2] === 'discordId' ? (value.match(/\d{17,20}/) || [''])[0] || value.trim() : value;
+      savePeople(); return 'people';
+    }
+    if (parts[0] === 't') {
+      const t = schedule.tables[+parts[1]];
+      if (parts[2] === 'boss') {
+        t.boss = value;
+        const b = BOSSES.find(x => x.name.toLowerCase() === value.trim().toLowerCase());
+        if (b) {
+          t.boss = b.name; t.fourPct = b.fourPct.slice();
+          if (t.slots.length < b.fourPct.length) t.slots = Array.from({ length: b.fourPct.length }, (_, i) => t.slots[i] || emptySlot());
+        } else t.fourPct = null;
+        return 'full';
+      }
+      if (parts[2] === 'start') { t.start = value; return 'full'; }
+      if (parts[2] === 'duration') { t.duration = value ? Math.max(1, Number(value)) : undefined; return 'full'; }
+      if (parts[2] === 's') {
+        const s = t.slots[+parts[3]];
+        if (parts[4] === 'name') Object.assign(s, resolvePlayer(value));
+        else s.note = value;
+        return 'full';
+      }
+    }
+    return 'full';
+  }
+
+  document.addEventListener('input', e => {
+    const el = e.target;
+    if (!el.dataset || !el.dataset.path || el.tagName === 'SELECT' || el.type === 'checkbox' || el.dataset.kind === 'time') return;
+    const mode = setPath(el.dataset.path, el);
+    save();
+    if (mode === 'light') renderBar();
+    else if (mode === 'people') { renderPeople(); renderGrid(); }
+    else render();
+  });
+  document.addEventListener('change', e => {
+    const el = e.target;
+    if (el.dataset && el.dataset.path && (el.tagName === 'SELECT' || el.type === 'checkbox' || el.dataset.kind === 'time')) {
+      setPath(el.dataset.path, el); save(); render(); return;
+    }
+    if (el.dataset && el.dataset.act) action(el.dataset.act, el);
+  });
+  document.addEventListener('focusout', e => {
+    // Hide an empty note box once it loses focus.
+    const p = e.target.dataset && e.target.dataset.path;
+    const m = p && p.match(/^t\.(\d+)\.s\.(\d+)\.note$/);
+    if (m) { const s = schedule.tables[+m[1]].slots[+m[2]]; if (!s.note && s.showNote) { s.showNote = false; save(); setTimeout(render, 0); } }
+  });
+  document.addEventListener('click', e => {
+    const el = e.target.closest('button[data-act]');
+    if (el && !el.disabled) action(el.dataset.act, el);
+  });
+
+  function action(act, el) {
+    const ti = el.dataset.t !== undefined ? +el.dataset.t : null;
+    const i = el.dataset.i !== undefined ? +el.dataset.i : null;
+    const t = ti !== null ? schedule.tables[ti] : null;
+    switch (act) {
+      case 'toggleOrg': org.open = !org.open; writeJson(ORG_KEY, org); break;
+      case 'copyAll': copy(scheduleText(schedule)); return;
+      case 'imageAll': exportImage(schedule.title, schedule.tables, `${fileSafe(schedule.title)}.png`); return;
+      case 'copyTable': copy(tableText(t)); return;
+      case 'imageTable': exportImage(null, [t], `${fileSafe(t.boss || 'boss')}.png`); return;
+      case 'new':
+        if (!confirm('Start a new empty schedule? The current one will be cleared.')) return;
+        schedule = { title: 'Bossing Schedule', tables: [newTable()], rules: [] }; break;
+      case 'saveTemplate': {
+        const name = (prompt('Template name', schedule.title) || '').trim();
+        if (!name) return;
+        const existing = templates.findIndex(x => x.name === name);
+        if (existing >= 0 && !confirm(`Replace the "${name}" template?`)) return;
+        const entry = { name, schedule: JSON.parse(JSON.stringify(schedule)) };
+        if (existing >= 0) templates[existing] = entry; else templates.push(entry);
+        templates.sort((a, b) => a.name.localeCompare(b.name));
+        writeJson(TEMPLATES_KEY, templates); toast(`Saved template "${name}".`); break;
+      }
+      case 'loadTemplate': {
+        const tpl = templates[+el.value]; el.value = '';
+        if (!tpl || !confirm(`Load "${tpl.name}"? The current schedule will be replaced.`)) { render(); return; }
+        const copyOf = normalize(JSON.parse(JSON.stringify(tpl.schedule)));
+        schedule = { ...copyOf, tables: copyOf.tables.map(x => ({ ...x, id: newId() })) }; break;
+      }
+      case 'deleteTemplate': {
+        const tpl = templates[+el.value]; el.value = '';
+        if (!tpl || !confirm(`Delete the "${tpl.name}" template?`)) { render(); return; }
+        templates = templates.filter(x => x !== tpl); writeJson(TEMPLATES_KEY, templates); break;
+      }
+      case 'export': {
+        const data = { app: 'meccstorym-schedule-maker', version: 1, exported_at: new Date().toISOString(), schedule, people, templates };
+        download(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), `${fileSafe(schedule.title)}.json`);
+        toast('Exported.'); return;
+      }
+      case 'import': $('smImportFile').click(); return;
+      case 'apply': {
+        const { waves } = currentPlan();
+        const startById = new Map(waves.flatMap(w => w.tableIds.map(id => [id, w.start])));
+        const order = waves.flatMap(w => w.tableIds);
+        const rank = id => order.includes(id) ? order.indexOf(id) : order.length;
+        schedule.tables = [...schedule.tables].sort((a, b) => rank(a.id) - rank(b.id)).map(x => ({ ...x, start: startById.get(x.id) || x.start }));
+        toast('Times applied.'); break;
+      }
+      case 'addRule': schedule.rules.push({ id: newId(), key: '', name: '', type: 'notBefore', from: org.start }); break;
+      case 'removeRule': schedule.rules.splice(i, 1); break;
+      case 'addPerson': people.push({ name: '', discordId: '' }); savePeople(); $('smPeoplePanel').open = true; break;
+      case 'removePerson': people.splice(i, 1); savePeople(); break;
+      case 'collectPeople': {
+        let added = 0;
+        schedule.tables.forEach(x => filledSlots(x).forEach(s => {
+          if (!findPerson(s.name)) { people.push({ name: s.name.trim(), discordId: s.discordId || '' }); added++; }
+        }));
+        savePeople(); toast(added ? `Added ${added} player${added === 1 ? '' : 's'}.` : 'Everyone is already saved.'); break;
+      }
+      case 'fixed': t.fixed = !t.fixed; break;
+      case 'alt': t.slots[i].alt = !t.slots[i].alt; break;
+      case 'note': t.slots[i].showNote = !t.slots[i].showNote; break;
+      case 'removeSlot': t.slots.splice(i, 1); break;
+      case 'addSlot': t.slots.push(emptySlot()); break;
+      case 'up': case 'down': {
+        const j = act === 'up' ? ti - 1 : ti + 1;
+        if (j < 0 || j >= schedule.tables.length) return;
+        [schedule.tables[ti], schedule.tables[j]] = [schedule.tables[j], schedule.tables[ti]]; break;
+      }
+      case 'dup': schedule.tables.splice(ti + 1, 0, { ...JSON.parse(JSON.stringify(t)), id: newId() }); break;
+      case 'removeTable': if (!confirm('Remove this table?')) return; schedule.tables.splice(ti, 1); break;
+      case 'addTable': schedule.tables.push(newTable()); break;
+      default: return;
+    }
+    save(); render();
+  }
+
+  $('smImportFile').addEventListener('change', async e => {
+    const file = e.target.files[0]; e.target.value = '';
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      const incoming = data.schedule || data;
+      if (!incoming || !Array.isArray(incoming.tables)) throw new Error('No schedule in that file.');
+      if (!confirm('Import this file? Your current schedule will be replaced; players and templates are merged.')) return;
+      schedule = normalize(incoming);
+      (data.people || []).forEach(p => { if (p && p.name && !findPerson(p.name)) people.push({ name: p.name, discordId: p.discordId || '' }); });
+      (data.templates || []).forEach(tp => { if (tp && tp.name && tp.schedule) { templates = templates.filter(x => x.name !== tp.name); templates.push(tp); } });
+      templates.sort((a, b) => a.name.localeCompare(b.name));
+      save(); savePeople(); writeJson(TEMPLATES_KEY, templates); render(); toast('Imported.');
+    } catch (err) { toast(`Import failed: ${err.message}`); }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

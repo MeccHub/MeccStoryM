@@ -9,32 +9,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/site.css">
 <style>
-  .mc-grid { display: grid; gap: 16px; }
-  .mc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .mc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .mc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
   .mc-field { display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: 14px; color: var(--msm-ink); }
   .mc-field input, .mc-field select {
-    font: inherit; font-weight: 600; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: var(--msm-ink);
+    font: inherit; font-weight: 600; padding: 8px 10px; border: 1px solid var(--msm-field-line); border-radius: 8px; background: var(--msm-field); color: var(--msm-ink);
   }
-  .mc-hint { font-size: 12px; font-weight: 500; color: #5a5a7a; }
+  .mc-hint { font-size: 12px; font-weight: 500; color: var(--msm-muted); }
   .mc-sub { margin: 0 0 10px; font-family: "Fredoka One", "Nunito", sans-serif; font-size: 18px; color: var(--msm-ink); }
   .mc-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-  .mc-stat { background: #f1f5f9; border-radius: 10px; padding: 12px 14px; }
+  .mc-stat { background: var(--msm-soft); border-radius: 10px; padding: 12px 14px; }
   .mc-stat b { display: block; font-size: 22px; color: var(--msm-ink); }
-  .mc-stat span { font-size: 13px; color: #5a5a7a; font-weight: 600; }
-  .mc-stat.good { background: #dcfce7; }
+  .mc-stat span { font-size: 13px; color: var(--msm-muted); font-weight: 600; }
+  .mc-stat.good { background: rgba(34,197,94,0.18); }
   .mc-table-wrap { overflow-x: auto; }
   table.mc-table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--msm-ink); }
-  .mc-table th, .mc-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; text-align: right; white-space: nowrap; }
+  .mc-table th, .mc-table td { padding: 7px 10px; border-bottom: 1px solid var(--msm-line); text-align: right; white-space: nowrap; }
   .mc-table th:first-child, .mc-table td:first-child { text-align: left; }
-  .mc-table th { background: #f8fafc; font-weight: 800; }
-  .mc-table tr.is-current td { background: #fef9c3; }
+  .mc-table th { background: var(--msm-soft); font-weight: 800; }
+  .mc-table tr.is-current td { background: rgba(250,204,21,0.2); }
   .mc-tag { display: inline-block; padding: 1px 7px; border-radius: 999px; background: #ede9fe; color: #5b21b6; font-weight: 700; font-size: 12px; margin-right: 3px; }
   .mc-tag.none { background: #e2e8f0; color: #475569; }
   .mc-cheap { color: #15803d; font-weight: 800; }
-  .mc-notes { font-size: 13px; line-height: 1.5; color: #5a5a7a; margin: 0; padding-left: 18px; }
+  .mc-notes { font-size: 13px; line-height: 1.5; color: var(--msm-muted); margin: 0; padding-left: 18px; }
 </style>
 </head>
 <body data-nav-active="mastercraft">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
 <div id="site-nav"></div>
 
 <main class="msm-page mc-grid">
