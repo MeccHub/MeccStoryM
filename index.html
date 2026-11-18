@@ -1972,55 +1972,6 @@ select.df-ts-input {
   }
 }
 
-.ts-item-link {
-  color: var(--c-text-primary) !important;
-  text-decoration: none !important;
-  font-weight: 800;
-}
-.ts-item-link:hover {
-  color: var(--c-accent) !important;
-  text-decoration: underline !important;
-}
-.ts-modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background: rgba(2,6,23,0.58);
-  backdrop-filter: blur(2px);
-}
-.ts-modal.open { display: flex; }
-.ts-modal-card {
-  width: min(1100px, 94vw);
-  max-height: 86vh;
-  overflow: auto;
-  background: var(--c-surface-strong);
-  border: 1px solid var(--c-border);
-  border-radius: 14px;
-  box-shadow: 0 18px 40px rgba(2,6,23,0.35);
-  padding: 14px;
-}
-.ts-modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.ts-modal-close {
-  border: 1px solid var(--c-border);
-  background: var(--c-surface);
-  color: var(--c-text-primary);
-  border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-body[data-theme="light"] .ts-modal-card {
-  background: #ffffff;
-  border-color: #e5e7eb;
-}
 
 /* Discord Message Formatter contrast pass */
 #tab-discord .df-panel,
@@ -2322,27 +2273,6 @@ body[data-theme="light"] #tab-probs .pr-table th {
   color: #334155 !important;
 }
 /* TS viewer shelved */
-.tab-btn[data-tab="ts"],
-#tab-ts,
-.tool-card[onclick*="switchTab('ts'"] { display:none !important; }
-
-/* TS Price Viewer table/header light-mode readability */
-body[data-theme="light"] #tab-ts .pr-table thead tr,
-body[data-theme="light"] #tsTableWrap .pr-table thead tr,
-body[data-theme="light"] #tsDetailModal .pr-table thead tr {
-  background: #f3f4f6 !important;
-  border-bottom: 1px solid #e5e7eb !important;
-}
-body[data-theme="light"] #tab-ts .pr-table th,
-body[data-theme="light"] #tsTableWrap .pr-table th,
-body[data-theme="light"] #tsDetailModal .pr-table th {
-  color: #334155 !important;
-}
-body[data-theme="light"] #tab-ts .pr-table td,
-body[data-theme="light"] #tsTableWrap .pr-table td,
-body[data-theme="light"] #tsDetailModal .pr-table td {
-  color: #1f2937 !important;
-}
 body[data-theme="light"] #tab-dmg .dmg-input,
 body[data-theme="light"] #tab-dmg .dmg-select,
 body[data-theme="light"] #tab-dmg .pr-ctrl-input,
@@ -2549,23 +2479,6 @@ body[data-theme="dark"] #tab-guides pre[style*="background:#f8f4ff"] {
   color: #e2e8f0 !important;
 }
 
-/* TS Price Viewer table/header dark-mode readability */
-body[data-theme="dark"] #tab-ts .pr-table thead tr,
-body[data-theme="dark"] #tsTableWrap .pr-table thead tr,
-body[data-theme="dark"] #tsDetailModal .pr-table thead tr {
-  background: rgba(30,41,59,0.92) !important;
-  border-bottom: 1px solid rgba(148,163,184,0.28) !important;
-}
-body[data-theme="dark"] #tab-ts .pr-table th,
-body[data-theme="dark"] #tsTableWrap .pr-table th,
-body[data-theme="dark"] #tsDetailModal .pr-table th {
-  color: #cbd5e1 !important;
-}
-body[data-theme="dark"] #tab-ts .pr-table td,
-body[data-theme="dark"] #tsTableWrap .pr-table td,
-body[data-theme="dark"] #tsDetailModal .pr-table td {
-  color: #e2e8f0 !important;
-}
 
 /* Global table/header contrast audit fixes */
 body[data-theme="dark"] .pr-rank-section,
@@ -2830,6 +2743,101 @@ body[data-theme="dark"] #tab-guide .gg-group,
 body[data-theme="dark"] #tab-guide .gg-card {
   border-color: var(--c-border-soft) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   HUB REDESIGN: grouped menu, Today strip, search, tool groups
+═══════════════════════════════════════════════════════════ */
+.hub-nav { display: flex; align-items: center; gap: 2px; flex: 1; min-width: 0; }
+.hub-group { position: relative; }
+.hub-group-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 8px 12px; border-radius: 10px; border: none; background: transparent;
+  font: 700 14px 'Nunito', sans-serif; color: var(--c-text-primary); cursor: pointer; white-space: nowrap;
+}
+.hub-group-btn:hover, .hub-group.open .hub-group-btn, .hub-group:has(.tab-btn.active) .hub-group-btn { background: var(--c-hover); }
+.hub-group:has(.tab-btn.active) .hub-group-btn { box-shadow: inset 0 -2px 0 var(--c-accent); }
+.hub-caret { font-size: 10px; opacity: .7; transition: transform .15s; }
+.hub-group.open .hub-caret { transform: rotate(180deg); }
+.hub-menu {
+  display: none; position: absolute; top: calc(100% + 6px); left: 0; z-index: 120;
+  min-width: 250px; padding: 6px; border-radius: 12px;
+  background: var(--c-surface-strong); border: 1px solid var(--c-border);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 14px 32px rgba(2,6,23,0.3);
+}
+.hub-group.open .hub-menu { display: flex; flex-direction: column; gap: 2px; }
+.hub-menu .tab-btn, .mobile-nav .hub-drawer-item {
+  width: 100%; justify-content: flex-start; text-decoration: none; border-radius: 8px;
+}
+.hub-menu .tab-btn.active::after { display: none; }
+.hub-menu .tab-btn.active, .mobile-nav .tab-btn.active { background: var(--c-hover); box-shadow: inset 3px 0 0 var(--c-accent); }
+.hub-item-icon { width: 22px; text-align: center; }
+.hub-drawer-label {
+  margin: 10px 6px 2px; font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--c-text-muted);
+}
+.mobile-nav { max-height: calc(100vh - 80px); overflow-y: auto; }
+.mobile-nav .hub-drawer-item { padding: 10px 14px; font-size: 15px; }
+
+@media (max-width: 1060px) { .hub-group-btn { padding: 8px 8px; font-size: 13px; } }
+@media (max-width: 900px) {
+  .hub-nav .hub-group, .hub-nav .hub-home-btn { display: none; }
+  .hamburger-btn { display: flex; }
+}
+
+/* Home */
+#tab-home .home-header { padding-bottom: 8px; }
+#hubHome { display: flex; flex-direction: column; gap: 22px; margin-top: 18px; }
+.hub-today { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.hub-today-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left;
+  padding: 12px 14px; border-radius: 14px; cursor: pointer;
+  background: var(--c-surface); border: 1px solid var(--c-border-soft);
+  color: var(--c-text-primary); font-family: 'Nunito', sans-serif;
+  transition: border-color .15s, transform .15s;
+}
+.hub-today-card:hover { border-color: var(--c-accent); transform: translateY(-2px); }
+.hub-today-card b { font-size: 20px; font-weight: 900; }
+.hub-today-label { font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: var(--c-text-muted); }
+.hub-today-sub { font-size: 12px; color: var(--c-text-secondary); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hub-today-card:last-child { grid-column: 1 / -1; }
+
+.hub-search-wrap { position: relative; }
+.hub-search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.hub-search {
+  width: 100%; padding: 14px 16px 14px 46px; border-radius: 14px;
+  font: 600 16px 'Nunito', sans-serif; color: var(--c-text-primary);
+  background: var(--c-surface-input); border: 1px solid var(--c-border); outline: none;
+}
+.hub-search:focus { border-color: var(--c-accent); box-shadow: 0 0 0 3px rgba(139,92,246,0.25); }
+.hub-search::placeholder { color: var(--c-text-muted); }
+.hub-empty { text-align: center; padding: 20px; color: var(--c-text-secondary); font-weight: 700; }
+
+.hub-section-title {
+  margin: 0 0 10px; font: 400 19px 'Fredoka One', 'Nunito', sans-serif; color: var(--c-text-primary);
+}
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.hub-card {
+  display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%;
+  padding: 14px 16px; border-radius: 14px; cursor: pointer; text-decoration: none;
+  background: var(--c-surface); border: 1px solid var(--c-border-soft);
+  color: var(--c-text-primary); font-family: 'Nunito', sans-serif;
+  transition: border-color .15s, transform .15s, background .15s;
+}
+.hub-card:hover, .hub-card:focus-visible { border-color: var(--c-accent); transform: translateY(-2px); outline: none; }
+.hub-card[hidden], .hub-section[hidden] { display: none; }
+.hub-card-icon {
+  flex: 0 0 40px; height: 40px; display: grid; place-items: center; font-size: 22px;
+  border-radius: 10px; background: var(--c-hover);
+}
+.hub-card-name { font-weight: 800; font-size: 15px; }
+.hub-card-desc { font-size: 13px; color: var(--c-text-secondary); line-height: 1.4; margin-top: 2px; }
+
+@media (max-width: 700px) {
+  .hub-today { grid-template-columns: repeat(2, 1fr); }
+  .hub-today-card b { font-size: 17px; }
+  .hub-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -2855,11 +2863,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
       </div>
     </div>
 
-    <nav class="tab-nav">
-      <button class="tab-btn active" data-tab="home" onclick="switchTab('home',this)">
-        <span class="tab-icon">🏠</span> Home
-      </button>
-    </nav>
+    <nav class="hub-nav" id="hubNav" aria-label="Tools"></nav>
 
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">🌙</button>
 
@@ -2871,54 +2875,6 @@ body[data-theme="dark"] #tab-guide .gg-card {
 
   <!-- Mobile nav drawer -->
   <div class="mobile-nav" id="mobileNav">
-    <button class="tab-btn active" data-tab="home"    onclick="switchTab('home',this);closeMobileNav()">
-      <span class="tab-icon">🏠</span> Home
-    </button>
-    <button class="tab-btn" data-tab="discord" onclick="switchTab('discord',this);closeMobileNav()">
-      <span class="tab-icon">💬</span> Discord Formatter
-    </button>
-    <button class="tab-btn" data-tab="char" onclick="switchTab('char',this);closeMobileNav()">
-      <span class="tab-icon">📝</span> Character Description Editor
-    </button>
-    <button class="tab-btn" data-tab="links" onclick="switchTab('links',this);closeMobileNav()">
-      <span class="tab-icon">🔗</span> Useful Links
-    </button>
-    <button class="tab-btn" data-tab="info" onclick="switchTab('info',this);closeMobileNav()">
-      <span class="tab-icon">📚</span> FAQ
-    </button>
-    <button class="tab-btn" data-tab="newbie" onclick="switchTab('newbie',this);closeMobileNav()">
-      <span class="tab-icon">🌱</span> Newbie FAQ
-    </button>
-    <button class="tab-btn" data-tab="guide" onclick="switchTab('guide',this);closeMobileNav()">
-      <span class="tab-icon">📖</span> Game Guide
-    </button>
-    <button class="tab-btn" data-tab="guides" onclick="switchTab('guides',this);closeMobileNav()">
-      <span class="tab-icon">🧭</span> Guides
-    </button>
-    <button class="tab-btn" data-tab="meso" onclick="switchTab('meso',this);closeMobileNav()">
-      <span class="tab-icon">💰</span> Meso/hr Calculator
-    </button>
-    <button class="tab-btn" data-tab="mdc" onclick="switchTab('mdc',this);closeMobileNav()">
-      <span class="tab-icon">🎯</span> MDC Checker
-    </button>
-    <button class="tab-btn" data-tab="breakeven" onclick="switchTab('breakeven',this);closeMobileNav()">
-      <span class="tab-icon">📈</span> Maple Points vs TS Calculator
-    </button>
-    <button class="tab-btn" data-tab="dmg" onclick="switchTab('dmg',this);closeMobileNav()">
-      <span class="tab-icon">💥</span> DMG Calculator
-    </button>
-    <button class="tab-btn" data-tab="resets" onclick="switchTab('resets',this);closeMobileNav()">
-      <span class="tab-icon">⏰</span> Reset Tracker
-    </button>
-    <button class="tab-btn" data-tab="events" onclick="switchTab('events',this);closeMobileNav()">
-      <span class="tab-icon">🎉</span> Events
-    </button>
-    <button class="tab-btn" data-tab="probs" onclick="switchTab('probs',this);closeMobileNav()" style="opacity:.65;">
-      <span class="tab-icon">🎲</span> Item Probabilities
-    </button>
-    <button class="tab-btn" data-tab="ts" onclick="switchTab('ts',this);closeMobileNav()">
-      <span class="tab-icon">📊</span> TS Price Viewer
-    </button>
   </div>
 
   <!-- ── Content ── -->
@@ -2932,29 +2888,9 @@ body[data-theme="dark"] #tab-guide .gg-card {
         <div class="home-sub">Maplestory M tools and guides made for Spades (Scania)</div>
         <div class="home-sub" style="font-weight:700;">Server (UTC−8): <span id="homeServerTime">--:--:--</span> · Local: <span id="homeLocalTime">--:--:--</span></div>
         <div id="homeAlert" class="df-note" style="display:none;margin-top:8px;border:1px solid #ffd9a6;background:#fff7e9;padding:8px 10px;border-radius:10px;"></div>
-        <div class="rainbow-bar"></div>
       </div>
 
-      <div class="tools-grid">
-        <div class="tool-card card-sky" onclick="switchTab('resets', document.querySelector('[data-tab=resets]'))"><div class="card-icon icon-sky">⏰</div><div class="card-name">Reset Tracker</div><div class="card-desc">Countdowns for all daily, weekly and 4-week resets — daily bosses, weekly bosses, weekly tasks, and Path of Proof.</div><span class="card-arrow">→</span></div>
-        <a class="tool-card card-green" href="boss-signups.html"><div class="card-icon icon-green">🗓️</div><div class="card-name">Bossing Planner</div><div class="card-desc">Build weekly boss carry signups, auto-assign groups, manually adjust runs, and share a local restore code.</div><span class="card-arrow">→</span></a>
-        <div class="tool-card card-yellow" onclick="switchTab('starforce', document.querySelector('[data-tab=starforce]'))"><div class="card-icon icon-yellow">⭐</div><div class="card-name">Star Force Emulator</div><div class="card-desc">Simulate meso cost and destroy risk from start SF to target SF.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-yellow" onclick="switchTab('events', document.querySelector('[data-tab=events]'))"><div class="card-icon icon-yellow">🎉</div><div class="card-name">Event Tracker</div><div class="card-desc">Live feed of all active MSM events with end-time countdowns in your local timezone. Auto-updates daily.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-pink" onclick="switchTab('discord', document.querySelector('[data-tab=discord]'))"><div class="card-icon icon-pink">💬</div><div class="card-name">Discord Message Formatter</div><div class="card-desc">Format guild event messages with auto time-zone converting timestamps, bold, spoilers & more.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-yellow" onclick="switchTab('info', document.querySelector('[data-tab=info]'))"><div class="card-icon icon-yellow">📚</div><div class="card-name">FAQ - Useful Information</div><div class="card-desc">Frequently asked questions and useful information</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-green" onclick="switchTab('newbie', document.querySelector('[data-tab=newbie]'))"><div class="card-icon icon-green">🌱</div><div class="card-name">Newbie FAQ</div><div class="card-desc">Early progression priorities, crystals, daily content, Ark, CRA, and Necro basics for new players.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-purple" onclick="switchTab('guides', document.querySelector('[data-tab=guides]'))"><div class="card-icon icon-purple">🧭</div><div class="card-name">Guides</div><div class="card-desc">Boss and progression guides moved out of FAQ for easier browsing.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-purple" onclick="switchTab('cube', document.querySelector('[data-tab=cube]'))"><div class="card-icon icon-purple">🎲</div><div class="card-name">Cube Potential Simulator</div><div class="card-desc">Potential cube simulator with rank-up and roll targeting.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-green" onclick="switchTab('dmg', document.querySelector('[data-tab=dmg]'))"><div class="card-icon icon-green">💥</div><div class="card-name">DMG Calculator</div><div class="card-desc">Calculate your average, crit and boss damage from your stats.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-pink" onclick="switchTab('mdc', document.querySelector('[data-tab=mdc]'))"><div class="card-icon icon-pink">🎯</div><div class="card-name">MDC Checker</div><div class="card-desc">Estimate cap-in-boss and check if your lines are capped.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-sky" onclick="switchTab('char', document.querySelector('[data-tab=char]'))"><div class="card-icon icon-sky">📝</div><div class="card-name">Character Description Editor</div><div class="card-desc">Build MSM character captions with rich formatting and live preview.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-purple" onclick="switchTab('breakeven', document.querySelector('[data-tab=breakeven]'))"><div class="card-icon icon-purple">📈</div><div class="card-name">Maple Points vs TS Calculator</div><div class="card-desc">Compare Trade Station meso price vs crystal route.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-sky" onclick="switchTab('guide', document.querySelector('[data-tab=guide]'))"><div class="card-icon icon-sky">📖</div><div class="card-name">Game Guide</div><div class="card-desc">Browse official Nexon guide topics in a searchable TOC.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-yellow" onclick="switchTab('links', document.querySelector('[data-tab=links]'))"><div class="card-icon icon-yellow">🔗</div><div class="card-name">Useful Links</div><div class="card-desc">Quick-access links for news, events, patch notes and channels.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-green" onclick="switchTab('meso', document.querySelector('[data-tab=meso]'))"><div class="card-icon icon-green">💰</div><div class="card-name">Meso/hr Calculator</div><div class="card-desc">Upload result screenshots and auto-calc mesos per hour.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-purple" onclick="switchTab('probs', document.querySelector('[data-tab=probs]'))"><div class="card-icon icon-purple">🎲</div><div class="card-name">Item Probabilities</div><div class="card-desc">RNG rates for events, draws, cubes, flames, etc.</div><span class="card-arrow">→</span></div>
-        <div class="tool-card card-sky" onclick="switchTab('ts', document.querySelector('[data-tab=ts]'))"><div class="card-icon icon-sky">📊</div><div class="card-name">TS Price Viewer</div><div class="card-desc">View submitted Trade Station historical prices and averages.</div><span class="card-arrow">→</span></div>
-      </div>
+      <div id="hubHome"></div>
     </section>
 
 
@@ -5115,50 +5051,6 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   </section>
   </div>
 
-  <!-- ════════ TS PRICE VIEWER ════════ -->
-  <div class="content" id="ts-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:36px 28px 60px;">
-  <section id="tab-ts" style="display:block;">
-    <div class="pr-topbar">
-      <div>
-        <div class="pr-title">📊 TS Price Viewer</div>
-        <div class="pr-meta"><div class="pr-meta-dot"></div> <span id="tsMetaText">Loading TS data…</span></div>
-        <div class="pr-meta" style="margin-top:4px;"><span id="tsLastUpdated">Last updated: —</span></div>
-      </div>
-      <button class="pr-refresh-btn" id="tsRefreshBtn" onclick="tsLoad(true)"><span id="tsRefreshIcon">🔄</span> Refresh</button>
-    </div>
-
-    <div class="pr-controls" style="margin-bottom:10px;">
-      <div class="pr-ctrl-field" style="flex:2;min-width:240px;">
-        <div class="pr-ctrl-label">Search Item</div>
-        <input class="pr-ctrl-input" id="tsSearch" type="text" placeholder="Search item name..." oninput="tsApplyFilters()" />
-      </div>
-      <div class="pr-ctrl-field" style="min-width:160px;">
-        <div class="pr-ctrl-label">Window</div>
-        <select class="pr-ctrl-input" id="tsWindowFilter" onchange="tsApplyFilters()">
-          <option value="24h">Last 24h</option>
-          <option value="7d" selected>Last 7d</option>
-          <option value="30d">Last 30d</option>
-          <option value="all">All time</option>
-        </select>
-      </div>
-      <button class="pr-clear-btn" onclick="tsClearFilters()">✕ Clear</button>
-    </div>
-
-    <div class="pr-results-bar" id="tsResultsBar"></div>
-    <div class="pr-table-wrap" id="tsTableWrap"></div>
-  </section>
-  </div>
-
-  <div class="ts-modal" id="tsDetailModal" onclick="if(event.target===this)tsCloseItemModal()">
-    <div class="ts-modal-card">
-      <div class="ts-modal-head">
-        <div id="tsModalTitle" style="font-weight:900;font-size:18px;">TS Item Detail</div>
-        <button class="ts-modal-close" onclick="tsCloseItemModal()">Close</button>
-      </div>
-      <div id="tsModalBody"></div>
-    </div>
-  </div>
-
     <!-- ════════ DMG CALCULATOR ════════ -->
     <div class="content" id="dmg-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
     <section class="tab-section active" id="tab-dmg" style="display:block;">
@@ -5278,6 +5170,188 @@ Per-line    = Total ÷ HitCount</pre>
 ═══════════════════════════════════════════════════════ */
 let currentTab = 'home';
 
+/* ================================================================
+   HUB: one tool registry drives the desktop menu, mobile drawer,
+   home page groups, search and "recently used".
+================================================================ */
+const HUB_GROUPS = [
+  { id: 'today',    label: 'Today',             icon: '⏰' },
+  { id: 'bossing',  label: 'Bossing',           icon: '⚔️' },
+  { id: 'gear',     label: 'Gear & Progression', icon: '⭐' },
+  { id: 'mesos',    label: 'Mesos',             icon: '💰' },
+  { id: 'info',     label: 'Guides & Info',     icon: '📚' },
+  { id: 'utils',    label: 'Utilities',         icon: '🛠️' }
+];
+const HUB_TOOLS = [
+  { tab: 'resets',    group: 'today',   icon: '⏰', name: 'Reset Tracker',            desc: 'Daily, weekly and Path of Proof countdowns with checklists.', keys: 'reset daily weekly pop path of proof timer' },
+  { tab: 'events',    group: 'today',   icon: '🎉', name: 'Event Tracker',            desc: 'Every active MSM event with end-time countdowns in your timezone.', keys: 'event events schedule shop package' },
+  { href: 'boss-signups.html', group: 'bossing', icon: '🗓️', name: 'Bossing Planner', desc: 'Weekly boss carry signups, auto-assigned groups and manual tweaks.', keys: 'boss signup party carry planner' },
+  { tab: 'dmg',       group: 'bossing', icon: '💥', name: 'DMG Calculator',           desc: 'Average, crit and boss damage from your stats.', keys: 'damage dmg calc crit boss' },
+  { tab: 'mdc',       group: 'bossing', icon: '🎯', name: 'MDC Checker',              desc: 'Estimate cap-in-boss and check if your lines are capped.', keys: 'mdc max damage cap ied' },
+  { href: 'assets/chaos-will-pattern-trainer/index.html', group: 'bossing', icon: '🕷️', name: 'Chaos Will Trainer', desc: 'Practice Chaos Will patterns with timers.', keys: 'will chaos trainer pattern' },
+  { tab: 'starforce', group: 'gear',    icon: '⭐', name: 'Star Force Emulator',      desc: 'Simulate meso cost and destroy risk to a target SF.', keys: 'starforce star force sf enhance' },
+  { tab: 'cube',      group: 'gear',    icon: '🧊', name: 'Cube Potential Simulator', desc: 'Potential cube rolls with rank-up and line targeting.', keys: 'cube potential roll' },
+  { href: 'pages/mastercraft-scrolls.html', group: 'gear', icon: '🍀', name: 'Lucky Scroll Calculator', desc: 'Absolab → Arcane Umbra: which lucky scrolls are worth it per attempt.', keys: 'mastercraft lucky scroll absolab arcane umbra au reduction' },
+  { tab: 'breakeven', group: 'mesos',   icon: '📈', name: 'Maple Points vs TS',       desc: 'Trade Station meso price vs the crystal route.', keys: 'maple points mp ts trade station crystal breakeven' },
+  { tab: 'meso',      group: 'mesos',   icon: '💰', name: 'Meso/hr Calculator',       desc: 'Upload result screenshots and auto-calc mesos per hour.', keys: 'meso mesos per hour farming' },
+  { tab: 'newbie',    group: 'info',    icon: '🌱', name: 'Newbie FAQ',               desc: 'Early progression, crystals, dailies, Ark, CRA and Necro basics.', keys: 'new player beginner faq' },
+  { tab: 'info',      group: 'info',    icon: '📚', name: 'FAQ',                      desc: 'Frequently asked questions and useful information.', keys: 'faq info questions' },
+  { tab: 'guides',    group: 'info',    icon: '🧭', name: 'Boss & Progression Guides', desc: 'Boss mechanics and progression guides.', keys: 'guide guides boss mechanics gloom will' },
+  { tab: 'guide',     group: 'info',    icon: '📖', name: 'Official Game Guide',      desc: "Nexon's official guide topics in a searchable index.", keys: 'nexon official game guide' },
+  { tab: 'probs',     group: 'info',    icon: '🎲', name: 'Item Probabilities',       desc: 'RNG rates for events, draws, cubes, flames and more.', keys: 'probability probabilities rates gacha rng' },
+  { tab: 'links',     group: 'info',    icon: '🔗', name: 'Useful Links',             desc: 'News, events, patch notes and community channels.', keys: 'links news patch notes' },
+  { tab: 'discord',   group: 'utils',   icon: '💬', name: 'Discord Formatter',        desc: 'Guild messages with auto timezone timestamps, bold, spoilers.', keys: 'discord message format timestamp' },
+  { tab: 'char',      group: 'utils',   icon: '📝', name: 'Character Description',    desc: 'MSM character captions with rich formatting and preview.', keys: 'character description caption' }
+];
+const HUB_SPECIAL_TABS = ['dmg', 'resets', 'events', 'probs'];
+const HUB_RECENT_KEY = 'msm_recent_tools';
+
+function hubIsTab(id) {
+  return id === 'home' || HUB_SPECIAL_TABS.includes(id) || !!document.getElementById('tab-' + id);
+}
+function hubEsc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+}
+function hubToolKey(t) { return t.tab || t.href; }
+
+// Internal tools are .tab-btn buttons (switchTab keeps their active state); standalone pages are links.
+function hubItem(t, cls) {
+  const inner = `<span class="hub-item-icon" aria-hidden="true">${t.icon}</span><span class="hub-item-name">${hubEsc(t.name)}</span>`;
+  return t.tab
+    ? `<button type="button" class="tab-btn ${cls}" data-tab="${t.tab}" onclick="switchTab('${t.tab}',this);closeMobileNav()">${inner}</button>`
+    : `<a class="tab-btn ${cls}" href="${t.href}" onclick="hubTrackRecent('${t.href}')">${inner}</a>`;
+}
+
+function hubCard(t) {
+  const body = `<div class="hub-card-icon" aria-hidden="true">${t.icon}</div>
+    <div class="hub-card-text"><div class="hub-card-name">${hubEsc(t.name)}</div><div class="hub-card-desc">${hubEsc(t.desc)}</div></div>`;
+  const attrs = `class="hub-card" data-key="${hubEsc(hubToolKey(t))}" data-search="${hubEsc((t.name + ' ' + t.desc + ' ' + (t.keys || '')).toLowerCase())}"`;
+  return t.tab
+    ? `<button type="button" ${attrs} onclick="switchTab('${t.tab}', document.querySelector('.hub-nav .tab-btn[data-tab=&quot;${t.tab}&quot;]'))">${body}</button>`
+    : `<a ${attrs} href="${t.href}" onclick="hubTrackRecent('${t.href}')">${body}</a>`;
+}
+
+function hubRenderNav() {
+  const nav = document.getElementById('hubNav');
+  const drawer = document.getElementById('mobileNav');
+  const groups = HUB_GROUPS.map(g => ({ g, tools: HUB_TOOLS.filter(t => t.group === g.id) }));
+  if (nav) {
+    nav.innerHTML = `<button type="button" class="tab-btn hub-home-btn" data-tab="home" onclick="switchTab('home',this)"><span aria-hidden="true">🏠</span> Home</button>` +
+      groups.map(({ g, tools }) => `
+        <div class="hub-group" data-group="${g.id}">
+          <button type="button" class="hub-group-btn" aria-expanded="false" onclick="hubToggleMenu('${g.id}', event)">${hubEsc(g.label)} <span class="hub-caret" aria-hidden="true">▾</span></button>
+          <div class="hub-menu" role="menu">${tools.map(t => hubItem(t, 'hub-menu-item')).join('')}</div>
+        </div>`).join('');
+  }
+  if (drawer) {
+    drawer.innerHTML = `<button type="button" class="tab-btn" data-tab="home" onclick="switchTab('home',this);closeMobileNav()"><span class="tab-icon">🏠</span> Home</button>` +
+      groups.map(({ g, tools }) => `<div class="hub-drawer-label">${g.icon} ${hubEsc(g.label)}</div>${tools.map(t => hubItem(t, 'hub-drawer-item')).join('')}`).join('');
+  }
+}
+
+function hubRenderHome() {
+  const root = document.getElementById('hubHome');
+  if (!root) return;
+  root.innerHTML = `
+    <div class="hub-today" id="hubToday" aria-live="off"></div>
+    <div class="hub-search-wrap">
+      <span class="hub-search-icon" aria-hidden="true">🔍</span>
+      <input id="hubSearch" class="hub-search" type="search" placeholder="Search tools… (try “boss”, “cube”, “events”)" autocomplete="off" aria-label="Search tools">
+    </div>
+    <div class="hub-empty" id="hubEmpty" hidden>No tools match that search.</div>
+    <section class="hub-section" id="hubRecentSection" hidden>
+      <h2 class="hub-section-title">🕘 Recently used</h2>
+      <div class="hub-grid" id="hubRecent"></div>
+    </section>
+    ${HUB_GROUPS.map(g => `
+      <section class="hub-section" data-group="${g.id}">
+        <h2 class="hub-section-title">${g.icon} ${hubEsc(g.label)}</h2>
+        <div class="hub-grid">${HUB_TOOLS.filter(t => t.group === g.id).map(hubCard).join('')}</div>
+      </section>`).join('')}`;
+  document.getElementById('hubSearch').addEventListener('input', hubFilter);
+  hubRenderRecent();
+}
+
+function hubFilter() {
+  const q = (document.getElementById('hubSearch').value || '').trim().toLowerCase();
+  const words = q.split(/\s+/).filter(Boolean);
+  let shown = 0;
+  document.querySelectorAll('#hubHome .hub-section[data-group]').forEach(sec => {
+    let any = 0;
+    sec.querySelectorAll('.hub-card').forEach(c => {
+      const ok = words.every(w => c.dataset.search.includes(w));
+      c.hidden = !ok; if (ok) any++;
+    });
+    sec.hidden = !any; shown += any;
+  });
+  document.getElementById('hubRecentSection').hidden = !!q || !hubGetRecent().length;
+  document.getElementById('hubEmpty').hidden = shown > 0;
+}
+
+function hubGetRecent() {
+  try { return JSON.parse(localStorage.getItem(HUB_RECENT_KEY)) || []; } catch (e) { return []; }
+}
+function hubTrackRecent(key) {
+  if (!key || key === 'home' || !HUB_TOOLS.some(t => hubToolKey(t) === key)) return;
+  const list = [key].concat(hubGetRecent().filter(k => k !== key)).slice(0, 4);
+  try { localStorage.setItem(HUB_RECENT_KEY, JSON.stringify(list)); } catch (e) {}
+  hubRenderRecent();
+}
+function hubRenderRecent() {
+  const wrap = document.getElementById('hubRecent');
+  if (!wrap) return;
+  const tools = hubGetRecent().map(k => HUB_TOOLS.find(t => hubToolKey(t) === k)).filter(Boolean);
+  wrap.innerHTML = tools.map(hubCard).join('');
+  const q = document.getElementById('hubSearch');
+  document.getElementById('hubRecentSection').hidden = !tools.length || !!(q && q.value.trim());
+}
+
+function hubToggleMenu(id, e) {
+  if (e) e.stopPropagation();
+  document.querySelectorAll('.hub-group').forEach(g => {
+    const open = g.dataset.group === id && !g.classList.contains('open');
+    g.classList.toggle('open', open);
+    g.querySelector('.hub-group-btn').setAttribute('aria-expanded', open);
+  });
+}
+function hubCloseMenus() {
+  document.querySelectorAll('.hub-group.open').forEach(g => {
+    g.classList.remove('open');
+    g.querySelector('.hub-group-btn').setAttribute('aria-expanded', 'false');
+  });
+}
+document.addEventListener('click', e => { if (!e.target.closest('.hub-group')) hubCloseMenus(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') hubCloseMenus(); });
+
+// "Today" strip: reuses the Reset Tracker's reset math and the events feed.
+function hubTodayTick() {
+  const el = document.getElementById('hubToday');
+  if (!el || typeof rtNextDaily !== 'function') return;
+  const now = Date.now();
+  const left = d => rtShort(d.getTime() - now);
+  const evs = (window.evCacheData && Array.isArray(window.evCacheData.events)) ? window.evCacheData.events : null;
+  let evHtml = '<span class="hub-today-sub">Loading…</span>';
+  if (evs) {
+    const live = evs.filter(ev => {
+      const st = new Date(ev.start_utc).getTime(), en = new Date(ev.end_utc).getTime();
+      return Number.isFinite(en) && en > now && (!Number.isFinite(st) || st <= now);
+    }).sort((a, b) => new Date(a.end_utc) - new Date(b.end_utc));
+    evHtml = `<b>${live.length} live</b>` + (live[0] ? `<span class="hub-today-sub">Next to end: ${hubEsc(live[0].title)} · ${rtShort(new Date(live[0].end_utc).getTime() - now)}</span>` : '');
+  }
+  const card = (tab, label, value, sub = '') =>
+    `<button type="button" class="hub-today-card" onclick="switchTab('${tab}', document.querySelector('.hub-nav .tab-btn[data-tab=&quot;${tab}&quot;]'))"><span class="hub-today-label">${label}</span>${value}${sub}</button>`;
+  el.innerHTML =
+    card('resets', 'Daily reset', `<b>${left(rtNextDaily())}</b>`) +
+    card('resets', 'Weekly bosses (Wed)', `<b>${left(rtNextWeekday(3))}</b>`) +
+    card('resets', 'Weekly tasks (Sun)', `<b>${left(rtNextWeekday(0))}</b>`) +
+    card('resets', 'Path of Proof', `<b>${left(rtNextPoP())}</b>`) +
+    card('events', 'Events', evHtml);
+}
+
+hubRenderNav();
+hubRenderHome();
+setTimeout(() => { hubTodayTick(); setInterval(hubTodayTick, 15000); }, 0);
+
 function switchTab(id, btn, fromPop = false) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -5286,19 +5360,16 @@ function switchTab(id, btn, fromPop = false) {
   const resetsContent  = document.getElementById('resets-content');
   const eventsContent  = document.getElementById('events-content');
   const probsContent   = document.getElementById('probs-content');
-  const tsContent      = document.getElementById('ts-content');
   // Hide all
   mainContent.style.display    = 'none';
   dmgContent.style.display     = 'none';
   resetsContent.style.display  = 'none';
   eventsContent.style.display  = 'none';
   probsContent.style.display   = 'none';
-  tsContent.style.display      = 'none';
   if      (id === 'dmg')     { dmgContent.style.display    = 'block'; }
   else if (id === 'resets')  { resetsContent.style.display = 'block'; }
   else if (id === 'events')  { eventsContent.style.display = 'block'; evLoad(); }
   else if (id === 'probs')   { probsContent.style.display  = 'block'; prLoad(); }
-  else if (id === 'ts')      { tsContent.style.display     = 'block'; tsLoad(); }
   else {
     mainContent.style.display = '';
     // make Useful Information wider while keeping other tabs standard width
@@ -5306,7 +5377,9 @@ function switchTab(id, btn, fromPop = false) {
     document.getElementById('tab-' + id).classList.add('active');
     if (id === 'guide') ggInit();
   }
-  if (btn) btn.classList.add('active');
+  document.querySelectorAll(`.tab-btn[data-tab="${id}"]`).forEach(b => b.classList.add('active'));
+  hubTrackRecent(id);
+  hubCloseMenus();
   // Sync mobile nav active state
   document.querySelectorAll('.mobile-nav .tab-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.tab === id);
@@ -5323,9 +5396,9 @@ function switchTab(id, btn, fromPop = false) {
 
 function resolveTabFromHash(){
   const raw=(location.hash||'#home').replace(/^#/,'').trim().toLowerCase();
-  const alias={faq:'info','useful-information':'info','usefulinfo':'info','newbie-faq':'newbie','new-player-faq':'newbie','guide':'guide','game-guide':'guide','guides':'guides','event':'events','event-tracker':'events','item-probabilities':'probs','probabilities':'probs','ts':'ts','ts-viewer':'ts','trade-station':'ts','ts-prices':'ts'};
+  const alias={faq:'info','useful-information':'info','usefulinfo':'info','newbie-faq':'newbie','new-player-faq':'newbie','guide':'guide','game-guide':'guide','guides':'guides','event':'events','event-tracker':'events','item-probabilities':'probs','star-force':'starforce','sf':'starforce','cube-simulator':'cube','probabilities':'probs'};
   const tab=alias[raw] || raw || 'home';
-  return document.querySelector(`.tab-btn[data-tab="${tab}"]`) ? tab : 'home';
+  return hubIsTab(tab) ? tab : 'home';
 }
 
 window.addEventListener('popstate', (e) => {
@@ -6715,6 +6788,7 @@ function rtTick() {
 
 // Init
 rtLoadAnchor();
+setTimeout(() => { if (typeof evLoad === 'function') evLoad(); }, 0);
 rtTick();
 setInterval(rtTick, 1000);
 
@@ -7722,174 +7796,6 @@ function prClearFilters(){
   prApplyFilters();
 }
 
-/* ================================================================
-   TS PRICE VIEWER
-================================================================ */
-let tsFeed = { items: [] };
-let tsRows = [];
-let tsItemMap = new Map();
-
-function tsParseIso(s){
-  const d = new Date(s||'');
-  return isNaN(d.getTime()) ? null : d;
-}
-function tsWindowMs(v){
-  if(v==='24h') return 24*60*60*1000;
-  if(v==='7d') return 7*24*60*60*1000;
-  if(v==='30d') return 30*24*60*60*1000;
-  return null;
-}
-function tsSpark(values){
-  const bars='▁▂▃▄▅▆▇█';
-  if(!values || values.length<2) return '—';
-  const min=Math.min(...values), max=Math.max(...values);
-  if(max===min) return '▅'.repeat(Math.min(values.length,8));
-  return values.slice(-8).map(v=>bars[Math.max(0,Math.min(7,Math.round(((v-min)/(max-min))*7)))]).join('');
-}
-function tsParseKey(item){
-  const parts=String(item||'').split('|').map(x=>x.trim());
-  if(parts.length>=4){
-    return {name:parts[0], rank:parts[1], classType:parts[2], sf:parts[3].replace(/^SF\s*/i,'')};
-  }
-  return {name:item||'—', rank:'—', classType:'—', sf:'—'};
-}
-
-async function tsLoad(force){
-  try{
-    const res = await fetch(`data/ts-prices.json${force?`?t=${Date.now()}`:''}`, {cache:'no-store'});
-    if(!res.ok) throw new Error('feed unavailable');
-    tsFeed = await res.json();
-    tsRows = [];
-
-    (tsFeed.items||[]).forEach(it=>{
-      const prices=(it.latest||[]).map(x=>Number(x.price||0)).filter(Boolean).reverse();
-      const spark=tsSpark(prices);
-      const key=tsParseKey(it.item_name);
-      tsItemMap.set(it.item_name, { ...it, spark, key });
-      (it.latest||[]).forEach(r=> tsRows.push({
-        item: it.item_name,
-        keyName: key.name,
-        rank: key.rank,
-        classType: key.classType,
-        sf: key.sf,
-        avg: it.avg_price,
-        samples: it.samples,
-        price: r.price,
-        at: r.submitted_at,
-        atDate: tsParseIso(r.submitted_at),
-        entry_id: r.entry_id,
-        spark
-      }));
-    });
-
-    const m=document.getElementById('tsMetaText');
-    if(m) m.textContent=`${(tsFeed.items||[]).length} items · ${tsRows.length} price points`;
-    const lu=document.getElementById('tsLastUpdated');
-    if(lu){
-      const d=tsParseIso(tsFeed.generated_at_utc);
-      lu.textContent='Last updated: '+(d?d.toLocaleString(): (tsFeed.generated_at_utc||'—'));
-    }
-    tsApplyFilters();
-  }catch(e){
-    const w=document.getElementById('tsTableWrap');
-    if(w) w.innerHTML='<div class="pr-state"><div class="pr-state-icon">⚠️</div><div class="pr-state-title">Could not load TS price feed</div></div>';
-    const m=document.getElementById('tsMetaText');
-    if(m) m.textContent='TS feed unavailable';
-    const lu=document.getElementById('tsLastUpdated');
-    if(lu) lu.textContent='Last updated: —';
-  }
-}
-
-function tsApplyFilters(){
-  const q=(document.getElementById('tsSearch')?.value||'').toLowerCase().trim();
-  const windowKey=(document.getElementById('tsWindowFilter')?.value||'7d').trim();
-  const windowMs=tsWindowMs(windowKey);
-  const now=Date.now();
-
-  const rows=tsRows.filter(r=>{
-    if(windowMs && r.atDate && (now - r.atDate.getTime()) > windowMs) return false;
-    if(windowMs && !r.atDate) return false;
-    if(!q) return true;
-    return (r.item+' '+r.rank+' '+r.classType+' '+r.sf).toLowerCase().includes(q);
-  });
-
-  const bar=document.getElementById('tsResultsBar');
-  if(bar) bar.innerHTML=`Showing <strong>${rows.length}</strong> of <strong>${tsRows.length}</strong> entries`;
-
-  const wrap=document.getElementById('tsTableWrap');
-  if(!wrap) return;
-  if(!rows.length){
-    wrap.innerHTML='<div class="pr-state"><div class="pr-state-icon">🔎</div><div class="pr-state-title">No matches</div></div>';
-    return;
-  }
-
-  wrap.innerHTML = `<div style="max-height:70vh;overflow:auto;"><table class="pr-table" style="font-size:12px;">
-    <thead><tr><th>Name (click)</th><th>Rank</th><th>Class/Type</th><th>SF</th><th>Price</th><th>Item Avg</th><th>Trend</th><th>Samples</th><th>Submitted</th></tr></thead>
-    <tbody>${rows.map(r=>`<tr>
-      <td><a class="ts-item-link" href="#" onclick='tsShowItem(${JSON.stringify(String(r.item||""))});return false;'>${prEsc(r.keyName||r.item)}</a></td>
-      <td>${prEsc(r.rank||'—')}</td>
-      <td>${prEsc(r.classType||'—')}</td>
-      <td>${prEsc(r.sf||'—')}</td>
-      <td>${Number(r.price||0).toLocaleString()}</td>
-      <td>${r.avg?Number(r.avg).toLocaleString():'—'}</td>
-      <td style="font-family:ui-monospace,monospace;letter-spacing:1px;">${prEsc(r.spark||'—')}</td>
-      <td>${r.samples??'—'}</td>
-      <td>${r.atDate ? r.atDate.toLocaleString() : prEsc(r.at||'—')}</td>
-    </tr>`).join('')}</tbody>
-  </table></div>`;
-}
-
-function tsClearFilters(){
-  const a=document.getElementById('tsSearch'); if(a) a.value='';
-  const c=document.getElementById('tsWindowFilter'); if(c) c.value='7d';
-  tsApplyFilters();
-}
-
-function tsShowItem(itemKey){
-  const it = tsItemMap.get(itemKey);
-  const modal=document.getElementById('tsDetailModal');
-  const title=document.getElementById('tsModalTitle');
-  const body=document.getElementById('tsModalBody');
-  if(!modal || !title || !body || !it){ return; }
-
-  const rows=(it.latest||[]).slice().sort((a,b)=> String(b.submitted_at||'').localeCompare(String(a.submitted_at||'')));
-  const monthly={};
-  rows.forEach(r=>{
-    const d=new Date(r.submitted_at||'');
-    if(isNaN(d.getTime())) return;
-    const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-    if(!monthly[k]) monthly[k]=[];
-    monthly[k].push(Number(r.price||0));
-  });
-  const monthRows=Object.keys(monthly).sort().map(k=>{
-    const arr=monthly[k].filter(Boolean);
-    const avg=arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
-    return `<tr><td>${k}</td><td>${arr.length}</td><td>${avg?avg.toLocaleString():'—'}</td></tr>`;
-  }).join('');
-
-  title.textContent = it.item_name || itemKey;
-  body.innerHTML = `<div style="display:grid;gap:10px;">
-    <div class="pr-results-bar">Data points: <strong>${it.samples||rows.length}</strong> · Overall avg: <strong>${it.avg_price?Number(it.avg_price).toLocaleString():'—'}</strong> · Last updated: <strong>${prEsc(tsFeed.generated_at_utc||'—')}</strong></div>
-    <div style="max-height:34vh;overflow:auto;">
-      <table class="pr-table" style="font-size:12px;">
-        <thead><tr><th>Submission Time</th><th>Price</th><th>Qty</th><th>Note</th></tr></thead>
-        <tbody>${rows.map(r=>`<tr><td>${prEsc(r.submitted_at||'—')}</td><td>${Number(r.price||0).toLocaleString()}</td><td>${r.quantity??'—'}</td><td>${prEsc(r.note||'—')}</td></tr>`).join('')}</tbody>
-      </table>
-    </div>
-    <div style="max-height:24vh;overflow:auto;">
-      <table class="pr-table" style="font-size:12px;">
-        <thead><tr><th>Month</th><th>Data Points</th><th>Monthly Avg</th></tr></thead>
-        <tbody>${monthRows || '<tr><td colspan="3">—</td></tr>'}</tbody>
-      </table>
-    </div>
-  </div>`;
-
-  modal.classList.add('open');
-}
-
-function tsCloseItemModal(){
-  document.getElementById('tsDetailModal')?.classList.remove('open');
-}
 
 /* ================================================================
    MDC CHECKER (based on shared Excel logic)
