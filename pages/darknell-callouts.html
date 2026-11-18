@@ -10,15 +10,25 @@
 <link rel="stylesheet" href="../assets/css/site.css">
 <style>
   .dk-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-  .dk-phases, .dk-attacks { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dk-attacks { display: flex; flex-wrap: wrap; gap: 6px; }
   .dk-btn {
     font: 800 15px "Nunito", sans-serif; padding: 10px 14px; border-radius: 10px; cursor: pointer;
     border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink);
   }
   .dk-btn.on { border-color: #8b5cf6; box-shadow: inset 0 0 0 1px #8b5cf6; }
-  .dk-attacks .dk-btn { min-width: 84px; text-transform: capitalize; }
+  .dk-attacks .dk-btn { min-width: 72px; text-transform: capitalize; }
   .dk-attacks .dk-btn.now { background: #8b5cf6; color: #fff; }
   .dk-attacks .dk-btn.next { border-color: #f59e0b; box-shadow: inset 0 0 0 2px #f59e0b; }
+  .dk-phase { display: flex; gap: 10px; align-items: center; padding: 10px; }
+  .dk-phase > b { font-family: "Fredoka One", sans-serif; font-size: 18px; color: var(--msm-ink); }
+  .dk-stop { margin-top: 8px; background: #dc2626; color: #fff; border-color: #dc2626; }
+  .dk-attacks .dk-btn { touch-action: manipulation; }
+  @media (max-width: 700px) {
+    .dk-grid { gap: 6px; }
+    .dk-phase { padding: 6px; gap: 6px; }
+    .dk-attacks { gap: 4px; }
+    .dk-attacks .dk-btn { min-width: 0; flex: 1 1 52px; padding: 7px 4px; font-size: 13px; }
+  }
   .dk-status { margin: 10px 0 0; font-weight: 700; color: var(--msm-muted); }
   .dk-status b { color: var(--msm-ink); font-size: 20px; text-transform: capitalize; }
 </style>
@@ -30,14 +40,11 @@
 <main class="msm-page dk-grid">
   <section class="msm-panel">
     <h1 class="msm-section-title">Darknell Callouts</h1>
-    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Pick the phase, then tap the attack Darknell is doing right now. The tool calls out the next attack and keeps going on its timings. If it drifts, tap the current attack again to resync.</p>
-    <div class="dk-phases" id="phases"></div>
-  </section>
-  <section class="msm-panel">
-    <div class="dk-attacks" id="attacks"></div>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Tap the attack Darknell is doing right now. Callouts come ~1.5s early; Fly gets a 3-2-1 countdown. Tap again any time to resync.</p>
     <p class="dk-status" id="status">Stopped.</p>
-    <button class="dk-btn" id="stop" type="button" style="margin-top:10px">Stop</button>
+    <button class="dk-btn dk-stop" id="stop" type="button">Stop</button>
   </section>
+  <div id="phases" class="dk-grid"></div>
 </main>
 
 <script src="../assets/js/site-nav.js"></script>
@@ -50,8 +57,10 @@
     "fly meteor push dash fly buff charge meteor push dash buff",
     "meteor buff push dash charge fly meteor push buff charge dash fly"
   ].map(s => s.split(" ").map(name => [name, 5]));
+  const LEAD = 1.5, BIG = ["fly", "meteor"];
+  const cap = s => s[0].toUpperCase() + s.slice(1);
 
-  let phase = 0, timer = null;
+  let timers = [], cur = null;
   const $ = id => document.getElementById(id);
 
   function say(text) {
@@ -60,35 +69,39 @@
     u.rate = 1.2;
     speechSynthesis.speak(u);
   }
+  const at = (t, fn) => timers.push(setTimeout(fn, t - performance.now()));
+  function clear() { timers.forEach(clearTimeout); timers = []; speechSynthesis.cancel(); }
 
-  function stop() {
-    clearTimeout(timer); timer = null; speechSynthesis.cancel();
-    render(-1); $("status").textContent = "Stopped.";
+  function stop() { clear(); cur = null; render(); $("status").textContent = "Stopped."; }
+
+  // Attack i of phase p lands at time t: show it and schedule the callouts for the next one.
+  function land(p, i, t) {
+    const list = PHASES[p], n = (i + 1) % list.length, nn = (n + 1) % list.length;
+    const name = list[n][0], tn = t + list[i][1] * 1000; // chain from scheduled times so delays don't drift
+    cur = [p, i]; render();
+    $("status").innerHTML = `Now: ${cap(list[i][0])} · Next: <b>${cap(name)}</b> in ${list[i][1]}s`;
+    if (name === "fly") {
+      at(tn - 3000, () => say("Fly in 3")); at(tn - 2000, () => say("2")); at(tn - 1000, () => say("1"));
+    } else {
+      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(list[nn][0]) ? " then " + cap(list[nn][0]) : "")));
+    }
+    at(tn, () => { if (name === "fly") say("Fly"); land(p, n, tn); });
   }
 
-  // Attack i is happening now: call out the next one, then repeat when it lands.
-  function at(i, t0 = performance.now()) {
-    clearTimeout(timer);
-    const list = PHASES[phase], next = (i + 1) % list.length;
-    say(list[next][0]);
-    render(i);
-    $("status").innerHTML = `Now: ${list[i][0]} · Next: <b>${list[next][0]}</b> in ${list[i][1]}s`;
-    const due = t0 + list[i][1] * 1000; // chain from the scheduled time so delays don't drift
-    timer = setTimeout(() => at(next, due), due - performance.now());
+  function render() {
+    $("phases").innerHTML = PHASES.map((list, p) => `<section class="msm-panel dk-phase"><b>P${p + 1}</b><div class="dk-attacks">` +
+      list.map(([name], i) => {
+        const now = cur && cur[0] === p && cur[1] === i, next = cur && cur[0] === p && (cur[1] + 1) % list.length === i;
+        return `<button class="dk-btn${now ? " now" : ""}${next ? " next" : ""}" type="button" data-p="${p}" data-i="${i}">${name}</button>`;
+      }).join("") + `</div></section>`).join("");
   }
 
-  function render(now) {
-    const list = PHASES[phase];
-    $("phases").innerHTML = PHASES.map((_, p) =>
-      `<button class="dk-btn${p === phase ? " on" : ""}" type="button" data-p="${p}">Phase ${p + 1}</button>`).join("");
-    $("attacks").innerHTML = list.map(([name], i) =>
-      `<button class="dk-btn${i === now ? " now" : ""}${now >= 0 && i === (now + 1) % list.length ? " next" : ""}" type="button" data-i="${i}">${name}</button>`).join("");
-  }
-
-  $("phases").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) { phase = +b.dataset.p; stop(); } });
-  $("attacks").addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (b) at(+b.dataset.i); });
+  $("phases").addEventListener("pointerdown", e => {
+    const b = e.target.closest("[data-i]"); if (!b) return;
+    clear(); land(+b.dataset.p, +b.dataset.i, performance.now());
+  });
   $("stop").addEventListener("click", stop);
-  render(-1);
+  render();
 </script>
 </body>
 </html>
