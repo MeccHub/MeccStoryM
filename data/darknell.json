@@ -1,0 +1,7 @@
+[
+ "push 5 dash 10 buff 5 fly 6",
+ "meteor 8 push 3 buff 5 dash 6 fly 5 | meteor 6 buff 4 push 5 fly 6 dash 7 | meteor 9 push 6 dash 6 buff 10 fly 5",
+ "fly 5 buff 2 charge 9 push 5 dash 6 meteor 5 | fly 5 buff 3 dash 6 push 5 charge 10 meteor 3",
+ "fly 5 meteor 3 push 5 dash 9 fly 6 | buff 5 charge 9 meteor 3 push 3 dash 10 buff 4",
+ "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 | meteor 3 push 6 buff 2 charge 9 dash 7 fly 5"
+]
