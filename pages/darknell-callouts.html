@@ -49,14 +49,15 @@
 
 <script src="../assets/js/site-nav.js"></script>
 <script>
-  // Each phase loops. [attack, seconds until the next attack].
-  // shortcut: every delay is a 5s placeholder until the real timings are measured.
+  // "attack seconds-until-next ...". Phase 0 runs once into phase 1; the others loop.
   const PHASES = [
-    "meteor push buff dash fly meteor buff push fly dash meteor push dash buff fly",
-    "fly buff charge push dash meteor fly buff dash push charge meteor",
-    "fly meteor push dash fly buff charge meteor push dash buff",
-    "meteor buff push dash charge fly meteor push buff charge dash fly"
-  ].map(s => s.split(" ").map(name => [name, 5]));
+    "push 5 dash 10 buff 5 fly 6",
+    "meteor 8 push 3 buff 5 dash 6 fly 5 meteor 6 buff 4 push 5 fly 6 dash 7 meteor 9 push 6 dash 6 buff 10 fly 5",
+    "fly 5 buff 2 charge 9 push 5 dash 6 meteor 5 fly 5 buff 3 dash 6 push 5 charge 10 meteor 3",
+    "fly 5 meteor 3 push 5 dash 9 fly 6 buff 5 charge 9 push 6 dash 10 buff 4",
+    "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 meteor 3 push 6 buff 2 charge 9 dash 5 fly 5"
+  ].map(s => s.match(/\w+ \d+/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
+  const nx = ([p, i]) => p === 0 && i === PHASES[0].length - 1 ? [1, 0] : [p, (i + 1) % PHASES[p].length];
   const LEAD = 1.5, BIG = ["fly", "meteor", "charge"];
   const cap = s => s[0].toUpperCase() + s.slice(1);
 
@@ -76,22 +77,23 @@
 
   // Attack i of phase p lands at time t: show it and schedule the callouts for the next one.
   function land(p, i, t) {
-    const list = PHASES[p], n = (i + 1) % list.length, nn = (n + 1) % list.length;
-    const name = list[n][0], tn = t + list[i][1] * 1000; // chain from scheduled times so delays don't drift
+    const [np, n] = nx([p, i]), nn = nx([np, n]);
+    const name = PHASES[np][n][0], after = PHASES[nn[0]][nn[1]][0];
+    const tn = t + PHASES[p][i][1] * 1000; // chain from scheduled times so delays don't drift
     cur = [p, i]; render();
-    $("status").innerHTML = `Now: ${cap(list[i][0])} · Next: <b>${cap(name)}</b> in ${list[i][1]}s`;
+    $("status").innerHTML = `Now: ${cap(PHASES[p][i][0])} · Next: <b>${cap(name)}</b> in ${PHASES[p][i][1]}s`;
     if (name === "fly") {
       at(tn - 3000, () => say("Fly in 3")); at(tn - 2000, () => say("2")); at(tn - 1000, () => say("1"));
     } else {
-      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(list[nn][0]) ? " then " + cap(list[nn][0]) + (list[nn][0] === "fly" ? " in " + Math.floor(LEAD + list[n][1]) : list[nn][0] === "charge" ? ", face him left" : "") : "")));
+      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(after) ? " then " + cap(after) + (after === "fly" ? " in " + Math.floor(LEAD + PHASES[np][n][1]) : after === "charge" ? ", face him left" : "") : "")));
     }
-    at(tn, () => { if (name === "fly") say("Fly"); land(p, n, tn); });
+    at(tn, () => { if (name === "fly") say("Fly"); land(np, n, tn); });
   }
 
   function render() {
-    $("phases").innerHTML = PHASES.map((list, p) => `<section class="msm-panel dk-phase"><b>P${p + 1}</b><div class="dk-attacks">` +
+    $("phases").innerHTML = PHASES.map((list, p) => `<section class="msm-panel dk-phase"><b>P${p}</b><div class="dk-attacks">` +
       list.map(([name], i) => {
-        const now = cur && cur[0] === p && cur[1] === i, next = cur && cur[0] === p && (cur[1] + 1) % list.length === i;
+        const now = cur && cur[0] === p && cur[1] === i, next = cur && String(nx(cur)) === String([p, i]);
         return `<button class="dk-btn${now ? " now" : ""}${next ? " next" : ""}" type="button" data-p="${p}" data-i="${i}">${name}</button>`;
       }).join("") + `</div></section>`).join("");
   }
