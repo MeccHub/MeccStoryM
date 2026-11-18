@@ -51,7 +51,7 @@
 <main class="msm-page dk-grid">
   <section class="msm-panel">
     <h1 class="msm-section-title">Darknell Callouts</h1>
-    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Tap the attack Darknell is doing right now. Callouts come ~1.5s early; Fly gets a 3-2-1 countdown. Tap again any time to resync.</p>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Tap the attack Darknell is doing right now. Callouts come ~1.5s early; Fly gets a 3-2-1 countdown. Tap again any time to resync. Keys: Space = next phase, Enter = next pattern row.</p>
     <p class="dk-status" id="status">Stopped.</p>
     <div class="dk-bar"><i id="bar"></i></div>
     <button class="dk-btn dk-stop" id="stop" type="button">Stop</button>
@@ -72,11 +72,14 @@
   // "attack seconds-until-next ...". Phase 0 runs once into phase 1; the others loop.
   const PHASES = [
     "push 5 dash 10 buff 5 fly 6",
-    "meteor 8 push 3 buff 5 dash 6 fly 5 meteor 6 buff 4 push 5 fly 6 dash 7 meteor 9 push 6 dash 6 buff 10 fly 5",
-    "fly 5 buff 2 charge 9 push 5 dash 6 meteor 5 fly 5 buff 3 dash 6 push 5 charge 10 meteor 3",
-    "fly 5 meteor 3 push 5 dash 9 fly 6 buff 5 charge 9 meteor 3 push 3 dash 10 buff 4",
-    "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 meteor 3 push 6 buff 2 charge 9 dash 7 fly 5"
-  ].map(s => s.match(/\w+ \d+/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
+    "meteor 8 push 3 buff 5 dash 6 fly 5 | meteor 6 buff 4 push 5 fly 6 dash 7 | meteor 9 push 6 dash 6 buff 10 fly 5",
+    "fly 5 buff 2 charge 9 push 5 dash 6 meteor 5 | fly 5 buff 3 dash 6 push 5 charge 10 meteor 3",
+    "fly 5 meteor 3 push 5 dash 9 fly 6 | buff 5 charge 9 meteor 3 push 3 dash 10 buff 4",
+    "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 | meteor 3 push 6 buff 2 charge 9 dash 7 fly 5"
+  ].map(s => s.split("|").map(row => row.match(/\w+ \d+/g)));
+  // Index where each pattern row starts, for the Enter key.
+  const ROWS = PHASES.map(rows => rows.reduce((a, r) => a.concat(a[a.length - 1] + r.length), [0]).slice(0, -1));
+  PHASES.forEach((rows, p) => PHASES[p] = rows.flat().map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
   const nx = ([p, i]) => p === 0 && i === PHASES[0].length - 1 ? [1, 0] : [p, (i + 1) % PHASES[p].length];
   const LEAD = 1.5, REACT = 1, BIG = ["fly", "meteor", "charge"];
   const cap = s => s[0].toUpperCase() + s.slice(1);
@@ -131,6 +134,15 @@
     clear(); land(+b.dataset.p, +b.dataset.i, performance.now() - REACT * 1000); // tap lands a beat after the attack started
   });
   $("stop").addEventListener("click", stop);
+  // Space: next phase starts now. Enter: next pattern row of this phase starts now.
+  document.addEventListener("keydown", e => {
+    if (e.target.closest?.("select, input") || (e.key !== " " && e.key !== "Enter")) return;
+    e.preventDefault();
+    if (e.key === " ") { const p = cur ? (cur[0] % 4) + 1 : 0; clear(); land(p, 0, performance.now()); return; }
+    if (!cur) return;
+    const rows = ROWS[cur[0]], i = rows.find(r => r > cur[1]) ?? rows[0];
+    clear(); land(cur[0], i, performance.now());
+  });
   render();
 
   const KEY = "msm_darknell_voice";
