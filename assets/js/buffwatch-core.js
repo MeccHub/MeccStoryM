@@ -127,3 +127,24 @@ export function step(state, seen, now, { debounce, grace }) {
   state.on = seen; state.streak = 0;
   return true;
 }
+
+/**
+ * Spoken alerts for one buff after this frame. `change` is "on"/"off" when the debounced state just flipped.
+ * Modes: "off" = say when it ends; "cooldown" = say "ready" `cooldown` s after it turned on;
+ * "keep" = must always be on, nag every `repeat` s while missing; "appear" = say its name when it shows up (boss debuffs).
+ * `t` holds this buff's timers between frames.
+ */
+export function timerAlerts(b, t, on, change, now) {
+  const out = [];
+  if (b.mode === "off" && change === "off") out.push(`${b.name} off`);
+  if (b.mode === "appear" && change === "on") out.push(b.name);
+  if (b.mode === "cooldown") {
+    if (change === "on") { t.readyAt = now + b.cooldown * 1000; t.endAt = now + b.duration * 1000; }
+    if (t.readyAt && now >= t.readyAt) { out.push(`${b.name} ready`); t.readyAt = 0; }
+  }
+  if (b.mode === "keep") {
+    if (on) t.nagAt = 0;
+    else if (now - (t.nagAt || 0) >= b.repeat * 1000) { out.push(`${b.name} missing`); t.nagAt = now; }
+  }
+  return out;
+}
