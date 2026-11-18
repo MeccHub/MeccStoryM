@@ -78,7 +78,7 @@
   fetch("../data/darknell.json").then(r => r.json()).then(lines => { PHASES = parse(lines); render(); });
 
   // Discord bot link: the page posts taps to the relay and Meccbot speaks them in voice.
-  const RELAY = "https://darknell-relay.mecchub.workers.dev";
+  const RELAY = "https://darknell-relay.meccstorym-roster.workers.dev";
   let botCode = "", botOn = false;
   function send(msg) {
     if (!botCode) return;
