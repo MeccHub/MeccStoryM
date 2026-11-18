@@ -31,8 +31,10 @@
   }
   .dk-bar { height: 14px; margin-top: 8px; border-radius: 999px; background: var(--msm-soft); overflow: hidden; }
   .dk-bar i { display: block; height: 100%; width: 0; background: #8b5cf6; }
-  .dk-bar i.fly { background: #ef4444; }
-  .dk-bar i.meteor, .dk-bar i.charge { background: #f59e0b; }
+  .dk-attacks .dk-btn { position: relative; overflow: hidden; isolation: isolate; }
+  .dk-fill { position: absolute; inset: 0 auto 0 0; width: 0; z-index: -1; background: #8b5cf6; opacity: .45; }
+  .dk-bar i.fly, .dk-fill.fly { background: #ef4444; }
+  .dk-bar i.meteor, .dk-bar i.charge, .dk-fill.meteor, .dk-fill.charge { background: #f59e0b; }
   .dk-status { margin: 10px 0 0; font-weight: 700; color: var(--msm-muted); }
   .dk-status b { color: var(--msm-ink); font-size: 20px; text-transform: capitalize; }
 </style>
@@ -90,7 +92,10 @@
     $("status").innerHTML = `Now: ${cap(PHASES[p][i][0])} · Next: <b>${cap(name)}</b> in ${PHASES[p][i][1]}s`;
     const bar = $("bar"), len = PHASES[p][i][1] * 1000;
     bar.className = name; bar.getAnimations().forEach(a => a.cancel());
-    bar.animate([{ width: "0%" }, { width: "100%" }], { duration: len, delay: tn - len - performance.now(), fill: "forwards" });
+    const fill = document.createElement("i"), anim = { duration: len, delay: tn - len - performance.now(), fill: "forwards" };
+    fill.className = "dk-fill " + name;
+    document.querySelector(".dk-btn.next")?.prepend(fill);
+    [bar, fill].forEach(el => el.animate([{ width: "0%" }, { width: "100%" }], anim));
     if (name === "fly") {
       at(tn - 3000, () => say("Fly in 3"), true); at(tn - 2000, () => say("2"), true); at(tn - 1000, () => say("1"), true);
     } else {
