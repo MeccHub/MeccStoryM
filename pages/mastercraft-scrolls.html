@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky Scroll Calculator - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .mc-grid { display: grid; gap: 16px; }
+  .mc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .mc-field { display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: 14px; color: var(--msm-ink); }
+  .mc-field input, .mc-field select {
+    font: inherit; font-weight: 600; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: var(--msm-ink);
+  }
+  .mc-hint { font-size: 12px; font-weight: 500; color: #5a5a7a; }
+  .mc-sub { margin: 0 0 10px; font-family: "Fredoka One", "Nunito", sans-serif; font-size: 18px; color: var(--msm-ink); }
+  .mc-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .mc-stat { background: #f1f5f9; border-radius: 10px; padding: 12px 14px; }
+  .mc-stat b { display: block; font-size: 22px; color: var(--msm-ink); }
+  .mc-stat span { font-size: 13px; color: #5a5a7a; font-weight: 600; }
+  .mc-stat.good { background: #dcfce7; }
+  .mc-table-wrap { overflow-x: auto; }
+  table.mc-table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--msm-ink); }
+  .mc-table th, .mc-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; text-align: right; white-space: nowrap; }
+  .mc-table th:first-child, .mc-table td:first-child { text-align: left; }
+  .mc-table th { background: #f8fafc; font-weight: 800; }
+  .mc-table tr.is-current td { background: #fef9c3; }
+  .mc-tag { display: inline-block; padding: 1px 7px; border-radius: 999px; background: #ede9fe; color: #5b21b6; font-weight: 700; font-size: 12px; margin-right: 3px; }
+  .mc-tag.none { background: #e2e8f0; color: #475569; }
+  .mc-cheap { color: #15803d; font-weight: 800; }
+  .mc-notes { font-size: 13px; line-height: 1.5; color: #5a5a7a; margin: 0; padding-left: 18px; }
+</style>
+</head>
+<body data-nav-active="mastercraft">
+<div id="site-nav"></div>
+
+<main class="msm-page mc-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Lucky Scroll Calculator</h1>
+    <p class="msm-muted" style="margin-top:0">Absolab → Arcane Umbra mastercraft. Enter the scroll prices you see on the market and it tells you which scrolls (if any) to use on each attempt to minimize expected total cost. All amounts are in billions of mesos (b).</p>
+    <div class="mc-inputs">
+      <label class="mc-field">Equipment
+        <select id="equip">
+          <option value="0.4">Cape / Shoulder (0.40b)</option>
+          <option value="1.5">Gloves / Shoes (1.50b)</option>
+          <option value="0.03">Hat / Outfit (0.03b)</option>
+          <option value="4">Weapon (4.00b)</option>
+        </select>
+      </label>
+      <label class="mc-field">Meso fee per attempt (b)
+        <input id="attempt" type="number" min="0" step="0.01">
+      </label>
+      <label class="mc-field">Crystal price (b each)
+        <input id="crystal" type="number" min="0" step="0.05" value="0">
+        <span class="mc-hint">Arachno / Necros crystal</span>
+      </label>
+      <label class="mc-field">Crystals per attempt
+        <input id="crystals" type="number" min="0" step="1" value="1">
+      </label>
+      <label class="mc-field">Reduction price (b)
+        <input id="reduction" type="number" min="0" step="0.05" value="3.25">
+        <span class="mc-hint">Usually 3.0–3.5b</span>
+      </label>
+      <label class="mc-field">Base success (%)
+        <input id="base" type="number" min="0.1" max="100" step="0.5" value="10">
+      </label>
+      <label class="mc-field">Bonus per 5 fails (%)
+        <input id="failbonus" type="number" min="0" step="0.5" value="2">
+        <span class="mc-hint">Stacks, no cap</span>
+      </label>
+      <label class="mc-field">Failures so far
+        <input id="fails" type="number" min="0" step="1" value="0">
+        <span class="mc-hint">First 5 attempts are free of reductions</span>
+      </label>
+    </div>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="mc-sub">Scroll prices (b each)</h2>
+    <p class="msm-muted" style="margin-top:0;font-size:13px">Leave blank if you can't buy that scroll. Up to two scrolls per attempt; they're consumed either way and add to the base rate.</p>
+    <div class="mc-inputs" id="prices"></div>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="mc-sub">Result from your current state</h2>
+    <div class="mc-summary" id="summary"></div>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="mc-sub">Best plan for the next attempts</h2>
+    <div class="mc-table-wrap"><table class="mc-table" id="plan"></table></div>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="mc-sub">Break-even price per scroll</h2>
+    <p class="msm-muted" style="margin-top:0;font-size:13px">Most you should pay for one scroll on that attempt, assuming you use no scrolls afterwards. Green = your price is below break-even. Two identical scrolls are worth roughly 2× each.</p>
+    <div class="mc-table-wrap"><table class="mc-table" id="breakeven"></table></div>
+  </section>
+
+  <section class="msm-panel">
+    <ul class="mc-notes">
+      <li>Five attempts are free; after five failures each attempt needs a reduction first.</li>
+      <li>Each attempt costs the meso fee plus its crystals. Every 5 failures adds the fail bonus to the success rate, stacking with no cap.</li>
+      <li>"Best plan" is a full dynamic-programming optimum: it accounts for using scrolls on later attempts too, so it can differ from the break-even table.</li>
+      <li>Everything is expected value. Real costs swing a lot with luck.</li>
+    </ul>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+(function () {
+  const BONUSES = [3, 5, 7, 10, 15];
+  const STORE = "msm_mastercraft_scrolls";
+  const $ = id => document.getElementById(id);
+
+  $("prices").innerHTML = BONUSES.map(b =>
+    `<label class="mc-field">+${b}% scroll<input type="number" min="0" step="0.05" data-bonus="${b}" placeholder="not available"></label>`
+  ).join("");
+  const priceInputs = [...document.querySelectorAll("[data-bonus]")];
+  const allInputs = ["equip", "attempt", "crystal", "crystals", "reduction", "base", "failbonus", "fails"].map($).concat(priceInputs);
+
+  function load() {
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) {}
+    allInputs.forEach(el => {
+      const key = el.id || "p" + el.dataset.bonus;
+      if (saved[key] != null) el.value = saved[key];
+    });
+    if (!$("attempt").value) $("attempt").value = $("equip").value;
+  }
+
+  function save() {
+    const data = {};
+    allInputs.forEach(el => { data[el.id || "p" + el.dataset.bonus] = el.value; });
+    try { localStorage.setItem(STORE, JSON.stringify(data)); } catch (e) {}
+  }
+
+  function num(el, fallback) {
+    const v = parseFloat(el.value);
+    return Number.isFinite(v) && v >= 0 ? v : fallback;
+  }
+
+  const fmt = v => Number.isFinite(v) ? v.toFixed(2) + "b" : "—";
+  const pct = v => +(v * 100).toFixed(1) + "%";
+
+  // Every allowed scroll combo: none, one scroll, or two (same or different).
+  function combos(scrolls) {
+    const list = [{ scrolls: [], bonus: 0, price: 0 }];
+    scrolls.forEach((a, i) => {
+      list.push({ scrolls: [a], bonus: a.bonus, price: a.price });
+      for (let j = i; j < scrolls.length; j++) {
+        const b = scrolls[j];
+        list.push({ scrolls: [a, b], bonus: a.bonus + b.bonus, price: a.price + b.price });
+      }
+    });
+    return list;
+  }
+
+  const SHOW = 15; // attempts listed in the tables
+
+  // V[f] = expected remaining cost after f failures. Success rate grows by the fail bonus every
+  // 5 failures, so solve backwards from the failure count where the base rate alone reaches 100%.
+  function solve(A, R, p0, step, list) {
+    const rate = f => p0 + step * Math.floor(f / 5);
+    let F = 0;
+    while (rate(F) < 1 && F < 100000) F += step > 0 ? 5 : 1;
+    if (rate(F) < 1) F = 3000; // no fail bonus: rate is flat, so V converges; iterate far enough
+    const V = new Array(F + 2).fill(0), best = [];
+    V[F + 1] = 0;
+    for (let f = F; f >= 0; f--) {
+      const fee = A + (f >= 5 ? R : 0);
+      const next = f === F && rate(F) < 1 ? null : V[f + 1];
+      let vf = Infinity, bf = null;
+      list.forEach(c => {
+        const p = Math.min(1, rate(f) + c.bonus);
+        // At the horizon with a flat rate, use the stationary value fee/p instead of V[f+1].
+        const v = next === null ? (fee + c.price) / p : fee + c.price + (1 - p) * next;
+        if (v < vf - 1e-12) { vf = v; bf = c; }
+      });
+      V[f] = vf; best[f] = bf;
+    }
+    return { V, best, rate };
+  }
+
+  const failLabel = f => f < 5 ? `Attempt ${f + 1} (free)` : `Attempt ${f + 1} (+reduction)`;
+  const comboHtml = c => c.scrolls.length
+    ? c.scrolls.map(x => `<span class="mc-tag">+${Math.round(x.bonus * 100)}%</span>`).join("")
+    : `<span class="mc-tag none">No scrolls</span>`;
+
+  function render() {
+    const A = num($("attempt"), 0) + num($("crystal"), 0) * num($("crystals"), 1);
+    const R = num($("reduction"), 3.25);
+    const p0 = Math.min(1, Math.max(0.001, num($("base"), 10) / 100));
+    const step = num($("failbonus"), 2) / 100;
+    const start = Math.floor(num($("fails"), 0));
+    const scrolls = priceInputs
+      .filter(el => el.value !== "" && num(el, null) !== null)
+      .map(el => ({ bonus: +el.dataset.bonus / 100, price: num(el, 0) }));
+
+    const opt = solve(A, R, p0, step, combos(scrolls));
+    const none = solve(A, R, p0, step, combos([]));
+    const at = (r, f) => r.V[Math.min(f, r.V.length - 2)];
+    const pick = (r, f) => r.best[Math.min(f, r.best.length - 1)];
+    const saved = at(none, start) - at(opt, start);
+
+    $("summary").innerHTML = `
+      <div class="mc-stat"><span>Cost per attempt (fee + crystals)</span><b>${fmt(A)}</b></div>
+      <div class="mc-stat"><span>Expected cost, no scrolls</span><b>${fmt(at(none, start))}</b></div>
+      <div class="mc-stat ${saved > 0.005 ? "good" : ""}"><span>Expected cost, best plan</span><b>${fmt(at(opt, start))}</b></div>
+      <div class="mc-stat"><span>Expected saving</span><b>${fmt(saved)}</b></div>
+      <div class="mc-stat"><span>Use on this attempt</span><b style="font-size:16px">${comboHtml(pick(opt, start))}</b></div>`;
+
+    const rows = Array.from({ length: SHOW }, (_, i) => start + i);
+    $("plan").innerHTML = `<tr><th>Attempt</th><th>Base rate</th><th>Use</th><th>Success</th><th>Scroll spend</th><th>Exp. cost from here</th><th>No-scroll cost</th></tr>` +
+      rows.map(f => {
+        const c = pick(opt, f);
+        return `<tr class="${f === start ? "is-current" : ""}"><td>${failLabel(f)}</td><td>${pct(Math.min(1, opt.rate(f)))}</td><td>${comboHtml(c)}</td>
+          <td>${pct(Math.min(1, opt.rate(f) + c.bonus))}</td><td>${fmt(c.price)}</td><td>${fmt(at(opt, f))}</td><td>${fmt(at(none, f))}</td></tr>`;
+      }).join("");
+
+    // Break-even vs a no-scroll future: added success x expected cost of continuing after this attempt fails.
+    const priceOf = b => { const s = scrolls.find(x => Math.abs(x.bonus - b / 100) < 1e-9); return s ? s.price : null; };
+    $("breakeven").innerHTML = `<tr><th>Attempt</th>${BONUSES.map(b => `<th>+${b}%</th>`).join("")}</tr>` +
+      rows.map(f => {
+        const base = Math.min(1, none.rate(f));
+        return `<tr class="${f === start ? "is-current" : ""}"><td>${failLabel(f)}</td>${BONUSES.map(b => {
+          const be = Math.max(0, Math.min(b / 100, 1 - base)) * at(none, f + 1);
+          const price = priceOf(b);
+          return `<td class="${price !== null && price < be ? "mc-cheap" : ""}">${fmt(be)}</td>`;
+        }).join("")}</tr>`;
+      }).join("");
+  }
+
+  load();
+  $("equip").addEventListener("change", () => { $("attempt").value = $("equip").value; save(); render(); });
+  allInputs.forEach(el => el.addEventListener("input", () => { save(); render(); }));
+  render();
+})();
+</script>
+</body>
+</html>

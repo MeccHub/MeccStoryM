@@ -6,16 +6,13 @@
 
   const defaultItems = [
     { id: "home", label: "Home", icon: "🏠", href: "index.html#home" },
-    { id: "bossing", label: "Bossing Planner", icon: "🗓️", href: "boss-signups.html" },
-    { id: "events", label: "Events", icon: "🎉", href: "index.html#events" },
     { id: "resets", label: "Resets", icon: "⏰", href: "index.html#resets" },
-    { id: "guides", label: "Guides", icon: "🧭", href: "index.html#guides" },
-    { id: "info", label: "FAQ", icon: "📚", href: "index.html#info" },
-    { id: "newbie", label: "Newbie FAQ", icon: "🌱", href: "index.html#newbie" },
+    { id: "events", label: "Events", icon: "🎉", href: "index.html#events" },
+    { id: "bossing", label: "Bossing Planner", icon: "🗓️", href: "boss-signups.html" },
     { id: "dmg", label: "DMG Calculator", icon: "💥", href: "index.html#dmg" },
-    { id: "mdc", label: "MDC Checker", icon: "🎯", href: "index.html#mdc" },
-    { id: "meso", label: "Meso/hr", icon: "💰", href: "index.html#meso" },
-    { id: "links", label: "Links", icon: "🔗", href: "index.html#links" }
+    { id: "mastercraft", label: "Lucky Scrolls", icon: "🍀", href: "pages/mastercraft-scrolls.html" },
+    { id: "guides", label: "Guides", icon: "🧭", href: "index.html#guides" },
+    { id: "info", label: "FAQ", icon: "📚", href: "index.html#info" }
   ];
 
   const config = window.MSM_SITE || {};
