@@ -40,6 +40,8 @@
   .dk-set[open] { display: grid; gap: 8px; margin: 8px 0 0; max-width: 360px; }
   .dk-set label { display: grid; grid-template-columns: 70px 1fr; align-items: center; font-weight: 700; color: var(--msm-ink); }
   .dk-set select { font: inherit; padding: 6px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); min-width: 0; }
+  .dk-bot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; font-weight: 700; }
+  .dk-bot input { width: 100px; font: 700 15px "Nunito", sans-serif; text-transform: uppercase; padding: 8px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); }
   .dk-status { margin: 10px 0 0; font-weight: 700; color: var(--msm-muted); }
   .dk-status b { color: var(--msm-ink); font-size: 20px; text-transform: capitalize; }
 </style>
@@ -53,6 +55,7 @@
     <h1 class="msm-section-title">Darknell Callouts</h1>
     <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Tap the attack Darknell is doing right now. Callouts come ~1.5s early; Fly gets a 3-2-1 countdown. Tap again any time to resync. Keys: Space = next phase, Enter = next attack.</p>
     <p class="dk-status" id="status">Stopped.</p>
+    <div class="dk-bot"><input id="botCode" maxlength="6" placeholder="Bot code" aria-label="Discord bot code"><button class="dk-btn" id="botGo" type="button">Connect</button> <span id="botState" class="msm-muted"></span></div>
     <div class="dk-bar"><i id="bar"></i></div>
     <button class="dk-btn dk-stop" id="stop" type="button">Stop</button>
     <details class="dk-set">
@@ -70,14 +73,26 @@
 <script src="../assets/js/site-nav.js"></script>
 <script>
   // "attack seconds-until-next ...". Phase 0 runs once into phase 1; the others loop.
-  const PHASES = [
-    "push 5 dash 10 buff 5 fly 6",
-    "meteor 8 push 3 buff 5 dash 6 fly 5 | meteor 6 buff 4 push 5 fly 6 dash 7 | meteor 9 push 6 dash 6 buff 10 fly 5",
-    "fly 5 buff 2 charge 9 push 5 dash 6 meteor 5 | fly 5 buff 3 dash 6 push 5 charge 10 meteor 3",
-    "fly 5 meteor 3 push 5 dash 9 fly 6 | buff 5 charge 9 meteor 3 push 3 dash 10 buff 4",
-    "meteor 3 buff 4 push 5 dash 10 charge 10 fly 5 | meteor 3 push 6 buff 2 charge 9 dash 7 fly 5"
-  ].map(s => s.split("|").map(row => row.match(/\w+ \d+/g)));
-  PHASES.forEach((rows, p) => PHASES[p] = rows.flat().map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
+  let PHASES = [];
+  const parse = lines => lines.map(s => s.match(/\w+ \d+/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
+  fetch("../data/darknell.json").then(r => r.json()).then(lines => { PHASES = parse(lines); render(); });
+
+  // Discord bot link: the page posts taps to the relay and Meccbot speaks them in voice.
+  const RELAY = "https://darknell-relay.mecchub.workers.dev";
+  let botCode = "", botOn = false;
+  function send(msg) {
+    if (!botCode) return;
+    fetch(`${RELAY}/room/${botCode}`, { method: "POST", body: JSON.stringify(msg) })
+      .then(r => r.json()).then(j => setBot(j.bots > 0)).catch(() => setBot(false));
+  }
+  function setBot(on) {
+    botOn = on;
+    $("botState").textContent = !botCode ? "" : on ? "🔊 Bot connected: it speaks for everyone." : "⚠️ Bot not found. Check the code from /audio darknell.";
+  }
+  function connect(code) {
+    botCode = /^[A-Z0-9]{6}$/.test(code) ? code : ""; $("botCode").value = botCode;
+    setBot(false); send({ t: "hello" });
+  }
   const nx = ([p, i]) => p === 0 && i === PHASES[0].length - 1 ? [1, 0] : [p, (i + 1) % PHASES[p].length];
   const LEAD = 1.5, REACT = 1, BIG = ["fly", "meteor", "charge"];
   const cap = s => s[0].toUpperCase() + s.slice(1);
@@ -87,6 +102,7 @@
 
   function say(text) {
     speechSynthesis.cancel();
+    if (botOn) return;
     const u = new SpeechSynthesisUtterance(text);
     u.voice = speechSynthesis.getVoices().find(v => v.voiceURI === cfg.voice) || null;
     u.rate = cfg.rate; u.pitch = cfg.pitch; u.volume = cfg.volume;
@@ -96,7 +112,7 @@
   const at = (t, fn, dropLate) => { if (!(dropLate && t < performance.now())) timers.push(setTimeout(fn, t - performance.now())); };
   function clear() { timers.forEach(clearTimeout); timers = []; speechSynthesis.cancel(); }
 
-  function stop() { clear(); cur = null; $("bar").getAnimations().forEach(a => a.cancel()); render(); $("status").textContent = "Stopped."; }
+  function stop() { send({ t: "stop" }); clear(); cur = null; $("bar").getAnimations().forEach(a => a.cancel()); render(); $("status").textContent = "Stopped."; }
 
   // Attack i of phase p lands at time t: show it and schedule the callouts for the next one.
   function land(p, i, t) {
@@ -129,19 +145,20 @@
 
   $("phases").addEventListener("pointerdown", e => {
     const b = e.target.closest("[data-i]"); if (!b) return;
-    clear(); land(+b.dataset.p, +b.dataset.i, performance.now() - REACT * 1000); // tap lands a beat after the attack started
+    clear(); land(+b.dataset.p, +b.dataset.i, performance.now() - REACT * 1000); send({ t: "land", p: +b.dataset.p, i: +b.dataset.i, ago: REACT * 1000 }); // tap lands a beat after the attack started
   });
   $("stop").addEventListener("click", stop);
   // Space: next phase starts now. Enter: the next attack starts now.
   document.addEventListener("keydown", e => {
-    if (e.target.closest?.("select, input") || (e.key !== " " && e.key !== "Enter")) return;
+    if (!PHASES.length || e.target.closest?.("select, input") || (e.key !== " " && e.key !== "Enter")) return;
     e.preventDefault();
-    if (e.key === " ") { const p = cur ? (cur[0] % 4) + 1 : 0; clear(); land(p, 0, performance.now()); return; }
+    if (e.key === " ") { const p = cur ? (cur[0] % 4) + 1 : 0; clear(); land(p, 0, performance.now()); send({ t: "land", p, i: 0, ago: 0 }); return; }
     if (!cur) return;
     const [p, i] = nx(cur);
-    clear(); land(p, i, performance.now());
+    clear(); land(p, i, performance.now()); send({ t: "land", p, i, ago: 0 });
   });
-  render();
+  $("botGo").addEventListener("click", () => connect($("botCode").value.trim().toUpperCase()));
+  if (location.hash.length > 1) connect(location.hash.slice(1).toUpperCase());
 
   const KEY = "msm_darknell_voice";
   const cfg = Object.assign({ voice: "", rate: 1.2, pitch: 1, volume: 1 }, (() => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) {} })());
