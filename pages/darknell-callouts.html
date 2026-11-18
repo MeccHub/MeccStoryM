@@ -57,7 +57,7 @@
     "fly meteor push dash fly buff charge meteor push dash buff",
     "meteor buff push dash charge fly meteor push buff charge dash fly"
   ].map(s => s.split(" ").map(name => [name, 5]));
-  const LEAD = 1.5, BIG = ["fly", "meteor"];
+  const LEAD = 1.5, BIG = ["fly", "meteor", "charge"];
   const cap = s => s[0].toUpperCase() + s.slice(1);
 
   let timers = [], cur = null;
@@ -83,7 +83,7 @@
     if (name === "fly") {
       at(tn - 3000, () => say("Fly in 3")); at(tn - 2000, () => say("2")); at(tn - 1000, () => say("1"));
     } else {
-      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(list[nn][0]) ? " then " + cap(list[nn][0]) + (list[nn][0] === "fly" ? " in " + Math.floor(LEAD + list[n][1]) : "") : "")));
+      at(tn - LEAD * 1000, () => say(cap(name) + (BIG.includes(list[nn][0]) ? " then " + cap(list[nn][0]) + (list[nn][0] === "fly" ? " in " + Math.floor(LEAD + list[n][1]) : list[nn][0] === "charge" ? ", face him left" : "") : "")));
     }
     at(tn, () => { if (name === "fly") say("Fly"); land(p, n, tn); });
   }
