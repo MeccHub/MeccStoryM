@@ -9,17 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/site.css">
 <style>
-  .mc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .mc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .mc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .mc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
   .mc-field { display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: 14px; color: var(--msm-ink); }
   .mc-field input, .mc-field select {
     font: inherit; font-weight: 600; padding: 8px 10px; border: 1px solid var(--msm-field-line); border-radius: 8px; background: var(--msm-field); color: var(--msm-ink);
   }
-  .mc-hint { font-size: 12px; font-weight: 500; color: var(--msm-muted); }
   .mc-sub { margin: 0 0 10px; font-family: "Fredoka One", "Nunito", sans-serif; font-size: 18px; color: var(--msm-ink); }
   .mc-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-  .mc-stat { background: var(--msm-soft); border-radius: 10px; padding: 12px 14px; }
-  .mc-stat b { display: block; font-size: 22px; color: var(--msm-ink); }
+  .mc-stat { background: var(--msm-soft); border-radius: 10px; padding: 8px 12px; }
+  .mc-stat b { display: block; font-size: 18px; color: var(--msm-ink); }
   .mc-stat span { font-size: 13px; color: var(--msm-muted); font-weight: 600; }
   .mc-stat.good { background: rgba(34,197,94,0.18); }
   .mc-table-wrap { overflow-x: auto; }
@@ -31,7 +30,6 @@
   .mc-tag { display: inline-block; padding: 1px 7px; border-radius: 999px; background: #ede9fe; color: #5b21b6; font-weight: 700; font-size: 12px; margin-right: 3px; }
   .mc-tag.none { background: #e2e8f0; color: #475569; }
   .mc-cheap { color: #15803d; font-weight: 800; }
-  .mc-notes { font-size: 13px; line-height: 1.5; color: var(--msm-muted); margin: 0; padding-left: 18px; }
 </style>
 </head>
 <body data-nav-active="mastercraft">
@@ -41,73 +39,48 @@
 <main class="msm-page mc-grid">
   <section class="msm-panel">
     <h1 class="msm-section-title">Mastercraft Scroll Breakeven</h1>
-    <p class="msm-muted" style="margin-top:0">Absolab → Arcane Umbra mastercraft. Enter the scroll prices you see on the market and it tells you which scrolls (if any) to use on each attempt to minimize expected total cost. All amounts are in billions of mesos (b).</p>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Any mastercraft (Mythic → Necro, Ancient, Absolab → Arcane Umbra…). Enter prices and it picks which lucky scrolls to use on each attempt for the lowest expected cost. Amounts in billions (b).</p>
     <div class="mc-inputs">
       <label class="mc-field">Equipment
         <select id="equip">
-          <option value="0.4">Cape / Shoulder (0.40b)</option>
-          <option value="1.5">Gloves / Shoes (1.50b)</option>
-          <option value="0.03">Hat / Outfit (0.03b)</option>
-          <option value="4">Weapon (4.00b)</option>
+          <option value="0.4">Cape / Shoulder</option>
+          <option value="1.5">Gloves / Shoes</option>
+          <option value="0.03">Hat / Outfit</option>
+          <option value="4">Weapon</option>
         </select>
       </label>
       <label class="mc-field">Meso fee per attempt (b)
         <input id="attempt" type="number" min="0" step="0.01">
       </label>
-      <label class="mc-field">Crystal price (b each)
+      <label class="mc-field">Crystal price (b)
         <input id="crystal" type="number" min="0" step="0.05" value="0">
-        <span class="mc-hint">Arachno / Necros crystal</span>
-      </label>
-      <label class="mc-field">Crystals per attempt
-        <input id="crystals" type="number" min="0" step="1" value="1">
       </label>
       <label class="mc-field">Reduction price (b)
         <input id="reduction" type="number" min="0" step="0.05" value="3.25">
-        <span class="mc-hint">Usually 3.0–3.5b</span>
       </label>
       <label class="mc-field">Base success (%)
         <input id="base" type="number" min="0.1" max="100" step="0.5" value="10">
       </label>
       <label class="mc-field">Bonus per 5 fails (%)
         <input id="failbonus" type="number" min="0" step="0.5" value="2">
-        <span class="mc-hint">Stacks, no cap</span>
       </label>
       <label class="mc-field">Failures so far
         <input id="fails" type="number" min="0" step="1" value="0">
-        <span class="mc-hint">First 5 attempts are free of reductions</span>
       </label>
     </div>
-  </section>
-
-  <section class="msm-panel">
-    <h2 class="mc-sub">Scroll prices (b each)</h2>
-    <p class="msm-muted" style="margin-top:0;font-size:13px">Leave blank if you can't buy that scroll. Up to two scrolls per attempt; they're consumed either way and add to the base rate.</p>
+    <h2 class="mc-sub" style="margin-top:14px">Scroll prices (b each, blank = can't buy)</h2>
     <div class="mc-inputs" id="prices"></div>
   </section>
 
   <section class="msm-panel">
-    <h2 class="mc-sub">Result from your current state</h2>
     <div class="mc-summary" id="summary"></div>
-  </section>
-
-  <section class="msm-panel">
-    <h2 class="mc-sub">Best plan for the next attempts</h2>
-    <div class="mc-table-wrap"><table class="mc-table" id="plan"></table></div>
+    <div class="mc-table-wrap" style="margin-top:12px"><table class="mc-table" id="plan"></table></div>
   </section>
 
   <section class="msm-panel">
     <h2 class="mc-sub">Break-even price per scroll</h2>
-    <p class="msm-muted" style="margin-top:0;font-size:13px">Most you should pay for one scroll on that attempt, assuming you use no scrolls afterwards. Green = your price is below break-even. Two identical scrolls are worth roughly 2× each.</p>
+    <p class="msm-muted" style="margin-top:0;font-size:13px">Most to pay for one scroll on that attempt if you use none afterwards; green = your price is below it. Up to two scrolls per attempt, consumed either way. First 5 attempts need no reduction; each 5 fails adds the fail bonus. Expected values only.</p>
     <div class="mc-table-wrap"><table class="mc-table" id="breakeven"></table></div>
-  </section>
-
-  <section class="msm-panel">
-    <ul class="mc-notes">
-      <li>Five attempts are free; after five failures each attempt needs a reduction first.</li>
-      <li>Each attempt costs the meso fee plus its crystals. Every 5 failures adds the fail bonus to the success rate, stacking with no cap.</li>
-      <li>"Best plan" is a full dynamic-programming optimum: it accounts for using scrolls on later attempts too, so it can differ from the break-even table.</li>
-      <li>Everything is expected value. Real costs swing a lot with luck.</li>
-    </ul>
   </section>
 </main>
 
@@ -122,7 +95,7 @@
     `<label class="mc-field">+${b}% scroll<input type="number" min="0" step="0.05" data-bonus="${b}" placeholder="not available"></label>`
   ).join("");
   const priceInputs = [...document.querySelectorAll("[data-bonus]")];
-  const allInputs = ["equip", "attempt", "crystal", "crystals", "reduction", "base", "failbonus", "fails"].map($).concat(priceInputs);
+  const allInputs = ["equip", "attempt", "crystal", "reduction", "base", "failbonus", "fails"].map($).concat(priceInputs);
 
   function load() {
     let saved = {};
@@ -161,7 +134,7 @@
     return list;
   }
 
-  const SHOW = 15; // attempts listed in the tables
+  const SHOW = 10; // attempts listed in the tables
 
   // V[f] = expected remaining cost after f failures. Success rate grows by the fail bonus every
   // 5 failures, so solve backwards from the failure count where the base rate alone reaches 100%.
@@ -193,7 +166,7 @@
     : `<span class="mc-tag none">No scrolls</span>`;
 
   function render() {
-    const A = num($("attempt"), 0) + num($("crystal"), 0) * num($("crystals"), 1);
+    const A = num($("attempt"), 0) + num($("crystal"), 0);
     const R = num($("reduction"), 3.25);
     const p0 = Math.min(1, Math.max(0.001, num($("base"), 10) / 100));
     const step = num($("failbonus"), 2) / 100;
@@ -209,7 +182,7 @@
     const saved = at(none, start) - at(opt, start);
 
     $("summary").innerHTML = `
-      <div class="mc-stat"><span>Cost per attempt (fee + crystals)</span><b>${fmt(A)}</b></div>
+      <div class="mc-stat"><span>Cost per attempt (fee + crystal)</span><b>${fmt(A)}</b></div>
       <div class="mc-stat"><span>Expected cost, no scrolls</span><b>${fmt(at(none, start))}</b></div>
       <div class="mc-stat ${saved > 0.005 ? "good" : ""}"><span>Expected cost, best plan</span><b>${fmt(at(opt, start))}</b></div>
       <div class="mc-stat"><span>Expected saving</span><b>${fmt(saved)}</b></div>
