@@ -35,6 +35,11 @@
   .dk-fill { position: absolute; inset: 0 auto 0 0; width: 0; z-index: -1; background: #8b5cf6; opacity: .45; }
   .dk-bar i.fly, .dk-fill.fly { background: #ef4444; }
   .dk-bar i.meteor, .dk-bar i.charge, .dk-fill.meteor, .dk-fill.charge { background: #f59e0b; }
+  .dk-set { display: inline-block; margin: 8px 0 0 6px; vertical-align: top; }
+  .dk-set summary { list-style: none; display: inline-block; }
+  .dk-set[open] { display: grid; gap: 8px; margin: 8px 0 0; max-width: 360px; }
+  .dk-set label { display: grid; grid-template-columns: 70px 1fr; align-items: center; font-weight: 700; color: var(--msm-ink); }
+  .dk-set select { font: inherit; padding: 6px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); min-width: 0; }
   .dk-status { margin: 10px 0 0; font-weight: 700; color: var(--msm-muted); }
   .dk-status b { color: var(--msm-ink); font-size: 20px; text-transform: capitalize; }
 </style>
@@ -50,6 +55,14 @@
     <p class="dk-status" id="status">Stopped.</p>
     <div class="dk-bar"><i id="bar"></i></div>
     <button class="dk-btn dk-stop" id="stop" type="button">Stop</button>
+    <details class="dk-set">
+      <summary class="dk-btn">⚙️ Settings</summary>
+      <label>Voice <select id="voice"><option value="">Default</option></select></label>
+      <label>Speed <input id="rate" type="range" min="0.5" max="2" step="0.1"></label>
+      <label>Pitch <input id="pitch" type="range" min="0" max="2" step="0.1"></label>
+      <label>Volume <input id="volume" type="range" min="0" max="1" step="0.1"></label>
+      <button class="dk-btn" id="test" type="button">Test</button>
+    </details>
   </section>
   <div id="phases" class="dk-grid"></div>
 </main>
@@ -74,7 +87,8 @@
   function say(text) {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.2;
+    u.voice = speechSynthesis.getVoices().find(v => v.voiceURI === cfg.voice) || null;
+    u.rate = cfg.rate; u.pitch = cfg.pitch; u.volume = cfg.volume;
     speechSynthesis.speak(u);
   }
   // late = callout time already passed; countdown beats that are stale get dropped instead of all firing at once.
@@ -118,6 +132,23 @@
   });
   $("stop").addEventListener("click", stop);
   render();
+
+  const KEY = "msm_darknell_voice";
+  const cfg = Object.assign({ voice: "", rate: 1.2, pitch: 1, volume: 1 }, (() => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) {} })());
+  function fillVoices() {
+    $("voice").innerHTML = '<option value="">Default</option>' + speechSynthesis.getVoices()
+      .map(v => `<option value="${v.voiceURI}">${v.name} (${v.lang})</option>`).join("");
+    $("voice").value = cfg.voice;
+  }
+  fillVoices(); speechSynthesis.addEventListener("voiceschanged", fillVoices);
+  ["voice", "rate", "pitch", "volume"].forEach(k => {
+    if (k !== "voice") $(k).value = cfg[k];
+    $(k).addEventListener("input", () => {
+      cfg[k] = k === "voice" ? $(k).value : +$(k).value;
+      try { localStorage.setItem(KEY, JSON.stringify(cfg)); } catch (e) {}
+    });
+  });
+  $("test").addEventListener("click", () => say("Fly in 3"));
 </script>
 </body>
 </html>
