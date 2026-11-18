@@ -834,6 +834,7 @@ body[data-theme="dark"] .boss-name-chip {
 </style>
 </head>
 <body data-nav-active="bossing">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
 <script>
 window.MSM_SITE = {
   active: "bossing",

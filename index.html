@@ -511,7 +511,7 @@ body {
 /* ── Content area ── */
 .content {
   flex: 1;
-  padding: 36px 28px 60px;
+  padding: 16px 20px 40px;
   max-width: 1000px;
   margin: 0 auto;
   width: 100%;
@@ -2838,9 +2838,31 @@ body[data-theme="dark"] #tab-guide .gg-card {
   .hub-today-card b { font-size: 17px; }
   .hub-grid { grid-template-columns: 1fr; }
 }
+
+/* Condensed layout */
+.topbar { height: 54px; }
+.df-panel { padding: 14px 16px; margin-bottom: 12px; border-radius: 14px; }
+.df-panel-title { margin-bottom: 10px; }
+#tab-home .home-header { padding: 0 0 4px; }
+#tab-home .home-logo-icon, #tab-home .home-title { display: none; }
+#tab-home .home-sub { font-size: 13px; margin: 0; }
+#hubHome { gap: 12px; margin-top: 8px; }
+.hub-section-title { font-size: 16px; margin-bottom: 6px; }
+.hub-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.hub-card { padding: 9px 11px; gap: 10px; align-items: center; border-radius: 11px; }
+.hub-card-icon { flex-basis: 32px; height: 32px; font-size: 18px; border-radius: 8px; }
+.hub-card-name { font-size: 14px; }
+.hub-card-desc { font-size: 12px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.hub-today { gap: 8px; }
+.hub-today-card { padding: 8px 11px; border-radius: 11px; }
+.hub-today-card b { font-size: 16px; }
+.hub-search { padding: 10px 14px 10px 40px; font-size: 15px; border-radius: 11px; }
+.hub-search-icon { left: 13px; }
+.hub-today-card:last-child { grid-column: auto; }
 </style>
 </head>
 <body>
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
 
 <!-- Background -->
 <div class="sky-bg">
@@ -4284,7 +4306,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
     <section class="tab-section" id="tab-cube">
       <div class="df-panel">
         <div class="df-panel-title"><div class="df-dot dot-purple-s"></div> Cube Potential Simulator</div>
-        <iframe title="Cube Potential Simulator" src="assets/msm-potential-simulator-v04.html" style="width:100%;height:1200px;border:1px solid var(--line);border-radius:12px;background:#fff;"></iframe>
+        <iframe title="Cube Potential Simulator" src="assets/msm-potential-simulator-v04.html" style="width:100%;height:1200px;border:1px solid var(--line);border-radius:12px;"></iframe>
       </div>
     </section>
 
@@ -4786,7 +4808,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   </div><!-- /content -->
 
   <!-- ════════ RESET TRACKER (own content div, same pattern as DMG) ════════ -->
-  <div class="content" id="resets-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <div class="content" id="resets-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:16px 20px 40px;">
   <section id="tab-resets" style="display:block;">
 
     <!-- Server clock -->
@@ -4922,7 +4944,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   </div>
 
   <!-- ════════ EVENT TRACKER ════════ -->
-  <div class="content" id="events-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <div class="content" id="events-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:16px 20px 40px;">
   <section id="tab-events" style="display:block;">
 
     <div class="ev-topbar">
@@ -5020,7 +5042,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   </div>
 
   <!-- ════════ ITEM PROBABILITIES ════════ -->
-  <div class="content" id="probs-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+  <div class="content" id="probs-content" style="display:none; max-width:1100px; margin:0 auto; width:100%; padding:16px 20px 40px;">
   <section id="tab-probs" style="display:block;">
     <div class="pr-topbar">
       <div>
@@ -5052,7 +5074,7 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
   </div>
 
     <!-- ════════ DMG CALCULATOR ════════ -->
-    <div class="content" id="dmg-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:36px 28px 60px;">
+    <div class="content" id="dmg-content" style="display:none; max-width:1000px; margin:0 auto; width:100%; padding:16px 20px 40px;">
     <section class="tab-section active" id="tab-dmg" style="display:block;">
 
       <!-- Row 1: Stats input + Results -->
@@ -5176,11 +5198,11 @@ let currentTab = 'home';
    home page groups, search and "recently used".
 ================================================================ */
 const HUB_GROUPS = [
+  { id: 'info',     label: 'Guides & Info',     icon: '📚' },
   { id: 'today',    label: 'Today',             icon: '⏰' },
   { id: 'bossing',  label: 'Bossing',           icon: '⚔️' },
   { id: 'gear',     label: 'Gear & Progression', icon: '⭐' },
   { id: 'mesos',    label: 'Mesos',             icon: '💰' },
-  { id: 'info',     label: 'Guides & Info',     icon: '📚' },
   { id: 'utils',    label: 'Utilities',         icon: '🛠️' }
 ];
 const HUB_TOOLS = [
@@ -5255,7 +5277,6 @@ function hubRenderHome() {
   const root = document.getElementById('hubHome');
   if (!root) return;
   root.innerHTML = `
-    <div class="hub-today" id="hubToday" aria-live="off"></div>
     <div class="hub-search-wrap">
       <span class="hub-search-icon" aria-hidden="true">🔍</span>
       <input id="hubSearch" class="hub-search" type="search" placeholder="Search tools… (try “boss”, “cube”, “events”)" autocomplete="off" aria-label="Search tools">
@@ -5269,7 +5290,7 @@ function hubRenderHome() {
       <section class="hub-section" data-group="${g.id}">
         <h2 class="hub-section-title">${g.icon} ${hubEsc(g.label)}</h2>
         <div class="hub-grid">${HUB_TOOLS.filter(t => t.group === g.id).map(hubCard).join('')}</div>
-      </section>`).join('')}`;
+      </section>${g.id === 'info' ? '<div class="hub-today" id="hubToday" aria-live="off"></div>' : ''}`).join('')}`;
   document.getElementById('hubSearch').addEventListener('input', hubFilter);
   hubRenderRecent();
 }

@@ -32,7 +32,14 @@ th { color:var(--muted); }
 .row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .warn { color:#fbbf24; }
 @media (max-width:900px) { main { grid-template-columns:1fr; } .grid { grid-template-columns:1fr; } }
+
+html[data-theme="light"] { --bg:#f8fafc; --panel:#ffffff; --panel2:#f1f5f9; --text:#1f2937; --muted:#64748b; --border:#d1d5db; --accent:#2563eb; --good:#15803d; }
 </style>
+<script>
+// Follow the site's theme; the storage event keeps an embedded copy in sync with its parent page.
+function msmTheme(){ try { document.documentElement.dataset.theme = localStorage.getItem('msm_theme') === 'light' ? 'light' : 'dark'; } catch (e) {} }
+msmTheme(); addEventListener('storage', msmTheme);
+</script>
 </head>
 <body>
 <header>
