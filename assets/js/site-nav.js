@@ -11,7 +11,7 @@
     { id: "bossing", label: "Alt Carrying Planner", icon: "🗓️", href: "boss-signups.html" },
     { id: "schedule", label: "Boss Schedule", icon: "📋", href: "pages/boss-schedule.html" },
     { id: "dmg", label: "DMG Calculator", icon: "💥", href: "index.html#dmg" },
-    { id: "mastercraft", label: "Lucky Scrolls", icon: "🍀", href: "pages/mastercraft-scrolls.html" },
+    { id: "mastercraft", label: "Scroll Breakeven", icon: "🍀", href: "pages/mastercraft-scrolls.html" },
     { id: "guides", label: "Guides", icon: "🧭", href: "index.html#guides" },
     { id: "info", label: "FAQ", icon: "📚", href: "index.html#info" }
   ];
