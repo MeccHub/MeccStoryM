@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buff Watcher - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .bw-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .bw-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .bw-btn {
+    font: 800 14px "Nunito", sans-serif; padding: 9px 13px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink);
+  }
+  .bw-btn:disabled { opacity: .45; cursor: default; }
+  .bw-btn.go { background: #16a34a; border-color: #16a34a; color: #fff; }
+  .bw-btn.stop { background: #dc2626; border-color: #dc2626; color: #fff; }
+  .bw-status { margin: 8px 0 0; font-weight: 700; color: var(--msm-muted); font-size: 14px; }
+  .bw-status b { color: var(--msm-ink); }
+  canvas.bw-view { display: block; width: 100%; height: auto; border-radius: 8px; background: #000; touch-action: none; }
+  canvas.bw-view.picking { cursor: crosshair; outline: 2px solid #f59e0b; }
+  .bw-list { display: grid; gap: 6px; }
+  .bw-buff { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px; border-radius: 10px; background: var(--msm-soft); }
+  .bw-buff canvas { width: 40px; height: 40px; image-rendering: pixelated; border-radius: 6px; border: 3px solid #64748b; }
+  .bw-buff.on canvas { border-color: #22c55e; }
+  .bw-buff b { color: var(--msm-ink); }
+  .bw-meta { font-size: 12px; color: var(--msm-muted); font-weight: 700; }
+  .bw-buff label { font-size: 12px; font-weight: 700; color: var(--msm-ink); white-space: nowrap; }
+  .bw-buff input[type=number] { width: 62px; font: inherit; padding: 4px; border-radius: 6px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); }
+  .bw-buff select, .bw-buff input[type=text] { font: inherit; padding: 4px; border-radius: 6px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); }
+  .bw-buff input[type=text] { width: 120px; }
+  .bw-f { display: none; }
+  .bw-buff[data-mode="cooldown"] .bw-f.cooldown, .bw-buff[data-mode="keep"] .bw-f.keep { display: inline; }
+  .bw-sel { font: inherit; padding: 6px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); }
+  .bw-buff.idle { opacity: .6; }
+  .bw-btn.collecting { background: #f59e0b; border-color: #f59e0b; color: #111; }
+  .bw-actions { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
+  .bw-actions .bw-btn { padding: 6px 9px; font-size: 12px; }
+</style>
+</head>
+<body>
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page bw-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Buff Watcher</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Share your game window, box the buff bar, then capture only the buffs you care about. Per buff, choose the alert: when it ends, a cooldown "ready" timer (e.g. Defense Smash 15 s / 30 s), "missing" nags for buffs that must stay on (e.g. Fair Trade), or a callout when a boss debuff appears. Runs entirely in your browser: nothing is uploaded. PC browsers only.</p>
+    <div class="bw-row">
+      <button class="bw-btn" id="share" type="button">1. Share game window</button>
+      <button class="bw-btn" id="pickArea" type="button" disabled>2. Add watch area</button>
+      <label class="bw-meta">Area <select id="areaSel" class="bw-sel"></select></label>
+      <button class="bw-btn" id="delArea" type="button" disabled title="Delete this area and its buffs">✕</button>
+      <button class="bw-btn" id="collect" type="button" disabled>3. Collect icons</button>
+      <button class="bw-btn" id="addBuff" type="button" disabled>or add one by hand</button>
+      <button class="bw-btn go" id="watch" type="button" disabled>Start watching</button>
+    </div>
+    <p class="bw-status" id="status">Not sharing.</p>
+  </section>
+
+  <section class="msm-panel" id="viewPanel" hidden>
+    <p class="bw-status" id="hint" style="margin:0 0 8px"></p>
+    <canvas class="bw-view" id="view"></canvas>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="msm-section-title" style="font-size:18px">Buffs</h2>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Collected icons start unticked as "New …". Name the ones you want, pick their alert, and tick Watch. Delete the rest.</p>
+    <div class="bw-list" id="list"><p class="msm-muted" style="margin:0">No buffs yet.</p></div>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script type="module">
+  import { toGray, prepBoth, prepFrame, find, calibrate, step, timerAlerts, detectIcons, iconCrop } from "../assets/js/buffwatch-core.js";
+
+  const KEY = "msm_buffwatch_v1";
+  const $ = id => document.getElementById(id);
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+  const profile = Object.assign({ areas: [], buffs: [] }, load());
+  // Profiles from before multiple areas had one `area`: it becomes the "Buff bar" area.
+  if (profile.area) { profile.areas.push({ id: "a0", name: "Buff bar", ...profile.area }); profile.buffs.forEach(b => b.area ??= "a0"); delete profile.area; }
+  const MODES = { off: "Say when it ends", cooldown: "Cooldown timer (say ready)", keep: "Must stay on (say missing)", appear: "Say when it appears (debuffs)" };
+  // Profiles from before alert modes: keep their old "say when it ends" behaviour.
+  profile.buffs.forEach(b => Object.assign(b, { mode: "off", duration: 0, cooldown: 0, repeat: 10, on: true, ...b }));
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(profile)); } catch (e) { $("status").textContent = "Could not save (browser storage full or blocked)."; } };
+
+  const video = document.createElement("video");
+  video.muted = true; video.playsInline = true;
+  const grab = document.createElement("canvas"), gctx = grab.getContext("2d", { willReadFrequently: true });
+  const view = $("view"), vctx = view.getContext("2d");
+  let stream = null, watching = false, collecting = false, warm = 0, busy = false, ticks = 0;
+  let areaId = profile.areas[0]?.id || null;
+  const area = () => profile.areas.find(a => a.id === areaId) || null;
+  const areaOf = b => profile.areas.find(a => a.id === b.area);
+  const rt = new Map(); // per-buff runtime: template, last position, state, score
+
+  // Templates are stored as base64 8-bit grayscale.
+  const pack = g => btoa(String.fromCharCode(...Uint8Array.from(g, v => Math.round(v))));
+  const unpack = s => Float32Array.from(atob(s), c => c.charCodeAt(0));
+  const runtime = b => {
+    if (!rt.has(b.id)) rt.set(b.id, { T: prepBoth({ g: unpack(b.px), w: b.w, h: b.h }), last: null, state: { on: false }, score: 0, checked: 0, timers: {} });
+    return rt.get(b.id);
+  };
+
+  function say(text) {
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.15;
+    speechSynthesis.speak(u);
+  }
+
+  // RGBA / grayscale copy of a region of the current video frame.
+  function frameRGBA(r) {
+    grab.width = r.w; grab.height = r.h;
+    gctx.drawImage(video, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
+    return gctx.getImageData(0, 0, r.w, r.h);
+  }
+  const frame = r => toGray(frameRGBA(r));
+  const cropGray = (img, c) => {
+    const o = new Float32Array(c.w * c.h);
+    for (let y = 0; y < c.h; y++) for (let x = 0; x < c.w; x++) o[y * c.w + x] = img.g[(c.y + y) * img.w + c.x + x];
+    return { g: o, w: c.w, h: c.h };
+  };
+
+  function showRegion(r) {
+    $("viewPanel").hidden = false;
+    view.width = r.w; view.height = r.h;
+    vctx.drawImage(video, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
+  }
+
+  // Drag a box on the view canvas; resolves to a rect in canvas pixels.
+  function dragRect(hint) {
+    $("hint").textContent = hint;
+    view.classList.add("picking");
+    const snapshot = vctx.getImageData(0, 0, view.width, view.height);
+    return new Promise(resolve => {
+      let a = null;
+      const pt = e => { const b = view.getBoundingClientRect(); return { x: Math.round((e.clientX - b.left) * view.width / b.width), y: Math.round((e.clientY - b.top) * view.height / b.height) }; };
+      const rect = (p, q) => ({ x: Math.min(p.x, q.x), y: Math.min(p.y, q.y), w: Math.abs(p.x - q.x), h: Math.abs(p.y - q.y) });
+      view.onpointerdown = e => { a = pt(e); view.setPointerCapture(e.pointerId); };
+      view.onpointermove = e => {
+        if (!a) return;
+        const r = rect(a, pt(e));
+        vctx.putImageData(snapshot, 0, 0);
+        vctx.strokeStyle = "#f59e0b"; vctx.lineWidth = Math.max(2, view.width / 400); vctx.strokeRect(r.x, r.y, r.w, r.h);
+      };
+      view.onpointerup = e => {
+        const r = rect(a, pt(e)); a = null;
+        if (!(r.w >= 6 && r.h >= 6)) return; // ignore clicks
+        view.onpointerdown = view.onpointermove = view.onpointerup = null;
+        view.classList.remove("picking"); $("hint").textContent = "";
+        resolve(r);
+      };
+    });
+  }
+
+  function refreshButtons() {
+    $("areaSel").innerHTML = profile.areas.map(a => `<option value="${a.id}"></option>`).join("") || "<option>none yet</option>";
+    [...$("areaSel").options].forEach((o, i) => { if (profile.areas[i]) o.textContent = profile.areas[i].name; }); // user text
+    $("areaSel").value = areaId || "";
+    $("pickArea").disabled = !stream;
+    $("delArea").disabled = !area();
+    $("addBuff").disabled = $("collect").disabled = !stream || !area();
+    $("watch").disabled = !stream || !profile.buffs.some(b => b.on);
+    render(); // Calibrate buttons depend on sharing state
+  }
+  $("areaSel").onchange = () => { areaId = $("areaSel").value; if (stream && area()) showRegion(area()); refreshButtons(); };
+  $("delArea").onclick = () => {
+    const a = area();
+    if (!a || !confirm(`Delete the area "${a.name}" and its ${profile.buffs.filter(b => b.area === a.id).length} buffs?`)) return;
+    profile.areas = profile.areas.filter(x => x !== a); profile.buffs = profile.buffs.filter(b => b.area !== a.id);
+    areaId = profile.areas[0]?.id || null; save(); refreshButtons();
+  };
+
+  $("share").onclick = async () => {
+    try {
+      stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 15 }, audio: false });
+    } catch (e) { $("status").textContent = "Screen share was cancelled."; return; }
+    video.srcObject = stream; await video.play();
+    while (!video.videoWidth) await new Promise(res => setTimeout(res, 50));
+    stream.getVideoTracks()[0].onended = () => { stopWatching(); stream = null; refreshButtons(); $("status").textContent = "Screen share ended. Click Share to resume."; };
+    const off = profile.areas.filter(a => a.x + a.w > video.videoWidth || a.y + a.h > video.videoHeight);
+    $("status").innerHTML = `Sharing <b>${video.videoWidth}×${video.videoHeight}</b>. ${off.length ? `⚠️ ${off.length} saved area(s) don't fit this window size: redraw them.` : profile.areas.length ? "Saved areas found." : "Now add a watch area around your buff bar."}`;
+    if (area() && !off.includes(area())) showRegion(area());
+    refreshButtons();
+  };
+
+  $("pickArea").onclick = async () => {
+    stopWatching();
+    showRegion({ x: 0, y: 0, w: video.videoWidth, h: video.videoHeight });
+    const r = await dragRect("Drag a box around the whole buff bar (both rows, and wider than it is now so new buffs still fit). For a second area, box the skill buttons or wherever debuffs show.");
+    const name = (prompt("Name this area:", profile.areas.length ? "Skill bar" : "Buff bar") || "").trim().slice(0, 30) || `Area ${profile.areas.length + 1}`;
+    const a = { id: Date.now().toString(36), name, ...r };
+    profile.areas.push(a); areaId = a.id; save();
+    showRegion(r); refreshButtons();
+    $("status").textContent = `Area "${name}" saved. Now collect icons, or add one by hand.`;
+  };
+
+  $("addBuff").onclick = async () => {
+    stopWatching();
+    const A = area();
+    showRegion(A);
+    const r = await dragRect("Drag a box over the TOP part of ONE icon: above its timer text, and away from any stack number in the corner. For skill buttons, box the button while it's ready (no number).");
+    const img = frame({ x: A.x + r.x, y: A.y + r.y, w: r.w, h: r.h });
+    const name = (prompt("Name this buff (used in callouts):", "") || "").trim().slice(0, 30);
+    showRegion(A);
+    if (!name) return;
+    profile.buffs.push(newBuff(A, img, name, true));
+    save(); render(); refreshButtons();
+    $("status").textContent = `Added ${name}. Calibrate it for reliable detection.`;
+  };
+
+  const newBuff = (A, img, name, on) => ({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), area: A.id, name, on, w: img.w, h: img.h, px: pack(img.g), threshold: 0.85, debounce: 3, grace: 250, mode: "off", duration: 0, cooldown: 0, repeat: 10 });
+
+  // Collect mode: every second, find icons in the selected area and keep any not already saved there.
+  function collectOnce() {
+    const A = area(), rgba = frameRGBA(A), img = toGray(rgba);
+    const known = profile.buffs.filter(b => b.area === A.id), cells = detectIcons(rgba);
+    let added = 0;
+    showRegion(A);
+    vctx.strokeStyle = "#f59e0b"; vctx.lineWidth = 2;
+    cells.forEach(c => vctx.strokeRect(c.x, c.y, c.w, c.h)); // show what it sees
+    for (const c of cells) {
+      const crop = iconCrop(c);
+      if (crop.x + crop.w > img.w || crop.y + crop.h > img.h) continue;
+      // Known if a saved template matches around this icon (icons drift a few px between detections).
+      const pad = { x: Math.max(0, c.x - 8), y: Math.max(0, c.y - 8) };
+      const win = cropGray(img, { ...pad, w: Math.min(img.w - pad.x, c.w + 16), h: Math.min(img.h - pad.y, c.h + 16) });
+      const W = prepFrame(win);
+      if (known.some(b => find(W, runtime(b).T, null, 0.85).score >= 0.85)) continue;
+      const n = profile.buffs.filter(b => /^New \d+$/.test(b.name)).length + 1;
+      const b = newBuff(A, cropGray(img, crop), `New ${n}`, false);
+      profile.buffs.push(b); known.push(b); added++;
+    }
+    if (added) { save(); render(); refreshButtons(); }
+    const total = profile.buffs.filter(b => b.area === A.id && !b.on).length;
+    $("status").innerHTML = `Collecting in <b>${A.name.replace(/[<&]/g, "")}</b>… ${total} unticked icon(s) so far. Use or switch buffs to catch more, then press Stop collecting.`;
+  }
+  $("collect").onclick = () => {
+    collecting = !collecting;
+    $("collect").textContent = collecting ? "Stop collecting" : "3. Collect icons";
+    $("collect").classList.toggle("collecting", collecting);
+    if (!collecting) $("status").textContent = "Collecting stopped. Name the new icons below and tick Watch on the ones you want.";
+  };
+
+  // One scan: match every watched buff, each area from a single frame grab.
+  function tick() {
+    if (busy || !video.videoWidth) return;
+    if (collecting && area() && ticks++ % 10 === 0) collectOnce();
+    if (!watching) return;
+    busy = true;
+    const t0 = performance.now(), now = Date.now(), frames = new Map();
+    const F = b => { if (!frames.has(b.area)) frames.set(b.area, prepFrame(frame(areaOf(b)))); return frames.get(b.area); };
+    // Whole-area scans are the slow part. Buffs that were on but moved (icons slide when another buff ends)
+    // always get one; absent buffs share FULL per scan in rotation. Everyone else gets the cheap nearby search.
+    const FULL = 6, buffs = profile.buffs.filter(b => b.on && areaOf(b)), results = new Map(), retry = [];
+    for (const b of buffs) {
+      const r = runtime(b), m = find(F(b), r.T, r.last, b.threshold, false);
+      if (m.skipped) retry.push(b); else results.set(b, m);
+    }
+    const moved = retry.filter(b => runtime(b).state.on);
+    const absent = retry.filter(b => !runtime(b).state.on).sort((a, b) => runtime(a).checked - runtime(b).checked);
+    for (const b of moved.concat(absent.slice(0, FULL))) {
+      const r = runtime(b);
+      results.set(b, find(F(b), r.T, null, b.threshold)); r.checked = now;
+    }
+    const seenNow = new Map([...results].map(([b, m]) => [b, m.score >= b.threshold]));
+    const onCount = buffs.filter(b => runtime(b).state.on).length;
+    const missing = moved.filter(b => !seenNow.get(b)).length; // on, but not found anywhere
+    if (missing >= 3 && missing >= onCount / 2) warm = 10; // many vanished at once = UI/loading change, not real expiries
+    const changed = new Map();
+    for (const [b, m] of results) {
+      const r = runtime(b), seen = seenNow.get(b);
+      r.score = m.score;
+      if (seen) r.last = { x: m.x, y: m.y };
+      if (warm > 0) { r.state = { on: seen }; continue; }
+      if (step(r.state, seen, now, b)) changed.set(b, r.state.on ? "on" : "off");
+    }
+    if (warm > 0) warm--;
+    else for (const b of buffs) { const r = runtime(b); timerAlerts(b, r.timers, r.state.on, changed.get(b) || null, now).forEach(say); }
+    paint();
+    $("status").innerHTML = `Watching <b>${buffs.length}</b> buffs · ${Math.round(performance.now() - t0)} ms per scan${warm ? " · warming up" : ""}`;
+    busy = false;
+  }
+
+  function paint() {
+    if (area()) showRegion(area());
+    vctx.lineWidth = 2;
+    for (const b of profile.buffs) {
+      const r = runtime(b);
+      if (r.last && r.state.on && b.area === areaId) { vctx.strokeStyle = "#22c55e"; vctx.strokeRect(r.last.x, r.last.y, b.w, b.h); }
+      const row = document.querySelector(`[data-id="${b.id}"]`);
+      if (!row) continue;
+      row.classList.toggle("on", r.state.on);
+      const left = at => Math.max(0, Math.ceil((at - Date.now()) / 1000));
+      const cd = b.mode === "cooldown" ? (r.timers.readyAt ? ` · ready in ${left(r.timers.readyAt)}s` : " · ready") : "";
+      const dur = b.mode === "cooldown" && r.state.on && r.timers.endAt > Date.now() ? ` · ${left(r.timers.endAt)}s left` : "";
+      row.querySelector(".score").textContent = `${r.state.on ? "ON" : "off"}${dur}${cd} · match ${r.score.toFixed(2)}`;
+    }
+  }
+
+  // Worker timer: page timers are throttled when the game window covers this tab.
+  const ticker = new Worker(URL.createObjectURL(new Blob(["setInterval(() => postMessage(0), 100)"], { type: "text/javascript" })));
+  const waiters = [];
+  const nextTick = () => new Promise(res => waiters.push(res));
+  ticker.onmessage = () => { waiters.splice(0).forEach(res => res()); tick(); };
+
+  function stopWatching() {
+    watching = false;
+    $("watch").textContent = "Start watching"; $("watch").className = "bw-btn go";
+  }
+  $("watch").onclick = () => {
+    if (watching) { stopWatching(); $("status").textContent = "Stopped."; return; }
+    watching = true; warm = 10;
+    $("watch").textContent = "Stop watching"; $("watch").className = "bw-btn stop";
+  };
+
+  // Two-phase calibration: 36 samples (~3.6 s) with the buff on, then 36 with it off.
+  async function sample(b) {
+    const out = [], r = runtime(b);
+    for (let i = 0; i < 36; i++) {
+      out.push(find(prepFrame(frame(areaOf(b))), r.T, null, 2).score);
+      await nextTick();
+    }
+    return out;
+  }
+  async function calibrateBuff(b, btn) {
+    stopWatching();
+    btn.disabled = true;
+    if (!confirm(`Calibrate ${b.name}, step 1 of 2:\nMake sure the buff is ON, then press OK.`)) { btn.disabled = false; return; }
+    $("status").textContent = `Recording ${b.name} while ON…`;
+    const present = await sample(b);
+    if (!confirm(`Step 2 of 2:\nLet ${b.name} run out (or remove it) so it is OFF, then press OK.`)) { btn.disabled = false; $("status").textContent = "Calibration cancelled."; return; }
+    $("status").textContent = `Recording ${b.name} while OFF…`;
+    const c = calibrate(present, await sample(b));
+    Object.assign(b, { threshold: +c.threshold.toFixed(3), debounce: c.debounce, grace: c.grace });
+    save(); render();
+    $("status").innerHTML = `${b.name}: <b>${c.quality}</b> (gap ${c.gap.toFixed(3)}). Threshold ${b.threshold}.${c.gap < 0.03 ? " Try a tighter icon crop." : ""}`;
+  }
+
+  function render() {
+    rt.forEach((_, id) => { if (!profile.buffs.some(b => b.id === id)) rt.delete(id); });
+    $("list").innerHTML = profile.buffs.length ? profile.buffs.map(b => `
+      <div class="bw-buff${b.on ? "" : " idle"}" data-id="${b.id}" data-mode="${b.mode}">
+        <canvas width="${b.w}" height="${b.h}"></canvas>
+        <div><b></b> <span class="bw-meta area"></span><div class="bw-meta score">not watching</div>
+          <div class="bw-row" style="margin-top:4px">
+            <label><input type="checkbox" data-k="on" ${b.on ? "checked" : ""}> Watch</label>
+            <label>Name <input type="text" maxlength="30" data-k="name" class="bw-name"></label>
+            <label>Alert <select data-k="mode">${Object.entries(MODES).map(([v, t]) => `<option value="${v}" ${b.mode === v ? "selected" : ""}>${t}</option>`).join("")}</select></label>
+            <label class="bw-f cooldown">Lasts <input type="number" min="0" max="3600" step="1" value="${b.duration}" data-k="duration">s</label>
+            <label class="bw-f cooldown">Cooldown <input type="number" min="0" max="3600" step="1" value="${b.cooldown}" data-k="cooldown">s</label>
+            <label class="bw-f keep">Repeat every <input type="number" min="3" max="600" step="1" value="${b.repeat}" data-k="repeat">s</label>
+            <label>Threshold <input type="number" min="0.3" max="0.99" step="0.01" value="${b.threshold}" data-k="threshold"></label>
+          </div></div>
+        <div class="bw-actions"><button class="bw-btn" data-a="cal" type="button" ${stream && areaOf(b) ? "" : "disabled"}>Calibrate</button><button class="bw-btn" data-a="del" type="button">Delete</button></div>
+      </div>`).join("") : '<p class="msm-muted" style="margin:0">No buffs yet.</p>';
+    for (const b of profile.buffs) {
+      const row = document.querySelector(`[data-id="${b.id}"]`);
+      row.querySelector("b").textContent = b.name; // names are user text: never via innerHTML
+      row.querySelector(".bw-name").value = b.name;
+      if (profile.areas.length > 1) row.querySelector(".area").textContent = `· ${areaOf(b)?.name || "no area"}`;
+      const cv = row.querySelector("canvas"), c = cv.getContext("2d"), id = c.createImageData(b.w, b.h), g = unpack(b.px);
+      g.forEach((v, i) => { id.data.set([v, v, v, 255], i * 4); });
+      c.putImageData(id, 0, 0);
+    }
+  }
+
+  $("list").addEventListener("change", e => {
+    const b = profile.buffs.find(x => x.id === e.target.closest("[data-id]")?.dataset.id), k = e.target.dataset.k;
+    if (!b || !k) return;
+    const v = e.target.value, num = (lo, hi, d) => Math.min(hi, Math.max(lo, Number.isFinite(+v) && v !== "" ? +v : d));
+    if (k === "on") { b.on = e.target.checked; save(); render(); refreshButtons(); return; }
+    if (k === "name") b.name = v.trim().slice(0, 30) || b.name;
+    else if (k === "mode") b.mode = MODES[v] ? v : "off";
+    else if (k === "threshold") b.threshold = num(0.3, 0.99, 0.85);
+    else if (k === "repeat") b.repeat = num(3, 600, 10);
+    else b[k] = num(0, 3600, 0);
+    runtime(b).timers = {};
+    save(); render();
+  });
+  $("list").addEventListener("click", e => {
+    const btn = e.target.closest("[data-a]"), b = profile.buffs.find(x => x.id === e.target.closest("[data-id]")?.dataset.id);
+    if (!btn || !b) return;
+    if (btn.dataset.a === "del" && confirm(`Delete ${b.name}?`)) { profile.buffs = profile.buffs.filter(x => x !== b); save(); render(); refreshButtons(); }
+    if (btn.dataset.a === "cal") calibrateBuff(b, btn);
+  });
+
+  if (!navigator.mediaDevices?.getDisplayMedia) { $("share").disabled = true; $("status").textContent = "This browser can't share the screen. Use Chrome or Edge on PC."; }
+  refreshButtons();
+</script>
+</body>
+</html>
