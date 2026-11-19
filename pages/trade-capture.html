@@ -27,6 +27,7 @@
   .tc-table th, .tc-table td { padding: 6px; border-bottom: 1px solid var(--msm-field-line); text-align: left; }
   .tc-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .tc-table input { width: 100%; min-width: 110px; }
+  .tc-table input[data-k=name] { min-width: 200px; }
   .tc-wrap { overflow-x: auto; }
 </style>
 </head>
@@ -76,7 +77,8 @@
 
   const $ = id => document.getElementById(id), KEY = "msm_tradecap_v1";
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
-  const S = Object.assign({ names: null, prices: null, templates: [], items: {} }, load());
+  // alias: OCR text → the name the user corrected it to; myNames join the known list for snapping.
+  const S = Object.assign({ names: null, prices: null, templates: [], items: {}, alias: {}, myNames: [] }, load());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { $("status").textContent = "Could not save (browser storage full or blocked)."; } };
 
   const video = $("video"), view = $("view"), vctx = view.getContext("2d"), grab = $("grab"), gctx = grab.getContext("2d", { willReadFrequently: true });
@@ -204,7 +206,8 @@
         if (!name) {
           ocr ??= Tesseract.createWorker("eng");
           const { data } = await (await ocr).recognize(await cv.convertToBlob());
-          name = snap(data.text, await known);
+          const raw = snap(data.text, [...await known, ...S.myNames]);
+          name = S.alias[raw] || raw;
           if (!name) continue;
           nameCache.set(key, name);
         }
@@ -240,14 +243,27 @@
     const rows = Object.entries(S.items)
       .filter(([n, i]) => (!f.value || (f.value === "-" ? !i.tag : i.tag === f.value)) && (!q || n.toLowerCase().includes(q)))
       .sort((a, b) => a[0].localeCompare(b[0]));
-    $("list").innerHTML = rows.length ? rows.map(([n, i]) => `<tr data-n="${esc(n)}"><td>${esc(n)}</td><td><input class="tc-field" list="tags" value="${esc(i.tag)}" placeholder="Add tag"></td><td class="num">${fmt(i.low)}</td><td class="num">${fmt(i.high)}</td><td class="num">${new Date(i.seen).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</td></tr>`).join("")
+    $("list").innerHTML = rows.length ? rows.map(([n, i]) => `<tr data-n="${esc(n)}"><td><input class="tc-field" data-k="name" value="${esc(n)}" title="Fix a misread name here"></td><td><input class="tc-field" data-k="tag" list="tags" value="${esc(i.tag)}" placeholder="Add tag"></td><td class="num">${fmt(i.low)}</td><td class="num">${fmt(i.high)}</td><td class="num">${new Date(i.seen).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</td></tr>`).join("")
       : `<tr><td colspan="5" class="msm-muted">No items yet.</td></tr>`;
   }
   $("list").addEventListener("change", e => {
     const n = e.target.closest("tr")?.dataset.n;
     if (!n || !S.items[n]) return;
-    S.items[n].tag = e.target.value.trim().slice(0, 40); save(); render();
+    if (e.target.dataset.k === "tag") { S.items[n].tag = e.target.value.trim().slice(0, 40); save(); render(); return; }
+    rename(n, e.target.value.replace(/\s+/g, " ").trim().slice(0, 60));
   });
+  // Fixing a misread name: future reads of the old text map to the new one, and a duplicate merges into it.
+  function rename(from, to) {
+    if (!to || to === from) return render();
+    const a = S.items[from], b = S.items[to];
+    S.items[to] = !b ? a : { ...(a.seen > b.seen ? a : b), tag: b.tag || a.tag };
+    delete S.items[from];
+    S.alias[from] = to;
+    for (const k in S.alias) if (S.alias[k] === from) S.alias[k] = to;
+    for (const [k, v] of nameCache) if (v === from) nameCache.set(k, to);
+    if (!S.myNames.includes(to)) S.myNames.push(to);
+    save(); render();
+  }
   $("filter").onchange = $("search").oninput = render;
   $("csv").onclick = () => {
     const q = s => `"${String(s).replace(/"/g, '""')}"`;

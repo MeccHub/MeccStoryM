@@ -99,10 +99,11 @@ export function dist(a, b) {
   return prev[b.length];
 }
 
-/** Closest known name if it's near enough, else the OCR text as is. */
+/** Closest known name if it's within an OCR slip, else the OCR text as is. */
 export function snap(text, names) {
   const t = text.replace(/\s+/g, " ").trim();
   let best = null, bd = Infinity;
   for (const n of names) { const d = dist(t.toLowerCase(), n.toLowerCase()); if (d < bd) { bd = d; best = n; } }
-  return best && bd <= Math.max(2, Math.round(t.length * 0.25)) ? best : t;
+  // Tight on purpose: OCR slips are 1–2 letters, while real variants (Red vs Blue) differ by more.
+  return best && bd <= (t.length >= 12 ? 2 : 1) ? best : t;
 }
