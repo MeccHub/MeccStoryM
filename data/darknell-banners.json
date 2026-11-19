@@ -1,11 +1,38 @@
 {
- "note": "Default Darknell banner text lines, cropped from 2000x988 screenshots. x/y are the crop's top-left in that frame.",
+ "note": "Default Darknell banner text lines, cropped from 2000x988 screenshots. x/y are the crop's top-left in that frame. delay = seconds from banner to that attack (blank = wait for a tap).",
  "refWidth": 2000,
  "refHeight": 988,
  "banners": [
-  { "kind": "2", "file": "p2.png", "x": 760, "y": 350 },
-  { "kind": "charge", "file": "charge.png", "x": 770, "y": 360 },
-  { "kind": "3", "file": "p3.png", "x": 770, "y": 360 },
-  { "kind": "4", "file": "p4.png", "x": 720, "y": 355 }
+  {
+   "kind": "0",
+   "file": "p0.png",
+   "x": 705,
+   "y": 350,
+   "delay": "1"
+  },
+  {
+   "kind": "2",
+   "file": "p2.png",
+   "x": 760,
+   "y": 350
+  },
+  {
+   "kind": "charge",
+   "file": "charge.png",
+   "x": 770,
+   "y": 360
+  },
+  {
+   "kind": "3",
+   "file": "p3.png",
+   "x": 770,
+   "y": 360
+  },
+  {
+   "kind": "4",
+   "file": "p4.png",
+   "x": 720,
+   "y": 355
+  }
  ]
 }

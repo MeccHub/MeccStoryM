@@ -217,7 +217,7 @@
   import { toGray, prepBoth, prepFrame, find } from "../assets/js/buffwatch-core.js";
   const $ = id => document.getElementById(id);
   const KEY = "msm_darknell_banners", THRESH = 0.6;
-  const KINDS = { 1: "Phase 1 starts", 2: "Phase 2 starts", 3: "Phase 3 starts", 4: "Phase 4 starts", charge: "Charge (resync)" };
+  const KINDS = { 0: "Fight starts (phase 0)", 1: "Phase 1 starts", 2: "Phase 2 starts", 3: "Phase 3 starts", 4: "Phase 4 starts", charge: "Charge (resync)" };
   const prof = Object.assign({ area: null, banners: [], defaultDelays: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) {} })());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(prof)); } catch (e) {} };
   const pack = g => btoa(String.fromCharCode(...Uint8Array.from(g, v => Math.round(v))));
@@ -271,7 +271,7 @@
         c.width = w; c.height = h; const x = c.getContext("2d"); x.drawImage(im, 0, 0, w, h);
         // Horizontal position follows the centred banner; vertical follows the same scale.
         const cx = video.videoWidth / 2 + (d.x + im.width / 2 - meta.refWidth / 2) * sc;
-        out.push({ id: `def-${d.kind}-${sc}`, kind: d.kind, file: d.file, sc, x: Math.round(cx - w / 2), y: Math.round(d.y * sc), w, h,
+        out.push({ id: `def-${d.kind}-${sc}`, kind: d.kind, file: d.file, delay: d.delay ?? "", sc, x: Math.round(cx - w / 2), y: Math.round(d.y * sc), w, h,
           T: prepBoth(toGray(x.getImageData(0, 0, w, h))), seen: 0, score: 0 });
       }
     }
@@ -349,7 +349,7 @@
     } else for (const d of defaults) {
       const pad = 10, r = { x: Math.max(0, d.x - pad), y: Math.max(0, d.y - pad), w: d.w + 2 * pad, h: d.h + 2 * pad };
       const F = prepFrame(frame(r));
-      check(d.id, d.kind, find(F, d.T, { x: d.x - r.x, y: d.y - r.y }, THRESH, false).score, () => fire({ kind: d.kind, delay: prof.defaultDelays[d.kind] ?? "" }));
+      check(d.id, d.kind, find(F, d.T, { x: d.x - r.x, y: d.y - r.y }, THRESH, false).score, () => fire({ kind: d.kind, delay: prof.defaultDelays[d.kind] ?? d.delay }));
     }
   };
 
@@ -358,7 +358,7 @@
     if (!prof.banners.length && defaults.length) {
       const kinds = [...new Set(defaults.map(d => d.kind))];
       $("apList").innerHTML = '<p class="msm-muted" style="margin:0;font-size:13px">Default banners (scaled to your screen):</p>' + kinds.map(k => {
-        const d = defaults.find(x => x.kind === k), v = prof.defaultDelays[k] ?? "";
+        const d = defaults.find(x => x.kind === k), v = prof.defaultDelays[k] ?? d.delay;
         return `<div class="dk-ban" data-defk="${k}"><img src="../data/darknell-banners/${d.file}" alt="" style="height:28px;max-width:220px;border-radius:4px"> ${KINDS[k]}
           <label>Delay <input data-k="ddelay" type="number" min="0" max="30" step="0.1" placeholder="${k === "charge" ? "0" : "tap"}" value="${v}">s</label>
           ${defaults.filter(x => x.kind === k).map(x => `<span class="msm-muted" data-ban="${x.id}"><span class="sc"></span></span>`).join(" ")}</div>`;
