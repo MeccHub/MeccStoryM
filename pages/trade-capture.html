@@ -198,9 +198,14 @@
       src = await grabFrame();
       const rgba = frameRGBA(), list = cards(rgba, S.names);
       let got = 0;
+      // Live preview: blue/orange = your boxes, green = row read, red = row found but its prices weren't.
+      show(boxes());
+      vctx.font = `bold ${Math.max(14, view.width / 80)}px sans-serif`;
       for (const c of list) {
         const p = cardPrices(rgba, c, S.prices, S.templates);
-        if (!p) continue;
+        vctx.strokeStyle = p.ok ? "#22c55e" : "#ef4444";
+        vctx.strokeRect(S.names.x, c.y0, S.prices.x + S.prices.w - S.names.x, c.y1 - c.y0);
+        if (!p.ok) { vctx.fillStyle = "#ef4444"; vctx.fillText(p.raw || "no price text found", S.prices.x, c.y1 - 4); continue; }
         const { cv, key } = nameCrop(rgba, c);
         let name = nameCache.get(key);
         if (!name) {
@@ -212,11 +217,11 @@
           nameCache.set(key, name);
         }
         const it = S.items[name] ??= { tag: "" };
-        Object.assign(it, p, { seen: Date.now() });
+        Object.assign(it, { low: p.low, high: p.high, seen: Date.now() });
         got++;
       }
       if (got) { save(); render(); }
-      $("status").innerHTML = `Capturing… <b>${Object.keys(S.items).length}</b> items saved. ${list.length && !got ? "Rows found but prices unreadable: teach digits again." : "Scroll through Trade Station."}`;
+      $("status").innerHTML = `Capturing… <b>${Object.keys(S.items).length}</b> items saved. ${!list.length ? "No item rows found in the names box: redraw it so it starts and ends in the grey gap between rows." : `${list.length} rows on screen, ${got} read. ${got < list.length ? "Red rows: see the preview (? = unknown digit, teach that row)." : ""}`}`;
     } finally { busy = false; }
   }
 

@@ -12,7 +12,10 @@ const runs = (n, f) => {
 
 /** Item cards inside the names box: white rows separated by the grey gaps. Returns [{y0, y1}] in image pixels, fully inside the box. */
 export function cards({ data, width: W }, box) {
-  const white = y => { let n = 0; for (let x = 0; x < box.w; x++) if (lum(data, ((box.y + y) * W + box.x + x) * 4) > 245) n++; return n > box.w * 0.5; };
+  // "White" is relative to the brightest pixel: captures are often a little dimmer or tinted than a screenshot.
+  let top = 0;
+  for (let y = 0; y < box.h; y++) for (let x = 0; x < box.w; x += 4) top = Math.max(top, lum(data, ((box.y + y) * W + box.x + x) * 4));
+  const white = y => { let n = 0; for (let x = 0; x < box.w; x++) if (lum(data, ((box.y + y) * W + box.x + x) * 4) > top - 12) n++; return n > box.w * 0.5; };
   const all = runs(box.h, white).filter(([a, b]) => a > 0 && b < box.h - 1 && b - a > 20);
   // Cards clipped by the list's scroll edge are shorter than the rest: drop them.
   const hs = all.map(([a, b]) => b - a).sort((p, q) => p - q), full = hs[hs.length - 1] || 0;
@@ -78,14 +81,14 @@ export function priceOf(s) {
   return /^\d{1,3}(,\d{3})*$/.test(t) ? Number(t.replace(/,/g, "")) : null;
 }
 
-/** Prices of each card: the line ending in "~" is the low price, the next line the high one. */
+/** Prices of each card: the line ending in "~" is the low price, the next line the high one. `ok` is false if unreadable. */
 export function cardPrices(rgba, card, priceBox, templates) {
   const lines = glyphLines(rgba, { x: priceBox.x, y: card.y0, w: priceBox.w, h: card.y1 - card.y0 + 1 });
   const read = lines.map(l => readLine(l, templates));
   const i = read.findIndex(s => s.endsWith("~"));
-  if (i < 0 || i + 1 >= read.length) return null;
-  const low = priceOf(read[i]), high = priceOf(read[i + 1]);
-  return low && high && low <= high ? { low, high } : null;
+  const low = i >= 0 ? priceOf(read[i]) : null, high = i >= 0 && i + 1 < read.length ? priceOf(read[i + 1]) : null;
+  // `raw` is what was read, shown on the preview when a row fails.
+  return { raw: read.join(" "), ok: !!(low && high && low <= high), low, high };
 }
 
 /** Levenshtein distance, for snapping OCR'd names onto known item names. */
