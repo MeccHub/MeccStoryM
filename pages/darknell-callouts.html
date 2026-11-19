@@ -372,10 +372,11 @@
   };
 
   // Default banners: the site owner's crops from 2000×988 screenshots, scaled to this screen. Used only while the
-  // player hasn't captured their own. UI may scale with width or height, so both scales are tried.
+  // player hasn't captured their own. UI may scale with width or height, so both scales are tried, plus 0.988× the
+  // height scale: the banner text measured 1.08× the crops on both 2160×1080 and 1920×1080 captures, and matching drops off within ~2%.
   async function loadDefaults() {
     const meta = await fetch("../data/darknell-banners.json").then(r => r.json());
-    const scales = [...new Set([vw() / meta.refWidth, vh() / meta.refHeight].map(v => +v.toFixed(3)))];
+    const scales = [...new Set([vw() / meta.refWidth, vh() / meta.refHeight, vh() / meta.refHeight * 0.988].map(v => +v.toFixed(3)))];
     // Default banner box: covers where the banner sits under either scale, centred like the banner.
     const boxes = scales.map(sc => ({ x: vw() / 2 + (meta.area.x - meta.refWidth / 2) * sc, y: meta.area.y * sc, w: meta.area.w * sc, h: meta.area.h * sc }));
     const x0 = Math.max(0, Math.min(...boxes.map(b => b.x))), y0 = Math.max(0, Math.min(...boxes.map(b => b.y)));
