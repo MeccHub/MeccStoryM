@@ -194,3 +194,19 @@ export function detectIcons({ data, width: W, height: H }, SAT = 45, FILL = 0.3)
 
 /** Part of a detected icon to keep as its template: top-left, above the timer text and clear of stack numbers. */
 export const iconCrop = c => ({ x: c.x + 3, y: c.y + 3, w: Math.max(8, Math.round(c.w * 0.65)), h: Math.max(8, Math.round(c.w * 0.5)) });
+
+/**
+ * Latest frame of a screen-share track, for drawImage. Chrome pauses a muted, unseen <video> while its tab is in the
+ * background (i.e. whenever you're looking at the game), so frames read through it freeze. ImageCapture reads the
+ * track itself and keeps working; browsers without it fall back to the video element.
+ */
+export function frameSource(track, video) {
+  const ic = typeof ImageCapture === "function" ? new ImageCapture(track) : null;
+  let last = null;
+  return async () => {
+    if (ic) {
+      try { const b = await ic.grabFrame(); last?.close(); last = b; return b; } catch (e) { /* fall back below */ }
+    }
+    return video;
+  };
+}

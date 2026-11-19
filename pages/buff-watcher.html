@@ -72,7 +72,7 @@
 
 <script src="../assets/js/site-nav.js"></script>
 <script type="module">
-  import { toGray, prepBoth, prepFrame, find, calibrate, step, timerAlerts, detectIcons, iconCrop } from "../assets/js/buffwatch-core.js";
+  import { toGray, prepBoth, prepFrame, find, calibrate, step, timerAlerts, detectIcons, iconCrop, frameSource } from "../assets/js/buffwatch-core.js";
 
   const KEY = "msm_buffwatch_v1";
   const $ = id => document.getElementById(id);
@@ -87,9 +87,10 @@
 
   const video = document.createElement("video");
   video.muted = true; video.playsInline = true;
+  const vw = () => src.width || video.videoWidth, vh = () => src.height || video.videoHeight; // ImageBitmap or <video>
   const grab = document.createElement("canvas"), gctx = grab.getContext("2d", { willReadFrequently: true });
   const view = $("view"), vctx = view.getContext("2d");
-  let stream = null, watching = false, collecting = false, warm = 0, busy = false, ticks = 0;
+  let stream = null, watching = false, collecting = false, warm = 0, busy = false, ticks = 0, grabFrame = null, src = video;
   let areaId = profile.areas[0]?.id || null;
   const area = () => profile.areas.find(a => a.id === areaId) || null;
   const areaOf = b => profile.areas.find(a => a.id === b.area);
@@ -112,7 +113,7 @@
   // RGBA / grayscale copy of a region of the current video frame.
   function frameRGBA(r) {
     grab.width = r.w; grab.height = r.h;
-    gctx.drawImage(video, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
+    gctx.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
     return gctx.getImageData(0, 0, r.w, r.h);
   }
   const frame = r => toGray(frameRGBA(r));
@@ -125,7 +126,7 @@
   function showRegion(r) {
     $("viewPanel").hidden = false;
     view.width = r.w; view.height = r.h;
-    vctx.drawImage(video, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
+    vctx.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
   }
 
   // Drag a box on the view canvas; resolves to a rect in canvas pixels.
@@ -165,18 +166,19 @@
     try {
       stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 15 }, audio: false });
     } catch (e) { $("status").textContent = "Screen share was cancelled."; return; }
-    video.srcObject = stream; await video.play();
-    while (!video.videoWidth) await new Promise(res => setTimeout(res, 50));
+    video.srcObject = stream; video.play().catch(() => {}); // not awaited: a background tab may never start it
+    grabFrame = frameSource(stream.getVideoTracks()[0], video);
+    for (let i = 0; i < 100 && !vw(); i++) { src = await grabFrame(); if (!vw()) await new Promise(res => setTimeout(res, 50)); }
     stream.getVideoTracks()[0].onended = () => { stopWatching(); stream = null; refreshButtons(); $("status").textContent = "Screen share ended. Click Share to resume."; };
-    const off = profile.areas.filter(a => a.x + a.w > video.videoWidth || a.y + a.h > video.videoHeight);
-    $("status").innerHTML = `Sharing <b>${video.videoWidth}×${video.videoHeight}</b>. ${off.length ? "⚠️ The saved buff bar doesn't fit this window size: select it again." : profile.areas.length ? "Saved buff bar found." : "Now select your buff bar."}`;
+    const off = profile.areas.filter(a => a.x + a.w > vw() || a.y + a.h > vh());
+    $("status").innerHTML = `Sharing <b>${vw()}×${vh()}</b>. ${off.length ? "⚠️ The saved buff bar doesn't fit this window size: select it again." : profile.areas.length ? "Saved buff bar found." : "Now select your buff bar."}`;
     if (area() && !off.includes(area())) showRegion(area());
     refreshButtons();
   };
 
   $("pickArea").onclick = async () => {
     stopWatching();
-    showRegion({ x: 0, y: 0, w: video.videoWidth, h: video.videoHeight });
+    showRegion({ x: 0, y: 0, w: vw(), h: vh() });
     const r = await dragRect("Drag a box around the whole buff bar at the top (both rows, and wider than it is now so new buffs still fit).");
     // One buff bar: redrawing it keeps its id, so saved buffs stay attached to it.
     const a = { id: area()?.id || Date.now().toString(36), name: "Buff bar", ...r };
@@ -234,7 +236,7 @@
 
   // One scan: match every watched buff, each area from a single frame grab.
   function tick() {
-    if (busy || !video.videoWidth) return;
+    if (busy || !vw()) return;
     if (collecting && area() && ticks++ % 10 === 0) collectOnce();
     if (!watching) return;
     busy = true;
@@ -292,7 +294,11 @@
   const ticker = new Worker(URL.createObjectURL(new Blob(["setInterval(() => postMessage(0), 100)"], { type: "text/javascript" })));
   const waiters = [];
   const nextTick = () => new Promise(res => waiters.push(res));
-  ticker.onmessage = () => { waiters.splice(0).forEach(res => res()); tick(); };
+  // Refresh the frame first: the <video> freezes while this tab is in the background (see frameSource).
+  ticker.onmessage = async () => {
+    if (grabFrame && !busy) { busy = true; try { src = await grabFrame(); } finally { busy = false; } }
+    waiters.splice(0).forEach(res => res()); tick();
+  };
 
   function stopWatching() {
     watching = false;
