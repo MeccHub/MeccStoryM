@@ -218,14 +218,15 @@
   const $ = id => document.getElementById(id);
   const KEY = "msm_darknell_banners", THRESH = 0.6;
   const KINDS = { 1: "Phase 1 starts", 2: "Phase 2 starts", 3: "Phase 3 starts", 4: "Phase 4 starts", charge: "Charge (resync)" };
-  const prof = Object.assign({ area: null, banners: [] }, (() => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) {} })());
+  const prof = Object.assign({ area: null, banners: [], defaultDelays: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) {} })());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(prof)); } catch (e) {} };
   const pack = g => btoa(String.fromCharCode(...Uint8Array.from(g, v => Math.round(v))));
   const unpack = s => Float32Array.from(atob(s), c => c.charCodeAt(0));
   const video = document.createElement("video"); video.muted = true;
   const grab = document.createElement("canvas"), gctx = grab.getContext("2d", { willReadFrequently: true });
   const view = $("apView"), vctx = view.getContext("2d");
-  let stream = null, running = false;
+  let stream = null, running = false, defaults = [];
+  const firedAt = {}; // per kind: a banner stays up a few seconds but should act once
   const rt = new Map(); // banner id -> { T, seen, firedAt, score }
   const run = b => { if (!rt.has(b.id)) rt.set(b.id, { T: prepBoth({ g: unpack(b.px), w: b.w, h: b.h }), seen: 0, firedAt: 0, score: 0 }); return rt.get(b.id); };
 
@@ -254,8 +255,28 @@
   }
   const buttons = () => {
     $("apArea").disabled = !stream; $("apCap").disabled = !stream || !prof.area;
-    $("apGo").disabled = !stream || !prof.area || !prof.banners.length;
+    $("apGo").disabled = !stream || !(prof.banners.length && prof.area || defaults.length);
   };
+
+  // Default banners: the site owner's crops from 2000×988 screenshots, scaled to this screen. Used only while the
+  // player hasn't captured their own. UI may scale with width or height, so both scales are tried.
+  async function loadDefaults() {
+    const meta = await fetch("../data/darknell-banners.json").then(r => r.json());
+    const scales = [...new Set([video.videoWidth / meta.refWidth, video.videoHeight / meta.refHeight].map(v => +v.toFixed(3)))];
+    const out = [];
+    for (const d of meta.banners) {
+      const im = new Image(); im.src = `../data/darknell-banners/${d.file}`; await im.decode();
+      for (const sc of scales) {
+        const w = Math.round(im.width * sc), h = Math.round(im.height * sc), c = document.createElement("canvas");
+        c.width = w; c.height = h; const x = c.getContext("2d"); x.drawImage(im, 0, 0, w, h);
+        // Horizontal position follows the centred banner; vertical follows the same scale.
+        const cx = video.videoWidth / 2 + (d.x + im.width / 2 - meta.refWidth / 2) * sc;
+        out.push({ id: `def-${d.kind}-${sc}`, kind: d.kind, file: d.file, sc, x: Math.round(cx - w / 2), y: Math.round(d.y * sc), w, h,
+          T: prepBoth(toGray(x.getImageData(0, 0, w, h))), seen: 0, score: 0 });
+      }
+    }
+    return out;
+  }
 
   $("apShare").onclick = async () => {
     try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 10 }, audio: false }); }
@@ -265,8 +286,9 @@
     stream.getVideoTracks()[0].onended = () => { stream = null; running = false; $("apGo").textContent = "Start auto phase"; buttons(); $("apStatus").textContent = "Screen share ended."; };
     if (prof.area && (prof.area.x + prof.area.w > video.videoWidth || prof.area.y + prof.area.h > video.videoHeight)) { prof.area = null; save(); }
     if (prof.area) show(prof.area);
-    $("apStatus").textContent = prof.area ? "Saved banner area found." : "Now select the banner area.";
-    buttons();
+    defaults = prof.banners.length ? [] : await loadDefaults().catch(() => []);
+    $("apStatus").textContent = prof.banners.length ? "Your banners are loaded." : defaults.length ? "Using the default banners (scaled to your screen). If they don't match, capture your own." : prof.area ? "Saved banner area found." : "Now select the banner area.";
+    list(); buttons();
   };
   $("apArea").onclick = async () => {
     show({ x: 0, y: 0, w: video.videoWidth, h: video.videoHeight });
@@ -278,6 +300,7 @@
     const r = await dragRect("Drag a box over ONLY the banner's text line (not the portrait or frame).");
     const img = frame({ x: prof.area.x + r.x, y: prof.area.y + r.y, w: r.w, h: r.h });
     prof.banners.push({ id: Date.now().toString(36), kind: "2", delay: "", x: r.x, y: r.y, w: img.w, h: img.h, px: pack(img.g) });
+    defaults = []; // your own captures replace the defaults
     save(); list(); buttons(); show(prof.area);
     $("apStatus").textContent = "Banner saved. Pick what it means below.";
   };
@@ -310,21 +333,38 @@
   }
 
   const ticker = new Worker(URL.createObjectURL(new Blob(["setInterval(() => postMessage(0), 150)"], { type: "text/javascript" })));
+  // A match seen 2 frames in a row acts once per showing.
+  function check(id, kind, score, act) {
+    const r = rtState(id); r.score = score; r.seen = score >= THRESH ? r.seen + 1 : 0;
+    if (r.seen === 2 && Date.now() - (firedAt[kind] || 0) > 5000) { firedAt[kind] = Date.now(); act(); }
+    const row = document.querySelector(`[data-ban="${id}"]`);
+    if (row) { row.classList.toggle("hit", r.seen > 0); row.querySelector(".sc").textContent = `match ${score.toFixed(2)}`; }
+  }
+  const states = new Map(), rtState = id => { if (!states.has(id)) states.set(id, { seen: 0, score: 0 }); return states.get(id); };
   ticker.onmessage = () => {
-    if (!running || !video.videoWidth || !prof.area) return;
-    const F = prepFrame(frame(prof.area)), now = Date.now();
-    for (const b of prof.banners) {
-      const r = run(b), m = find(F, r.T, { x: b.x, y: b.y }, THRESH, false); // banners always appear in the same spot
-      r.score = m.score;
-      r.seen = m.score >= THRESH ? r.seen + 1 : 0;
-      if (r.seen === 2 && now - r.firedAt > 5000) { r.firedAt = now; fire(b); } // 2 frames in a row, once per showing
-      const row = document.querySelector(`[data-ban="${b.id}"]`);
-      if (row) { row.classList.toggle("hit", r.seen > 0); row.querySelector(".sc").textContent = `match ${m.score.toFixed(2)}`; }
+    if (!running || !video.videoWidth) return;
+    if (prof.banners.length && prof.area) {
+      const F = prepFrame(frame(prof.area));
+      for (const b of prof.banners) check(b.id, b.kind, find(F, run(b).T, { x: b.x, y: b.y }, THRESH, false).score, () => fire(b)); // banners always appear in the same spot
+    } else for (const d of defaults) {
+      const pad = 10, r = { x: Math.max(0, d.x - pad), y: Math.max(0, d.y - pad), w: d.w + 2 * pad, h: d.h + 2 * pad };
+      const F = prepFrame(frame(r));
+      check(d.id, d.kind, find(F, d.T, { x: d.x - r.x, y: d.y - r.y }, THRESH, false).score, () => fire({ kind: d.kind, delay: prof.defaultDelays[d.kind] ?? "" }));
     }
   };
 
   function list() {
     rt.forEach((_, id) => { if (!prof.banners.some(b => b.id === id)) rt.delete(id); });
+    if (!prof.banners.length && defaults.length) {
+      const kinds = [...new Set(defaults.map(d => d.kind))];
+      $("apList").innerHTML = '<p class="msm-muted" style="margin:0;font-size:13px">Default banners (scaled to your screen):</p>' + kinds.map(k => {
+        const d = defaults.find(x => x.kind === k), v = prof.defaultDelays[k] ?? "";
+        return `<div class="dk-ban" data-defk="${k}"><img src="../data/darknell-banners/${d.file}" alt="" style="height:28px;max-width:220px;border-radius:4px"> ${KINDS[k]}
+          <label>Delay <input data-k="ddelay" type="number" min="0" max="30" step="0.1" placeholder="${k === "charge" ? "0" : "tap"}" value="${v}">s</label>
+          ${defaults.filter(x => x.kind === k).map(x => `<span class="msm-muted" data-ban="${x.id}"><span class="sc"></span></span>`).join(" ")}</div>`;
+      }).join("");
+      return;
+    }
     $("apList").innerHTML = prof.banners.map(b => `<div class="dk-ban" data-ban="${b.id}">
       <canvas width="${b.w}" height="${b.h}"></canvas>
       <select data-k="kind">${Object.entries(KINDS).map(([v, t]) => `<option value="${v}" ${b.kind === v ? "selected" : ""}>${t}</option>`).join("")}</select>
@@ -337,6 +377,11 @@
     }
   }
   $("apList").addEventListener("change", e => {
+    if (e.target.dataset.k === "ddelay") {
+      const k = e.target.closest("[data-defk]").dataset.defk;
+      prof.defaultDelays[k] = e.target.value === "" ? "" : String(Math.min(30, Math.max(0, +e.target.value || 0)));
+      save(); return;
+    }
     const b = prof.banners.find(x => x.id === e.target.closest("[data-ban]")?.dataset.ban), k = e.target.dataset.k;
     if (!b || !k) return;
     b[k] = k === "kind" ? (KINDS[e.target.value] ? e.target.value : "2") : e.target.value === "" ? "" : String(Math.min(30, Math.max(0, +e.target.value || 0)));
