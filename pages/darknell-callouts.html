@@ -289,6 +289,38 @@
   const A = () => prof.area || defArea; // the player's banner box, or the default one scaled to their screen
   const firedAt = {}; // per kind: a banner stays up a few seconds but should act once
   let lastPhase = null; // { p, at, kind, learn } from the latest phase banner
+  // Boss HP bar as a backup phase trigger. Measured on a recorded fight (2160×1080): the bar is centred, its fill row
+  // at 21.1% of the height, 50.8% of the height wide; phases began at 75% / ⅔ / ⅓ HP (read here as 75.5 / 67 / 34%).
+  const HP_AT = { 2: 0.755, 3: 0.67, 4: 0.34 }, phaseDone = new Set(), hpHist = [];
+  function hpFill() {
+    const w = Math.round(vh() * 0.508), x0 = Math.round(vw() / 2 - w / 2), y0 = Math.round(vh() * 0.211) - 2;
+    if (x0 < 0 || w < 50) return null;
+    grab.width = w; grab.height = 5;
+    gctx.drawImage(src, x0, y0, w, 5, 0, 0, w, 5);
+    const d = gctx.getImageData(0, 0, w, 5).data;
+    let last = -1;
+    for (let x = 0; x < w; x++) {
+      let c = 0;
+      for (let y = 0; y < 5; y++) { const k = (y * w + x) * 4, hi = Math.max(d[k], d[k + 1], d[k + 2]); if (hi > 120 && hi - Math.min(d[k], d[k + 1], d[k + 2]) > 60) c++; }
+      if (c >= 3) last = x;
+    }
+    return last < 0 ? null : (last + 1) / w;
+  }
+  // Starts a phase from HP when its banner hasn't: only right after the crossing, so joining mid-fight doesn't fire them all.
+  function hpCheck() {
+    const f = hpFill();
+    if (f === null) return null;
+    hpHist.push(f); if (hpHist.length > 3) hpHist.shift();
+    const m = [...hpHist].sort((a, b) => a - b)[1] ?? f;
+    if (m > 0.95) phaseDone.clear(); // fresh fight
+    for (const k of ["2", "3", "4"]) {
+      if (phaseDone.has(k) || !(m <= HP_AT[k] && m > HP_AT[k] - 0.04)) continue;
+      const delay = prof.banners.find(b => b.kind === k)?.delay ?? prof.defaultDelays[k] ?? defaults.find(d => d.kind === k)?.delay ?? "";
+      fire({ kind: k, delay });
+      $("apStatus").textContent = $("apStatus").textContent.replace("banner seen", "started by boss HP");
+    }
+    return m;
+  }
   // Learning a default banner's delay: the first tap on that phase's opening attack after its banner sets it.
   document.addEventListener("click", e => {
     const b = e.target.closest?.("[data-p][data-i]");
@@ -418,6 +450,8 @@
       return;
     }
     const p = +b.kind;
+    if (p === 0) phaseDone.clear();
+    phaseDone.add(b.kind);
     lastPhase = { p, at: performance.now(), kind: b.kind, own: b.id ? b : null, learn: delay === null };
     if (delay === null) {
       stop();
@@ -469,6 +503,7 @@
           }
         }
       }
+      const hp = hpCheck();
       // Diagnostics: best score lately, and whether frames are actually changing.
       const probe = frame({ x: 0, y: 0, w: Math.min(vw(), 64), h: Math.min(vh(), 64) }).g;
       const sum = probe.reduce((a, v, i) => a + v * (i % 7 + 1), 0);
@@ -476,7 +511,7 @@
       bestRecent = ticks % 20 === 0 ? best : Math.max(bestRecent * 0.98, best);
       $("apDiag").textContent = frozen > 20
         ? "⚠️ The shared picture isn't changing. Share the game window itself (not a minimised one), and use Chrome or Edge."
-        : `Best banner match lately: ${bestRecent.toFixed(2)} (a banner needs ${THRESH.toFixed(2)}). With no banner on screen, low numbers are normal.`;
+        : `Best banner match lately: ${bestRecent.toFixed(2)} (a banner needs ${THRESH.toFixed(2)}). With no banner on screen, low numbers are normal. Boss HP: ${hp === null ? "not found" : Math.round(hp * 100) + "%"}.`;
     } finally { busy = false; }
   };
 
