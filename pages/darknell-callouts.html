@@ -78,13 +78,19 @@
   <section class="msm-panel">
     <details id="autoBox">
       <summary class="msm-section-title" style="font-size:18px;cursor:pointer">🤖 Auto phase (beta, PC only)</summary>
-      <p class="msm-muted" style="margin:6px 0 8px;font-size:13px">Share the game and it watches Darknell's dialog banner. A phase banner switches the callouts to that phase; the charge banner resyncs to the nearest Charge. Capture each banner once (practice mode is easiest): box only its text line. Delay = seconds from the banner to that attack landing; leave a phase delay blank to switch and wait for your tap.</p>
+      <p class="msm-muted" style="margin:6px 0 8px;font-size:13px">Share the game window and it starts watching Darknell's dialog banners right away: the fight-start banner starts the callouts, phase banners switch phase, and the charge banner resyncs to the nearest Charge. Delay = seconds from a banner to that attack landing; leave a phase delay blank to switch and wait for your tap.</p>
       <div class="dk-row">
         <button class="dk-btn" id="apShare" type="button">Share game window</button>
-        <button class="dk-btn" id="apArea" type="button" disabled>Select banner area</button>
-        <button class="dk-btn" id="apCap" type="button" disabled>Capture banner</button>
         <button class="dk-btn" id="apGo" type="button" disabled>Start auto phase</button>
       </div>
+      <details style="margin-top:8px">
+        <summary class="msm-muted" style="cursor:pointer;font-size:13px;font-weight:700">Banners not detected? Use my own banners</summary>
+        <p class="msm-muted" style="margin:6px 0;font-size:13px">Only needed if the default banners don't match your screen. Capture each banner once (practice mode is easiest): box only its text line.</p>
+        <div class="dk-row">
+          <button class="dk-btn" id="apArea" type="button" disabled>Select banner area</button>
+          <button class="dk-btn" id="apCap" type="button" disabled>Capture banner</button>
+        </div>
+      </details>
       <p class="dk-status" id="apStatus" style="font-size:13px">Not sharing.</p>
       <p class="dk-status" id="apHint" style="font-size:13px"></p>
       <canvas id="apView" hidden style="display:block;width:100%;height:auto;border-radius:8px;background:#000;touch-action:none"></canvas>
@@ -293,8 +299,8 @@
     if (prof.area && (prof.area.x + prof.area.w > video.videoWidth || prof.area.y + prof.area.h > video.videoHeight)) { prof.area = null; save(); }
     const defs = await loadDefaults().catch(() => []); // also sets defArea
     defaults = prof.banners.length ? [] : defs;
-    if (A()) show(A());
-    $("apStatus").textContent = prof.banners.length ? "Your banners are loaded." : defaults.length ? "Using the default banners (scaled to your screen). If they don't match, capture your own." : "Capture a banner while one is showing (the default banner area is used unless you select your own).";
+    if (defaults.length || prof.banners.length) { running = true; $("apGo").textContent = "Stop auto phase"; } // no extra click needed
+    $("apStatus").textContent = prof.banners.length ? "Watching for banners (your own captures)…" : defaults.length ? "Watching for banners (defaults, scaled to your screen)…" : "Capture a banner while one is showing (the default banner area is used unless you select your own).";
     list(); buttons();
   };
   $("apArea").onclick = async () => {
