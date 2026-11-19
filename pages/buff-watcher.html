@@ -34,7 +34,6 @@
   .bw-buff input[type=text] { width: 120px; }
   .bw-f { display: none; }
   .bw-buff[data-mode="cooldown"] .bw-f.cooldown, .bw-buff[data-mode="keep"] .bw-f.keep { display: inline; }
-  .bw-sel { font: inherit; padding: 6px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); }
   .bw-buff.idle { opacity: .6; }
   .bw-btn.collecting { background: #f59e0b; border-color: #f59e0b; color: #111; }
   .bw-actions { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
@@ -51,9 +50,7 @@
     <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Share your game window, box the buff bar, then capture only the buffs you care about. Per buff, choose the alert: when it ends, a cooldown "ready" timer (e.g. Defense Smash 15 s / 30 s), "missing" nags for buffs that must stay on (e.g. Fair Trade), or a callout when a boss debuff appears. Runs entirely in your browser: nothing is uploaded. PC browsers only.</p>
     <div class="bw-row">
       <button class="bw-btn" id="share" type="button">1. Share game window</button>
-      <button class="bw-btn" id="pickArea" type="button" disabled>2. Add watch area</button>
-      <label class="bw-meta">Area <select id="areaSel" class="bw-sel"></select></label>
-      <button class="bw-btn" id="delArea" type="button" disabled title="Delete this area and its buffs">✕</button>
+      <button class="bw-btn" id="pickArea" type="button" disabled>2. Select buff bar</button>
       <button class="bw-btn" id="collect" type="button" disabled>3. Collect icons</button>
       <button class="bw-btn" id="addBuff" type="button" disabled>or add one by hand</button>
       <button class="bw-btn go" id="watch" type="button" disabled>Start watching</button>
@@ -158,22 +155,11 @@
   }
 
   function refreshButtons() {
-    $("areaSel").innerHTML = profile.areas.map(a => `<option value="${a.id}"></option>`).join("") || "<option>none yet</option>";
-    [...$("areaSel").options].forEach((o, i) => { if (profile.areas[i]) o.textContent = profile.areas[i].name; }); // user text
-    $("areaSel").value = areaId || "";
     $("pickArea").disabled = !stream;
-    $("delArea").disabled = !area();
     $("addBuff").disabled = $("collect").disabled = !stream || !area();
     $("watch").disabled = !stream || !profile.buffs.some(b => b.on);
     render(); // Calibrate buttons depend on sharing state
   }
-  $("areaSel").onchange = () => { areaId = $("areaSel").value; if (stream && area()) showRegion(area()); refreshButtons(); };
-  $("delArea").onclick = () => {
-    const a = area();
-    if (!a || !confirm(`Delete the area "${a.name}" and its ${profile.buffs.filter(b => b.area === a.id).length} buffs?`)) return;
-    profile.areas = profile.areas.filter(x => x !== a); profile.buffs = profile.buffs.filter(b => b.area !== a.id);
-    areaId = profile.areas[0]?.id || null; save(); refreshButtons();
-  };
 
   $("share").onclick = async () => {
     try {
@@ -183,7 +169,7 @@
     while (!video.videoWidth) await new Promise(res => setTimeout(res, 50));
     stream.getVideoTracks()[0].onended = () => { stopWatching(); stream = null; refreshButtons(); $("status").textContent = "Screen share ended. Click Share to resume."; };
     const off = profile.areas.filter(a => a.x + a.w > video.videoWidth || a.y + a.h > video.videoHeight);
-    $("status").innerHTML = `Sharing <b>${video.videoWidth}×${video.videoHeight}</b>. ${off.length ? `⚠️ ${off.length} saved area(s) don't fit this window size: redraw them.` : profile.areas.length ? "Saved areas found." : "Now add a watch area around your buff bar."}`;
+    $("status").innerHTML = `Sharing <b>${video.videoWidth}×${video.videoHeight}</b>. ${off.length ? "⚠️ The saved buff bar doesn't fit this window size: select it again." : profile.areas.length ? "Saved buff bar found." : "Now select your buff bar."}`;
     if (area() && !off.includes(area())) showRegion(area());
     refreshButtons();
   };
@@ -191,19 +177,19 @@
   $("pickArea").onclick = async () => {
     stopWatching();
     showRegion({ x: 0, y: 0, w: video.videoWidth, h: video.videoHeight });
-    const r = await dragRect("Drag a box around the whole buff bar (both rows, and wider than it is now so new buffs still fit). For a second area, box the skill buttons or wherever debuffs show.");
-    const name = (prompt("Name this area:", profile.areas.length ? "Skill bar" : "Buff bar") || "").trim().slice(0, 30) || `Area ${profile.areas.length + 1}`;
-    const a = { id: Date.now().toString(36), name, ...r };
-    profile.areas.push(a); areaId = a.id; save();
+    const r = await dragRect("Drag a box around the whole buff bar at the top (both rows, and wider than it is now so new buffs still fit).");
+    // One buff bar: redrawing it keeps its id, so saved buffs stay attached to it.
+    const a = { id: area()?.id || Date.now().toString(36), name: "Buff bar", ...r };
+    profile.areas = [a]; areaId = a.id; profile.buffs.forEach(b => { b.area = a.id; }); save();
     showRegion(r); refreshButtons();
-    $("status").textContent = `Area "${name}" saved. Now collect icons, or add one by hand.`;
+    $("status").textContent = "Buff bar saved. Now collect icons, or add one by hand.";
   };
 
   $("addBuff").onclick = async () => {
     stopWatching();
     const A = area();
     showRegion(A);
-    const r = await dragRect("Drag a box over the TOP part of ONE icon: above its timer text, and away from any stack number in the corner. For skill buttons, box the button while it's ready (no number).");
+    const r = await dragRect("Drag a box over the TOP part of ONE icon: above its timer text, and away from any stack number in the corner.");
     const img = frame({ x: A.x + r.x, y: A.y + r.y, w: r.w, h: r.h });
     const name = (prompt("Name this buff (used in callouts):", "") || "").trim().slice(0, 30);
     showRegion(A);
@@ -237,7 +223,7 @@
     }
     if (added) { save(); render(); refreshButtons(); }
     const total = profile.buffs.filter(b => b.area === A.id && !b.on).length;
-    $("status").innerHTML = `Collecting in <b>${A.name.replace(/[<&]/g, "")}</b>… ${total} unticked icon(s) so far. Use or switch buffs to catch more, then press Stop collecting.`;
+    $("status").innerHTML = `Collecting… ${total} unticked icon(s) so far. Use or switch buffs to catch more, then press Stop collecting.`;
   }
   $("collect").onclick = () => {
     collecting = !collecting;
@@ -346,7 +332,7 @@
     $("list").innerHTML = profile.buffs.length ? profile.buffs.map(b => `
       <div class="bw-buff${b.on ? "" : " idle"}" data-id="${b.id}" data-mode="${b.mode}">
         <canvas width="${b.w}" height="${b.h}"></canvas>
-        <div><b></b> <span class="bw-meta area"></span><div class="bw-meta score">not watching</div>
+        <div><b></b><div class="bw-meta score">not watching</div>
           <div class="bw-row" style="margin-top:4px">
             <label><input type="checkbox" data-k="on" ${b.on ? "checked" : ""}> Watch</label>
             <label>Name <input type="text" maxlength="30" data-k="name" class="bw-name"></label>
@@ -362,7 +348,6 @@
       const row = document.querySelector(`[data-id="${b.id}"]`);
       row.querySelector("b").textContent = b.name; // names are user text: never via innerHTML
       row.querySelector(".bw-name").value = b.name;
-      if (profile.areas.length > 1) row.querySelector(".area").textContent = `· ${areaOf(b)?.name || "no area"}`;
       const cv = row.querySelector("canvas"), c = cv.getContext("2d"), id = c.createImageData(b.w, b.h), g = unpack(b.px);
       g.forEach((v, i) => { id.data.set([v, v, v, 255], i * 4); });
       c.putImageData(id, 0, 0);
