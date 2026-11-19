@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Capture - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .tc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .tc-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tc-btn {
+    font: 800 14px "Nunito", sans-serif; padding: 9px 13px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink);
+  }
+  .tc-btn:disabled { opacity: .45; cursor: default; }
+  .tc-btn.go { background: #16a34a; border-color: #16a34a; color: #fff; }
+  .tc-btn.stop { background: #dc2626; border-color: #dc2626; color: #fff; }
+  .tc-status { margin: 8px 0 0; font-weight: 700; color: var(--msm-muted); font-size: 14px; }
+  .tc-status b { color: var(--msm-ink); }
+  canvas.tc-view { display: block; width: 100%; height: auto; border-radius: 8px; background: #000; touch-action: none; }
+  canvas.tc-view.picking { cursor: crosshair; outline: 2px solid #f59e0b; }
+  .tc-field { font: 700 13px "Nunito", sans-serif; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-field); color: var(--msm-ink); }
+  .tc-table { width: 100%; border-collapse: collapse; font-size: 13px; color: var(--msm-ink); }
+  .tc-table th, .tc-table td { padding: 6px; border-bottom: 1px solid var(--msm-field-line); text-align: left; }
+  .tc-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tc-table input { width: 100%; min-width: 110px; }
+  .tc-table input[data-k=name] { min-width: 200px; }
+  .tc-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page tc-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Trade Capture</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Share your game window and scroll through Trade Station: item names and prices are read off the screen as you browse. Tag items with your own categories (e.g. "Chaos SF23 Fodder"). Runs in your browser; your list stays on this device. PC browsers only.</p>
+    <div class="tc-row">
+      <button class="tc-btn" id="share" type="button">1. Share game window</button>
+      <button class="tc-btn" id="pickNames" type="button" disabled>2. Box the names column</button>
+      <button class="tc-btn" id="pickPrices" type="button" disabled>3. Box the prices column</button>
+      <button class="tc-btn" id="teach" type="button" disabled>4. Teach digits</button>
+      <button class="tc-btn go" id="run" type="button" disabled>Start capturing</button>
+    </div>
+    <p class="tc-status" id="status">Not sharing.</p>
+  </section>
+
+  <section class="msm-panel" id="viewPanel" hidden>
+    <p class="tc-status" id="hint" style="margin:0 0 8px"></p>
+    <canvas class="tc-view" id="view"></canvas>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="msm-section-title" style="font-size:18px">Items</h2>
+    <div class="tc-row" style="margin-bottom:8px">
+      <select class="tc-field" id="filter"><option value="">All tags</option></select>
+      <input class="tc-field" id="search" type="search" placeholder="Search names">
+      <button class="tc-btn" id="csv" type="button">Export CSV</button>
+      <button class="tc-btn" id="clear" type="button">Clear list</button>
+    </div>
+    <datalist id="tags"></datalist>
+    <div class="tc-wrap"><table class="tc-table"><thead><tr><th>Item</th><th>Tag</th><th>Low</th><th>High</th><th>Seen</th></tr></thead><tbody id="list"></tbody></table></div>
+  </section>
+</main>
+
+<video id="video" muted playsinline hidden></video>
+<canvas id="grab" hidden></canvas>
+<script src="../assets/js/site-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script type="module">
+  import { frameSource } from "../assets/js/buffwatch-core.js";
+  import { cards, glyphLines, teach, cardPrices, snap } from "../assets/js/tradecap-core.js";
+
+  const $ = id => document.getElementById(id), KEY = "msm_tradecap_v1";
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+  // alias: OCR text → the name the user corrected it to; myNames join the known list for snapping.
+  const S = Object.assign({ names: null, prices: null, templates: [], items: {}, alias: {}, myNames: [] }, load());
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { $("status").textContent = "Could not save (browser storage full or blocked)."; } };
+
+  const video = $("video"), view = $("view"), vctx = view.getContext("2d"), grab = $("grab"), gctx = grab.getContext("2d", { willReadFrequently: true });
+  let stream = null, src = video, grabFrame = null, running = false, busy = false, ocr = null;
+  const vw = () => src.videoWidth || src.width || 0, vh = () => src.videoHeight || src.height || 0;
+  const known = fetch("../data/item-names.json").then(r => r.json()).catch(() => []);
+  const nameCache = new Map(); // name-crop fingerprint → name, so each card is OCR'd once
+
+  function frameRGBA() {
+    grab.width = vw(); grab.height = vh();
+    gctx.drawImage(src, 0, 0);
+    return gctx.getImageData(0, 0, grab.width, grab.height);
+  }
+  function show(boxes = []) {
+    $("viewPanel").hidden = false;
+    view.width = vw(); view.height = vh();
+    vctx.drawImage(src, 0, 0);
+    vctx.lineWidth = Math.max(2, view.width / 500);
+    for (const [b, c] of boxes) { vctx.strokeStyle = c; vctx.strokeRect(b.x, b.y, b.w, b.h); }
+  }
+  const boxes = () => [[S.names, "#38bdf8"], [S.prices, "#f59e0b"]].filter(([b]) => b);
+  const fits = b => b && b.x + b.w <= vw() && b.y + b.h <= vh();
+
+  // Drag a box on the view canvas; resolves to a rect in frame pixels.
+  function dragRect(hint) {
+    $("hint").textContent = hint;
+    view.classList.add("picking");
+    const snapshot = vctx.getImageData(0, 0, view.width, view.height);
+    return new Promise(resolve => {
+      let a = null;
+      const pt = e => { const b = view.getBoundingClientRect(); return { x: Math.round((e.clientX - b.left) * view.width / b.width), y: Math.round((e.clientY - b.top) * view.height / b.height) }; };
+      const rect = (p, q) => ({ x: Math.min(p.x, q.x), y: Math.min(p.y, q.y), w: Math.abs(p.x - q.x), h: Math.abs(p.y - q.y) });
+      view.onpointerdown = e => { a = pt(e); view.setPointerCapture(e.pointerId); };
+      view.onpointermove = e => {
+        if (!a) return;
+        const r = rect(a, pt(e));
+        vctx.putImageData(snapshot, 0, 0);
+        vctx.strokeStyle = "#f59e0b"; vctx.strokeRect(r.x, r.y, r.w, r.h);
+      };
+      view.onpointerup = e => {
+        if (!a) return;
+        const r = rect(a, pt(e)); a = null;
+        if (!(r.w >= 10 && r.h >= 10)) return;
+        view.onpointerdown = view.onpointermove = view.onpointerup = null;
+        view.classList.remove("picking"); $("hint").textContent = "";
+        resolve(r);
+      };
+    });
+  }
+
+  function refresh() {
+    const ready = stream && fits(S.names) && fits(S.prices);
+    $("pickNames").disabled = $("pickPrices").disabled = !stream;
+    $("teach").disabled = !ready;
+    $("run").disabled = !ready || !S.templates.length;
+    const have = new Set(S.templates.map(t => t.c)), missing = [..."0123456789"].filter(d => !have.has(d));
+    if (stream && !running) $("status").innerHTML = !fits(S.names) ? "Box the item names column (the white item rows, names only: leave out the icons)."
+      : !fits(S.prices) ? "Box the prices column (just the numbers, leave out the coin)."
+      : !S.templates.length ? "Press Teach digits and type the prices of the highlighted row."
+      : missing.length ? `Teach digits: still missing <b>${missing.join(" ")}</b>. Scroll to a row that has them and teach again.`
+      : "Ready. Press Start capturing, then scroll through Trade Station.";
+  }
+
+  $("share").onclick = async () => {
+    try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 5 }, audio: false }); }
+    catch (e) { $("status").textContent = "Screen share was cancelled."; return; }
+    video.srcObject = stream; video.play().catch(() => {});
+    grabFrame = frameSource(stream.getVideoTracks()[0], video);
+    for (let i = 0; i < 100 && !vw(); i++) { src = await grabFrame(); if (!vw()) await new Promise(r => setTimeout(r, 50)); }
+    stream.getVideoTracks()[0].onended = () => { setRunning(false); stream = null; refresh(); $("status").textContent = "Screen share ended."; };
+    show(boxes()); refresh();
+  };
+
+  async function pick(key, hint) {
+    setRunning(false);
+    src = await grabFrame(); show(boxes());
+    S[key] = await dragRect(hint); save();
+    show(boxes()); refresh();
+  }
+  $("pickNames").onclick = () => pick("names", "Drag a box down the item NAMES column, covering every visible row (names only, not the icons).");
+  $("pickPrices").onclick = () => pick("prices", "Drag a box down the PRICES column, covering every visible row (numbers only, not the coin).");
+
+  // The user types the top full card's prices; each digit's shape becomes a template.
+  $("teach").onclick = async () => {
+    setRunning(false);
+    src = await grabFrame();
+    const rgba = frameRGBA(), c = cards(rgba, S.names)[0];
+    if (!c) { $("status").textContent = "No full item row inside the names box. Check the box covers whole rows."; return; }
+    show([...boxes(), [{ x: S.prices.x, y: c.y0, w: S.prices.w, h: c.y1 - c.y0 }, "#22c55e"]]);
+    const lines = glyphLines(rgba, { x: S.prices.x, y: c.y0, w: S.prices.w, h: c.y1 - c.y0 + 1 });
+    const typed = prompt("Type the two prices in the GREEN box exactly as shown, e.g.\n4,590,990,470 ~ 4,597,248,280", "");
+    if (!typed) return refresh();
+    const [lo, hi] = typed.split("~").map(s => s.trim());
+    if (lines.length < 2 || !hi || !teach(lines[0], lo + "~", S.templates) || !teach(lines[1], hi, S.templates)) {
+      $("status").textContent = "That didn't line up with what's on screen (wrong number of digits?). Try again."; return;
+    }
+    save(); refresh();
+  };
+
+  // Name text is darker than the class/"Default" line under it, so a dark threshold keeps only the name.
+  function nameCrop(rgba, c) {
+    const B = S.names, h = c.y1 - c.y0 + 1, cv = new OffscreenCanvas(B.w * 2, h * 2), x = cv.getContext("2d"), id = x.createImageData(cv.width, cv.height);
+    let key = "";
+    for (let y = 0; y < cv.height; y++) for (let xx = 0; xx < cv.width; xx++) {
+      const i = ((c.y0 + (y >> 1)) * rgba.width + B.x + (xx >> 1)) * 4, v = (rgba.data[i] + rgba.data[i + 1] + rgba.data[i + 2]) / 3 < 95 ? 0 : 255, o = (y * cv.width + xx) * 4;
+      id.data[o] = id.data[o + 1] = id.data[o + 2] = v; id.data[o + 3] = 255;
+      if (y % 8 === 0 && xx % 8 === 0) key += v ? "1" : "0";
+    }
+    x.putImageData(id, 0, 0);
+    return { cv, key };
+  }
+
+  async function scan() {
+    if (busy || !running) return;
+    busy = true;
+    try {
+      src = await grabFrame();
+      const rgba = frameRGBA(), list = cards(rgba, S.names);
+      let got = 0;
+      for (const c of list) {
+        const p = cardPrices(rgba, c, S.prices, S.templates);
+        if (!p) continue;
+        const { cv, key } = nameCrop(rgba, c);
+        let name = nameCache.get(key);
+        if (!name) {
+          ocr ??= Tesseract.createWorker("eng");
+          const { data } = await (await ocr).recognize(await cv.convertToBlob());
+          const raw = snap(data.text, [...await known, ...S.myNames]);
+          name = S.alias[raw] || raw;
+          if (!name) continue;
+          nameCache.set(key, name);
+        }
+        const it = S.items[name] ??= { tag: "" };
+        Object.assign(it, p, { seen: Date.now() });
+        got++;
+      }
+      if (got) { save(); render(); }
+      $("status").innerHTML = `Capturing… <b>${Object.keys(S.items).length}</b> items saved. ${list.length && !got ? "Rows found but prices unreadable: teach digits again." : "Scroll through Trade Station."}`;
+    } finally { busy = false; }
+  }
+
+  function setRunning(on) {
+    running = on && !!stream;
+    $("run").textContent = running ? "Stop capturing" : "Start capturing";
+    $("run").classList.toggle("go", !running); $("run").classList.toggle("stop", running);
+    if (!running) refresh();
+  }
+  $("run").onclick = () => setRunning(!running);
+  // Worker ticks keep running while this tab is in the background (you're looking at the game).
+  const ticker = new Worker(URL.createObjectURL(new Blob(["setInterval(() => postMessage(0), 1000)"], { type: "text/javascript" })));
+  ticker.onmessage = () => { scan().catch(e => { console.error(e); $("status").textContent = "Read error: " + e.message; }); };
+
+  const fmt = n => n.toLocaleString("en-US");
+  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function render() {
+    const tags = [...new Set(Object.values(S.items).map(i => i.tag).filter(Boolean))].sort();
+    const f = $("filter"), cur = f.value;
+    f.innerHTML = `<option value="">All tags</option><option value="-">Untagged</option>` + tags.map(t => `<option>${esc(t)}</option>`).join("");
+    f.value = [...f.options].some(o => o.value === cur) ? cur : "";
+    $("tags").innerHTML = tags.map(t => `<option value="${esc(t)}">`).join("");
+    const q = $("search").value.trim().toLowerCase();
+    const rows = Object.entries(S.items)
+      .filter(([n, i]) => (!f.value || (f.value === "-" ? !i.tag : i.tag === f.value)) && (!q || n.toLowerCase().includes(q)))
+      .sort((a, b) => a[0].localeCompare(b[0]));
+    $("list").innerHTML = rows.length ? rows.map(([n, i]) => `<tr data-n="${esc(n)}"><td><input class="tc-field" data-k="name" value="${esc(n)}" title="Fix a misread name here"></td><td><input class="tc-field" data-k="tag" list="tags" value="${esc(i.tag)}" placeholder="Add tag"></td><td class="num">${fmt(i.low)}</td><td class="num">${fmt(i.high)}</td><td class="num">${new Date(i.seen).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</td></tr>`).join("")
+      : `<tr><td colspan="5" class="msm-muted">No items yet.</td></tr>`;
+  }
+  $("list").addEventListener("change", e => {
+    const n = e.target.closest("tr")?.dataset.n;
+    if (!n || !S.items[n]) return;
+    if (e.target.dataset.k === "tag") { S.items[n].tag = e.target.value.trim().slice(0, 40); save(); render(); return; }
+    rename(n, e.target.value.replace(/\s+/g, " ").trim().slice(0, 60));
+  });
+  // Fixing a misread name: future reads of the old text map to the new one, and a duplicate merges into it.
+  function rename(from, to) {
+    if (!to || to === from) return render();
+    const a = S.items[from], b = S.items[to];
+    S.items[to] = !b ? a : { ...(a.seen > b.seen ? a : b), tag: b.tag || a.tag };
+    delete S.items[from];
+    S.alias[from] = to;
+    for (const k in S.alias) if (S.alias[k] === from) S.alias[k] = to;
+    for (const [k, v] of nameCache) if (v === from) nameCache.set(k, to);
+    if (!S.myNames.includes(to)) S.myNames.push(to);
+    save(); render();
+  }
+  $("filter").onchange = $("search").oninput = render;
+  $("csv").onclick = () => {
+    const q = s => `"${String(s).replace(/"/g, '""')}"`;
+    const csv = ["Item,Tag,Low,High,Seen", ...Object.entries(S.items).map(([n, i]) => [q(n), q(i.tag), i.low, i.high, new Date(i.seen).toISOString()].join(","))].join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "trade-capture.csv"; a.click();
+  };
+  $("clear").onclick = () => { if (confirm("Delete every captured item and tag? Boxes and digits are kept.")) { S.items = {}; save(); render(); } };
+
+  render(); refresh();
+</script>
+</body>
+</html>
