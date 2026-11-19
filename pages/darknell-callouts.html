@@ -288,6 +288,18 @@
   let lastSum = -1, frozen = 0, bestRecent = 0;
   const A = () => prof.area || defArea; // the player's banner box, or the default one scaled to their screen
   const firedAt = {}; // per kind: a banner stays up a few seconds but should act once
+  let lastPhase = null; // { p, at, kind, learn } from the latest phase banner
+  // Learning a default banner's delay: the first tap on that phase's opening attack after its banner sets it.
+  document.addEventListener("click", e => {
+    const b = e.target.closest?.("[data-p][data-i]");
+    if (!b || !lastPhase?.learn || +b.dataset.p !== lastPhase.p || +b.dataset.i !== 0) return;
+    const d = (performance.now() - REACT * 1000 - lastPhase.at) / 1000;
+    lastPhase.learn = false;
+    if (!(d >= 0 && d <= 20)) return;
+    if (lastPhase.own) lastPhase.own.delay = d.toFixed(1); else prof.defaultDelays[lastPhase.kind] = d.toFixed(1);
+    save(); list();
+    $("apStatus").textContent = `Learned: phase ${lastPhase.p} starts ${d.toFixed(1)}s after its banner. Next time it starts by itself.`;
+  });
   const rt = new Map(); // banner id -> { T, seen, firedAt, score }
   const run = b => { if (!rt.has(b.id)) rt.set(b.id, { T: prepBoth({ g: unpack(b.px), w: b.w, h: b.h }), seen: 0, firedAt: 0, score: 0 }); return rt.get(b.id); };
 
@@ -331,7 +343,8 @@
     defArea = { x: Math.round(x0), y: Math.round(y0), w: Math.round(x1 - x0), h: Math.round(y1 - y0) };
     const out = [];
     for (const d of meta.banners) {
-      const im = new Image(); im.src = `../data/darknell-banners/${d.file}`; await im.decode();
+      // Not Image.decode(): it never settles while the tab is in the background.
+      const im = await createImageBitmap(await (await fetch(`../data/darknell-banners/${d.file}`)).blob());
       for (const sc of scales) {
         const w = Math.round(im.width * sc), h = Math.round(im.height * sc), c = document.createElement("canvas");
         c.width = w; c.height = h; const x = c.getContext("2d"); x.drawImage(im, 0, 0, w, h);
@@ -387,6 +400,17 @@
   function fire(b) {
     const delay = b.delay === "" ? null : Math.max(0, +b.delay || 0);
     if (b.kind === "charge") {
+      // No callouts running (e.g. a phase banner nobody tapped after): use the last phase banner's phase and
+      // guess which Charge it is from the time since that banner.
+      if (!cur && lastPhase && PHASES[lastPhase.p]?.some(([n]) => n === "charge")) {
+        const p = lastPhase.p, list = PHASES[p], cycle = list.reduce((a, [, d]) => a + d, 0);
+        const el = ((performance.now() - lastPhase.at) / 1000) % cycle;
+        let t = 0, best = 0, bd = Infinity;
+        list.forEach(([n, d], i) => { if (n === "charge") { const dd = Math.min(Math.abs(t - el), cycle - Math.abs(t - el)); if (dd < bd) { bd = dd; best = i; } } t += d; });
+        setTimeout(() => jump(p, best), (delay || 0) * 1000);
+        $("apStatus").textContent = `Charge banner: started phase ${p} at its Charge (attack ${best + 1}).`;
+        return;
+      }
       if (!cur || !PHASES[cur[0]].some(([n]) => n === "charge")) { $("apStatus").textContent = "Charge banner seen, but no running phase has a Charge."; return; }
       const p = cur[0], i = nearest("charge", performance.now() + (delay || 0) * 1000);
       setTimeout(() => { jump(p, i); }, (delay || 0) * 1000);
@@ -394,6 +418,7 @@
       return;
     }
     const p = +b.kind;
+    lastPhase = { p, at: performance.now(), kind: b.kind, own: b.id ? b : null, learn: delay === null };
     if (delay === null) {
       stop();
       $("status").innerHTML = `Phase ${p} started: tap its first attack (<b>${PHASES[p][0][0]}</b>).`;

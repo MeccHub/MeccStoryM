@@ -159,7 +159,11 @@ export function frameSource(track, video) {
   let last = null;
   return async () => {
     if (ic) {
-      try { const b = await ic.grabFrame(); last?.close(); last = b; return b; } catch (e) { /* fall back below */ }
+      // grabFrame can hang on some tracks; never wait more than 1 s for it.
+      try {
+        const b = await Promise.race([ic.grabFrame(), new Promise((_, no) => setTimeout(() => no(new Error("timeout")), 1000))]);
+        last?.close(); last = b; return b;
+      } catch (e) { /* fall back below */ }
     }
     return video;
   };
