@@ -165,12 +165,15 @@ export function detectIcons({ data, width: W, height: H }, SAT = 45, FILL = 0.3)
     return o;
   };
   const rowp = Array.from({ length: H }, (_, y) => { let s = 0; for (let x = 0; x < W; x++) s += m[y * W + x]; return s; });
-  const bands = runs(rowp, W * 0.12, 3).filter(([a, b]) => b - a >= 12);
+  const bands = runs(rowp, Math.min(W * 0.12, 60), 3) // capped: in a full-width strip the bar is only part of each row
+    .filter(([a, b]) => b - a >= 12);
   const colp = new Float32Array(W);
   for (const [y0, y1] of bands) for (let x = 0; x < W; x++) for (let y = y0; y <= y1; y++) colp[x] += m[y * W + x] / (y1 - y0 + 1);
   const mean = colp.reduce((a, b) => a + b, 0) / W;
   let lag = 0, bestV = -Infinity;
-  for (let L = 20; L < Math.min(120, W / 2); L++) {
+  // Spacing is at least an icon's height; without this floor a short bar's best lag is half an icon.
+  const minL = Math.max(20, Math.round(0.9 * Math.min(...bands.map(([a, b]) => b - a + 1))));
+  for (let L = minL; L < Math.min(120, W / 2); L++) {
     let s = 0;
     for (let i = 0; i + L < W; i++) s += (colp[i] - mean) * (colp[i + L] - mean);
     if (s / (W - L) > bestV) { bestV = s / (W - L); lag = L; }
