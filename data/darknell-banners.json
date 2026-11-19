@@ -1,5 +1,5 @@
 {
- "note": "Default Darknell banner text lines, cropped from 2000x988 screenshots. x/y are the crop's top-left in that frame. delay = seconds from banner to that attack (blank = wait for a tap).",
+ "note": "Default Darknell banner text lines, cropped from 2000x988 screenshots. x/y are the crop's top-left in that frame. delay = seconds from banner to that attack (blank = wait for a tap). area = default banner search box in that frame.",
  "refWidth": 2000,
  "refHeight": 988,
  "banners": [
@@ -34,5 +34,11 @@
    "x": 720,
    "y": 355
   }
- ]
+ ],
+ "area": {
+  "x": 600,
+  "y": 300,
+  "w": 800,
+  "h": 160
+ }
 }

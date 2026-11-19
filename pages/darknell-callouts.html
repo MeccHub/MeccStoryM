@@ -225,7 +225,8 @@
   const video = document.createElement("video"); video.muted = true;
   const grab = document.createElement("canvas"), gctx = grab.getContext("2d", { willReadFrequently: true });
   const view = $("apView"), vctx = view.getContext("2d");
-  let stream = null, running = false, defaults = [];
+  let stream = null, running = false, defaults = [], defArea = null;
+  const A = () => prof.area || defArea; // the player's banner box, or the default one scaled to their screen
   const firedAt = {}; // per kind: a banner stays up a few seconds but should act once
   const rt = new Map(); // banner id -> { T, seen, firedAt, score }
   const run = b => { if (!rt.has(b.id)) rt.set(b.id, { T: prepBoth({ g: unpack(b.px), w: b.w, h: b.h }), seen: 0, firedAt: 0, score: 0 }); return rt.get(b.id); };
@@ -254,8 +255,8 @@
     });
   }
   const buttons = () => {
-    $("apArea").disabled = !stream; $("apCap").disabled = !stream || !prof.area;
-    $("apGo").disabled = !stream || !(prof.banners.length && prof.area || defaults.length);
+    $("apArea").disabled = !stream; $("apCap").disabled = !stream || !A();
+    $("apGo").disabled = !stream || !(prof.banners.length && A() || defaults.length);
   };
 
   // Default banners: the site owner's crops from 2000×988 screenshots, scaled to this screen. Used only while the
@@ -263,6 +264,11 @@
   async function loadDefaults() {
     const meta = await fetch("../data/darknell-banners.json").then(r => r.json());
     const scales = [...new Set([video.videoWidth / meta.refWidth, video.videoHeight / meta.refHeight].map(v => +v.toFixed(3)))];
+    // Default banner box: covers where the banner sits under either scale, centred like the banner.
+    const boxes = scales.map(sc => ({ x: video.videoWidth / 2 + (meta.area.x - meta.refWidth / 2) * sc, y: meta.area.y * sc, w: meta.area.w * sc, h: meta.area.h * sc }));
+    const x0 = Math.max(0, Math.min(...boxes.map(b => b.x))), y0 = Math.max(0, Math.min(...boxes.map(b => b.y)));
+    const x1 = Math.min(video.videoWidth, Math.max(...boxes.map(b => b.x + b.w))), y1 = Math.min(video.videoHeight, Math.max(...boxes.map(b => b.y + b.h)));
+    defArea = { x: Math.round(x0), y: Math.round(y0), w: Math.round(x1 - x0), h: Math.round(y1 - y0) };
     const out = [];
     for (const d of meta.banners) {
       const im = new Image(); im.src = `../data/darknell-banners/${d.file}`; await im.decode();
@@ -285,23 +291,29 @@
     while (!video.videoWidth) await new Promise(r => setTimeout(r, 50));
     stream.getVideoTracks()[0].onended = () => { stream = null; running = false; $("apGo").textContent = "Start auto phase"; buttons(); $("apStatus").textContent = "Screen share ended."; };
     if (prof.area && (prof.area.x + prof.area.w > video.videoWidth || prof.area.y + prof.area.h > video.videoHeight)) { prof.area = null; save(); }
-    if (prof.area) show(prof.area);
-    defaults = prof.banners.length ? [] : await loadDefaults().catch(() => []);
-    $("apStatus").textContent = prof.banners.length ? "Your banners are loaded." : defaults.length ? "Using the default banners (scaled to your screen). If they don't match, capture your own." : prof.area ? "Saved banner area found." : "Now select the banner area.";
+    const defs = await loadDefaults().catch(() => []); // also sets defArea
+    defaults = prof.banners.length ? [] : defs;
+    if (A()) show(A());
+    $("apStatus").textContent = prof.banners.length ? "Your banners are loaded." : defaults.length ? "Using the default banners (scaled to your screen). If they don't match, capture your own." : "Capture a banner while one is showing (the default banner area is used unless you select your own).";
     list(); buttons();
   };
   $("apArea").onclick = async () => {
     show({ x: 0, y: 0, w: video.videoWidth, h: video.videoHeight });
-    prof.area = await dragRect("Drag a box around where Darknell's dialog banner appears (the whole dark box, with a little margin)."); save();
+    const old = A(), area = await dragRect("Drag a box around where Darknell's dialog banner appears (the whole dark box, with a little margin).");
+    // Captured banners are stored relative to the box: keep them on the same screen spot.
+    if (old) prof.banners.forEach(b => { b.x += old.x - area.x; b.y += old.y - area.y; });
+    prof.area = area; save();
     show(prof.area); buttons(); $("apStatus").textContent = "Banner area saved. Capture a banner while one is showing.";
   };
   $("apCap").onclick = async () => {
-    show(prof.area);
+    const area = A();
+    if (!prof.area) { prof.area = area; save(); } // pin the default box so captured positions stay valid
+    show(area);
     const r = await dragRect("Drag a box over ONLY the banner's text line (not the portrait or frame).");
-    const img = frame({ x: prof.area.x + r.x, y: prof.area.y + r.y, w: r.w, h: r.h });
+    const img = frame({ x: area.x + r.x, y: area.y + r.y, w: r.w, h: r.h });
     prof.banners.push({ id: Date.now().toString(36), kind: "2", delay: "", x: r.x, y: r.y, w: img.w, h: img.h, px: pack(img.g) });
     defaults = []; // your own captures replace the defaults
-    save(); list(); buttons(); show(prof.area);
+    save(); list(); buttons(); show(area);
     $("apStatus").textContent = "Banner saved. Pick what it means below.";
   };
   $("apGo").onclick = () => {
@@ -343,8 +355,8 @@
   const states = new Map(), rtState = id => { if (!states.has(id)) states.set(id, { seen: 0, score: 0 }); return states.get(id); };
   ticker.onmessage = () => {
     if (!running || !video.videoWidth) return;
-    if (prof.banners.length && prof.area) {
-      const F = prepFrame(frame(prof.area));
+    if (prof.banners.length && A()) {
+      const F = prepFrame(frame(A()));
       for (const b of prof.banners) check(b.id, b.kind, find(F, run(b).T, { x: b.x, y: b.y }, THRESH, false).score, () => fire(b)); // banners always appear in the same spot
     } else for (const d of defaults) {
       const pad = 10, r = { x: Math.max(0, d.x - pad), y: Math.max(0, d.y - pad), w: d.w + 2 * pad, h: d.h + 2 * pad };
