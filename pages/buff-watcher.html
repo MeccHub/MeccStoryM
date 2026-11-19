@@ -63,7 +63,7 @@
 
   <section class="msm-panel">
     <h2 class="msm-section-title" style="font-size:18px">Buffs</h2>
-    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Pick each buff’s alert and calibrate it. Untick Watch to pause one.</p>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Box only the top half of each icon: leave the countdown digits and any corner stack number out of the box, since they change every second and lower the match. If two buffs look alike at the top, include a bit more, but stay above the digits. Then pick each buff’s alert and press Calibrate. Untick Watch to pause one.</p>
     <div class="bw-list" id="list"><p class="msm-muted" style="margin:0">No buffs yet.</p></div>
   </section>
 </main>
@@ -198,7 +198,7 @@
     const A = area(), snap = frame(A);
     showRegion(A);
     for (let n = 0; ; n++) {
-      const r = await dragRect(`Drag a box over the TOP part of ONE buff icon (above its timer text, away from stack numbers).${n ? ` ${n} added so far.` : ""}`);
+      const r = await dragRect(`Drag a box over the TOP HALF of ONE buff icon: stop above the countdown digits and leave out any stack number.${n ? ` ${n} added so far.` : ""}`);
       vctx.strokeStyle = "#22c55e"; vctx.lineWidth = 2; vctx.strokeRect(r.x, r.y, r.w, r.h);
       const name = (prompt("Name this buff (used in callouts). Cancel when you're done adding.", "") || "").trim().slice(0, 30);
       if (!name) break;
