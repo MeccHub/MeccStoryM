@@ -35,7 +35,6 @@
   .bw-f { display: none; }
   .bw-buff[data-mode="cooldown"] .bw-f.cooldown, .bw-buff[data-mode="keep"] .bw-f.keep { display: inline; }
   .bw-buff.idle { opacity: .6; }
-  .bw-btn.collecting { background: #f59e0b; border-color: #f59e0b; color: #111; }
   .bw-actions { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
   .bw-actions .bw-btn { padding: 6px 9px; font-size: 12px; }
 </style>
@@ -51,8 +50,7 @@
     <div class="bw-row">
       <button class="bw-btn" id="share" type="button">1. Share game window</button>
       <button class="bw-btn" id="pickArea" type="button" disabled>Narrow the area (optional)</button>
-      <button class="bw-btn" id="collect" type="button" disabled>2. Collect icons</button>
-      <button class="bw-btn" id="addBuff" type="button" disabled>or add one by hand</button>
+      <button class="bw-btn" id="addBuff" type="button" disabled>2. Add buffs (box each icon)</button>
       <button class="bw-btn go" id="watch" type="button" disabled>Start watching</button>
     </div>
     <p class="bw-status" id="status">Not sharing.</p>
@@ -65,14 +63,14 @@
 
   <section class="msm-panel">
     <h2 class="msm-section-title" style="font-size:18px">Buffs</h2>
-    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Collected icons start unticked as "New …". Name the ones you want, pick their alert, and tick Watch. Delete the rest.</p>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Pick each buff’s alert and calibrate it. Untick Watch to pause one.</p>
     <div class="bw-list" id="list"><p class="msm-muted" style="margin:0">No buffs yet.</p></div>
   </section>
 </main>
 
 <script src="../assets/js/site-nav.js"></script>
 <script type="module">
-  import { toGray, prepBoth, prepFrame, find, calibrate, step, timerAlerts, detectIcons, iconCrop, frameSource } from "../assets/js/buffwatch-core.js";
+  import { toGray, prepBoth, prepFrame, find, calibrate, step, timerAlerts, frameSource } from "../assets/js/buffwatch-core.js";
 
   const KEY = "msm_buffwatch_v1";
   const $ = id => document.getElementById(id);
@@ -83,6 +81,7 @@
   const MODES = { off: "Say when it ends", cooldown: "Cooldown timer (say ready)", keep: "Must stay on (say missing)", appear: "Say when it appears (debuffs)" };
   // Profiles from before alert modes: keep their old "say when it ends" behaviour.
   profile.buffs.forEach(b => Object.assign(b, { mode: "off", duration: 0, cooldown: 0, repeat: 10, on: true, ...b }));
+  profile.buffs = profile.buffs.filter(b => b.on || !/^New \d+$/.test(b.name)); // leftovers from the removed Collect mode
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(profile)); } catch (e) { $("status").textContent = "Could not save (browser storage full or blocked)."; } };
 
   const video = document.createElement("video");
@@ -90,7 +89,7 @@
   const vw = () => src.width || video.videoWidth, vh = () => src.height || video.videoHeight; // ImageBitmap or <video>
   const grab = document.createElement("canvas"), gctx = grab.getContext("2d", { willReadFrequently: true });
   const view = $("view"), vctx = view.getContext("2d");
-  let stream = null, watching = false, collecting = false, warm = 0, busy = false, ticks = 0, grabFrame = null, src = video;
+  let stream = null, watching = false, warm = 0, busy = false, grabFrame = null, src = video;
   let areaId = profile.areas[0]?.id || null;
   const area = () => profile.areas.find(a => a.id === areaId) || null;
   const areaOf = b => profile.areas.find(a => a.id === b.area);
@@ -157,7 +156,7 @@
 
   function refreshButtons() {
     $("pickArea").disabled = !stream;
-    $("addBuff").disabled = $("collect").disabled = !stream || !area();
+    $("addBuff").disabled = !stream || !area();
     $("watch").disabled = !stream || !profile.buffs.some(b => b.on);
     render(); // Calibrate buttons depend on sharing state
   }
@@ -177,7 +176,7 @@
       const a = { id: A?.id || Date.now().toString(36), name: "Top of screen", auto: true, x: 0, y: 0, w: vw(), h: Math.round(vh() * 0.25) };
       profile.areas = [a]; areaId = a.id; profile.buffs.forEach(b => { b.area = a.id; }); save();
     }
-    $("status").innerHTML = `Sharing <b>${vw()}×${vh()}</b>. Watching the ${area().auto ? "top of the screen" : "box you drew"}. ${profile.buffs.length ? "" : "Now collect icons."}`;
+    $("status").innerHTML = `Sharing <b>${vw()}×${vh()}</b>. Watching the ${area().auto ? "top of the screen" : "box you drew"}. ${profile.buffs.length ? "" : "Now add your buffs."}`;
     showRegion(area());
     refreshButtons();
   };
@@ -190,60 +189,31 @@
     const a = { id: area()?.id || Date.now().toString(36), name: "Buff bar", ...r };
     profile.areas = [a]; areaId = a.id; profile.buffs.forEach(b => { b.area = a.id; }); save();
     showRegion(r); refreshButtons();
-    $("status").textContent = "Buff bar saved. Now collect icons, or add one by hand.";
+    $("status").textContent = "Buff bar saved. Now add your buffs.";
   };
 
+  // Freeze one frame and let the user box each buff icon on it; Cancel on the name prompt finishes.
   $("addBuff").onclick = async () => {
     stopWatching();
-    const A = area();
+    const A = area(), snap = frame(A);
     showRegion(A);
-    const r = await dragRect("Drag a box over the TOP part of ONE icon: above its timer text, and away from any stack number in the corner.");
-    const img = frame({ x: A.x + r.x, y: A.y + r.y, w: r.w, h: r.h });
-    const name = (prompt("Name this buff (used in callouts):", "") || "").trim().slice(0, 30);
+    for (let n = 0; ; n++) {
+      const r = await dragRect(`Drag a box over the TOP part of ONE buff icon (above its timer text, away from stack numbers).${n ? ` ${n} added so far.` : ""}`);
+      vctx.strokeStyle = "#22c55e"; vctx.lineWidth = 2; vctx.strokeRect(r.x, r.y, r.w, r.h);
+      const name = (prompt("Name this buff (used in callouts). Cancel when you're done adding.", "") || "").trim().slice(0, 30);
+      if (!name) break;
+      profile.buffs.push(newBuff(A, cropGray(snap, r), name, true));
+      save(); render(); refreshButtons();
+    }
     showRegion(A);
-    if (!name) return;
-    profile.buffs.push(newBuff(A, img, name, true));
-    save(); render(); refreshButtons();
-    $("status").textContent = `Added ${name}. Calibrate it for reliable detection.`;
+    $("status").textContent = "Done adding. Calibrate each buff for reliable detection.";
   };
 
   const newBuff = (A, img, name, on) => ({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), area: A.id, name, on, w: img.w, h: img.h, px: pack(img.g), threshold: 0.85, debounce: 3, grace: 250, mode: "off", duration: 0, cooldown: 0, repeat: 10 });
 
-  // Collect mode: every second, find icons in the selected area and keep any not already saved there.
-  function collectOnce() {
-    const A = area(), rgba = frameRGBA(A), img = toGray(rgba);
-    const known = profile.buffs.filter(b => b.area === A.id), cells = detectIcons(rgba);
-    let added = 0;
-    showRegion(A);
-    vctx.strokeStyle = "#f59e0b"; vctx.lineWidth = 2;
-    cells.forEach(c => vctx.strokeRect(c.x, c.y, c.w, c.h)); // show what it sees
-    for (const c of cells) {
-      const crop = iconCrop(c);
-      if (crop.x + crop.w > img.w || crop.y + crop.h > img.h) continue;
-      // Known if a saved template matches around this icon (icons drift a few px between detections).
-      const pad = { x: Math.max(0, c.x - 8), y: Math.max(0, c.y - 8) };
-      const win = cropGray(img, { ...pad, w: Math.min(img.w - pad.x, c.w + 16), h: Math.min(img.h - pad.y, c.h + 16) });
-      const W = prepFrame(win);
-      if (known.some(b => find(W, runtime(b).T, null, 0.85).score >= 0.85)) continue;
-      const n = profile.buffs.filter(b => /^New \d+$/.test(b.name)).length + 1;
-      const b = newBuff(A, cropGray(img, crop), `New ${n}`, false);
-      profile.buffs.push(b); known.push(b); added++;
-    }
-    if (added) { save(); render(); refreshButtons(); }
-    const total = profile.buffs.filter(b => b.area === A.id && !b.on).length;
-    $("status").innerHTML = `Collecting… ${total} unticked icon(s) so far. Use or switch buffs to catch more, then press Stop collecting.`;
-  }
-  $("collect").onclick = () => {
-    collecting = !collecting;
-    $("collect").textContent = collecting ? "Stop collecting" : "3. Collect icons";
-    $("collect").classList.toggle("collecting", collecting);
-    if (!collecting) $("status").textContent = "Collecting stopped. Name the new icons below and tick Watch on the ones you want.";
-  };
-
   // One scan: match every watched buff, each area from a single frame grab.
   function tick() {
     if (busy || !vw()) return;
-    if (collecting && area() && ticks++ % 10 === 0) collectOnce();
     if (!watching) return;
     busy = true;
     const t0 = performance.now(), now = Date.now(), frames = new Map();
