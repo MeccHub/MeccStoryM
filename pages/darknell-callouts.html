@@ -92,6 +92,7 @@
         </div>
       </details>
       <p class="dk-status" id="apStatus" style="font-size:13px">Not sharing.</p>
+      <p class="msm-muted" id="apDiag" style="margin:4px 0;font-size:12px;font-weight:700"></p>
       <p class="dk-status" id="apHint" style="font-size:13px"></p>
       <canvas id="apView" hidden style="display:block;width:100%;height:auto;border-radius:8px;background:#000;touch-action:none"></canvas>
       <div id="apList" class="dk-grid" style="gap:6px;margin-top:8px"></div>
@@ -220,7 +221,7 @@
 </script>
 <script type="module">
   // Auto phase: watch Darknell's dialog banner on a shared screen (matcher from Buff Watcher).
-  import { toGray, prepBoth, prepFrame, find } from "../assets/js/buffwatch-core.js";
+  import { toGray, prepBoth, prepFrame, find, frameSource } from "../assets/js/buffwatch-core.js";
   const $ = id => document.getElementById(id);
   const KEY = "msm_darknell_banners", THRESH = 0.6;
   const KINDS = { 0: "Fight starts (phase 0)", 1: "Phase 1 starts", 2: "Phase 2 starts", 3: "Phase 3 starts", 4: "Phase 4 starts", charge: "Charge (resync)" };
@@ -229,9 +230,11 @@
   const pack = g => btoa(String.fromCharCode(...Uint8Array.from(g, v => Math.round(v))));
   const unpack = s => Float32Array.from(atob(s), c => c.charCodeAt(0));
   const video = document.createElement("video"); video.muted = true;
+  const vw = () => src.width || video.videoWidth, vh = () => src.height || video.videoHeight; // ImageBitmap or <video>
   const grab = document.createElement("canvas"), gctx = grab.getContext("2d", { willReadFrequently: true });
   const view = $("apView"), vctx = view.getContext("2d");
-  let stream = null, running = false, defaults = [], defArea = null;
+  let stream = null, running = false, defaults = [], defArea = null, grabFrame = null, src = video, busy = false, ticks = 0, scanI = 0;
+  let lastSum = -1, frozen = 0, bestRecent = 0;
   const A = () => prof.area || defArea; // the player's banner box, or the default one scaled to their screen
   const firedAt = {}; // per kind: a banner stays up a few seconds but should act once
   const rt = new Map(); // banner id -> { T, seen, firedAt, score }
@@ -239,10 +242,10 @@
 
   function frame(r) {
     grab.width = r.w; grab.height = r.h;
-    gctx.drawImage(video, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
+    gctx.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
     return toGray(gctx.getImageData(0, 0, r.w, r.h));
   }
-  function show(r) { view.hidden = false; view.width = r.w; view.height = r.h; vctx.drawImage(video, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h); }
+  function show(r) { view.hidden = false; view.width = r.w; view.height = r.h; vctx.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h); }
   function dragRect(hint) {
     $("apHint").textContent = hint; view.classList.add("picking");
     const snap = vctx.getImageData(0, 0, view.width, view.height);
@@ -269,11 +272,11 @@
   // player hasn't captured their own. UI may scale with width or height, so both scales are tried.
   async function loadDefaults() {
     const meta = await fetch("../data/darknell-banners.json").then(r => r.json());
-    const scales = [...new Set([video.videoWidth / meta.refWidth, video.videoHeight / meta.refHeight].map(v => +v.toFixed(3)))];
+    const scales = [...new Set([vw() / meta.refWidth, vh() / meta.refHeight].map(v => +v.toFixed(3)))];
     // Default banner box: covers where the banner sits under either scale, centred like the banner.
-    const boxes = scales.map(sc => ({ x: video.videoWidth / 2 + (meta.area.x - meta.refWidth / 2) * sc, y: meta.area.y * sc, w: meta.area.w * sc, h: meta.area.h * sc }));
+    const boxes = scales.map(sc => ({ x: vw() / 2 + (meta.area.x - meta.refWidth / 2) * sc, y: meta.area.y * sc, w: meta.area.w * sc, h: meta.area.h * sc }));
     const x0 = Math.max(0, Math.min(...boxes.map(b => b.x))), y0 = Math.max(0, Math.min(...boxes.map(b => b.y)));
-    const x1 = Math.min(video.videoWidth, Math.max(...boxes.map(b => b.x + b.w))), y1 = Math.min(video.videoHeight, Math.max(...boxes.map(b => b.y + b.h)));
+    const x1 = Math.min(vw(), Math.max(...boxes.map(b => b.x + b.w))), y1 = Math.min(vh(), Math.max(...boxes.map(b => b.y + b.h)));
     defArea = { x: Math.round(x0), y: Math.round(y0), w: Math.round(x1 - x0), h: Math.round(y1 - y0) };
     const out = [];
     for (const d of meta.banners) {
@@ -282,7 +285,7 @@
         const w = Math.round(im.width * sc), h = Math.round(im.height * sc), c = document.createElement("canvas");
         c.width = w; c.height = h; const x = c.getContext("2d"); x.drawImage(im, 0, 0, w, h);
         // Horizontal position follows the centred banner; vertical follows the same scale.
-        const cx = video.videoWidth / 2 + (d.x + im.width / 2 - meta.refWidth / 2) * sc;
+        const cx = vw() / 2 + (d.x + im.width / 2 - meta.refWidth / 2) * sc;
         out.push({ id: `def-${d.kind}-${sc}`, kind: d.kind, file: d.file, delay: d.delay ?? "", sc, x: Math.round(cx - w / 2), y: Math.round(d.y * sc), w, h,
           T: prepBoth(toGray(x.getImageData(0, 0, w, h))), seen: 0, score: 0 });
       }
@@ -293,10 +296,11 @@
   $("apShare").onclick = async () => {
     try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 10 }, audio: false }); }
     catch (e) { $("apStatus").textContent = "Screen share was cancelled."; return; }
-    video.srcObject = stream; await video.play();
-    while (!video.videoWidth) await new Promise(r => setTimeout(r, 50));
+    video.srcObject = stream; video.play().catch(() => {}); // not awaited: a background tab may never start it
+    grabFrame = frameSource(stream.getVideoTracks()[0], video);
+    for (let i = 0; i < 100 && !vw(); i++) { src = await grabFrame(); if (!vw()) await new Promise(res => setTimeout(res, 50)); }
     stream.getVideoTracks()[0].onended = () => { stream = null; running = false; $("apGo").textContent = "Start auto phase"; buttons(); $("apStatus").textContent = "Screen share ended."; };
-    if (prof.area && (prof.area.x + prof.area.w > video.videoWidth || prof.area.y + prof.area.h > video.videoHeight)) { prof.area = null; save(); }
+    if (prof.area && (prof.area.x + prof.area.w > vw() || prof.area.y + prof.area.h > vh())) { prof.area = null; save(); }
     const defs = await loadDefaults().catch(() => []); // also sets defArea
     defaults = prof.banners.length ? [] : defs;
     if (defaults.length || prof.banners.length) { running = true; $("apGo").textContent = "Stop auto phase"; } // no extra click needed
@@ -304,7 +308,7 @@
     list(); buttons();
   };
   $("apArea").onclick = async () => {
-    show({ x: 0, y: 0, w: video.videoWidth, h: video.videoHeight });
+    show({ x: 0, y: 0, w: vw(), h: vh() });
     const old = A(), area = await dragRect("Drag a box around where Darknell's dialog banner appears (the whole dark box, with a little margin).");
     // Captured banners are stored relative to the box: keep them on the same screen spot.
     if (old) prof.banners.forEach(b => { b.x += old.x - area.x; b.y += old.y - area.y; });
@@ -359,16 +363,45 @@
     if (row) { row.classList.toggle("hit", r.seen > 0); row.querySelector(".sc").textContent = `match ${score.toFixed(2)}`; }
   }
   const states = new Map(), rtState = id => { if (!states.has(id)) states.set(id, { seen: 0, score: 0 }); return states.get(id); };
-  ticker.onmessage = () => {
-    if (!running || !video.videoWidth) return;
-    if (prof.banners.length && A()) {
-      const F = prepFrame(frame(A()));
-      for (const b of prof.banners) check(b.id, b.kind, find(F, run(b).T, { x: b.x, y: b.y }, THRESH, false).score, () => fire(b)); // banners always appear in the same spot
-    } else for (const d of defaults) {
-      const pad = 10, r = { x: Math.max(0, d.x - pad), y: Math.max(0, d.y - pad), w: d.w + 2 * pad, h: d.h + 2 * pad };
-      const F = prepFrame(frame(r));
-      check(d.id, d.kind, find(F, d.T, { x: d.x - r.x, y: d.y - r.y }, THRESH, false).score, () => fire({ kind: d.kind, delay: prof.defaultDelays[d.kind] ?? d.delay }));
-    }
+  // Default banners may sit a little off where the screenshots put them (window borders, UI scale), so the expected
+  // spot carries an offset learned from a wider search. Kept per screen size.
+  const offKey = () => `${vw()}x${vh()}`;
+  const off = () => (prof.defaultOffset || {})[offKey()] || { x: 0, y: 0 };
+  ticker.onmessage = async () => {
+    if (!running || !vw() || busy) return;
+    busy = true;
+    try {
+      src = await grabFrame();
+      ticks++;
+      let best = 0;
+      if (prof.banners.length && A()) {
+        const F = prepFrame(frame(A()));
+        for (const b of prof.banners) { const sc = find(F, run(b).T, { x: b.x, y: b.y }, THRESH, false).score; best = Math.max(best, sc); check(b.id, b.kind, sc, () => fire(b)); } // banners always appear in the same spot
+      } else if (defaults.length) {
+        const o = off();
+        for (const d of defaults) {
+          const pad = 10, x = d.x + o.x, y = d.y + o.y, r = { x: Math.max(0, x - pad), y: Math.max(0, y - pad), w: d.w + 2 * pad, h: d.h + 2 * pad };
+          const sc = find(prepFrame(frame(r)), d.T, { x: x - r.x, y: y - r.y }, THRESH, false).score;
+          best = Math.max(best, sc); check(d.id, d.kind, sc, () => fire({ kind: d.kind, delay: prof.defaultDelays[d.kind] ?? d.delay }));
+        }
+        // Nothing close: about once a second, look for one banner across the whole default box and learn where it sits.
+        if (best < THRESH && ticks % 7 === 0 && defArea) {
+          const d = defaults[scanI++ % defaults.length], m = find(prepFrame(frame(defArea)), d.T, null, THRESH);
+          if (m.score >= THRESH) {
+            prof.defaultOffset = { ...(prof.defaultOffset || {}), [offKey()]: { x: defArea.x + m.x - d.x, y: defArea.y + m.y - d.y } };
+            save();
+          }
+        }
+      }
+      // Diagnostics: best score lately, and whether frames are actually changing.
+      const probe = frame({ x: 0, y: 0, w: Math.min(vw(), 64), h: Math.min(vh(), 64) }).g;
+      const sum = probe.reduce((a, v, i) => a + v * (i % 7 + 1), 0);
+      frozen = sum === lastSum ? frozen + 1 : 0; lastSum = sum;
+      bestRecent = ticks % 20 === 0 ? best : Math.max(bestRecent * 0.98, best);
+      $("apDiag").textContent = frozen > 20
+        ? "⚠️ The shared picture isn't changing. Share the game window itself (not a minimised one), and use Chrome or Edge."
+        : `Best banner match lately: ${bestRecent.toFixed(2)} (a banner needs ${THRESH.toFixed(2)}). With no banner on screen, low numbers are normal.`;
+    } finally { busy = false; }
   };
 
   function list() {
