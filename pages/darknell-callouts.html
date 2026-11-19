@@ -65,6 +65,17 @@
     <div class="dk-bot"><input id="botCode" maxlength="6" placeholder="Bot code" aria-label="Discord bot code"><button class="dk-btn" id="botGo" type="button">Connect</button> <span id="botState" class="msm-muted"></span></div>
     <div class="dk-bar"><i id="bar"></i></div>
     <button class="dk-btn dk-stop" id="stop" type="button">Stop</button>
+    <button class="dk-btn" id="recBtn" type="button" style="margin-top:8px">⏱ Record timings</button>
+    <div id="recBox" hidden style="margin-top:8px">
+      <p class="msm-muted" style="margin:0 0 6px;font-size:13px">Recording (callouts are off). Tap the attack Darknell is doing, then press <b>Enter</b> each time the next attack happens (<b>Space</b> = a new phase starts; tapping a button also works). Gaps between attacks in order are averaged over every loop; jumps aren't counted.</p>
+      <p class="dk-status" id="recLast" style="font-size:14px"></p>
+      <textarea id="recOut" readonly rows="5" style="width:100%;font:600 13px ui-monospace,monospace;border-radius:8px;padding:6px;background:var(--msm-field);color:var(--msm-ink);border:1px solid var(--msm-field-line)"></textarea>
+      <div class="dk-row" style="margin-top:6px">
+        <button class="dk-btn" id="recCopy" type="button">Copy</button>
+        <button class="dk-btn" id="recUse" type="button">Use on this device</button>
+        <button class="dk-btn" id="recReset" type="button">Back to site timings</button>
+      </div>
+    </div>
     <details class="dk-set">
       <summary class="dk-btn">⚙️ Settings</summary>
       <label>Voice <select id="voice"><option value="">Default</option></select></label>
@@ -104,8 +115,12 @@
 <script>
   // "attack seconds-until-next ...". Phase 0 runs once into phase 1; the others loop.
   let PHASES = [];
-  const parse = lines => lines.map(s => s.match(/\w+ \d+/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
-  fetch("../data/darknell.json").then(r => r.json()).then(lines => { PHASES = parse(lines); render(); });
+  const parse = lines => lines.map(s => s.match(/\w+ \d+(?:\.\d+)?/g).map(x => { const [name, d] = x.split(" "); return [name, +d]; }));
+  // Timings recorded on this device (⏱ Record timings → Use on this device) override the site's.
+  const TKEY = "msm_darknell_timings";
+  const localLines = () => { try { return JSON.parse(localStorage.getItem(TKEY)); } catch (e) { return null; } };
+  const loadTimings = () => (localLines() ? Promise.resolve(localLines()) : fetch("../data/darknell.json").then(r => r.json())).then(lines => { PHASES = parse(lines); render(); });
+  loadTimings();
 
   // Discord bot link: the page posts taps to the relay and Meccbot speaks them in voice.
   const RELAY = "https://darknell-relay.meccstorym-roster.workers.dev";
@@ -175,9 +190,44 @@
 
   $("phases").addEventListener("pointerdown", e => {
     const b = e.target.closest("[data-i]"); if (!b) return;
+    if (rec) { mark(+b.dataset.p, +b.dataset.i); return; }
     clear(); land(+b.dataset.p, +b.dataset.i, performance.now() - REACT * 1000); send({ t: "land", p: +b.dataset.p, i: +b.dataset.i, ago: REACT * 1000 }); // tap lands a beat after the attack started
   });
   $("stop").addEventListener("click", stop);
+
+  // ⏱ Record timings: each mark is "this attack just happened"; consecutive marks give that attack's gap.
+  let rec = null;
+  const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+  function mark(p, i) {
+    const t = performance.now(), last = rec.last;
+    if (last && String(nx([last.p, last.i])) === String([p, i]) && t - last.t < 30000) {
+      const k = `${last.p},${last.i}`, gap = (t - last.t) / 1000;
+      (rec.samples[k] ||= []).push(gap);
+      $("recLast").textContent = `${cap(PHASES[last.p][last.i][0])} → ${cap(PHASES[p][i][0])}: ${gap.toFixed(1)}s`;
+    } else $("recLast").textContent = `Started at ${cap(PHASES[p][i][0])} (phase ${p}). Press Enter at the next attack.`;
+    rec.last = { p, i, t };
+    cur = [p, i]; render(); recLines();
+  }
+  function recLines() {
+    const n = Object.values(rec.samples).flat().length;
+    $("recOut").value = PHASES.map((list, p) => list.map(([name, d], i) => {
+      const s = rec.samples[`${p},${i}`];
+      return `${name} ${s ? +avg(s).toFixed(1) : d}`;
+    }).join(" ")).join("\n");
+    $("recBtn").textContent = `⏹ Stop recording (${n} gaps)`;
+  }
+  $("recBtn").addEventListener("click", () => {
+    if (rec) { rec = null; $("recBtn").textContent = "⏱ Record timings"; cur = null; render(); $("recLast").textContent += " · Recording stopped."; return; }
+    stop(); rec = { samples: {}, last: null }; $("recBox").hidden = false; recLines();
+    $("recLast").textContent = "Tap the attack Darknell is doing to start.";
+  });
+  $("recCopy").addEventListener("click", () => navigator.clipboard?.writeText($("recOut").value).then(() => { $("recCopy").textContent = "Copied ✓"; setTimeout(() => $("recCopy").textContent = "Copy", 1500); }));
+  $("recUse").addEventListener("click", () => {
+    const lines = $("recOut").value.split("\n");
+    try { localStorage.setItem(TKEY, JSON.stringify(lines)); } catch (e) {}
+    PHASES = parse(lines); render(); $("recLast").textContent = "Using these timings on this device.";
+  });
+  $("recReset").addEventListener("click", () => { try { localStorage.removeItem(TKEY); } catch (e) {} loadTimings(); $("recLast").textContent = "Back to the site's timings."; });
   // Jump the callouts (and the bot) to attack (p, i) landing now. Used by Auto phase.
   function jump(p, i) { clear(); land(p, i, performance.now()); send({ t: "land", p, i, ago: 0 }); }
   // Attack named `name` in the current phase whose expected landing time is closest to t (walks one loop each way).
@@ -194,6 +244,7 @@
   document.addEventListener("keydown", e => {
     if (!PHASES.length || e.target.closest?.("select, input") || (e.key !== " " && e.key !== "Enter")) return;
     e.preventDefault();
+    if (rec) { if (e.key === " ") mark(cur ? (cur[0] % 4) + 1 : 0, 0); else if (cur) mark(...nx(cur)); return; }
     if (e.key === " ") { const p = cur ? (cur[0] % 4) + 1 : 0; clear(); land(p, 0, performance.now()); send({ t: "land", p, i: 0, ago: 0 }); return; }
     if (!cur) return;
     const [p, i] = nx(cur);
