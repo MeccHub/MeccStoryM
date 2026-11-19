@@ -148,3 +148,49 @@ export function timerAlerts(b, t, on, change, now) {
   }
   return out;
 }
+
+/**
+ * Finds buff icons in an RGBA buff-bar crop, for Collect mode. Icons are colourful squares on a grey bar:
+ * rows = bands of colourful pixels, icon width = the bar's repeat spacing (autocorrelation) × 0.85,
+ * then a window slides along each row and snaps onto each icon. Returns [{x, y, w, h}] (square cells).
+ * shortcut: misses mostly-grey icons and fails on busy backgrounds (skill bar); manual capture covers those.
+ */
+export function detectIcons({ data, width: W, height: H }, SAT = 45, FILL = 0.3) {
+  const m = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) { const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2]; m[i] = Math.max(r, g, b) - Math.min(r, g, b) > SAT ? 1 : 0; }
+  const runs = (arr, t, gap) => {
+    const o = []; let s = -1, e = -1;
+    arr.forEach((v, i) => { if (v > t) { if (s < 0) s = i; e = i; } else if (s >= 0 && i - e > gap) { o.push([s, e]); s = -1; } });
+    if (s >= 0) o.push([s, e]);
+    return o;
+  };
+  const rowp = Array.from({ length: H }, (_, y) => { let s = 0; for (let x = 0; x < W; x++) s += m[y * W + x]; return s; });
+  const bands = runs(rowp, W * 0.12, 3).filter(([a, b]) => b - a >= 12);
+  const colp = new Float32Array(W);
+  for (const [y0, y1] of bands) for (let x = 0; x < W; x++) for (let y = y0; y <= y1; y++) colp[x] += m[y * W + x] / (y1 - y0 + 1);
+  const mean = colp.reduce((a, b) => a + b, 0) / W;
+  let lag = 0, bestV = -Infinity;
+  for (let L = 20; L < Math.min(120, W / 2); L++) {
+    let s = 0;
+    for (let i = 0; i + L < W; i++) s += (colp[i] - mean) * (colp[i + L] - mean);
+    if (s / (W - L) > bestV) { bestV = s / (W - L); lag = L; }
+  }
+  const wid = Math.round(lag * 0.85), out = [];
+  if (!wid) return out;
+  for (const [y0, y1] of bands) {
+    const bh = y1 - y0 + 1, cp = new Float32Array(W);
+    for (let x = 0; x < W; x++) for (let y = y0; y <= y1; y++) cp[x] += m[y * W + x];
+    const fill = k => { let f = 0; for (let i = k; i < k + wid; i++) f += cp[i]; return f / (bh * wid); };
+    for (let k = 0; k + wid <= W;) {
+      if (fill(k) <= FILL) { k++; continue; }
+      let bk = k; // climb to the fill peak; stop at the first drop so we don't walk into the next icon
+      while (bk - k < wid && bk + 1 + wid <= W && fill(bk + 1) >= fill(bk)) bk++;
+      out.push({ x: bk, y: y0, w: wid, h: Math.min(wid, H - y0) });
+      k = bk + wid;
+    }
+  }
+  return out;
+}
+
+/** Part of a detected icon to keep as its template: top-left, above the timer text and clear of stack numbers. */
+export const iconCrop = c => ({ x: c.x + 3, y: c.y + 3, w: Math.max(8, Math.round(c.w * 0.65)), h: Math.max(8, Math.round(c.w * 0.5)) });

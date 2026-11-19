@@ -50,3 +50,16 @@ assert.deepEqual(timerAlerts(ft, t2, false, 'off', 112000), ['Fair Trade missing
 assert.deepEqual(timerAlerts({ name: 'Seal', mode: 'appear' }, {}, true, 'on', 0), ['Seal']);
 assert.deepEqual(timerAlerts({ name: 'HS', mode: 'off' }, {}, false, 'off', 0), ['HS off']);
 console.log('timerAlerts ok');
+
+const { detectIcons, iconCrop } = await import('../assets/js/buffwatch-core.js');
+// Grey bar 400×110 with two rows of 40px colourful icons every 48px, one gap in row 2.
+const BW = 400, BH = 110, bar = new Uint8ClampedArray(BW * BH * 4).map((_, i) => (i % 4 === 3 ? 255 : 90));
+const paint = (ox, oy, hue) => { for (let y = 0; y < 40; y++) for (let x = 0; x < 40; x++) { const i = ((oy + y) * BW + ox + x) * 4; bar[i] = (hue * 50 + x * 3) % 256; bar[i + 1] = 30; bar[i + 2] = 200 - y * 2; } };
+for (let k = 0; k < 7; k++) paint(10 + k * 48, 8, k);
+for (const k of [0, 1, 3, 4, 5]) paint(10 + k * 48, 60, k + 7);
+const cells = detectIcons({ data: bar, width: BW, height: BH });
+assert.equal(cells.length, 12, `found ${cells.length} icons`);
+assert.ok(cells.every(c => Math.abs((c.x - 10) % 48) <= 4 || Math.abs((c.x - 10) % 48 - 48) <= 4), 'cells snap onto icons');
+assert.ok(cells.every(c => c.w >= 36 && c.w <= 44), 'icon size from spacing');
+const cr = iconCrop(cells[0]); assert.ok(cr.w < cells[0].w && cr.h < cells[0].w);
+console.log('detectIcons ok');
