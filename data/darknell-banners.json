@@ -1,5 +1,5 @@
 {
- "note": "Default Darknell banner text lines, cropped from 2000x988 screenshots. x/y are the crop's top-left in that frame. delay = seconds from banner to that attack (blank = wait for a tap). area = default banner search box in that frame.",
+ "note": "Default Darknell banner text lines, cropped from 2000x988 screenshots. x/y are the crop's top-left in that frame. delay = seconds from banner to that attack (blank = wait for a tap). area = default banner search box in that frame. Phase 2/3/4 delays estimated from a recorded fight: banner-to-first-Charge time minus the timings before that Charge.",
  "refWidth": 2000,
  "refHeight": 988,
  "banners": [
@@ -14,7 +14,8 @@
    "kind": "2",
    "file": "p2.png",
    "x": 760,
-   "y": 350
+   "y": 350,
+   "delay": "4.2"
   },
   {
    "kind": "charge",
@@ -26,13 +27,15 @@
    "kind": "3",
    "file": "p3.png",
    "x": 770,
-   "y": 360
+   "y": 360,
+   "delay": "5.2"
   },
   {
    "kind": "4",
    "file": "p4.png",
    "x": 720,
-   "y": 355
+   "y": 355,
+   "delay": "3.5"
   }
  ],
  "area": {
