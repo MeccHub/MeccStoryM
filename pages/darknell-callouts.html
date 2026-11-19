@@ -100,6 +100,7 @@
         <div class="dk-row">
           <button class="dk-btn" id="apArea" type="button" disabled>Select banner area</button>
           <button class="dk-btn" id="apCap" type="button" disabled>Capture banner</button>
+          <button class="dk-btn" id="apHp" type="button" disabled>Box the boss HP bar</button>
         </div>
       </details>
       <p class="dk-status" id="apStatus" style="font-size:13px">Not sharing.</p>
@@ -273,6 +274,7 @@
 <script type="module">
   // Auto phase: watch Darknell's dialog banner on a shared screen (matcher from Buff Watcher).
   import { toGray, prepBoth, prepFrame, find, frameSource } from "../assets/js/buffwatch-core.js";
+  import { findBar, readBar, widen } from "../assets/js/darknell-hp.js";
   const $ = id => document.getElementById(id);
   const KEY = "msm_darknell_banners", THRESH = 0.6;
   const KINDS = { 0: "Fight starts (phase 0)", 1: "Phase 1 starts", 2: "Phase 2 starts", 3: "Phase 3 starts", 4: "Phase 4 starts", charge: "Charge (resync)" };
@@ -289,22 +291,28 @@
   const A = () => prof.area || defArea; // the player's banner box, or the default one scaled to their screen
   const firedAt = {}; // per kind: a banner stays up a few seconds but should act once
   let lastPhase = null; // { p, at, kind, learn } from the latest phase banner
-  // Boss HP bar as a backup phase trigger. Measured on a recorded fight (2160×1080): the bar is centred, its fill row
-  // at 21.1% of the height, 50.8% of the height wide; phases began at 75% / ⅔ / ⅓ HP (read here as 75.5 / 67 / 34%).
-  const HP_AT = { 2: 0.755, 3: 0.67, 4: 0.34 }, phaseDone = new Set(), hpHist = [];
+  // Boss HP bar as a backup phase trigger. In three recorded fights phases began at 75% / ⅔ / ⅓ HP
+  // (read as ~76 / 68 / 34.4% at the banner; thresholds sit just above so HP fires with the banner, not after).
+  const HP_AT = { 2: 0.76, 3: 0.68, 4: 0.345 }, phaseDone = new Set(), hpHist = [];
+  // The bar is found on screen (any window size) and its lock saved per window size; see darknell-hp.js.
+  let hpMiss = 0;
+  const hpKey = () => `${vw()}x${vh()}`;
+  function rgba(r) { grab.width = r.w; grab.height = r.h; gctx.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h); return gctx.getImageData(0, 0, r.w, r.h); }
   function hpFill() {
-    const w = Math.round(vh() * 0.508), x0 = Math.round(vw() / 2 - w / 2), y0 = Math.round(vh() * 0.211) - 2;
-    if (x0 < 0 || w < 50) return null;
-    grab.width = w; grab.height = 5;
-    gctx.drawImage(src, x0, y0, w, 5, 0, 0, w, 5);
-    const d = gctx.getImageData(0, 0, w, 5).data;
-    let last = -1;
-    for (let x = 0; x < w; x++) {
-      let c = 0;
-      for (let y = 0; y < 5; y++) { const k = (y * w + x) * 4, hi = Math.max(d[k], d[k + 1], d[k + 2]); if (hi > 120 && hi - Math.min(d[k], d[k + 1], d[k + 2]) > 60) c++; }
-      if (c >= 3) last = x;
+    prof.hp ??= {};
+    let bar = prof.hp[hpKey()];
+    // About once a second (or until found), look for the bar; a fuller sighting widens the lock.
+    if (!bar || ticks % 7 === 0) {
+      const seen = findBar(rgba({ x: 0, y: 0, w: vw(), h: Math.round(vh() * 0.45) }));
+      const nb = bar?.manual ? bar : widen(bar, seen);
+      if (nb !== bar) { prof.hp[hpKey()] = bar = nb; save(); }
     }
-    return last < 0 ? null : (last + 1) / w;
+    if (!bar) return null;
+    const f = readBar(rgba({ x: bar.x0, y: bar.y - 2, w: bar.x1 - bar.x0 + 1, h: 5 }), { x0: 0, x1: bar.x1 - bar.x0, y: 2 });
+    // Lost for ~30 s (moved window, different UI): forget an automatic lock so it's found again.
+    hpMiss = f === null ? hpMiss + 1 : 0;
+    if (hpMiss > 200 && !bar.manual) { delete prof.hp[hpKey()]; save(); hpMiss = 0; }
+    return f;
   }
   // Starts a phase from HP when its banner hasn't: only right after the crossing, so joining mid-fight doesn't fire them all.
   function hpCheck() {
@@ -359,7 +367,7 @@
     });
   }
   const buttons = () => {
-    $("apArea").disabled = !stream; $("apCap").disabled = !stream || !A();
+    $("apArea").disabled = $("apHp").disabled = !stream; $("apCap").disabled = !stream || !A();
     $("apGo").disabled = !stream || !(prof.banners.length && A() || defaults.length);
   };
 
@@ -421,6 +429,15 @@
     defaults = []; // your own captures replace the defaults
     save(); list(); buttons(); show(area);
     $("apStatus").textContent = "Banner saved. Pick what it means below.";
+  };
+  // Manual HP bar: drag across the whole bar, empty part included. Its row is the one with the most bar green.
+  $("apHp").onclick = async () => {
+    src = await grabFrame(); show({ x: 0, y: 0, w: vw(), h: vh() });
+    const r = await dragRect("Drag a box across the WHOLE boss HP bar, from its left end to its right end (empty part included).");
+    const img = rgba(r); let y = Math.round(r.h / 2), most = -1;
+    for (let yy = 2; yy < r.h - 2; yy++) { let n = 0; for (let x = 0; x < r.w; x++) { const k = (yy * r.w + x) * 4; if (img.data[k + 1] > 140 && img.data[k + 1] - img.data[k] > 30 && img.data[k + 1] - img.data[k + 2] > 45) n++; } if (n > most) { most = n; y = yy; } }
+    (prof.hp ??= {})[hpKey()] = { x0: r.x, x1: r.x + r.w - 1, y: r.y + y, manual: true }; save();
+    view.hidden = true; $("apStatus").textContent = "Boss HP bar saved for this window size.";
   };
   $("apGo").onclick = () => {
     running = !running;
