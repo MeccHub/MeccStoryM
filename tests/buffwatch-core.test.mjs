@@ -63,3 +63,9 @@ assert.ok(cells.every(c => Math.abs((c.x - 10) % 48) <= 4 || Math.abs((c.x - 10)
 assert.ok(cells.every(c => c.w >= 36 && c.w <= 44), 'icon size from spacing');
 const cr = iconCrop(cells[0]); assert.ok(cr.w < cells[0].w && cr.h < cells[0].w);
 console.log('detectIcons ok');
+// Same bar inside a 1920-wide top strip (the default area): 3 icons in one row must still be found.
+const SW = 1920, strip = new Uint8ClampedArray(SW * BH * 4).map((_, i) => (i % 4 === 3 ? 255 : 90));
+for (let k = 0; k < 3; k++) for (let y = 0; y < 40; y++) for (let x = 0; x < 40; x++) { const i = ((8 + y) * SW + 700 + k * 48 + x) * 4; strip[i] = (k * 50 + x * 3) % 256; strip[i + 1] = 30; strip[i + 2] = 200 - y * 2; }
+const wide = detectIcons({ data: strip, width: SW, height: BH });
+assert.equal(wide.length, 3, `found ${wide.length} icons in a wide strip`);
+console.log('detectIcons wide ok');

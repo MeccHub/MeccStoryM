@@ -47,11 +47,11 @@
 <main class="msm-page bw-grid">
   <section class="msm-panel">
     <h1 class="msm-section-title">Buff Watcher</h1>
-    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Share your game window, box the buff bar, then capture only the buffs you care about. Per buff, choose the alert: when it ends, a cooldown "ready" timer (e.g. Defense Smash 15 s / 30 s), "missing" nags for buffs that must stay on (e.g. Fair Trade), or a callout when a boss debuff appears. Runs entirely in your browser: nothing is uploaded. PC browsers only.</p>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Share your game window, then capture only the buffs you care about. Per buff, choose the alert: when it ends, a cooldown "ready" timer (e.g. Defense Smash 15 s / 30 s), "missing" nags for buffs that must stay on (e.g. Fair Trade), or a callout when a boss debuff appears. Runs entirely in your browser: nothing is uploaded. PC browsers only.</p>
     <div class="bw-row">
       <button class="bw-btn" id="share" type="button">1. Share game window</button>
-      <button class="bw-btn" id="pickArea" type="button" disabled>2. Select buff bar</button>
-      <button class="bw-btn" id="collect" type="button" disabled>3. Collect icons</button>
+      <button class="bw-btn" id="pickArea" type="button" disabled>Narrow the area (optional)</button>
+      <button class="bw-btn" id="collect" type="button" disabled>2. Collect icons</button>
       <button class="bw-btn" id="addBuff" type="button" disabled>or add one by hand</button>
       <button class="bw-btn go" id="watch" type="button" disabled>Start watching</button>
     </div>
@@ -170,9 +170,15 @@
     grabFrame = frameSource(stream.getVideoTracks()[0], video);
     for (let i = 0; i < 100 && !vw(); i++) { src = await grabFrame(); if (!vw()) await new Promise(res => setTimeout(res, 50)); }
     stream.getVideoTracks()[0].onended = () => { stopWatching(); stream = null; refreshButtons(); $("status").textContent = "Screen share ended. Click Share to resume."; };
-    const off = profile.areas.filter(a => a.x + a.w > vw() || a.y + a.h > vh());
-    $("status").innerHTML = `Sharing <b>${vw()}×${vh()}</b>. ${off.length ? "⚠️ The saved buff bar doesn't fit this window size: select it again." : profile.areas.length ? "Saved buff bar found." : "Now select your buff bar."}`;
-    if (area() && !off.includes(area())) showRegion(area());
+    // Default area: the whole top quarter of the screen, so the bar can shift, grow and shrink freely.
+    // It refits to each new window size; a box you drew yourself is kept while it fits.
+    const A = area(), fits = A && A.x + A.w <= vw() && A.y + A.h <= vh();
+    if (!A || A.auto || !fits) {
+      const a = { id: A?.id || Date.now().toString(36), name: "Top of screen", auto: true, x: 0, y: 0, w: vw(), h: Math.round(vh() * 0.25) };
+      profile.areas = [a]; areaId = a.id; profile.buffs.forEach(b => { b.area = a.id; }); save();
+    }
+    $("status").innerHTML = `Sharing <b>${vw()}×${vh()}</b>. Watching the ${area().auto ? "top of the screen" : "box you drew"}. ${profile.buffs.length ? "" : "Now collect icons."}`;
+    showRegion(area());
     refreshButtons();
   };
 
