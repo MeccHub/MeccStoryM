@@ -330,9 +330,17 @@
     return f;
   }
   // Starts a phase from HP when its banner hasn't: only right after the crossing, so joining mid-fight doesn't fire them all.
+  // Fight start backup: in four recorded fights push began ~4 s after the HP bar appeared (the start banner shows ~3 s after it).
+  // Only when a full bar appears after ~2 s without one, so sharing mid-fight doesn't start phase 0.
+  let hpGone = 0;
   function hpCheck() {
     const f = hpFill();
-    if (f === null) return null;
+    if (f === null) { hpGone++; return null; }
+    if (hpGone >= 14 && f >= 0.99) {
+      fire({ kind: "0", delay: "4" });
+      $("apStatus").textContent = "Boss HP bar appeared: phase 0 starts in 4s.";
+    }
+    hpGone = 0;
     hpHist.push(f); if (hpHist.length > 3) hpHist.shift();
     const m = [...hpHist].sort((a, b) => a - b)[1] ?? f;
     if (m > 0.95) phaseDone.clear(); // fresh fight
