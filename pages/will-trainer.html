@@ -179,7 +179,10 @@
     background(crack);
     ctx.fillStyle = "rgba(255,255,255,0.35)"; ctx.font = "bold 22px Nunito, sans-serif"; ctx.textAlign = "center";
     for (const x of Object.values(P)) ctx.fillRect(x - 1, FLOOR + 8, 2, 16);
-    if (crack) { ctx.strokeStyle = "rgba(244,114,182,0.7)"; ctx.lineWidth = 3; ctx.beginPath(); for (let x = 60; x < W; x += 140) { ctx.moveTo(x, FLOOR + 8); ctx.lineTo(x + 40, FLOOR + 60); ctx.lineTo(x + 10, FLOOR + 110); } ctx.stroke(); }
+    if (crack) { // cracked floor: red floor band and a label instead of drawn cracks
+      ctx.fillStyle = "rgba(220,38,38,0.28)"; ctx.fillRect(0, FLOOR + 8, W, cv.height - FLOOR);
+      ctx.font = "bold 30px Nunito, sans-serif"; ctx.fillStyle = "#fecaca"; ctx.fillText("CRACKED FLOOR: stand IN a leg zone", W / 2, cv.height - 30);
+    }
     if (g.pat && ["warn", "strike", "idle"].includes(g.phase)) {
       const s = g.pat.strikes[g.wave], k = scale();
       const p = g.phase === "warn" ? 0 : g.phase === "strike" ? Math.min(1, 1 - g.t / (T.strike * k) + 0.3) : 1;
