@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesis Calculator - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+</head>
+<body data-nav-active="genesis">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Genesis Calculator</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Genesis weapon liberation, Genesis Alchemy and the Genesis Stone exchange. Set your weekly bosses once; the forecast counts weekly clears from the Thursday reset and Black Mage from the 1st of each month. Saved on this device.</p>
+    <div class="cx-row">
+      <button class="cx-btn" data-tab="lib" type="button">Liberation</button>
+      <button class="cx-btn" data-tab="alc" type="button">Alchemy</button>
+      <button class="cx-btn" data-tab="stone" type="button">Genesis Stone</button>
+    </div>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="cx-sub">Your bosses</h2>
+    <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Boss</th><th>Difficulty</th><th>Extra tickets</th><th>Per clear</th></tr></thead><tbody id="bosses"></tbody></table></div>
+    <div class="cx-row" style="margin-top:8px">
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px">From <input id="from" class="cx-in" type="date"></label>
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px"><input id="wkDone" type="checkbox"> This week's bosses already done</label>
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px"><input id="moDone" type="checkbox"> This month's Black Mage already done</label>
+    </div>
+    <p class="cx-note">Extra tickets are entries beyond the weekly ones (each adds one more clear's worth, counted right away).</p>
+  </section>
+
+  <section class="msm-panel" data-pane="lib">
+    <h2 class="cx-sub">Liberation (13,500 Traces of Darkness)</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Current stage <select id="stage"></select></label>
+      <label class="cx-field">Traces in this stage <input id="inStage" type="number" min="0"></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="libHave">0</b><span>Traces so far</span></div>
+      <div class="cx-stat"><b id="libLeft">0</b><span>Traces left</span></div>
+      <div class="cx-stat"><b id="libWeek">0</b><span>Per week (+ Black Mage monthly)</span></div>
+      <div class="cx-stat good"><b id="libDate">—</b><span>Liberated on</span></div>
+    </div>
+  </section>
+
+  <section class="msm-panel" data-pane="alc">
+    <h2 class="cx-sub">Genesis Alchemy</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Current stage <select id="aFrom"></select></label>
+      <label class="cx-field">Target stage <select id="aTo"></select></label>
+      <label class="cx-field">Afterimages held <input id="aHave" type="number" min="0"></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="aNeed">0</b><span>Afterimages if every attempt succeeds</span></div>
+      <div class="cx-stat"><b id="aExp">0</b><span>Afterimages on average (with fails)</span></div>
+      <div class="cx-stat"><b id="aMeso">0</b><span>Mesos (average)</span></div>
+      <div class="cx-stat good"><b id="aDate">—</b><span>Enough for the best case on</span></div>
+    </div>
+    <div class="cx-table-wrap" style="margin-top:10px"><table class="cx-table"><thead><tr><th>Stage</th><th>ATT</th><th>Damage</th><th>Success</th><th>Afterimages</th><th>Mesos / try</th></tr></thead><tbody id="aRows"></tbody></table></div>
+    <p class="cx-note">Stage 1 uses a Genesis Stone instead of afterimages. "On average" assumes each failed attempt costs the full afterimages and mesos again. Game version 2026/11; some values are not yet confirmed in game.</p>
+  </section>
+
+  <section class="msm-panel" data-pane="stone">
+    <h2 class="cx-sub">Genesis Stone exchange (20,000 afterimages each)</h2>
+    <div class="cx-inputs"><label class="cx-field">Afterimages held <input id="sHave" type="number" min="0"></label></div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="sNow">0</b><span>Stones you can exchange now</span></div>
+      <div class="cx-stat"><b id="sLeft">0</b><span>Afterimages to the next stone</span></div>
+      <div class="cx-stat good"><b id="sDate">—</b><span>Next stone on</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Traces (= afterimages) per clear. Black Mage is monthly; the rest reset weekly. Game version 2026/11.
+  const BOSSES = [
+    { id: "bm", name: "Black Mage", monthly: true, opts: [["Hard", 300]] },
+    { id: "dunkel", name: "Dunkel", opts: [["Hard", 50]] },
+    { id: "vh", name: "Verus Hilla", opts: [["Hard", 35], ["Normal", 30]] },
+    { id: "will", name: "Will", opts: [["Chaos", 45], ["Hard", 25]] },
+    { id: "darknell", name: "Darknell", opts: [["Hard", 20]] },
+    { id: "lucid", name: "Lucid", opts: [["Chaos", 40], ["Hard", 15]] },
+    { id: "damien", name: "Damien", opts: [["Hard", 15], ["Normal", 10]] },
+    { id: "lotus", name: "Lotus", opts: [["Hard", 5]] },
+  ];
+  const STAGES = [["II · Traces of Darkness", 500], ["III · Arkarium", 1000], ["V · Magnus and Hilla", 1500], ["VI · Lotus", 1500],
+    ["VIII · Von Leon and Damien", 2000], ["IX · Lucid", 2000], ["X · Will", 2500], ["XI · The Final Traces", 2500]];
+  // Alchemy stage: [ATT, damage %, success %, afterimages]; every attempt costs 500m mesos.
+  const ALC = [[1000,5,100,0],[1300,6,50,2000],[1600,7,50,2050],[1900,8,50,2150],[2200,9,50,2200],[2500,10,50,2300],[2800,11,50,2400],[3100,12,45,2450],[3400,13,45,2550],[3700,14,40,2650],
+    [4000,15,40,2750],[4300,16,35,2800],[4600,17,35,2900],[4900,18,30,3000],[5200,19,30,3150],[5500,20,25,3250],[5800,21,25,3350],[6100,22,20,3450],[6400,23,20,3600],[6700,24,20,3700],
+    [7000,25,15,3850],[7300,26,15,4000],[7600,27,15,4100],[7900,28,15,4250],[8200,29,10,4400],[8500,30,10,4550],[8800,31,10,4750],[9100,32,10,4900],[9400,33,10,5050],[9700,34,10,5250]];
+  const TRY_MESOS = 500e6, STONE = 20000;
+
+  const KEY = "msm_genesis", $ = id => document.getElementById(id), fmt = n => Math.round(n).toLocaleString("en-US");
+  let st = { tab: "lib", boss: {}, from: "", wk: false, mo: false, stage: 0, inStage: 0, aFrom: 0, aTo: 30, aHave: 0, sHave: 0 };
+  try { Object.assign(st, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+  const today = () => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); };
+  const fromDate = () => st.from ? new Date(st.from + "T00:00") : today();
+  const show = d => d.toLocaleDateString("en-CA", { year: "numeric", month: "short", day: "numeric" });
+
+  function rewards() {
+    let week = 0, month = 0, now = 0;
+    for (const b of BOSSES) {
+      const s = st.boss[b.id] || {}, o = b.opts.find(([n]) => n === s.diff), per = o ? o[1] : 0;
+      if (b.monthly) month += per; else week += per;
+      now += per * (s.tickets || 0);
+    }
+    return { week, month, now };
+  }
+  // First date by which `need` more is collected: this week's/month's clears (unless done), extra tickets now, then each Thursday and each 1st.
+  function forecast(need) {
+    if (need <= 0) return "done";
+    const r = rewards(), start = fromDate();
+    if (r.week <= 0 && r.month <= 0 && r.now <= 0) return null;
+    let got = r.now + (st.wk ? 0 : r.week) + (st.mo ? 0 : r.month);
+    if (got >= need) return start;
+    let wk = new Date(start); wk.setDate(wk.getDate() + ((4 - wk.getDay() + 7) % 7 || 7));
+    let mo = new Date(start.getFullYear(), start.getMonth() + 1, 1);
+    for (let i = 0; i < 2000; i++) {
+      const d = wk <= mo ? wk : mo;
+      if (+wk === +d) { got += r.week; wk = new Date(wk.getFullYear(), wk.getMonth(), wk.getDate() + 7); }
+      if (+mo === +d) { got += r.month; mo = new Date(mo.getFullYear(), mo.getMonth() + 1, 1); }
+      if (got >= need) return d;
+    }
+    return null;
+  }
+  const when = f => f === "done" ? "already there" : f ? `${show(f)} (${Math.round((f - fromDate()) / 864e5)} days)` : "pick your bosses";
+
+  function renderBosses() {
+    $("bosses").innerHTML = BOSSES.map(b => {
+      const s = st.boss[b.id] || {}, o = b.opts.find(([n]) => n === s.diff);
+      return `<tr><td>${b.name}${b.monthly ? " (monthly)" : ""}</td>
+        <td><select class="cx-in" data-b="${b.id}" data-f="diff"><option value="">Not doing</option>${b.opts.map(([n, v]) => `<option${n === s.diff ? " selected" : ""}>${n}</option>`).join("")}</select></td>
+        <td><input class="cx-in" style="width:70px" type="number" min="0" data-b="${b.id}" data-f="tickets" value="${s.tickets || 0}"></td>
+        <td>${o ? o[1] : 0}</td></tr>`;
+    }).join("");
+  }
+  function update() {
+    document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === st.tab));
+    document.querySelectorAll("[data-pane]").forEach(p => p.hidden = p.dataset.pane !== st.tab);
+    const r = rewards();
+    // Liberation
+    const have = STAGES.slice(0, st.stage).reduce((a, [, t]) => a + t, 0) + Math.min(st.inStage || 0, STAGES[st.stage][1]);
+    $("libHave").textContent = fmt(have); $("libLeft").textContent = fmt(13500 - have);
+    $("libWeek").textContent = `${fmt(r.week)} + ${fmt(r.month)}`; $("libDate").textContent = when(forecast(13500 - have));
+    // Alchemy: stages after the current one up to the target.
+    const rows = ALC.slice(st.aFrom, st.aTo), need = rows.reduce((a, x) => a + x[3], 0);
+    const exp = rows.reduce((a, x) => a + x[3] * 100 / x[2], 0), meso = rows.reduce((a, x) => a + TRY_MESOS * 100 / x[2], 0);
+    $("aNeed").textContent = fmt(need); $("aExp").textContent = fmt(exp); $("aMeso").textContent = fmt(meso);
+    $("aDate").textContent = when(forecast(need - (st.aHave || 0)));
+    $("aRows").innerHTML = ALC.map((x, i) => `<tr class="${i >= st.aFrom && i < st.aTo ? "is-current" : ""}"><td>${i + 1}</td><td>${fmt(x[0])}</td><td>${x[1]}%</td><td>${x[2]}%</td><td>${i ? fmt(x[3]) : "1 Genesis Stone"}</td><td>500m</td></tr>`).join("");
+    // Stone
+    const h = st.sHave || 0;
+    $("sNow").textContent = fmt(Math.floor(h / STONE)); $("sLeft").textContent = fmt(STONE - h % STONE);
+    $("sDate").textContent = when(forecast(STONE - h % STONE));
+    save();
+  }
+
+  $("stage").innerHTML = STAGES.map(([n, t], i) => `<option value="${i}">${n} (${fmt(t)})</option>`).join("");
+  $("aFrom").innerHTML = ALC.map((_, i) => `<option value="${i}">${i ? "Stage " + i : "Not started"}</option>`).join("");
+  $("aTo").innerHTML = ALC.map((_, i) => `<option value="${i + 1}">Stage ${i + 1}</option>`).join("");
+  for (const [id, k] of [["stage", "stage"], ["inStage", "inStage"], ["aFrom", "aFrom"], ["aTo", "aTo"], ["aHave", "aHave"], ["sHave", "sHave"], ["from", "from"]]) {
+    $(id).value = st[k]; $(id).addEventListener("input", () => { st[k] = id === "from" ? $(id).value : Math.max(0, +$(id).value || 0); if (st.aTo <= st.aFrom) { st.aTo = Math.min(30, st.aFrom + 1); $("aTo").value = st.aTo; } update(); });
+  }
+  $("wkDone").checked = st.wk; $("wkDone").onchange = () => { st.wk = $("wkDone").checked; update(); };
+  $("moDone").checked = st.mo; $("moDone").onchange = () => { st.mo = $("moDone").checked; update(); };
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { st.tab = b.dataset.tab; update(); });
+  $("bosses").addEventListener("input", e => { const t = e.target, b = t.dataset.b; if (!b) return; (st.boss[b] ||= {})[t.dataset.f] = t.dataset.f === "diff" ? t.value : Math.max(0, +t.value || 0); if (t.dataset.f === "diff") renderBosses(); update(); });
+  renderBosses(); update();
+</script>
+</body>
+</html>
