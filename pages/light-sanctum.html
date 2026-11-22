@@ -25,7 +25,7 @@
 <main class="msm-page cx-grid">
   <section class="msm-panel">
     <h1 class="msm-section-title">Light Sanctum Prayer</h1>
-    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Simulate prayers with the game's outcome tables. Each prayer rerolls every unlocked slot and costs 5 Character Coins per slot; each locked slot adds 1.5m mesos. Prayers also give Sanctum EXP, which opens more slots.</p>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Simulate prayers with the game's outcome tables. Each prayer rerolls every unlocked slot and costs 10 Stigmata; each locked slot adds 1.5m mesos. Every prayer gives 10 Sanctum EXP, which opens more slots.</p>
     <div class="cx-inputs">
       <label class="cx-field">Sanctum level <select id="lv"></select></label>
       <label class="cx-field" style="justify-content:flex-end"><span><input id="levelUp" type="checkbox" checked> Level up from prayer EXP</span></label>
@@ -42,7 +42,7 @@
     <p class="cx-note">Click a slot to lock or unlock it.</p>
     <div class="cx-summary" style="margin-top:10px">
       <div class="cx-stat"><b id="sPrays">0</b><span>Prayers</span></div>
-      <div class="cx-stat"><b id="sCoins">0</b><span>Character Coins spent</span></div>
+      <div class="cx-stat"><b id="sCoins">0</b><span>Stigmata spent</span></div>
       <div class="cx-stat"><b id="sMeso">0</b><span>Mesos spent on locks</span></div>
       <div class="cx-stat"><b id="sExp">0</b><span>Sanctum EXP</span></div>
     </div>
@@ -69,6 +69,7 @@
 <script src="../assets/js/site-nav.js"></script>
 <script>
   const $ = id => document.getElementById(id), fmt = n => Math.round(n).toLocaleString("en-US");
+  const STIGMATA = 10, EXP_PER_PRAY = 10; // per prayer, whatever the slot count
   let D, st = { lv: 1, exp: 0, slots: [], locks: [], prays: 0, coins: 0, meso: 0 };
   try { Object.assign(st, JSON.parse(localStorage.getItem("msm_light_sanctum")) || {}); } catch (e) {}
   const save = () => { try { localStorage.setItem("msm_light_sanctum", JSON.stringify(st)); } catch (e) {} };
@@ -85,11 +86,11 @@
   }
   function pray() {
     const n = L().slots, locked = st.locks.slice(0, n).filter(Boolean).length;
-    const coins = D.coinPerSlot * n;
+    const coins = STIGMATA;
     st.prays++; st.coins += coins; st.meso += D.mesoPerLock * locked;
     for (let i = 0; i < n; i++) if (!st.locks[i]) st.slots[i] = pick();
     if ($("levelUp").checked) {
-      st.exp += L().gain + L().perCoin * coins;
+      st.exp += EXP_PER_PRAY;
       while (st.lv < D.levels.length && st.exp >= D.levels[st.lv].need) st.lv++;
     }
   }
@@ -102,7 +103,7 @@
         <span class="ls-g ${r ? "g" + r[0] : "g0"}">${r ? D.grades[r[0]] : "Empty"}</span><span>${r ? line(r) : "—"}</span><span>${st.locks[i] ? "🔒 Locked" : "Unlocked"}</span></div>`;
     }).join("");
     const locked = st.locks.slice(0, n).filter(Boolean).length;
-    $("pray").textContent = `Pray (${D.coinPerSlot * n} coins${locked ? ` + ${fmt(D.mesoPerLock * locked)} mesos` : ""})`;
+    $("pray").textContent = `Pray (${STIGMATA} Stigmata${locked ? ` + ${fmt(D.mesoPerLock * locked)} mesos` : ""})`;
     $("pray").disabled = $("pray10").disabled = locked >= n;
     $("sPrays").textContent = fmt(st.prays); $("sCoins").textContent = fmt(st.coins); $("sMeso").textContent = fmt(st.meso);
     const nx = D.levels[st.lv]; $("sExp").textContent = nx ? `${fmt(st.exp)} / ${fmt(nx.need)}` : `${fmt(st.exp)} (max)`;
