@@ -156,7 +156,7 @@
   // Our own art: the arena strip and player from the pattern quiz's screenshots, and the spider legs from the Will guide.
   const img = src => { const i = new Image(); i.src = src; return i; };
   const ART = { bg: img("../assets/will-trainer/arena-strip.jpg"), player: img("../assets/will-trainer/player.png"),
-    legDown: img("../assets/msm-will-guide/phase-2-spider-leg.png"), legUp: img("../assets/msm-will-guide/phase-2-spider-leg-up.png") };
+    legDown: img("../assets/msm-will-guide/phase-2-spider-leg.png"), legUp: img("../assets/msm-will-guide/phase-2-spider-leg-up.png"), crack: img("../assets/will-trainer/crack.png") };
   const ok = i => i.complete && i.naturalWidth;
   function leg(x, top, p) { // slides in toward the floor as the strike lands (p 0..1)
     const im = top ? ART.legDown : ART.legUp;
@@ -179,9 +179,9 @@
     background(crack);
     ctx.fillStyle = "rgba(255,255,255,0.35)"; ctx.font = "bold 22px Nunito, sans-serif"; ctx.textAlign = "center";
     for (const x of Object.values(P)) ctx.fillRect(x - 1, FLOOR + 8, 2, 16);
-    if (crack) { // cracked floor: red floor band and a label instead of drawn cracks
-      ctx.fillStyle = "rgba(220,38,38,0.28)"; ctx.fillRect(0, FLOOR + 8, W, cv.height - FLOOR);
-      ctx.font = "bold 30px Nunito, sans-serif"; ctx.fillStyle = "#fecaca"; ctx.fillText("CRACKED FLOOR: stand IN a leg zone", W / 2, cv.height - 30);
+    if (crack) { // cracked floor: the crack art on the floor, plus a label
+      if (ok(ART.crack)) { const w = 1300, h = w * ART.crack.naturalHeight / ART.crack.naturalWidth; ctx.save(); ctx.filter = "brightness(0) invert(1) drop-shadow(0 0 6px #f472b6)"; ctx.drawImage(ART.crack, (W - w) / 2, FLOOR - 20, w, h); ctx.restore(); } // white lines so they show on the dark floor
+      ctx.font = "bold 30px Nunito, sans-serif"; ctx.lineWidth = 6; ctx.strokeStyle = "#1e0b2e"; ctx.strokeText("CRACKED FLOOR: stand IN a leg zone", W / 2, cv.height - 30); ctx.fillStyle = "#fecaca"; ctx.fillText("CRACKED FLOOR: stand IN a leg zone", W / 2, cv.height - 30);
     }
     if (g.pat && ["warn", "strike", "idle"].includes(g.phase)) {
       const s = g.pat.strikes[g.wave], k = scale();
