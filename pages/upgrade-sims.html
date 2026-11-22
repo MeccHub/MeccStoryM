@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upgrade Simulators - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+<style>
+  .us-big { font-family: "Fredoka One", "Nunito", sans-serif; font-size: 34px; color: var(--msm-ink); }
+  .us-res { min-height: 24px; font-weight: 800; margin: 6px 0; }
+  .us-res.ok { color: #16a34a; } .us-res.no { color: #dc2626; }
+  .us-act { font-size: 16px; padding: 10px 18px; }
+</style>
+</head>
+<body data-nav-active="upgradesims">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Upgrade Simulators</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Practice upgrades with the game's rates and see what it costs on average. Nothing here touches your account.</p>
+    <div class="cx-row">
+      <button class="cx-btn" data-tab="tr" type="button">Transcendence</button>
+      <button class="cx-btn" data-tab="cr" type="button">Crafting</button>
+      <button class="cx-btn" data-tab="em" type="button">Emblem</button>
+      <button class="cx-btn" data-tab="ac" type="button">Accessory</button>
+    </div>
+  </section>
+
+  <!-- Transcendence -->
+  <section class="msm-panel" data-pane="tr">
+    <h2 class="cx-sub">Transcendence (Lv.30 → 70, +2 per success)</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Equipment level <input id="trLv" type="number" min="30" max="70" step="2" value="30"></label>
+      <label class="cx-field">Failures so far (max 7) <input id="trF" type="number" min="0" max="7" value="0"></label>
+      <label class="cx-field">Stone success rate % <select id="trRate"><option>80</option><option selected>50</option><option>30</option><option value="c">Other…</option></select></label>
+      <label class="cx-field" id="trRateCW" hidden>Other rate % <input id="trRateC" type="number" min="1" max="100" value="40"></label>
+      <label class="cx-field">Failure-removal scroll % <select id="trScr"><option selected>27</option><option>40</option><option>70</option><option>100</option></select></label>
+    </div>
+    <div class="cx-row" style="margin-top:10px">
+      <span class="us-big" id="trNow">Lv.30</span>
+      <span class="cx-stat"><b id="trChance">50%</b><span id="trChanceTxt">Chance (base + bonus)</span></span>
+    </div>
+    <div class="us-res" id="trRes"></div>
+    <div class="cx-row">
+      <button class="cx-btn us-act" id="trGo" type="button">Transcend</button>
+      <button class="cx-btn us-act" id="trScroll" type="button">Use failure-removal scroll</button>
+      <button class="cx-btn" id="trReset" type="button">Start over</button>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="trS1">0</b><span>Transcendence Stones (Lv.30–39)</span></div>
+      <div class="cx-stat"><b id="trS2">0</b><span>Radiant Transcendence Stones (40–49)</span></div>
+      <div class="cx-stat"><b id="trS3">0</b><span>Chaos Transcendence Stones (50+)</span></div>
+      <div class="cx-stat"><b id="trSc">0</b><span>Failure-removal scrolls</span></div>
+      <div class="cx-stat"><b id="trEv">0</b><span>Stones on average for the levels gained</span></div>
+    </div>
+    <p class="cx-note">Each failure adds max(5, 20% of the base rate) to the next try, up to +50%, and resets on success. At 7 failures the item can't be transcended until a scroll removes one.</p>
+  </section>
+
+  <!-- Crafting -->
+  <section class="msm-panel" data-pane="cr" hidden>
+    <h2 class="cx-sub">Crafting</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Craft <select id="crType"></select></label>
+      <label class="cx-field">Lucky scroll 1 <select id="crS1"></select></label>
+      <label class="cx-field">Lucky scroll 2 <select id="crS2"></select></label>
+      <label class="cx-field" id="crAlcW"><span><input id="crAlc" type="checkbox"> Base item has alchemy (+4%)</span></label>
+    </div>
+    <div class="cx-row" style="margin-top:10px">
+      <span class="cx-stat"><b id="crChance">—</b><span id="crBreak">Chance</span></span>
+      <span class="cx-stat"><b id="crExp">—</b><span>Tries on average from here</span></span>
+    </div>
+    <div class="us-res" id="crRes"></div>
+    <div class="cx-row">
+      <button class="cx-btn us-act" id="crGo" type="button">Craft</button>
+      <button class="cx-btn" id="crReset" type="button">Clear counters</button>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="crTries">0</b><span>Tries</span></div>
+      <div class="cx-stat"><b id="crOk">0</b><span>Successes</span></div>
+      <div class="cx-stat"><b id="crFails">0</b><span>Failures towards the bonus</span></div>
+      <div class="cx-stat"><b id="crScrolls">0</b><span>Lucky scrolls used</span></div>
+    </div>
+    <p class="cx-note">Every 5 failures on the same craft add +2%. Each try uses one crystal plus the lucky scrolls you pick.</p>
+  </section>
+
+  <!-- Emblem -->
+  <section class="msm-panel" data-pane="em" hidden>
+    <h2 class="cx-sub">Emblem (Lv.1 → 15)</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Start level <input id="emLv" type="number" min="1" max="14" value="1"></label>
+    </div>
+    <div class="cx-row" style="margin-top:10px">
+      <span class="us-big" id="emNow">Lv.1</span>
+      <span class="cx-stat"><b id="emChance">—</b><span id="emChanceTxt">Chance</span></span>
+      <span class="cx-stat"><b id="emKeep">—</b><span>Keep level</span></span>
+      <span class="cx-stat"><b id="emStats">—</b><span>Crit Damage / Max Damage</span></span>
+    </div>
+    <div class="cx-row" style="margin-top:10px">
+      <span class="cx-step"><b id="emMatLbl" style="min-width:150px">Emblem Traces</b><button class="cx-btn" data-em="m" data-d="-1" type="button">−</button><b id="emMatN" style="min-width:52px;text-align:center">1 / 2</b><button class="cx-btn" data-em="m" data-d="1" type="button">+</button><button class="cx-btn" data-em="m" data-d="max" type="button">Max</button></span>
+    </div>
+    <div class="cx-row" style="margin-top:6px" id="emPremRow">
+      <span class="cx-step"><b style="min-width:150px">Premium Chaos Traces</b><button class="cx-btn" data-em="p" data-d="-1" type="button">−</button><b id="emPremN" style="min-width:52px;text-align:center">0</b><button class="cx-btn" data-em="p" data-d="1" type="button">+</button><button class="cx-btn" data-em="p" data-d="max" type="button">Max</button></span>
+    </div>
+    <div class="us-res" id="emRes"></div>
+    <div class="cx-row">
+      <button class="cx-btn us-act" id="emGo" type="button">Enhance</button>
+      <button class="cx-btn" id="emReset" type="button">Start over</button>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="emN">0</b><span>Emblem Traces used</span></div>
+      <div class="cx-stat"><b id="emC">0</b><span>Chaos Emblem Traces used</span></div>
+      <div class="cx-stat"><b id="emP">0</b><span>Premium Chaos Traces used</span></div>
+      <div class="cx-stat"><b id="emT">0</b><span>Tries / failures</span></div>
+    </div>
+    <div class="cx-table-wrap" style="margin-top:10px"><table class="cx-table"><thead><tr><th>Upgrade</th><th>Base</th><th>Trace limit</th><th>Tries</th><th>Failures</th><th>Traces used</th><th>Premium used</th></tr></thead><tbody id="emHist"></tbody></table></div>
+    <p class="cx-note">Chance = base rate × traces. Normal traces stop at each level's limit; from Lv.7 (Chaos levels) Premium Chaos Traces can top the chance up to 100%. A failure keeps the level and uses up the traces.</p>
+  </section>
+
+  <!-- Accessory -->
+  <section class="msm-panel" data-pane="ac" hidden>
+    <h2 class="cx-sub">Accessory enhancement (+0 → +10)</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Accessory <select id="acItem"></select></label>
+      <label class="cx-field">Starting stars <input id="acSt" type="number" min="0" max="9" value="0"></label>
+    </div>
+    <div class="cx-row" style="margin-top:10px">
+      <span class="us-big" id="acNow">+0</span>
+      <span class="cx-stat"><b id="acChance">—</b><span>Chance (a failure keeps the stars)</span></span>
+    </div>
+    <div class="us-res" id="acRes"></div>
+    <div class="cx-row">
+      <button class="cx-btn us-act" id="acGo" type="button">Enhance</button>
+      <button class="cx-btn" id="acReset" type="button">Start over</button>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="acT">0</b><span>Copies used (tries)</span></div>
+      <div class="cx-stat"><b id="acF">0</b><span>Failures</span></div>
+      <div class="cx-stat"><b id="acEv">—</b><span>Copies on average to +10 from the start</span></div>
+    </div>
+    <p class="cx-note">Reaching +10 also gives a random Lv.1 emblem (Brutal, Powerful, Holy, Conquering, Clever or Sharp).</p>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  const $ = id => document.getElementById(id), fmt = n => Math.round(n).toLocaleString("en-US"), roll = p => Math.random() * 100 < p;
+  const say = (id, ok, txt) => { $(id).className = "us-res " + (ok ? "ok" : "no"); $(id).textContent = txt; };
+  let tab = "tr"; try { tab = localStorage.getItem("msm_upgrade_tab") || tab; } catch (e) {}
+  function show() {
+    document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+    document.querySelectorAll("[data-pane]").forEach(p => p.hidden = p.dataset.pane !== tab);
+    try { localStorage.setItem("msm_upgrade_tab", tab); } catch (e) {}
+  }
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; show(); });
+
+  /* ---------- Transcendence ---------- */
+  const tr = { lv: 30, f: 0, bonus: 0, s: [0, 0, 0], sc: 0, ev: 0 };
+  const trBase = () => $("trRate").value === "c" ? Math.max(1, Math.min(100, +$("trRateC").value || 1)) : +$("trRate").value;
+  const trStep = b => Math.max(5, Math.floor(b * 0.2));
+  // Stones on average to gain one level step at base rate b (bonus grows each failure, capped at +50).
+  function trEV(b) { let e = 0, miss = 1, bonus = 0; for (let n = 1; n <= 60 && miss > 1e-6; n++) { const p = Math.min(100, b + bonus) / 100; e += n * miss * p; miss *= 1 - p; bonus = Math.min(50, bonus + trStep(b)); } return e; }
+  function trUI() {
+    const b = trBase();
+    $("trRateCW").hidden = $("trRate").value !== "c";
+    $("trNow").textContent = tr.lv >= 70 ? "Lv.70 (max)" : `Lv.${tr.lv} → ${tr.lv + 2}`;
+    $("trChance").textContent = `${Math.min(100, b + tr.bonus)}%`; $("trChanceTxt").textContent = `Chance (${b}% + ${tr.bonus}% bonus) · ${tr.f}/7 failures`;
+    $("trGo").disabled = tr.lv >= 70 || tr.f >= 7; $("trScroll").disabled = tr.f <= 0;
+    [$("trS1").textContent, $("trS2").textContent, $("trS3").textContent] = tr.s; $("trSc").textContent = tr.sc; $("trEv").textContent = tr.ev.toFixed(1);
+    $("trLv").value = tr.lv; $("trF").value = tr.f;
+  }
+  $("trGo").onclick = () => {
+    const b = trBase(); tr.s[tr.lv < 40 ? 0 : tr.lv < 50 ? 1 : 2]++;
+    if (roll(Math.min(100, b + tr.bonus))) { tr.lv += 2; tr.bonus = 0; tr.ev += trEV(b); say("trRes", true, `Success! Now Lv.${tr.lv}.`); }
+    else { tr.f++; tr.bonus = Math.min(50, tr.bonus + trStep(b)); say("trRes", false, tr.f >= 7 ? "Failed. 7 failures: use a failure-removal scroll." : `Failed. Bonus now +${tr.bonus}%.`); }
+    trUI();
+  };
+  $("trScroll").onclick = () => { tr.sc++; if (roll(+$("trScr").value)) { tr.f--; say("trRes", true, "Scroll worked: one failure removed."); } else say("trRes", false, "Scroll failed."); trUI(); };
+  $("trReset").onclick = () => { Object.assign(tr, { lv: 30, f: 0, bonus: 0, s: [0, 0, 0], sc: 0, ev: 0 }); $("trRes").textContent = ""; trUI(); };
+  $("trLv").onchange = () => { tr.lv = Math.max(30, Math.min(70, Math.round((+$("trLv").value || 30) / 2) * 2)); tr.bonus = 0; trUI(); };
+  $("trF").onchange = () => { tr.f = Math.max(0, Math.min(7, +$("trF").value || 0)); trUI(); };
+  for (const id of ["trRate", "trRateC"]) $(id).oninput = trUI;
+
+  /* ---------- Crafting ---------- */
+  const CRAFTS = [
+    { name: "Mythic → Ancient (inherit)", base: 30 },
+    { name: "Mythic → Necro (Ancient)", base: 4, alc: 4 },
+    { name: "Necro → Absolab", base: 12 },
+    { name: "Chaos → Absolab", base: 7 },
+    { name: "Absolab → Arcane Umbra", base: 10 },
+  ];
+  const cr = { tries: 0, ok: 0, scrolls: 0, fails: {} };
+  $("crType").innerHTML = CRAFTS.map((c, i) => `<option value="${i}">${c.name} (${c.base}%)</option>`).join("");
+  for (const id of ["crS1", "crS2"]) $(id).innerHTML = [0, 1, 2, 3, 4, 5, 6, 10, 15].map(v => `<option value="${v}">${v ? v + "%" : "None"}</option>`).join("");
+  const crFixed = () => { const c = CRAFTS[+$("crType").value]; return c.base + (c.alc && $("crAlc").checked ? c.alc : 0) + +$("crS1").value + +$("crS2").value; };
+  const crBonus = f => Math.floor(f / 5) * 2;
+  function crUI() {
+    const c = CRAFTS[+$("crType").value], f = cr.fails[$("crType").value] || 0, fixed = crFixed(), now = Math.min(100, fixed + crBonus(f));
+    $("crAlcW").hidden = !c.alc;
+    $("crChance").textContent = now + "%"; $("crBreak").textContent = `Chance (base ${c.base}%${c.alc && $("crAlc").checked ? " + alchemy 4%" : ""} + scrolls ${+$("crS1").value + +$("crS2").value}% + failure bonus ${crBonus(f)}%)`;
+    let e = 0, miss = 1; for (let n = 0; n < 5000 && miss > 1e-9; n++) { e += miss; miss *= 1 - Math.min(100, fixed + crBonus(f + n)) / 100; }
+    $("crExp").textContent = e.toFixed(1);
+    $("crTries").textContent = cr.tries; $("crOk").textContent = cr.ok; $("crFails").textContent = f; $("crScrolls").textContent = cr.scrolls;
+  }
+  $("crGo").onclick = () => {
+    const k = $("crType").value, f = cr.fails[k] || 0;
+    cr.tries++; cr.scrolls += (+$("crS1").value > 0) + (+$("crS2").value > 0);
+    if (roll(Math.min(100, crFixed() + crBonus(f)))) { cr.ok++; cr.fails[k] = 0; say("crRes", true, "Craft succeeded!"); }
+    else { cr.fails[k] = f + 1; say("crRes", false, "Craft failed."); }
+    crUI();
+  };
+  $("crReset").onclick = () => { Object.assign(cr, { tries: 0, ok: 0, scrolls: 0, fails: {} }); $("crRes").textContent = ""; crUI(); };
+  for (const id of ["crType", "crS1", "crS2", "crAlc"]) $(id).onchange = crUI;
+
+  /* ---------- Emblem ---------- */
+  // Per level: [crit damage %, max damage]. Per upgrade from that level: [base %, trace limit]; from Lv.7 they're Chaos Emblem Traces.
+  const EM_STATS = [[5, 0], [8, 0], [11, 0], [15, 0], [20, 0], [20.8, 1e5], [21.6, 2.5e5], [22.4, 4.2e5], [23.2, 6e5], [24, 9.6e5], [24.8, 1.71e6], [25.6, 2.76e6], [26.4, 4.26e6], [27.2, 6.66e6], [28, 1.2e7]];
+  const EM_UP = [[80, 2], [60, 2], [30, 4], [20, 5], [20, 5], [15, 5], [100, 1], [100, 1], [50, 2], [25, 3], [20, 3], [15, 3], [10, 4], [5, 6]];
+  const em = { lv: 1, m: 1, p: 0, n: 0, c: 0, pu: 0, t: 0, f: 0, hist: [] };
+  const emPremMax = () => { const u = EM_UP[em.lv - 1]; return u && em.lv >= 7 ? Math.ceil(Math.max(0, 100 - u[0] * em.m) / u[0]) : 0; };
+  const emRate = () => { const u = EM_UP[em.lv - 1]; if (!u) return [0, 0]; const n = Math.min(100, u[0] * em.m); return [n, Math.min(100 - n, u[0] * em.p)]; };
+  function emClamp() { const u = EM_UP[em.lv - 1]; if (!u) return; em.m = Math.max(0, Math.min(u[1], em.m)); em.p = Math.max(0, Math.min(emPremMax(), em.p)); }
+  function emUI() {
+    emClamp();
+    const u = EM_UP[em.lv - 1], s = EM_STATS[em.lv - 1], [n, pr] = emRate();
+    $("emNow").textContent = em.lv >= 15 ? "Lv.15 (max)" : `Lv.${em.lv} → ${em.lv + 1}`;
+    $("emChance").textContent = u ? (pr ? `${n + pr}% (${n} + ${pr})` : `${n}%`) : "—";
+    $("emChanceTxt").textContent = u ? `Chance (base ${u[0]}% per trace)` : "Chance";
+    $("emKeep").textContent = u ? `${100 - n - pr}%` : "—";
+    $("emStats").textContent = `${s[0]}% / ${fmt(s[1])}`;
+    $("emMatLbl").textContent = em.lv >= 7 ? "Chaos Emblem Traces" : "Emblem Traces";
+    $("emMatN").textContent = u ? `${em.m} / ${u[1]}` : "—"; $("emPremN").textContent = em.p;
+    $("emPremRow").style.opacity = emPremMax() ? 1 : 0.45;
+    document.querySelectorAll('[data-em="p"]').forEach(b => b.disabled = !emPremMax());
+    $("emGo").disabled = !u || em.m + em.p === 0;
+    $("emN").textContent = em.n; $("emC").textContent = em.c; $("emP").textContent = em.pu; $("emT").textContent = `${em.t} / ${em.f}`;
+    $("emHist").innerHTML = EM_UP.map((x, i) => { const h = em.hist[i] || {}; return `<tr class="${i === em.lv - 1 ? "is-current" : ""}"><td>Lv.${i + 1} → ${i + 2}</td><td>${x[0]}%</td><td>${x[1]}</td><td>${h.t || 0}</td><td>${h.f || 0}</td><td>${h.m || 0}</td><td>${h.p || 0}</td></tr>`; }).join("");
+  }
+  document.querySelector('[data-pane="em"]').addEventListener("click", e => {
+    const b = e.target.closest("[data-em]"); if (!b) return;
+    const k = b.dataset.em, u = EM_UP[em.lv - 1]; if (!u) return;
+    if (b.dataset.d === "max") em[k] = k === "m" ? u[1] : (em.p = 0, emPremMax()); else em[k] += +b.dataset.d;
+    emUI();
+  });
+  $("emGo").onclick = () => {
+    const u = EM_UP[em.lv - 1]; if (!u || em.m + em.p === 0) return;
+    const [n, pr] = emRate(), h = em.hist[em.lv - 1] ||= {};
+    if (em.lv >= 7) em.c += em.m; else em.n += em.m;
+    em.pu += em.p; em.t++; h.t = (h.t || 0) + 1; h.m = (h.m || 0) + em.m; h.p = (h.p || 0) + em.p;
+    if (roll(n + pr)) { em.lv++; em.p = 0; say("emRes", true, `Success! Now Lv.${em.lv}.`); }
+    else { em.f++; h.f = (h.f || 0) + 1; say("emRes", false, "Failed: level kept, traces used up."); }
+    emUI();
+  };
+  $("emReset").onclick = () => { Object.assign(em, { lv: Math.max(1, Math.min(14, +$("emLv").value || 1)), m: 1, p: 0, n: 0, c: 0, pu: 0, t: 0, f: 0, hist: [] }); $("emRes").textContent = ""; emUI(); };
+  $("emLv").onchange = $("emReset").onclick;
+
+  /* ---------- Accessory ---------- */
+  const AC_ITEMS = ["Dominator Pendant", "Total Control", "Magic Eyepatch", "Endless Terror", "Black Light Slayer: Warrior", "Black Light Slayer: Mage", "Black Light Slayer: Bowman", "Black Light Slayer: Thief", "Black Light Slayer: Pirate",
+    "Cursed Red Spellbook", "Cursed Blue Spellbook", "Source of Suffering", "Commanding Force Earring", "Genesis Badge"];
+  const AC_RATE = [100, 60, 30, 20, 16, 12, 10, 8, 4, 3]; // success % from +n to +n+1; failure keeps the stars
+  const EMBLEMS = ["Brutal", "Powerful", "Holy", "Conquering", "Clever", "Sharp"];
+  const ac = { st: 0, t: 0, f: 0 };
+  $("acItem").innerHTML = AC_ITEMS.map(n => `<option>${n}</option>`).join("");
+  function acUI() {
+    $("acNow").textContent = ac.st >= 10 ? "+10 (max)" : `+${ac.st} → +${ac.st + 1}`;
+    $("acChance").textContent = ac.st >= 10 ? "—" : AC_RATE[ac.st] + "%";
+    $("acGo").disabled = ac.st >= 10; $("acT").textContent = ac.t; $("acF").textContent = ac.f;
+    const from = Math.max(0, Math.min(9, +$("acSt").value || 0));
+    $("acEv").textContent = AC_RATE.slice(from).reduce((a, p) => a + 100 / p, 0).toFixed(1);
+  }
+  $("acGo").onclick = () => {
+    ac.t++;
+    if (roll(AC_RATE[ac.st])) { ac.st++; say("acRes", true, ac.st === 10 ? `+10! You also got a Lv.1 ${EMBLEMS[Math.floor(Math.random() * 6)]} Emblem.` : `Success! Now +${ac.st}.`); }
+    else { ac.f++; say("acRes", false, "Failed (stars kept)."); }
+    acUI();
+  };
+  $("acReset").onclick = () => { Object.assign(ac, { st: Math.max(0, Math.min(9, +$("acSt").value || 0)), t: 0, f: 0 }); $("acRes").textContent = ""; acUI(); };
+  $("acSt").onchange = $("acReset").onclick; $("acItem").onchange = $("acReset").onclick;
+
+  show(); trUI(); crUI(); emUI(); acUI();
+</script>
+</body>
+</html>
