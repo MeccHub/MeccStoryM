@@ -68,8 +68,10 @@
       <label class="cx-field">Main <input id="kA" type="number" min="0" max="10" value="0"></label>
       <label class="cx-field">Sub 1 <input id="kB" type="number" min="0" max="10" value="0"></label>
       <label class="cx-field">Sub 2 <input id="kC" type="number" min="0" max="10" value="0"></label>
-      <label class="cx-field">Goal: main at least <input id="kGoal" type="number" min="1" max="10" value="8"></label>
-      <label class="cx-field" style="justify-content:flex-end"><span><input id="kSub" type="checkbox" checked> or a sub at 10</span></label>
+      <label class="cx-field">Goal: main at least <input id="kGoal" type="number" min="0" max="10" value="8"></label>
+      <label class="cx-field">Higher sub at least <input id="kG1" type="number" min="0" max="10" value="10"></label>
+      <label class="cx-field">Lower sub at least <input id="kG2" type="number" min="0" max="10" value="0"></label>
+      <label class="cx-field">Count it when <select id="kMode"><option value="any">any goal is met</option><option value="all">all goals are met</option></select></label>
     </div>
     <div class="cx-summary" style="margin-top:10px">
       <div class="cx-stat"><b id="kKeep">—</b><span>Chance if you keep going</span></div>
@@ -78,7 +80,7 @@
     </div>
     <h2 class="cx-sub" style="margin-top:16px">After 10 enhancements: how often, and the chance from there</h2>
     <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Main</th><th>Higher sub</th><th>Lower sub</th><th>How often</th><th>Chance of goal</th><th>Reset?</th></tr></thead><tbody id="kTable"></tbody></table></div>
-    <p class="cx-note">Exact odds (no random sampling). The table uses the goal above. "Reset?" compares with the chance from a fresh reset.</p>
+    <p class="cx-note">Exact odds (no random sampling). Sub goals compare against your higher and lower sub. The table uses the goals above. "Reset?" compares with the chance from a fresh reset.</p>
   </section>
 </main>
 
@@ -134,10 +136,15 @@
   }
   // Exact chance of reaching the goal with `left` enhancements to go, from (a, hi, lo).
   const memo = new Map();
-  function chance(a, b, c, left, goal, sub) {
-    if (a >= goal || (sub && (b >= 10 || c >= 10))) return 1;
+  // Goal: G = [main, higher sub, lower sub] minimums (0 = no goal on it), all = every set goal must be met.
+  function met(a, b, c, G, all) {
+    const hi = Math.max(b, c), lo = Math.min(b, c), t = [[a, G[0]], [hi, G[1]], [lo, G[2]]].filter(([, g]) => g > 0);
+    return t.length > 0 && (all ? t.every(([v, g]) => v >= g) : t.some(([v, g]) => v >= g));
+  }
+  function chance(a, b, c, left, G, all) {
+    if (met(a, b, c, G, all)) return 1;
     if (left === 0) return 0;
-    const k = [a, b, c, left, goal, sub].join();
+    const goal = G, sub = all, k = [a, b, c, left, G, all].join();
     if (memo.has(k)) return memo.get(k);
     const p = a < 10 ? P(a) : 0;
     let r = p * chance(a + 1, b, c, left - 1, goal, sub);
@@ -155,7 +162,9 @@
     keep();
   }
   function keep() {
-    const a = +$("kA").value || 0, b = +$("kB").value || 0, c = +$("kC").value || 0, goal = Math.max(1, Math.min(10, +$("kGoal").value || 8)), sub = $("kSub").checked;
+    const a = +$("kA").value || 0, b = +$("kB").value || 0, c = +$("kC").value || 0, all = $("kMode").value === "all";
+    const goal = [+$("kGoal").value || 0, +$("kG1").value || 0, +$("kG2").value || 0].map(v => Math.max(0, Math.min(10, v))), sub = all;
+    if (!goal.some(Boolean)) { $("kKeep").textContent = $("kFresh").textContent = "—"; $("kAdv").textContent = "Set at least one goal"; $("kTable").innerHTML = ""; return; }
     const left = 20 - a - b - c, fresh = chance(0, 0, 0, 20, goal, sub);
     $("kFresh").textContent = pct(fresh);
     if (left < 0) { $("kKeep").textContent = "—"; $("kAdv").textContent = "Levels add up to more than 20"; return; }
@@ -185,6 +194,8 @@
     const t = e.target;
     if (t.dataset.o) { st[t.dataset.o][t.dataset.k] = Math.max(0, +t.value || 0); prog(); save(); }
     else if (t.id && t.id[0] === "k" && t.id.length <= 5) keep();
+  });
+  document.addEventListener("change", e => { if (e.target.id === "kMode") keep();
   });
   $("cores").addEventListener("change", e => { const t = e.target, c = st.core[t.dataset.c]; if (!c) return; if (t.dataset.f === "on") c.on = t.checked; else c.lv = Math.max(0, Math.min(30, +t.value || 0)); prog(); save(); });
   document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { st.tab = b.dataset.tab; update(); });
