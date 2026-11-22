@@ -17,7 +17,7 @@
 <main class="msm-page cx-grid">
   <section class="msm-panel">
     <h1 class="msm-section-title">Symbol Calculator</h1>
-    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Symbols and mesos still needed to max each Arcane and Authentic symbol, and how many days at your daily gain. Saved on this device.</p>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Symbols and mesos still needed to max each Arcane and Sacred symbol, and how many days at your daily gain. Saved on this device.</p>
     <div class="cx-summary">
       <div class="cx-stat"><b id="tMeso">0</b><span>Mesos to max everything</span></div>
       <div class="cx-stat"><b id="tDays">—</b><span>Days until the last one maxes</span></div>
@@ -28,9 +28,9 @@
     <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Symbol</th><th>Level</th><th>Have</th><th>Per day</th><th>Still needed</th><th>Mesos</th><th>Days</th></tr></thead><tbody id="arcane"></tbody></table></div>
   </section>
   <section class="msm-panel">
-    <h2 class="cx-sub">Authentic symbols (max Lv.11)</h2>
+    <h2 class="cx-sub">Sacred symbols (max Lv.11)</h2>
     <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Symbol</th><th>Level</th><th>Have</th><th>Per day</th><th>Still needed</th><th>Mesos</th><th>Days</th></tr></thead><tbody id="authentic"></tbody></table></div>
-    <p class="cx-note">Cernium costs are assumed equal to Esetra's until confirmed. Mesos are the upgrade fees from your level to max. Game version 2026/07.</p>
+    <p class="cx-note">Cetera and Cernium cost the same. Mesos are the upgrade fees from your level to max. Game version 2026/07.</p>
   </section>
 </main>
 
@@ -43,10 +43,11 @@
   const AUT_COST = [7.6, 27, 65.8, 132.6, 235, 381.5, 579.9, 738.3, 1064.8, 1267.5].map(m => Math.round(m * 1e6));
   const GROUPS = {
     arcane: { need: ARC_NEED, cost: ARC_COST, list: ["Vanishing Journey", "Chu Chu Island", "Lachelein", "Arcana", "Morass", "Esfera"] },
-    authentic: { need: AUT_NEED, cost: AUT_COST, list: ["Esetra", "Cernium"] },
+    authentic: { need: AUT_NEED, cost: AUT_COST, list: ["Cetera", "Cernium"] },
   };
   const KEY = "msm_symbols", $ = id => document.getElementById(id), fmt = n => n.toLocaleString("en-US");
   let st = {}; try { st = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+  if (st.Esetra && !st.Cetera) { st.Cetera = st.Esetra; delete st.Esetra; } // renamed Esetra → Cetera
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
 
   function calc(g, s) {

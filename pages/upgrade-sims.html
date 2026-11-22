@@ -25,16 +25,16 @@
     <h1 class="msm-section-title">Upgrade Simulators</h1>
     <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Practice upgrades with the game's rates and see what it costs on average. Nothing here touches your account.</p>
     <div class="cx-row">
-      <button class="cx-btn" data-tab="tr" type="button">Transcendence</button>
+      <button class="cx-btn" data-tab="tr" type="button">Exaltation</button>
       <button class="cx-btn" data-tab="cr" type="button">Crafting</button>
       <button class="cx-btn" data-tab="em" type="button">Emblem</button>
       <button class="cx-btn" data-tab="ac" type="button">Accessory</button>
     </div>
   </section>
 
-  <!-- Transcendence -->
+  <!-- Exaltation -->
   <section class="msm-panel" data-pane="tr">
-    <h2 class="cx-sub">Transcendence (Lv.30 → 70, +2 per success)</h2>
+    <h2 class="cx-sub">Exaltation (Lv.30 → 70, +2 per success)</h2>
     <div class="cx-inputs">
       <label class="cx-field">Equipment level <input id="trLv" type="number" min="30" max="70" step="2" value="30"></label>
       <label class="cx-field">Failures so far (max 7) <input id="trF" type="number" min="0" max="7" value="0"></label>
@@ -48,18 +48,18 @@
     </div>
     <div class="us-res" id="trRes"></div>
     <div class="cx-row">
-      <button class="cx-btn us-act" id="trGo" type="button">Transcend</button>
+      <button class="cx-btn us-act" id="trGo" type="button">Exalt</button>
       <button class="cx-btn us-act" id="trScroll" type="button">Use failure-removal scroll</button>
       <button class="cx-btn" id="trReset" type="button">Start over</button>
     </div>
     <div class="cx-summary" style="margin-top:10px">
-      <div class="cx-stat"><b id="trS1">0</b><span>Transcendence Stones (Lv.30–39)</span></div>
-      <div class="cx-stat"><b id="trS2">0</b><span>Radiant Transcendence Stones (40–49)</span></div>
-      <div class="cx-stat"><b id="trS3">0</b><span>Chaos Transcendence Stones (50+)</span></div>
+      <div class="cx-stat"><b id="trS1">0</b><span>Exaltation Stones (Lv.30–39)</span></div>
+      <div class="cx-stat"><b id="trS2">0</b><span>Radiant Exaltation Stones (40–49)</span></div>
+      <div class="cx-stat"><b id="trS3">0</b><span>Chaos Exaltation Stones (50+)</span></div>
       <div class="cx-stat"><b id="trSc">0</b><span>Failure-removal scrolls</span></div>
       <div class="cx-stat"><b id="trEv">0</b><span>Stones on average for the levels gained</span></div>
     </div>
-    <p class="cx-note">Each failure adds max(5, 20% of the base rate) to the next try, up to +50%, and resets on success. At 7 failures the item can't be transcended until a scroll removes one.</p>
+    <p class="cx-note">Each failure adds max(5, 20% of the base rate) to the next try, up to +50%, and resets on success. At 7 failures the item can't be exalted until a scroll removes one.</p>
   </section>
 
   <!-- Crafting -->
@@ -159,7 +159,7 @@
   }
   document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; show(); });
 
-  /* ---------- Transcendence ---------- */
+  /* ---------- Exaltation ---------- */
   const tr = { lv: 30, f: 0, bonus: 0, s: [0, 0, 0], sc: 0, ev: 0 };
   const trBase = () => $("trRate").value === "c" ? Math.max(1, Math.min(100, +$("trRateC").value || 1)) : +$("trRate").value;
   const trStep = b => Math.max(5, Math.floor(b * 0.2));
