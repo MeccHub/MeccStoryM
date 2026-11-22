@@ -153,35 +153,47 @@
     ctx.fillStyle = `rgba(${top ? "168,85,247" : "239,68,68"},${strength})`;
     ctx.fillRect(x - half, y0, half * 2, h);
   }
-  function leg(x, top, p) { // a simple spike that extends toward the floor as the strike lands (p 0..1)
-    ctx.fillStyle = top ? "#c084fc" : "#f87171";
-    const len = (FLOOR - 40) * p, w = 26;
-    ctx.beginPath();
-    if (top) { ctx.moveTo(x - w, 0); ctx.lineTo(x + w, 0); ctx.lineTo(x, len); }
-    else { ctx.moveTo(x - w, cv.height); ctx.lineTo(x + w, cv.height); ctx.lineTo(x, cv.height - (cv.height - FLOOR + 40) * p - 20); }
-    ctx.fill();
+  // Our own art: the arena strip and player from the pattern quiz's screenshots, and the spider legs from the Will guide.
+  const img = src => { const i = new Image(); i.src = src; return i; };
+  const ART = { bg: img("../assets/will-trainer/arena-strip.jpg"), player: img("../assets/will-trainer/player.png"),
+    legDown: img("../assets/msm-will-guide/phase-2-spider-leg.png"), legUp: img("../assets/msm-will-guide/phase-2-spider-leg-up.png") };
+  const ok = i => i.complete && i.naturalWidth;
+  function leg(x, top, p) { // slides in toward the floor as the strike lands (p 0..1)
+    const im = top ? ART.legDown : ART.legUp;
+    if (!ok(im)) return;
+    const h = top ? FLOOR + 30 : cv.height - FLOOR + 230, w = h * im.naturalWidth / im.naturalHeight;
+    if (top) ctx.drawImage(im, x - w / 2, -h * (1 - p), w, h);
+    else ctx.drawImage(im, x - w / 2, FLOOR - 200 + (cv.height - FLOOR + 200) * (1 - p), w, h);
+  }
+  function background(crack) {
+    if (ok(ART.bg)) {
+      const h = cv.height, w = Math.round(ART.bg.naturalWidth * h / ART.bg.naturalHeight);
+      for (let x = 0, i = 0; x < W; x += w, i++) { // tile, flipping every other copy so the seams match
+        ctx.save(); if (i % 2) { ctx.translate(x + w, 0); ctx.scale(-1, 1); ctx.drawImage(ART.bg, 0, 0, w, h); } else ctx.drawImage(ART.bg, x, 0, w, h); ctx.restore();
+      }
+      ctx.fillStyle = crack ? "rgba(60,0,30,0.45)" : "rgba(10,8,30,0.25)"; ctx.fillRect(0, 0, W, h);
+    } else { ctx.fillStyle = crack ? "#1d0b1e" : "#120a24"; ctx.fillRect(0, 0, W, cv.height); }
   }
   function draw() {
     const crack = g.pat?.crack && g.phase !== "stopped";
-    ctx.fillStyle = crack ? "#1d0b1e" : "#120a24"; ctx.fillRect(0, 0, W, cv.height);
-    // floor and lane marks
-    ctx.fillStyle = crack ? "#6b213a" : "#2e1f55"; ctx.fillRect(0, FLOOR, W, 8);
-    ctx.fillStyle = "rgba(255,255,255,0.18)"; ctx.font = "bold 22px Nunito, sans-serif"; ctx.textAlign = "center";
-    for (const [n, x] of Object.entries(P)) { ctx.fillRect(x - 1, FLOOR + 8, 2, 16); ctx.fillText(n === "M" ? "mid" : "", x, FLOOR + 48); }
-    if (crack) { ctx.strokeStyle = "rgba(244,114,182,0.5)"; ctx.lineWidth = 3; ctx.beginPath(); for (let x = 60; x < W; x += 140) { ctx.moveTo(x, FLOOR + 8); ctx.lineTo(x + 40, FLOOR + 60); ctx.lineTo(x + 10, FLOOR + 110); } ctx.stroke(); }
+    background(crack);
+    ctx.fillStyle = "rgba(255,255,255,0.35)"; ctx.font = "bold 22px Nunito, sans-serif"; ctx.textAlign = "center";
+    for (const x of Object.values(P)) ctx.fillRect(x - 1, FLOOR + 8, 2, 16);
+    if (crack) { ctx.strokeStyle = "rgba(244,114,182,0.7)"; ctx.lineWidth = 3; ctx.beginPath(); for (let x = 60; x < W; x += 140) { ctx.moveTo(x, FLOOR + 8); ctx.lineTo(x + 40, FLOOR + 60); ctx.lineTo(x + 10, FLOOR + 110); } ctx.stroke(); }
     if (g.pat && ["warn", "strike", "idle"].includes(g.phase)) {
       const s = g.pat.strikes[g.wave], k = scale();
       const p = g.phase === "warn" ? 0 : g.phase === "strike" ? Math.min(1, 1 - g.t / (T.strike * k) + 0.3) : 1;
-      const a = g.phase === "warn" ? 0.18 + 0.12 * Math.sin(performance.now() / 80) : 0.12;
+      const a = g.phase === "warn" ? 0.2 + 0.12 * Math.sin(performance.now() / 80) : 0.1;
       s.top.forEach(x => zone(x, HIT_TOP, true, a)); s.bot.forEach(x => zone(x, HIT_BOT, false, a));
       if (g.phase !== "warn") { s.top.forEach(x => leg(x, true, p)); s.bot.forEach(x => leg(x, false, p)); }
-      if ($("hints").checked) { const x = safeSpot(g.pat, s); ctx.fillStyle = "#4ade80"; ctx.beginPath(); ctx.moveTo(x, FLOOR - 70); ctx.lineTo(x - 14, FLOOR - 96); ctx.lineTo(x + 14, FLOOR - 96); ctx.fill(); }
+      if ($("hints").checked) { const x = safeSpot(g.pat, s); ctx.fillStyle = "#4ade80"; ctx.beginPath(); ctx.moveTo(x, FLOOR - 170); ctx.lineTo(x - 16, FLOOR - 200); ctx.lineTo(x + 16, FLOOR - 200); ctx.fill(); }
     }
-    // boss and player
-    ctx.fillStyle = "#334155"; ctx.fillRect(boss.x - 40, FLOOR - 120, 80, 120);
-    ctx.fillStyle = "#e2e8f0"; ctx.fillText("Will", boss.x, FLOOR - 130);
-    ctx.fillStyle = g.flash > 0 ? "#ef4444" : "#facc15"; ctx.fillRect(pl.x - 18, FLOOR - 64, 36, 64);
-    ctx.fillStyle = "#111"; ctx.fillRect(pl.x + (pl.face > 0 ? 6 : -14), FLOOR - 52, 8, 8);
+    // player (sprite faces left; flip when moving right)
+    if (ok(ART.player)) {
+      const h = 240, w = h * ART.player.naturalWidth / ART.player.naturalHeight;
+      ctx.save(); ctx.translate(pl.x, FLOOR + 20); if (pl.face > 0) ctx.scale(-1, 1);
+      ctx.drawImage(ART.player, -w / 2, -h, w, h); ctx.restore();
+    } else { ctx.fillStyle = "#facc15"; ctx.fillRect(pl.x - 18, FLOOR - 64, 36, 64); }
     if (g.flash > 0) { ctx.fillStyle = `rgba(239,68,68,${g.flash / 1500})`; ctx.fillRect(0, 0, W, cv.height); }
   }
   let last = performance.now();
