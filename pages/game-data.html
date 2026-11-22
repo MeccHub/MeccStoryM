@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Data Tables - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+</head>
+<body data-nav-active="gamedata">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Game Data Tables</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Upgrade costs and odds pulled from game data. Some values aren't confirmed in game yet; trust what the game shows.</p>
+    <div class="cx-row" id="tabs">
+      <button class="cx-btn" data-tab="sec" type="button">Secondary Weapon Alchemy</button>
+      <button class="cx-btn" data-tab="flame" type="button">Flame odds</button>
+      <button class="cx-btn" data-tab="pet" type="button">Pet food</button>
+      <button class="cx-btn" data-tab="helos" type="button">Helos Seal floors</button>
+      <button class="cx-btn" data-tab="const" type="button">Constellation core</button>
+    </div>
+  </section>
+
+  <section class="msm-panel" data-pane="sec">
+    <h2 class="cx-sub">Secondary Weapon Alchemy</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Grade <select id="secGrade"></select></label>
+      <label class="cx-field">From level <select id="secFrom"></select></label>
+      <label class="cx-field">To level <select id="secTo"></select></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="secMat">0</b><span>Materials if every try succeeds</span></div>
+      <div class="cx-stat"><b id="secMatAvg">0</b><span>Materials on average</span></div>
+      <div class="cx-stat"><b id="secMeso">0</b><span>Mesos on average</span></div>
+    </div>
+    <div class="cx-table-wrap" style="margin-top:10px"><table class="cx-table"><thead><tr><th>Level</th><th>Phys ATT</th><th>Magic ATT</th><th>Boss</th><th>Final DMG</th><th>Success</th><th>Materials / try</th><th>Mesos / try</th></tr></thead><tbody id="secRows"></tbody></table></div>
+    <p class="cx-note">Stats are what alchemy adds in total at that level (weapon base not included). Level 1 is the first conversion. Data 2026/10/15.</p>
+  </section>
+
+  <section class="msm-panel" data-pane="flame">
+    <h2 class="cx-sub">Reincarnation Flame odds</h2>
+    <p class="cx-note" style="margin-top:0">Rerolling gear that already has two lines. Assumes every possible line is equally likely and the two lines roll independently. "Flames on average" is 1 ÷ chance, not a guarantee. Data 2026/09.</p>
+    <div class="cx-table-wrap" style="margin-top:8px"><table class="cx-table"><thead><tr><th>Stat</th><th>Gear</th><th>Legendary / Mythic values</th><th>One line</th><th>Both lines</th><th>Both at top value</th></tr></thead><tbody id="flameRows"></tbody></table></div>
+  </section>
+
+  <section class="msm-panel" data-pane="pet">
+    <h2 class="cx-sub">Pet food (Lv.1 → 50)</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">From level <input id="petFrom" type="number" min="1" max="50" value="1"></label>
+      <label class="cx-field">To level <input id="petTo" type="number" min="1" max="50" value="50"></label>
+      <label class="cx-field">Pets <input id="petN" type="number" min="1" max="3" value="3"></label>
+      <label class="cx-field">Food you have <input id="petHave" type="number" min="0" value="0"></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="petNeed">0</b><span>Food needed (300 EXP each)</span></div>
+      <div class="cx-stat"><b id="petBuy">0</b><span>Still to get</span></div>
+      <div class="cx-stat"><b id="petPacks">—</b><span>Packs of 20 / of 30</span></div>
+    </div>
+    <p class="cx-note">Counted per pet and rounded up; leftover EXP doesn't carry between pets. Data 2026/09.</p>
+  </section>
+
+  <section class="msm-panel" data-pane="helos">
+    <h2 class="cx-sub">Helos Seal floor requirements</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Floor <input id="hFloor" type="number" min="1" max="500" value="55"></label>
+      <label class="cx-field">Your Star Force <input id="hSF" type="number" min="0"></label>
+      <label class="cx-field">Your Arcane Force <input id="hAF" type="number" min="0"></label>
+      <label class="cx-field">Your Authentic Force <input id="hAU" type="number" min="0"></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="hNeed">—</b><span>Needed on that floor (SF / AF / AuF)</span></div>
+      <div class="cx-stat good"><b id="hMax">—</b><span>Highest floor you meet</span></div>
+    </div>
+    <p class="cx-note">Floors 1–500 from game data (2026/06); floor 55 confirmed in game.</p>
+  </section>
+
+  <section class="msm-panel" data-pane="const">
+    <h2 class="cx-sub">Constellation core</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">From level <input id="cFrom" type="number" min="0" max="29" value="0"></label>
+      <label class="cx-field">To level <input id="cTo" type="number" min="1" max="30" value="30"></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px"><div class="cx-stat"><b id="cCost">0</b><span>Core materials needed</span></div></div>
+    <div class="cx-table-wrap" style="margin-top:10px"><table class="cx-table"><thead><tr><th>Level</th><th>Materials</th><th>Total from 0</th></tr></thead><tbody id="cRows"></tbody></table></div>
+    <p class="cx-note">Confirmed in game up to Lv.11. Data 2026/09.</p>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  const $ = id => document.getElementById(id), fmt = n => Math.round(n).toLocaleString("en-US"), KEY = "msm_game_data_tab";
+  const pct = p => { const v = p * 100; return (v >= 1 ? v.toFixed(2) : v >= 0.01 ? v.toFixed(3) : v.toFixed(4)) + "%"; };
+  let D, tab = "sec"; try { tab = localStorage.getItem(KEY) || tab; } catch (e) {}
+  const num = id => +$(id).value || 0;
+
+  function sec() {
+    const g = D.secondary[num("secGrade")], L = g.levels, from = num("secFrom"), to = Math.max(from + 1, num("secTo"));
+    const rows = L.filter(l => l[0] > from && l[0] <= to);
+    $("secMat").textContent = fmt(rows.reduce((a, l) => a + l[6], 0));
+    $("secMatAvg").textContent = fmt(rows.reduce((a, l) => a + l[6] * 100 / l[5], 0));
+    $("secMeso").textContent = fmt(rows.reduce((a, l) => a + l[7] * 100 / l[5], 0));
+    $("secRows").innerHTML = L.map(l => `<tr class="${l[0] > from && l[0] <= to ? "is-current" : ""}"><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td><td>${l[3]}%</td><td>${l[4]}%</td><td>${l[5]}%</td><td>${fmt(l[6])}</td><td>${fmt(l[7])}</td></tr>`).join("");
+  }
+  function secLevels() {
+    const n = D.secondary[num("secGrade")].levels.length;
+    $("secFrom").innerHTML = Array.from({ length: n }, (_, i) => `<option value="${i}">${i ? "Lv." + i : "Not converted"}</option>`).join("");
+    $("secTo").innerHTML = Array.from({ length: n }, (_, i) => `<option value="${i + 1}"${i + 1 === n ? " selected" : ""}>Lv.${i + 1}</option>`).join("");
+  }
+  function flame() {
+    $("flameRows").innerHTML = D.flame.flatMap(a => a.groups.map(g => {
+      const one = 4 / g.candidates, two = one * one, top = 1 / g.candidates ** 2;
+      const cell = p => `${pct(p)}<br><small>${fmt(1 / p)} flames on average</small>`;
+      return `<tr><td>${a.stat}</td><td style="white-space:normal">${g.parts.join(", ")}</td><td>${g.legendary.join("/")}% · ${g.mythic.join("/")}%</td><td>${cell(one)}</td><td>${cell(two)}</td><td>${cell(top)}</td></tr>`;
+    })).join("");
+  }
+  function pet() {
+    const from = Math.max(1, Math.min(50, num("petFrom"))), to = Math.max(from, Math.min(50, num("petTo")));
+    const per = Math.ceil(D.pet.exp.slice(from - 1, to - 1).reduce((a, b) => a + b, 0) / D.pet.foodExp), need = per * Math.max(1, num("petN")), buy = Math.max(0, need - num("petHave"));
+    $("petNeed").textContent = fmt(need); $("petBuy").textContent = fmt(buy); $("petPacks").textContent = `${Math.ceil(buy / 20)} / ${Math.ceil(buy / 30)}`;
+  }
+  function helos() {
+    const f = Math.max(1, Math.min(500, num("hFloor"))), r = D.helos[f - 1];
+    $("hNeed").textContent = `${r[0]} / ${fmt(r[1])} / ${r[2]}`;
+    const sf = num("hSF"), af = num("hAF"), au = num("hAU");
+    if (!sf && !af && !au) { $("hMax").textContent = "enter your stats"; return; }
+    let best = 0; D.helos.forEach((r, i) => { if (sf >= r[0] && af >= r[1] && au >= r[2]) best = i + 1; });
+    $("hMax").textContent = best ? "Floor " + best : "none yet";
+  }
+  // Constellation core cost per level: "level" steps cost once, "per-level" steps cost that much for every level in the range.
+  function constCosts() {
+    const c = [];
+    for (const [from, to, cost, basis] of D.constellation) for (let l = from + 1; l <= to; l++) c[l] = cost;
+    return c;
+  }
+  function cons() {
+    const c = constCosts(), from = Math.max(0, num("cFrom")), to = Math.min(c.length - 1, Math.max(from + 1, num("cTo")));
+    $("cCost").textContent = fmt(c.slice(from + 1, to + 1).reduce((a, b) => a + b, 0));
+    let t = 0; $("cRows").innerHTML = c.map((v, l) => l ? `<tr class="${l > from && l <= to ? "is-current" : ""}"><td>${l}</td><td>${v}</td><td>${fmt(t += v)}</td></tr>` : "").join("");
+  }
+  function show() {
+    document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+    document.querySelectorAll("[data-pane]").forEach(p => p.hidden = p.dataset.pane !== tab);
+    try { localStorage.setItem(KEY, tab); } catch (e) {}
+  }
+  fetch("../data/game-tables.json").then(r => r.json()).then(d => {
+    D = d;
+    $("secGrade").innerHTML = D.secondary.map((g, i) => `<option value="${i}">${g.grade} (max Lv.${g.levels.length})</option>`).join("");
+    secLevels(); sec(); flame(); pet(); helos(); cons(); show();
+    $("secGrade").onchange = () => { secLevels(); sec(); };
+    for (const id of ["secFrom", "secTo"]) $(id).onchange = sec;
+    for (const id of ["petFrom", "petTo", "petN", "petHave"]) $(id).oninput = pet;
+    for (const id of ["hFloor", "hSF", "hAF", "hAU"]) $(id).oninput = helos;
+    for (const id of ["cFrom", "cTo"]) $(id).oninput = cons;
+  });
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; show(); });
+</script>
+</body>
+</html>
