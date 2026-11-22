@@ -93,26 +93,33 @@
   <section class="msm-panel" data-pane="em" hidden>
     <h2 class="cx-sub">Emblem (Lv.1 → 15)</h2>
     <div class="cx-inputs">
-      <label class="cx-field">Level <input id="emLv" type="number" min="1" max="15" value="1"></label>
-      <label class="cx-field">Traces per try <input id="emMat" type="number" min="1" value="1"></label>
+      <label class="cx-field">Start level <input id="emLv" type="number" min="1" max="14" value="1"></label>
     </div>
     <div class="cx-row" style="margin-top:10px">
       <span class="us-big" id="emNow">Lv.1</span>
       <span class="cx-stat"><b id="emChance">—</b><span id="emChanceTxt">Chance</span></span>
+      <span class="cx-stat"><b id="emKeep">—</b><span>Keep level</span></span>
       <span class="cx-stat"><b id="emStats">—</b><span>Crit Damage / Max Damage</span></span>
+    </div>
+    <div class="cx-row" style="margin-top:10px">
+      <span class="cx-step"><b id="emMatLbl" style="min-width:150px">Emblem Traces</b><button class="cx-btn" data-em="m" data-d="-1" type="button">−</button><b id="emMatN" style="min-width:52px;text-align:center">1 / 2</b><button class="cx-btn" data-em="m" data-d="1" type="button">+</button><button class="cx-btn" data-em="m" data-d="max" type="button">Max</button></span>
+    </div>
+    <div class="cx-row" style="margin-top:6px" id="emPremRow">
+      <span class="cx-step"><b style="min-width:150px">Premium Chaos Traces</b><button class="cx-btn" data-em="p" data-d="-1" type="button">−</button><b id="emPremN" style="min-width:52px;text-align:center">0</b><button class="cx-btn" data-em="p" data-d="1" type="button">+</button><button class="cx-btn" data-em="p" data-d="max" type="button">Max</button></span>
     </div>
     <div class="us-res" id="emRes"></div>
     <div class="cx-row">
       <button class="cx-btn us-act" id="emGo" type="button">Enhance</button>
-      <button class="cx-btn" id="emMax" type="button">Use max traces</button>
       <button class="cx-btn" id="emReset" type="button">Start over</button>
     </div>
     <div class="cx-summary" style="margin-top:10px">
-      <div class="cx-stat"><b id="emN">0</b><span>Emblem Traces used (Lv.1 → 7)</span></div>
-      <div class="cx-stat"><b id="emC">0</b><span>Chaos Emblem Traces used (Lv.7 → 15)</span></div>
+      <div class="cx-stat"><b id="emN">0</b><span>Emblem Traces used</span></div>
+      <div class="cx-stat"><b id="emC">0</b><span>Chaos Emblem Traces used</span></div>
+      <div class="cx-stat"><b id="emP">0</b><span>Premium Chaos Traces used</span></div>
       <div class="cx-stat"><b id="emT">0</b><span>Tries / failures</span></div>
     </div>
-    <p class="cx-note">Chance = base rate × traces used, up to each level's trace limit (100%).</p>
+    <div class="cx-table-wrap" style="margin-top:10px"><table class="cx-table"><thead><tr><th>Upgrade</th><th>Base</th><th>Trace limit</th><th>Tries</th><th>Failures</th><th>Traces used</th><th>Premium used</th></tr></thead><tbody id="emHist"></tbody></table></div>
+    <p class="cx-note">Chance = base rate × traces. Normal traces stop at each level's limit; from Lv.7 (Chaos levels) Premium Chaos Traces can top the chance up to 100%. A failure keeps the level and uses up the traces.</p>
   </section>
 
   <!-- Accessory -->
@@ -211,29 +218,46 @@
   for (const id of ["crType", "crS1", "crS2", "crAlc"]) $(id).onchange = crUI;
 
   /* ---------- Emblem ---------- */
-  // Per level: [crit damage %, max damage]. Per upgrade from that level: [base %, trace limit]; Lv.8+ use Chaos Emblem Traces.
+  // Per level: [crit damage %, max damage]. Per upgrade from that level: [base %, trace limit]; from Lv.7 they're Chaos Emblem Traces.
   const EM_STATS = [[5, 0], [8, 0], [11, 0], [15, 0], [20, 0], [20.8, 1e5], [21.6, 2.5e5], [22.4, 4.2e5], [23.2, 6e5], [24, 9.6e5], [24.8, 1.71e6], [25.6, 2.76e6], [26.4, 4.26e6], [27.2, 6.66e6], [28, 1.2e7]];
   const EM_UP = [[80, 2], [60, 2], [30, 4], [20, 5], [20, 5], [15, 5], [100, 1], [100, 1], [50, 2], [25, 3], [20, 3], [15, 3], [10, 4], [5, 6]];
-  const em = { lv: 1, n: 0, c: 0, t: 0, f: 0 };
-  const emMat = () => { const u = EM_UP[em.lv - 1]; return u ? Math.max(1, Math.min(u[1], +$("emMat").value || 1)) : 1; };
+  const em = { lv: 1, m: 1, p: 0, n: 0, c: 0, pu: 0, t: 0, f: 0, hist: [] };
+  const emPremMax = () => { const u = EM_UP[em.lv - 1]; return u && em.lv >= 7 ? Math.ceil(Math.max(0, 100 - u[0] * em.m) / u[0]) : 0; };
+  const emRate = () => { const u = EM_UP[em.lv - 1]; if (!u) return [0, 0]; const n = Math.min(100, u[0] * em.m); return [n, Math.min(100 - n, u[0] * em.p)]; };
+  function emClamp() { const u = EM_UP[em.lv - 1]; if (!u) return; em.m = Math.max(0, Math.min(u[1], em.m)); em.p = Math.max(0, Math.min(emPremMax(), em.p)); }
   function emUI() {
-    const u = EM_UP[em.lv - 1], s = EM_STATS[em.lv - 1];
+    emClamp();
+    const u = EM_UP[em.lv - 1], s = EM_STATS[em.lv - 1], [n, pr] = emRate();
     $("emNow").textContent = em.lv >= 15 ? "Lv.15 (max)" : `Lv.${em.lv} → ${em.lv + 1}`;
-    $("emChance").textContent = u ? Math.min(100, u[0] * emMat()) + "%" : "—";
-    $("emChanceTxt").textContent = u ? `Chance (${u[0]}% × ${emMat()} of max ${u[1]} ${em.lv >= 7 ? "Chaos " : ""}traces)` : "Chance";
+    $("emChance").textContent = u ? (pr ? `${n + pr}% (${n} + ${pr})` : `${n}%`) : "—";
+    $("emChanceTxt").textContent = u ? `Chance (base ${u[0]}% per trace)` : "Chance";
+    $("emKeep").textContent = u ? `${100 - n - pr}%` : "—";
     $("emStats").textContent = `${s[0]}% / ${fmt(s[1])}`;
-    $("emGo").disabled = !u; $("emN").textContent = em.n; $("emC").textContent = em.c; $("emT").textContent = `${em.t} / ${em.f}`; $("emLv").value = em.lv;
+    $("emMatLbl").textContent = em.lv >= 7 ? "Chaos Emblem Traces" : "Emblem Traces";
+    $("emMatN").textContent = u ? `${em.m} / ${u[1]}` : "—"; $("emPremN").textContent = em.p;
+    $("emPremRow").style.opacity = emPremMax() ? 1 : 0.45;
+    document.querySelectorAll('[data-em="p"]').forEach(b => b.disabled = !emPremMax());
+    $("emGo").disabled = !u || em.m + em.p === 0;
+    $("emN").textContent = em.n; $("emC").textContent = em.c; $("emP").textContent = em.pu; $("emT").textContent = `${em.t} / ${em.f}`;
+    $("emHist").innerHTML = EM_UP.map((x, i) => { const h = em.hist[i] || {}; return `<tr class="${i === em.lv - 1 ? "is-current" : ""}"><td>Lv.${i + 1} → ${i + 2}</td><td>${x[0]}%</td><td>${x[1]}</td><td>${h.t || 0}</td><td>${h.f || 0}</td><td>${h.m || 0}</td><td>${h.p || 0}</td></tr>`; }).join("");
   }
+  document.querySelector('[data-pane="em"]').addEventListener("click", e => {
+    const b = e.target.closest("[data-em]"); if (!b) return;
+    const k = b.dataset.em, u = EM_UP[em.lv - 1]; if (!u) return;
+    if (b.dataset.d === "max") em[k] = k === "m" ? u[1] : (em.p = 0, emPremMax()); else em[k] += +b.dataset.d;
+    emUI();
+  });
   $("emGo").onclick = () => {
-    const u = EM_UP[em.lv - 1], m = emMat(); if (!u) return;
-    if (em.lv >= 7) em.c += m; else em.n += m; em.t++;
-    if (roll(Math.min(100, u[0] * m))) { em.lv++; say("emRes", true, `Success! Now Lv.${em.lv}.`); } else { em.f++; say("emRes", false, "Failed (traces used up, level kept)."); }
+    const u = EM_UP[em.lv - 1]; if (!u || em.m + em.p === 0) return;
+    const [n, pr] = emRate(), h = em.hist[em.lv - 1] ||= {};
+    if (em.lv >= 7) em.c += em.m; else em.n += em.m;
+    em.pu += em.p; em.t++; h.t = (h.t || 0) + 1; h.m = (h.m || 0) + em.m; h.p = (h.p || 0) + em.p;
+    if (roll(n + pr)) { em.lv++; em.p = 0; say("emRes", true, `Success! Now Lv.${em.lv}.`); }
+    else { em.f++; h.f = (h.f || 0) + 1; say("emRes", false, "Failed: level kept, traces used up."); }
     emUI();
   };
-  $("emMax").onclick = () => { const u = EM_UP[em.lv - 1]; if (u) $("emMat").value = u[1]; emUI(); };
-  $("emReset").onclick = () => { Object.assign(em, { lv: 1, n: 0, c: 0, t: 0, f: 0 }); $("emRes").textContent = ""; emUI(); };
-  $("emLv").onchange = () => { em.lv = Math.max(1, Math.min(15, +$("emLv").value || 1)); emUI(); };
-  $("emMat").oninput = emUI;
+  $("emReset").onclick = () => { Object.assign(em, { lv: Math.max(1, Math.min(14, +$("emLv").value || 1)), m: 1, p: 0, n: 0, c: 0, pu: 0, t: 0, f: 0, hist: [] }); $("emRes").textContent = ""; emUI(); };
+  $("emLv").onchange = $("emReset").onclick;
 
   /* ---------- Accessory ---------- */
   const AC_ITEMS = ["Dominator Pendant", "Total Control", "Magic Eyepatch", "Endless Terror", "Black Light Slayer: Warrior", "Black Light Slayer: Mage", "Black Light Slayer: Bowman", "Black Light Slayer: Thief", "Black Light Slayer: Pirate",
