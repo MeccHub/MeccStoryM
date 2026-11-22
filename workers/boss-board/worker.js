@@ -4,6 +4,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type"
 };
 const boardTtlSeconds = 60 * 60 * 24 * 30;
+const maxBoardBytes = 256 * 1024; // a real board is a few KB; stops the open endpoint being used as free storage
 
 function json(data, init = {}) {
   return new Response(JSON.stringify(data), {
@@ -19,7 +20,8 @@ function json(data, init = {}) {
 function boardKey(request) {
   const url = new URL(request.url);
   const parts = url.pathname.split("/").filter(Boolean);
-  return `board:${parts.pop() || "current"}`;
+  const id = parts.pop() || "current";
+  return /^[a-z0-9-]{1,48}$/.test(id) ? `board:${id}` : null; // same format the page's sanitizeBoardId makes
 }
 
 export default {
@@ -33,6 +35,7 @@ export default {
     }
 
     const key = boardKey(request);
+    if (!key) return json({ ok: false, error: "Bad board id" }, { status: 400 });
 
     if (request.method === "GET") {
       const stored = await env.BOSS_BOARD.get(key, "json");
@@ -40,7 +43,9 @@ export default {
     }
 
     if (request.method === "PUT") {
-      const payload = await request.json().catch(() => null);
+      const text = await request.text();
+      if (text.length > maxBoardBytes) return json({ ok: false, error: "Board too large" }, { status: 413 });
+      const payload = (() => { try { return JSON.parse(text); } catch (e) { return null; } })();
       const board = payload?.board && typeof payload.board === "object" ? payload.board : payload;
       if (!board || typeof board !== "object" || Array.isArray(board)) {
         return json({ ok: false, error: "Expected a board object" }, { status: 400 });

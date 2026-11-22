@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symbol Calculator - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+</head>
+<body data-nav-active="symbols">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Symbol Calculator</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Symbols and mesos still needed to max each Arcane and Authentic symbol, and how many days at your daily gain. Saved on this device.</p>
+    <div class="cx-summary">
+      <div class="cx-stat"><b id="tMeso">0</b><span>Mesos to max everything</span></div>
+      <div class="cx-stat"><b id="tDays">—</b><span>Days until the last one maxes</span></div>
+    </div>
+  </section>
+  <section class="msm-panel">
+    <h2 class="cx-sub">Arcane symbols (max Lv.20)</h2>
+    <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Symbol</th><th>Level</th><th>Have</th><th>Per day</th><th>Still needed</th><th>Mesos</th><th>Days</th></tr></thead><tbody id="arcane"></tbody></table></div>
+  </section>
+  <section class="msm-panel">
+    <h2 class="cx-sub">Authentic symbols (max Lv.11)</h2>
+    <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Symbol</th><th>Level</th><th>Have</th><th>Per day</th><th>Still needed</th><th>Mesos</th><th>Days</th></tr></thead><tbody id="authentic"></tbody></table></div>
+    <p class="cx-note">Cernium costs are assumed equal to Esetra's until confirmed. Mesos are the upgrade fees from your level to max. Game version 2026/07.</p>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Symbols needed to go from level i+1 to i+2, and the meso fee for that upgrade.
+  const ARC_NEED = [15, 19, 24, 31, 40, 50, 62, 77, 96, 120, 156, 202, 262, 340, 442, 574, 746, 1007, 1359];
+  const ARC_COST = [12.6, 15.3, 18.7, 22.7, 27.6, 33.6, 40.8, 49.7, 60.4, 73.4, 92.9, 117.5, 148.7, 188.2, 235.3, 294.1, 367.6, 459.5, 574.3].map(m => Math.round(m * 1e6));
+  const AUT_NEED = [13, 33, 53, 73, 93, 113, 133, 153, 173, 193];
+  const AUT_COST = [7.6, 27, 65.8, 132.6, 235, 381.5, 579.9, 738.3, 1064.8, 1267.5].map(m => Math.round(m * 1e6));
+  const GROUPS = {
+    arcane: { need: ARC_NEED, cost: ARC_COST, list: ["Vanishing Journey", "Chu Chu Island", "Lachelein", "Arcana", "Morass", "Esfera"] },
+    authentic: { need: AUT_NEED, cost: AUT_COST, list: ["Esetra", "Cernium"] },
+  };
+  const KEY = "msm_symbols", $ = id => document.getElementById(id), fmt = n => n.toLocaleString("en-US");
+  let st = {}; try { st = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+
+  function calc(g, s) {
+    const lv = Math.max(1, Math.min(g.need.length + 1, s.lv || 1)), need = g.need.slice(lv - 1).reduce((a, b) => a + b, 0);
+    const left = Math.max(0, need - (s.have || 0)), meso = g.cost.slice(lv - 1).reduce((a, b) => a + b, 0);
+    return { lv, left, meso, days: left === 0 ? 0 : s.day > 0 ? Math.ceil(left / s.day) : null };
+  }
+  function render() {
+    let meso = 0, days = 0, unknown = false;
+    for (const [k, g] of Object.entries(GROUPS)) {
+      $(k).innerHTML = g.list.map(name => {
+        const s = st[name] ||= { lv: 1, have: 0, day: 0 }, r = calc(g, s);
+        meso += r.meso; if (r.days === null) unknown = true; else days = Math.max(days, r.days);
+        const inp = (f, max) => `<input class="cx-in" style="width:72px" type="number" min="0" ${max ? `max="${max}"` : ""} data-n="${name}" data-f="${f}" value="${s[f] || 0}">`;
+        return `<tr><td>${name}</td><td>${inp("lv", g.need.length + 1)}</td><td>${inp("have")}</td><td>${inp("day")}</td>
+          <td>${r.lv > g.need.length ? "max" : fmt(r.left)}</td><td>${fmt(r.meso)}</td><td>${r.days === null ? "—" : r.days}</td></tr>`;
+      }).join("");
+    }
+    $("tMeso").textContent = fmt(meso);
+    $("tDays").textContent = days || (unknown ? "enter per-day gains" : 0);
+  }
+  document.addEventListener("change", e => { const t = e.target; if (!t.dataset.n) return; st[t.dataset.n][t.dataset.f] = Math.max(0, +t.value || 0); save(); render(); });
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyper Stat Calculator - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+</head>
+<body data-nav-active="hyper">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Hyper Stat Calculator</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Plan a bossing and a farming setup. Each level costs 1 point (you get character level − 140 points) plus mesos. Saved on this device.</p>
+    <div class="cx-row">
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:8px">Character level <input id="lv" class="cx-in" type="number" min="1" max="300" style="width:90px"></label>
+      <button class="cx-btn" data-prof="boss" type="button">Bossing</button>
+      <button class="cx-btn" data-prof="farm" type="button">Farming</button>
+      <button class="cx-btn" id="reset" type="button">Reset this setup</button>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="sPts">—</b><span>Points available</span></div>
+      <div class="cx-stat" id="sLeftBox"><b id="sLeft">—</b><span>Points left</span></div>
+      <div class="cx-stat"><b id="sMeso">0</b><span>Mesos spent (this setup)</span></div>
+    </div>
+  </section>
+  <section class="msm-panel">
+    <div class="cx-table-wrap"><table class="cx-table">
+      <thead><tr><th>Stat</th><th>Level</th><th>Effect</th><th>Next level</th><th>Mesos so far</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <p class="cx-note">Mesos are the total paid to reach the current level. Game version 2026/10.</p>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  const KEY = "msm_hyper_stats", $ = id => document.getElementById(id), fmt = n => n.toLocaleString("en-US");
+  let STATS = [], st = { lv: "", prof: "boss", boss: {}, farm: {} };
+  try { Object.assign(st, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+  const spent = (s, lv) => s.next.slice(0, lv).reduce((a, b) => a + b, 0);
+  const short = n => n >= 1e9 ? (n / 1e9).toFixed(2).replace(/\.?0+$/, "") + "b" : n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, "") + "m" : fmt(n);
+
+  function render() {
+    const p = st[st.prof];
+    $("rows").innerHTML = STATS.map(s => {
+      const lv = p[s.id] || 0;
+      return `<tr><td>${s.name}</td>
+        <td><span class="cx-step"><button class="cx-btn" data-d="-1" data-s="${s.id}" type="button">−</button><input class="cx-in" data-s="${s.id}" type="number" min="0" max="${s.max}" value="${lv}"><button class="cx-btn" data-d="1" data-s="${s.id}" type="button">+</button></span> / ${s.max}</td>
+        <td>${s.effect[lv]}</td><td>${lv < s.max ? short(s.next[lv]) : "max"}</td><td>${short(spent(s, lv))}</td></tr>`;
+    }).join("");
+    summary();
+  }
+  function summary() {
+    const p = st[st.prof], used = STATS.reduce((a, s) => a + (p[s.id] || 0), 0), lv = parseInt(st.lv, 10);
+    const pts = Number.isFinite(lv) ? Math.max(0, lv - 140) : null;
+    $("sPts").textContent = pts === null ? "enter level" : fmt(pts);
+    $("sLeft").textContent = pts === null ? `${used} used` : fmt(pts - used);
+    $("sLeftBox").classList.toggle("bad", pts !== null && used > pts);
+    $("sMeso").textContent = fmt(STATS.reduce((a, s) => a + spent(s, p[s.id] || 0), 0));
+    document.querySelectorAll("[data-prof]").forEach(b => b.classList.toggle("on", b.dataset.prof === st.prof));
+  }
+  function set(id, v) {
+    const s = STATS.find(x => x.id === id);
+    st[st.prof][id] = Math.max(0, Math.min(s.max, v | 0)); save(); render();
+  }
+  $("rows").addEventListener("click", e => { const b = e.target.closest("button[data-d]"); if (b) set(b.dataset.s, (st[st.prof][b.dataset.s] || 0) + +b.dataset.d); });
+  $("rows").addEventListener("change", e => { if (e.target.dataset.s) set(e.target.dataset.s, +e.target.value); });
+  document.querySelectorAll("[data-prof]").forEach(b => b.onclick = () => { st.prof = b.dataset.prof; save(); render(); });
+  $("reset").onclick = () => { st[st.prof] = {}; save(); render(); };
+  $("lv").value = st.lv; $("lv").oninput = () => { st.lv = $("lv").value; save(); summary(); };
+  fetch("../data/hyper-stats.json").then(r => r.json()).then(d => { STATS = d.stats; render(); });
+</script>
+</body>
+</html>
