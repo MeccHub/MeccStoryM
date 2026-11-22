@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEXA Tools - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+<style>
+  .hx-bar { display: grid; grid-template-columns: 90px repeat(10, 1fr) 36px; gap: 3px; align-items: center; margin: 4px 0; font-weight: 800; color: var(--msm-ink); }
+  .hx-seg { height: 16px; border-radius: 4px; background: var(--msm-soft); }
+  .hx-seg.on { background: #a855f7; }
+  .hx-bar.main .hx-seg.on { background: #f59e0b; }
+</style>
+</head>
+<body data-nav-active="hexa">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">HEXA Tools</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">6th job progress (Sol Erda and fragments to max your cores), a HEXA Stat simulator, and keep-or-reset odds. Saved on this device.</p>
+    <div class="cx-row">
+      <button class="cx-btn" data-tab="prog" type="button">Progress</button>
+      <button class="cx-btn" data-tab="stat" type="button">HEXA Stat</button>
+    </div>
+  </section>
+
+  <section class="msm-panel" data-pane="prog">
+    <h2 class="cx-sub">Cores</h2>
+    <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Core</th><th>Using</th><th>Level</th><th>Sol Erda left</th><th>Fragments left</th></tr></thead><tbody id="cores"></tbody></table></div>
+    <h2 class="cx-sub" style="margin-top:14px">What you have</h2>
+    <div class="cx-inputs" id="inv"></div>
+    <h2 class="cx-sub" style="margin-top:14px">What you farm</h2>
+    <div class="cx-inputs" id="farm"></div>
+    <div class="cx-summary" style="margin-top:12px">
+      <div class="cx-stat"><b id="pSol">0</b><span>Sol Erda still to find</span></div>
+      <div class="cx-stat"><b id="pFrag">0</b><span>Fragments still to find</span></div>
+      <div class="cx-stat"><b id="pSolDays">—</b><span>Days for Sol Erda</span></div>
+      <div class="cx-stat"><b id="pFragDays">—</b><span>Days for fragments</span></div>
+      <div class="cx-stat good"><b id="pPct">0%</b><span>Done (by fragments)</span></div>
+    </div>
+    <p class="cx-note">1 Sol Erda = 1,000 Sol Erda energy. Energy items count by their energy value.</p>
+  </section>
+
+  <section class="msm-panel" data-pane="stat">
+    <h2 class="cx-sub">HEXA Stat simulator</h2>
+    <p class="cx-note" style="margin-top:0">20 enhancements per set. Each one raises the main stat with a chance that drops as it climbs (35% at 0–2, 20% at 3–6, 15% at 7, 10% at 8, 5% at 9); otherwise one of the two sub stats. Fragment cost depends on the main stat's level. You can reset after 10 enhancements.</p>
+    <div id="bars"></div>
+    <div class="cx-row" style="margin-top:8px">
+      <button class="cx-btn" id="e1" type="button">Enhance</button>
+      <button class="cx-btn" id="e10" type="button">Enhance ×10</button>
+      <button class="cx-btn" id="rst" type="button">Reset</button>
+      <button class="cx-btn" id="clr" type="button">Clear counters</button>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="sClicks">0 / 20</b><span>Enhancements used</span></div>
+      <div class="cx-stat"><b id="sFrags">0</b><span>Fragments spent</span></div>
+      <div class="cx-stat"><b id="sResets">0</b><span>Resets</span></div>
+    </div>
+
+    <h2 class="cx-sub" style="margin-top:16px">Keep or reset?</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Main <input id="kA" type="number" min="0" max="10" value="0"></label>
+      <label class="cx-field">Sub 1 <input id="kB" type="number" min="0" max="10" value="0"></label>
+      <label class="cx-field">Sub 2 <input id="kC" type="number" min="0" max="10" value="0"></label>
+      <label class="cx-field">Goal: main at least <input id="kGoal" type="number" min="0" max="10" value="8"></label>
+      <label class="cx-field">Higher sub at least <input id="kG1" type="number" min="0" max="10" value="10"></label>
+      <label class="cx-field">Lower sub at least <input id="kG2" type="number" min="0" max="10" value="0"></label>
+      <label class="cx-field">Count it when <select id="kMode"><option value="any">any goal is met</option><option value="all">all goals are met</option></select></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="kKeep">—</b><span>Chance if you keep going</span></div>
+      <div class="cx-stat"><b id="kFresh">—</b><span>Chance from a fresh reset</span></div>
+      <div class="cx-stat" id="kAdvBox"><b id="kAdv">—</b><span>Advice</span></div>
+    </div>
+    <h2 class="cx-sub" style="margin-top:16px">After 10 enhancements: how often, and the chance from there</h2>
+    <div class="cx-table-wrap"><table class="cx-table"><thead><tr><th>Main</th><th>Higher sub</th><th>Lower sub</th><th>How often</th><th>Chance of goal</th><th>Reset?</th></tr></thead><tbody id="kTable"></tbody></table></div>
+    <p class="cx-note">Exact odds (no random sampling). Sub goals compare against your higher and lower sub. The table uses the goals above. "Reset?" compares with the chance from a fresh reset.</p>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Sol Erda / fragments to go from level i-1 to i, per core type. Game data.
+  const REQ = {
+    skill:   { sol: [0,0,2,3,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,15], frag: [0,0,40,50,60,70,80,90,100,110,125,140,155,170,185,200,215,230,245,260,280,300,320,340,360,380,400,420,440,460,500] },
+    mastery: { sol: [0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,8,8,8,8,9,9,9,10], frag: [0,10,20,25,30,35,40,45,50,55,62,69,76,83,90,97,104,111,118,125,135,145,155,165,175,185,195,205,215,225,240] },
+    enhance: { sol: [0,1,2,2,2,2,2,2,2,2,5,5,5,5,5,5,5,5,5,5,10,10,10,10,10,10,10,10,10,10,15], frag: [0,20,30,35,40,45,50,55,60,65,75,85,95,105,115,125,135,145,155,165,180,195,210,225,240,255,270,285,300,315,335] },
+    common:  { sol: [0,10,4,4,5,5,6,6,7,7,10,10,11,11,12,12,13,13,14,14,17,17,17,18,18,18,19,19,19,19,20], frag: [0,200,55,69,83,97,110,124,138,152,173,193,214,235,255,276,297,317,338,359,386,414,442,469,497,525,552,580,607,635,670] },
+  };
+  const CORES = [["sk1","Origin skill","skill",1],["sk2","Skill core 2","skill",0],["ma1","Mastery core 1","mastery",1],["ma2","Mastery core 2","mastery",0],
+    ["en1","Enhancement core 1","enhance",1],["en2","Enhancement core 2","enhance",1],["en3","Enhancement core 3","enhance",1],["en4","Enhancement core 4","enhance",1],
+    ["co1","Common core 1","common",0],["co2","Common core 2","common",0],["co3","Common core 3","common",0],["co4","Common core 4","common",0]];
+  const INV = [["sol","Sol Erda",1000],["e500","500-energy items",500],["e200","200-energy items",200],["e100","100-energy items",100],["e10","10-energy items",10],["frag","Fragments",0]];
+  const FARM = [["hrs","Hours farmed per day"],["fragHr","Fragments per hour"],["e200Hr","200-energy per hour"],["e10Hr","10-energy per hour"],["fragWk","Fragments per week (other)"],["e500Wk","500-energy per week"],["e200Wk","200-energy per week"],["e10Wk","10-energy per week"]];
+
+  const KEY = "msm_hexa", $ = id => document.getElementById(id), fmt = n => Math.round(n).toLocaleString("en-US");
+  let st = { tab: "prog", core: {}, inv: {}, farm: {}, a: 0, b: 0, c: 0, n: 0, frags: 0, resets: 0 };
+  try { Object.assign(st, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+  for (const [id, , , on] of CORES) st.core[id] ||= { on: !!on, lv: 0 };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+  const sum = (a, from, to) => a.slice(from + 1, to + 1).reduce((x, y) => x + y, 0);
+  const days = (left, perDay) => left <= 0 ? "done" : perDay > 0 ? fmt(Math.ceil(left / perDay)) : "—";
+
+  function prog() {
+    let solLeft = 0, fragLeft = 0, fragAll = 0;
+    $("cores").innerHTML = CORES.map(([id, name, type]) => {
+      const c = st.core[id], r = REQ[type], s = c.on ? sum(r.sol, c.lv, 30) : 0, f = c.on ? sum(r.frag, c.lv, 30) : 0;
+      solLeft += s; fragLeft += f; if (c.on) fragAll += sum(r.frag, 0, 30);
+      return `<tr><td>${name}</td><td><input type="checkbox" data-c="${id}" data-f="on"${c.on ? " checked" : ""}></td>
+        <td><input class="cx-in" style="width:64px" type="number" min="0" max="30" data-c="${id}" data-f="lv" value="${c.lv}"></td><td>${fmt(s)}</td><td>${fmt(f)}</td></tr>`;
+    }).join("");
+    const v = k => +st.inv[k] || 0, w = k => +st.farm[k] || 0;
+    const energy = INV.reduce((a, [k, , e]) => a + v(k) * e, 0), needE = Math.max(0, solLeft * 1000 - energy), needF = Math.max(0, fragLeft - v("frag"));
+    const perDayE = (w("e200Hr") * 200 + w("e10Hr") * 10) * w("hrs") + (w("e500Wk") * 500 + w("e200Wk") * 200 + w("e10Wk") * 10) / 7;
+    const perDayF = w("fragHr") * w("hrs") + w("fragWk") / 7;
+    $("pSol").textContent = (needE / 1000).toLocaleString("en-US", { maximumFractionDigits: 1 });
+    $("pFrag").textContent = fmt(needF);
+    $("pSolDays").textContent = days(needE, perDayE); $("pFragDays").textContent = days(needF, perDayF);
+    $("pPct").textContent = fragAll ? Math.min(100, Math.floor((fragAll - needF) / fragAll * 100)) + "%" : "—";
+  }
+
+  // HEXA Stat: main-stat chance and fragment cost per enhancement, by current main level.
+  const P = a => a <= 2 ? 0.35 : a <= 6 ? 0.2 : a === 7 ? 0.15 : a === 8 ? 0.1 : a === 9 ? 0.05 : 0;
+  const COST = a => a <= 2 ? 10 : a <= 5 ? 20 : a <= 8 ? 30 : 50;
+  function step(s) {
+    st.frags += COST(s.a);
+    if (s.a < 10 && Math.random() < P(s.a)) s.a++;
+    else if (s.b < 10 && (s.c >= 10 || Math.random() < 0.5)) s.b++; else s.c++;
+    s.n++;
+  }
+  // Exact chance of reaching the goal with `left` enhancements to go, from (a, hi, lo).
+  const memo = new Map();
+  // Goal: G = [main, higher sub, lower sub] minimums (0 = no goal on it), all = every set goal must be met.
+  function met(a, b, c, G, all) {
+    const hi = Math.max(b, c), lo = Math.min(b, c), t = [[a, G[0]], [hi, G[1]], [lo, G[2]]].filter(([, g]) => g > 0);
+    return t.length > 0 && (all ? t.every(([v, g]) => v >= g) : t.some(([v, g]) => v >= g));
+  }
+  function chance(a, b, c, left, G, all) {
+    if (met(a, b, c, G, all)) return 1;
+    if (left === 0) return 0;
+    const goal = G, sub = all, k = [a, b, c, left, G, all].join();
+    if (memo.has(k)) return memo.get(k);
+    const p = a < 10 ? P(a) : 0;
+    let r = p * chance(a + 1, b, c, left - 1, goal, sub);
+    if (b < 10 && c < 10) r += (1 - p) * 0.5 * (chance(a, b + 1, c, left - 1, goal, sub) + chance(a, b, c + 1, left - 1, goal, sub));
+    else if (b < 10) r += (1 - p) * chance(a, b + 1, c, left - 1, goal, sub);
+    else r += (1 - p) * chance(a, b, c + 1, left - 1, goal, sub);
+    memo.set(k, r); return r;
+  }
+  const pct = x => (x * 100).toFixed(x < 0.01 ? 2 : 1) + "%";
+  function statUI() {
+    $("bars").innerHTML = [["Main", st.a, "main"], ["Sub 1", st.b, ""], ["Sub 2", st.c, ""]].map(([n, v, cls]) =>
+      `<div class="hx-bar ${cls}"><span>${n}</span>${Array.from({ length: 10 }, (_, i) => `<span class="hx-seg${i < v ? " on" : ""}"></span>`).join("")}<span>${v}</span></div>`).join("");
+    $("sClicks").textContent = `${st.n} / 20`; $("sFrags").textContent = fmt(st.frags); $("sResets").textContent = st.resets;
+    $("e1").disabled = $("e10").disabled = st.n >= 20; $("rst").disabled = st.n < 10;
+    keep();
+  }
+  function keep() {
+    const a = +$("kA").value || 0, b = +$("kB").value || 0, c = +$("kC").value || 0, all = $("kMode").value === "all";
+    const goal = [+$("kGoal").value || 0, +$("kG1").value || 0, +$("kG2").value || 0].map(v => Math.max(0, Math.min(10, v))), sub = all;
+    if (!goal.some(Boolean)) { $("kKeep").textContent = $("kFresh").textContent = "—"; $("kAdv").textContent = "Set at least one goal"; $("kTable").innerHTML = ""; return; }
+    const left = 20 - a - b - c, fresh = chance(0, 0, 0, 20, goal, sub);
+    $("kFresh").textContent = pct(fresh);
+    if (left < 0) { $("kKeep").textContent = "—"; $("kAdv").textContent = "Levels add up to more than 20"; return; }
+    const k = chance(a, b, c, left, goal, sub);
+    $("kKeep").textContent = pct(k);
+    $("kAdv").textContent = k >= 1 ? "Goal reached" : left > 10 ? "Can't reset yet (under 10 used)" : k >= fresh ? "Keep going" : "Reset";
+    $("kAdvBox").className = "cx-stat " + (k >= fresh ? "good" : "bad");
+    // Every outcome after 10 enhancements, with how often it happens.
+    const dist = new Map(), walk = (a, b, c, n, p) => {
+      if (n === 10) { const key = [a, Math.max(b, c), Math.min(b, c)].join(); dist.set(key, (dist.get(key) || 0) + p); return; }
+      const q = P(a); walk(a + 1, b, c, n + 1, p * q); walk(a, b + 1, c, n + 1, p * (1 - q) / 2); walk(a, b, c + 1, n + 1, p * (1 - q) / 2);
+    };
+    walk(0, 0, 0, 0, 1);
+    $("kTable").innerHTML = [...dist].map(([key, p]) => { const [a, hi, lo] = key.split(",").map(Number); return { a, hi, lo, p, w: chance(a, hi, lo, 10, goal, sub) }; })
+      .filter(r => r.p >= 0.0005).sort((x, y) => y.w - x.w)
+      .map(r => `<tr><td>${r.a}</td><td>${r.hi}</td><td>${r.lo}</td><td>${pct(r.p)}</td><td>${pct(r.w)}</td><td>${r.w >= fresh ? "Keep" : "Reset"}</td></tr>`).join("");
+  }
+
+  function update() {
+    document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === st.tab));
+    document.querySelectorAll("[data-pane]").forEach(p => p.hidden = p.dataset.pane !== st.tab);
+    prog(); statUI(); save();
+  }
+  const fields = (el, list, obj) => { $(el).innerHTML = list.map(([k, n]) => `<label class="cx-field">${n}<input type="number" min="0" data-o="${obj}" data-k="${k}" value="${st[obj][k] || 0}"></label>`).join(""); };
+  fields("inv", INV, "inv"); fields("farm", FARM, "farm");
+  document.addEventListener("input", e => {
+    const t = e.target;
+    if (t.dataset.o) { st[t.dataset.o][t.dataset.k] = Math.max(0, +t.value || 0); prog(); save(); }
+    else if (t.id && t.id[0] === "k" && t.id.length <= 5) keep();
+  });
+  document.addEventListener("change", e => { if (e.target.id === "kMode") keep();
+  });
+  $("cores").addEventListener("change", e => { const t = e.target, c = st.core[t.dataset.c]; if (!c) return; if (t.dataset.f === "on") c.on = t.checked; else c.lv = Math.max(0, Math.min(30, +t.value || 0)); prog(); save(); });
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { st.tab = b.dataset.tab; update(); });
+  $("e1").onclick = () => { if (st.n < 20) step(st); update(); };
+  $("e10").onclick = () => { for (let i = 0; i < 10 && st.n < 20; i++) step(st); update(); };
+  $("rst").onclick = () => { if (st.n < 10) return; Object.assign(st, { a: 0, b: 0, c: 0, n: 0 }); st.resets++; update(); };
+  $("clr").onclick = () => { Object.assign(st, { a: 0, b: 0, c: 0, n: 0, frags: 0, resets: 0 }); update(); };
+  update();
+</script>
+</body>
+</html>
