@@ -2868,6 +2868,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
 </style>
 </head>
 <body>
+<script>try { localStorage.getItem('x'); } catch (e) { const m = new Map(); Object.defineProperty(window, 'localStorage', { value: { getItem: k => m.has(k) ? m.get(k) : null, setItem: (k, v) => m.set(k, String(v)), removeItem: k => m.delete(k), clear: () => m.clear() } }); } // storage blocked: keep settings in memory</script>
 <script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
 
 <!-- Background -->
@@ -4825,19 +4826,6 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
       </div>
     </div>
 
-    <!-- Path of Proof anchor date — hardcoded, hidden -->
-    <div class="rt-pop-settings" style="display:none;">
-      <div class="rt-pop-title"><span>🔵</span> Path of Proof — Anchor Date</div>
-      <div class="rt-pop-form">
-        <div class="rt-pop-field">
-          <div class="rt-pop-label">A known past reset date (UTC midnight)</div>
-          <input class="rt-pop-input" type="date" id="rtPopAnchor" />
-        </div>
-        <button class="rt-save-btn" onclick="rtSaveAnchor()">Save</button>
-      </div>
-      <div class="rt-save-note" id="rtPopNote">Set any past date when Path of Proof reset. The calculator will roll it forward in 28-day cycles automatically.</div>
-    </div>
-
     <!-- Reset cards -->
     <div class="rt-grid">
 
@@ -5762,7 +5750,8 @@ function dfQuickBuildUnix(){
   const mins=dfQuickParseMinutes(); if(mins==null) return null;
   const now=new Date(); const src=(document.getElementById('dfQuickSource')?.value)||'igt';
   if(src==='igt'){
-    const y=now.getUTCFullYear(), mo=now.getUTCMonth(), d=now.getUTCDate();
+    const srv=new Date(now.getTime()-8*3600000); // server clock is UTC-8
+    const y=srv.getUTCFullYear(), mo=srv.getUTCMonth(), d=srv.getUTCDate();
     const hr=Math.floor(mins/60), mi=mins%60;
     return Math.floor(Date.UTC(y,mo,d,hr+8,mi,0,0)/1000);
   }
@@ -6669,7 +6658,7 @@ function rtNextWeekday(serverDay) {
 }
 
 // Path of Proof: known next reset is 2026-03-15 19:00 UTC, then every 28 days
-function rtNextPoP(anchorDateStr) {
+function rtNextPoP() {
   // Fixed known reset: March 15 23:59 server time (UTC-8) = March 16 07:59 UTC
   const knownReset = new Date('2026-03-16T07:59:00Z');
   const cycleMs = 28 * 24 * 3600 * 1000;
@@ -6678,22 +6667,6 @@ function rtNextPoP(anchorDateStr) {
   // Roll forward until we find the next future reset
   while (next <= now) next += cycleMs;
   return new Date(next);
-}
-
-// ── Anchor date persistence ───────────────────────────
-function rtLoadAnchor() {
-  const saved = localStorage.getItem('rt_pop_anchor');
-  if (saved) {
-    document.getElementById('rtPopAnchor').value = saved;
-    document.getElementById('rtPopNote').textContent = `Anchor set to ${saved}. Next reset auto-calculated.`;
-  }
-}
-
-function rtSaveAnchor() {
-  const val = document.getElementById('rtPopAnchor').value;
-  if (!val) return;
-  localStorage.setItem('rt_pop_anchor', val);
-  document.getElementById('rtPopNote').textContent = `Saved! Next Path of Proof reset auto-calculated from ${val}.`;
 }
 
 function rtShort(ms){
@@ -6773,7 +6746,6 @@ function rtTick() {
 }
 
 // Init
-rtLoadAnchor();
 setTimeout(() => { if (typeof evLoad === 'function') evLoad().then(hubTodayTick); }, 0);
 rtTick();
 setInterval(rtTick, 1000);
@@ -6972,6 +6944,9 @@ function evRender(data) {
   evTickAll(allEvents.filter(ev => ev.end_utc));
 }
 
+// Escaping for feed/user text, and only http(s) links.
+function evEsc(v){ return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function evUrl(u){ return /^https?:\/\//i.test(String(u || '')) ? evEsc(u) : '#'; }
 function evCardKey(ev){ return `${ev.board_id || 'x'}-${ev.thread_id || 'x'}`; }
 
 function evDiscordMessage(ev){
@@ -7022,7 +6997,7 @@ function evBuildCard(ev) {
   const endLocal   = hasTimer ? new Date(ev.end_utc).toLocaleString([], { weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' }) : 'Not scheduled';
   const startLocal = Number.isFinite(startMs) ? new Date(ev.start_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : (ev.posted_utc ? new Date(ev.posted_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '—');
 
-  const title = (ev.title || '').replace(/&amp;/g, '&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  const title = evEsc((ev.title || '').replace(/&amp;/g, '&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')); // feed text, shown as text
   const idSafe = evCardKey(ev);
 
   return `
@@ -7030,7 +7005,7 @@ function evBuildCard(ev) {
       <div class="ev-card-stripe"></div>
       <div class="ev-card-body">
         ${badgeHtml}
-        <a class="ev-card-title" href="${ev.url || '#'}" target="_blank" rel="noopener">${title}</a>
+        <a class="ev-card-title" href="${evUrl(ev.url)}" target="_blank" rel="noopener">${title}</a>
 
         ${hasTimer ? `
         <div class="ev-progress-wrap">
@@ -7056,7 +7031,7 @@ function evBuildCard(ev) {
           ${ev.event_period_raw ? `<div>🧾 Source schedule: <span>${(ev.event_period_raw||'').replace(/</g,'&lt;')}</span></div>` : ''}
           ${ev.end_inferred ? `<div>ℹ️ End time inferred: <span>auto-hide 7 days after scrape</span></div>` : ''}
           <button id="evCopyBtn-${idSafe}" class="ev-nexon-link" style="border:none;cursor:pointer;text-align:left;display:inline-block;margin-top:6px;" onclick="evCopyDiscordMsg('${idSafe}')">📋 Copy Discord time message</button>
-          ${ev.url ? `<a class="ev-nexon-link" href="${ev.url}" target="_blank" rel="noopener">${ev.custom ? 'View link ↗' : 'View on Nexon forum ↗'}</a>` : ''}
+          ${ev.url ? `<a class="ev-nexon-link" href="${evUrl(ev.url)}" target="_blank" rel="noopener">${ev.custom ? 'View link ↗' : 'View on Nexon forum ↗'}</a>` : ''}
         </div>
       </div>
     </div>`;
@@ -7136,7 +7111,7 @@ function evRenderCustomList() {
       return `
         <div class="ev-custom-item">
           <div class="ev-custom-item-info">
-            <div class="ev-custom-item-name">${ev.title}</div>
+            <div class="ev-custom-item-name">${evEsc(ev.title)}</div>
             <div class="ev-custom-item-date">Ends ${end}</div>
           </div>
           <button class="ev-custom-delete" title="Delete" onclick="evDeleteCustom(${i})">✕</button>
