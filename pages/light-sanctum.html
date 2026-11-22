@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Light Sanctum Prayer - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+<style>
+  .ls-slots { display: grid; gap: 8px; }
+  .ls-slot { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--msm-soft); border: 2px solid transparent; font-weight: 800; color: var(--msm-ink); }
+  .ls-slot.locked { border-color: #f59e0b; }
+  .ls-g { font-size: 13px; padding: 2px 8px; border-radius: 999px; text-align: center; color: #fff; }
+  .g0 { background: #64748b; } .g1 { background: #2563eb; } .g2 { background: #7c3aed; } .g3 { background: #d97706; } .g4 { background: #16a34a; }
+  .ls-act { font-size: 16px; padding: 10px 18px; }
+</style>
+</head>
+<body data-nav-active="lightsanctum">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Light Sanctum Prayer</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Simulate prayers with the game's outcome tables. Each prayer rerolls every unlocked slot and costs 5 Character Coins per slot; each locked slot adds 1.5m mesos. Prayers also give Sanctum EXP, which opens more slots.</p>
+    <div class="cx-inputs">
+      <label class="cx-field">Sanctum level <select id="lv"></select></label>
+      <label class="cx-field" style="justify-content:flex-end"><span><input id="levelUp" type="checkbox" checked> Level up from prayer EXP</span></label>
+    </div>
+  </section>
+
+  <section class="msm-panel">
+    <div class="ls-slots" id="slots"></div>
+    <div class="cx-row" style="margin-top:10px">
+      <button class="cx-btn ls-act" id="pray" type="button">Pray</button>
+      <button class="cx-btn" id="pray10" type="button">Pray ×10</button>
+      <button class="cx-btn" id="clear" type="button">Clear counters</button>
+    </div>
+    <p class="cx-note">Click a slot to lock or unlock it.</p>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="sPrays">0</b><span>Prayers</span></div>
+      <div class="cx-stat"><b id="sCoins">0</b><span>Character Coins spent</span></div>
+      <div class="cx-stat"><b id="sMeso">0</b><span>Mesos spent on locks</span></div>
+      <div class="cx-stat"><b id="sExp">0</b><span>Sanctum EXP</span></div>
+    </div>
+  </section>
+
+  <section class="msm-panel">
+    <h2 class="cx-sub">Odds at this level</h2>
+    <div class="cx-summary" id="grades"></div>
+    <h2 class="cx-sub" style="margin-top:14px">Chasing a line</h2>
+    <div class="cx-inputs">
+      <label class="cx-field">Stat <select id="tOpt"></select></label>
+      <label class="cx-field">At least <select id="tVal"></select></label>
+      <label class="cx-field">Slots rolling <input id="tSlots" type="number" min="1" max="5" value="1"></label>
+    </div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="tP">—</b><span>Chance per slot per prayer</span></div>
+      <div class="cx-stat"><b id="tAny">—</b><span>Chance per prayer (any rolling slot)</span></div>
+      <div class="cx-stat"><b id="tAvg">—</b><span>Prayers on average</span></div>
+    </div>
+    <p class="cx-note">From the game's client tables; the server's actual rolls aren't proven to match.</p>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  const $ = id => document.getElementById(id), fmt = n => Math.round(n).toLocaleString("en-US");
+  let D, st = { lv: 1, exp: 0, slots: [], locks: [], prays: 0, coins: 0, meso: 0 };
+  try { Object.assign(st, JSON.parse(localStorage.getItem("msm_light_sanctum")) || {}); } catch (e) {}
+  const save = () => { try { localStorage.setItem("msm_light_sanctum", JSON.stringify(st)); } catch (e) {} };
+  const L = () => D.levels[st.lv - 1];
+  function val(opt, raw) {
+    const f = D.options[opt][1];
+    return f === "Percent" ? (raw / 1000).toFixed(2) + "%" : f === "StrangePercent" ? (raw / 10).toFixed(2) + "%" : f === "sec" ? (raw / 1000) + "s" : fmt(raw);
+  }
+  const line = r => `${D.options[r[1]][0]} +${val(r[1], r[2])}`;
+  function pick() {
+    const rows = D.rows[st.lv]; let x = Math.random() * D.rateBasis;
+    for (const r of rows) { x -= r[3]; if (x < 0) return r; }
+    return rows[rows.length - 1];
+  }
+  function pray() {
+    const n = L().slots, locked = st.locks.slice(0, n).filter(Boolean).length;
+    const coins = D.coinPerSlot * n;
+    st.prays++; st.coins += coins; st.meso += D.mesoPerLock * locked;
+    for (let i = 0; i < n; i++) if (!st.locks[i]) st.slots[i] = pick();
+    if ($("levelUp").checked) {
+      st.exp += L().gain + L().perCoin * coins;
+      while (st.lv < D.levels.length && st.exp >= D.levels[st.lv].need) st.lv++;
+    }
+  }
+  function render() {
+    const n = L().slots;
+    $("lv").value = st.lv;
+    $("slots").innerHTML = Array.from({ length: n }, (_, i) => {
+      const r = st.slots[i];
+      return `<div class="ls-slot${st.locks[i] ? " locked" : ""}" data-i="${i}" role="button" tabindex="0">
+        <span class="ls-g ${r ? "g" + r[0] : "g0"}">${r ? D.grades[r[0]] : "Empty"}</span><span>${r ? line(r) : "—"}</span><span>${st.locks[i] ? "🔒 Locked" : "Unlocked"}</span></div>`;
+    }).join("");
+    const locked = st.locks.slice(0, n).filter(Boolean).length;
+    $("pray").textContent = `Pray (${D.coinPerSlot * n} coins${locked ? ` + ${fmt(D.mesoPerLock * locked)} mesos` : ""})`;
+    $("pray").disabled = $("pray10").disabled = locked >= n;
+    $("sPrays").textContent = fmt(st.prays); $("sCoins").textContent = fmt(st.coins); $("sMeso").textContent = fmt(st.meso);
+    const nx = D.levels[st.lv]; $("sExp").textContent = nx ? `${fmt(st.exp)} / ${fmt(nx.need)}` : `${fmt(st.exp)} (max)`;
+    // Grade odds at this level
+    const g = [0, 0, 0, 0, 0]; for (const r of D.rows[st.lv]) g[r[0]] += r[3];
+    $("grades").innerHTML = g.map((w, i) => `<div class="cx-stat"><b>${(w / D.rateBasis * 100).toFixed(2)}%</b><span><span class="ls-g g${i}">${D.grades[i]}</span></span></div>`).join("");
+    $("tSlots").max = n; if (+$("tSlots").value > n || !$("tSlots").dataset.touched) $("tSlots").value = n;
+    target();
+    save();
+  }
+  function targetValues() {
+    const o = +$("tOpt").value, keep = $("tVal").value, vals = [...new Set(D.rows[st.lv].filter(r => r[1] === o).map(r => r[2]))].sort((a, b) => a - b);
+    $("tVal").innerHTML = vals.map(v => `<option value="${v}">${val(o, v)}</option>`).join("") || `<option value="">not at this level</option>`;
+    if (vals.includes(+keep)) $("tVal").value = keep;
+  }
+  function target() {
+    const o = +$("tOpt").value, v = +$("tVal").value, k = Math.max(1, Math.min(L().slots, +$("tSlots").value || 1));
+    const p = D.rows[st.lv].filter(r => r[1] === o && r[2] >= v).reduce((a, r) => a + r[3], 0) / D.rateBasis;
+    const any = 1 - (1 - p) ** k;
+    $("tP").textContent = (p * 100).toFixed(3) + "%"; $("tAny").textContent = (any * 100).toFixed(3) + "%";
+    $("tAvg").textContent = any > 0 ? fmt(1 / any) : "—";
+  }
+
+  fetch("../data/light-sanctum.json").then(r => r.json()).then(d => {
+    D = d;
+    $("lv").innerHTML = D.levels.map((l, i) => `<option value="${i + 1}">Lv.${i + 1} (${l.slots} slot${l.slots > 1 ? "s" : ""})</option>`).join("");
+    $("tOpt").innerHTML = D.options.map((o, i) => `<option value="${i}">${o[0]}</option>`).join("");
+    $("tOpt").value = D.options.findIndex(o => o[0] === "Boss Damage");
+    targetValues(); render();
+    $("lv").onchange = () => { st.lv = +$("lv").value; st.exp = D.levels[st.lv - 1].need; targetValues(); render(); };
+    $("pray").onclick = () => { pray(); targetValues(); render(); };
+    $("pray10").onclick = () => { for (let i = 0; i < 10; i++) pray(); targetValues(); render(); };
+    $("clear").onclick = () => { Object.assign(st, { prays: 0, coins: 0, meso: 0 }); render(); };
+    $("slots").onclick = e => { const s = e.target.closest("[data-i]"); if (s) { st.locks[+s.dataset.i] = !st.locks[+s.dataset.i]; render(); } };
+    $("slots").onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("slots").onclick(e); } };
+    $("tOpt").onchange = () => { targetValues(); target(); };
+    $("tVal").onchange = target;
+    $("tSlots").oninput = () => { $("tSlots").dataset.touched = 1; target(); };
+  });
+</script>
+</body>
+</html>
