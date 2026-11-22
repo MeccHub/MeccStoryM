@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will Phase 2 Dodge Trainer - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+<style>
+  #stage { position: relative; }
+  #cv { width: 100%; display: block; border-radius: 12px; background: #120a24; touch-action: none; }
+  .wt-msg { position: absolute; left: 0; right: 0; top: 10px; text-align: center; font-family: "Fredoka One", "Nunito", sans-serif; font-size: 22px; color: #fff; text-shadow: 0 2px 6px #000; pointer-events: none; }
+  .wt-hint { position: absolute; left: 0; right: 0; top: 42px; text-align: center; font-weight: 800; color: #fde68a; text-shadow: 0 2px 6px #000; pointer-events: none; }
+  .wt-pad { display: none; gap: 10px; margin-top: 10px; }
+  .wt-pad button { flex: 1; font-size: 26px; padding: 18px 0; }
+  @media (pointer: coarse) { .wt-pad { display: flex; } }
+</style>
+</head>
+<body data-nav-active="willtrainer">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Will Phase 2 Dodge Trainer</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Spider legs come down from the top and up from the bottom. Each pattern is 3 waves: watch the warning, then get to the safe spot before they strike. On <b>cracked-floor</b> patterns it's reversed: stand <b>inside</b> a leg zone. Move with ← → or A / D (on-screen buttons on phones). Prefer the picture quiz? <a href="../assets/chaos-will-pattern-trainer/index.html">Pattern quiz</a>.</p>
+    <div class="cx-row">
+      <button class="cx-btn on" id="start" type="button">Start</button>
+      <button class="cx-btn" id="pause" type="button">Pause</button>
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px"><input id="hints" type="checkbox" checked> Show the path hint</label>
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px"><input id="endless" type="checkbox"> Endless</label>
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px">Patterns <select id="which" class="cx-in"><option value="all">All</option><option value="nocrack">No crack only</option><option value="crack">Cracked floor only</option></select></label>
+      <label class="cx-field" style="flex-direction:row;align-items:center;gap:6px">Speed <select id="speed" class="cx-in"><option value="1.25">Slow</option><option value="1" selected>Normal</option><option value="0.8">Fast</option></select></label>
+    </div>
+  </section>
+  <section class="msm-panel">
+    <div id="stage"><canvas id="cv" width="1741" height="720"></canvas><div class="wt-msg" id="msg">Press Start</div><div class="wt-hint" id="hint"></div></div>
+    <div class="wt-pad"><button class="cx-btn" id="padL" type="button" aria-label="Move left">◀</button><button class="cx-btn" id="padR" type="button" aria-label="Move right">▶</button></div>
+    <div class="cx-summary" style="margin-top:10px">
+      <div class="cx-stat"><b id="sQ">0 / 7</b><span>Pattern</span></div>
+      <div class="cx-stat"><b id="sHits">0</b><span>Times hit</span></div>
+      <div class="cx-stat"><b id="sBest">—</b><span>Best clean run (patterns in a row)</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Arena is 1741 wide. Lane centres (left edge → right edge), middle = 870.
+  const W = 1741, FLOOR = 470, P = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
+  const HIT_BOT = 110, HIT_TOP = 140; // half-width of a bottom / top leg's hit zone
+  const T = { ready: 2000, warn: 900, strike: 900, idle: 300, next: 1000 };
+  // Each wave: where the bottom and top legs land; `safe` is where to stand. crack: the floor is cracked, so you must stand IN a leg zone.
+  const PATTERNS = [
+    { name: "No crack 1 (Hard/Chaos)", hint: "Middle → small left → middle", strikes: [
+      { safe: P.M, bot: [P.LL, P.L2, P.L1], top: [P.R1, P.R2, P.RR] },
+      { safe: P.L1, bot: [P.LL - 150, P.M, P.R1, P.R2, P.RR, P.RR + 200], top: [P.L2] },
+      { safe: P.M, bot: [P.LL, P.L2, P.L1], top: [P.R1, P.R2, P.RR] }] },
+    { name: "No crack 2 (Hard/Chaos)", hint: "Middle → small right → big right → middle", strikes: [
+      { safe: P.M, bot: [P.L2, P.R1, P.L2, P.RR], top: [P.L1 - 50, P.LL, P.R2] },
+      { safe: P.R1, bot: [P.L1, P.R2], top: [P.L2 - 50, P.M - 50, P.RR - 50] },
+      { safe: P.R2, bot: [P.M - 30, P.RR], top: [P.R1 - 50, P.L1 - 50] }] },
+    { name: "No crack 3 (Chaos)", hint: "Middle → big right → small right → middle", strikes: [
+      { safe: P.M, bot: [P.L2, P.L1 + 130, P.RR + 50], top: [P.LL, P.L1 - 80] },
+      { safe: P.R2, bot: [P.LL, P.L1 - 30, P.RR - 30], top: [P.L2 - 50, P.M - 130, P.M + 50] },
+      { safe: P.R1, bot: [P.RR - 50], top: [P.LL, P.M - 120, P.R2 - 90, P.RR + 50] }] },
+    { name: "No crack 4 (Chaos)", hint: "Middle → big left → stay → middle", strikes: [
+      { safe: P.M, bot: [P.LL - 70, P.M - 80, P.M + 100, P.RR - 80, P.RR + 80], top: [P.L2 - 50, P.R1 + 90], free: true },
+      { safe: P.L2, bot: [P.RR - 50], top: [P.LL - 100, P.M - 100, P.R1 - 120, P.R2 - 150] },
+      { safe: P.L2, bot: [P.R1 - 90, P.R1 + 90], top: [P.LL - 20, P.M - 80, P.R2 - 10] }] },
+    { name: "Cracked floor 1 (Chaos)", crack: true, hint: "Middle → big left → further left → middle", strikes: [
+      { safe: P.M, bot: [P.M, P.R1 + 50, P.R2 + 100], top: [P.RR + 30] },
+      { safe: P.L2, bot: [P.LL], top: [P.L2 + 100] },
+      { safe: P.LL, bot: [P.LL, P.R1 - 50], top: [P.L2 - 50, P.R1] }] },
+    { name: "Cracked floor 2 (Chaos)", crack: true, hint: "Middle → big right → middle", strikes: [
+      { safe: P.M, bot: [P.M, P.R1], top: [P.LL - 150, P.LL + 50] },
+      { safe: P.R2, bot: [P.L2 - 80, P.L2 + 120], top: [P.R1 + 80, P.R2 + 30] },
+      { safe: P.M, bot: [P.LL - 150, P.LL + 50], top: [P.M - 30, P.R1 - 40] }] },
+    { name: "Cracked floor 3 (Chaos)", crack: true, hint: "Middle → big right → middle", strikes: [
+      { safe: P.M, bot: [P.LL - 100, P.M], top: [P.LL, P.R1 - 80] },
+      { safe: P.R2, bot: [P.L2 + 70, P.R2 + 50], top: [P.LL + 70, P.R1 + 70] },
+      { safe: P.M, bot: [P.L1 - 30, P.RR - 80], top: [P.M - 30, P.RR + 70] }] },
+    { name: "Cracked floor (Hard)", crack: true, hint: "Middle → big left → middle", strikes: [
+      { safe: P.M, bot: [P.LL - 100, P.M], top: [P.LL, P.R1 - 80] },
+      { safe: P.R2, bot: [P.L2 + 70, P.R2 + 50], top: [P.LL + 70, P.R1 + 70] },
+      { safe: P.M, bot: [P.L1 - 30, P.RR - 80], top: [P.M - 30, P.RR + 70] }] },
+  ];
+
+  const $ = id => document.getElementById(id), cv = $("cv"), ctx = cv.getContext("2d");
+  const keys = {}, g = { phase: "stopped", t: 0, q: 0, total: 7, pat: null, wave: 0, hits: 0, clean: 0, judged: false, flash: 0, paused: false };
+  const pl = { x: P.M, face: 1 }, boss = { x: P.M };
+  let best = 0; try { best = +localStorage.getItem("msm_will_dodge_best") || 0; } catch (e) {}
+  $("sBest").textContent = best || "—";
+  const scale = () => +$("speed").value;
+  const say = (m, c = "#fff") => { $("msg").textContent = m; $("msg").style.color = c; };
+
+  function pool() { const w = $("which").value; return PATTERNS.filter(p => w === "all" || (w === "crack") === !!p.crack); }
+  function newPattern() { const ps = pool(); g.pat = ps[Math.floor(Math.random() * ps.length)]; g.wave = 0; }
+  function start() {
+    Object.assign(g, { phase: "ready", t: T.ready, q: 0, hits: 0, clean: 0, total: $("endless").checked ? Infinity : 7, paused: false });
+    pl.x = P.M; boss.x = P.M; newPattern(); say("Get ready…"); hud();
+  }
+  function hud() {
+    $("sQ").textContent = g.total === Infinity ? `${g.q + 1}` : `${Math.min(g.q + 1, g.total)} / ${g.total}`;
+    $("sHits").textContent = g.hits;
+    $("hint").textContent = g.pat && $("hints").checked && g.phase !== "stopped" ? `${g.pat.name}: ${g.pat.hint}${g.pat.crack ? " · stand IN a leg zone" : ""}` : "";
+  }
+  // Nearest point to the pattern's hint spot that actually avoids the hit (a few hint spots sit just inside a leg zone).
+  function inZone(s, x) { return s.bot.some(b => Math.abs(x - b) <= HIT_BOT) || s.top.some(t => Math.abs(x - t) <= HIT_TOP); }
+  function safeSpot(p, s) {
+    for (let d = 0; d <= W; d += 5) for (const x of [s.safe - d, s.safe + d]) if (x >= 0 && x <= W && inZone(s, x) === !!p.crack) return x;
+    return s.safe;
+  }
+  function judge() {
+    const s = g.pat.strikes[g.wave];
+    const hit = g.pat.crack ? !inZone(s, pl.x) : inZone(s, pl.x);
+    if (!hit) return;
+    g.flash = 500;
+    if (s.free) { say("Hit (this wave doesn't count)", "#f59e0b"); return; }
+    g.hits++; g.patHit = true; say("Hit!", "#f87171");
+  }
+  function step(dt) {
+    if (g.paused || g.phase === "stopped") return;
+    const dx = (keys.ArrowRight || keys.d || keys.D || keys.padR ? 1 : 0) - (keys.ArrowLeft || keys.a || keys.A || keys.padL ? 1 : 0);
+    if (dx) { pl.x = Math.max(0, Math.min(W, pl.x + dx * 7 * dt / 16.67)); pl.face = dx; }
+    const d = pl.x - boss.x; if (Math.abs(d) > 30) boss.x += Math.sign(d) * Math.min(Math.abs(d) - 30, 2.5 * dt / 16.67);
+    if (g.flash > 0) g.flash -= dt;
+    if (g.phase === "done") return;
+    g.t -= dt;
+    const k = scale();
+    if (g.phase === "ready" && g.t <= 0) { g.phase = "warn"; g.t = T.warn * k; g.patHit = false; say(`Pattern ${g.q + 1}`); }
+    else if (g.phase === "warn" && g.t <= 0) { g.phase = "strike"; g.t = T.strike * k; g.judged = false; }
+    else if (g.phase === "strike") {
+      if (!g.judged && g.t <= T.strike * k * 0.5) { g.judged = true; judge(); }
+      if (g.t <= 0) { g.phase = "idle"; g.t = T.idle * k; }
+    } else if (g.phase === "idle" && g.t <= 0) {
+      g.wave++;
+      if (g.wave >= g.pat.strikes.length) {
+        g.q++; g.clean = g.patHit ? 0 : g.clean + 1;
+        if (g.clean > best) { best = g.clean; $("sBest").textContent = best; try { localStorage.setItem("msm_will_dodge_best", best); } catch (e) {} }
+        if (g.q >= g.total) { g.phase = "done"; say(g.hits ? `Done: hit ${g.hits} time${g.hits > 1 ? "s" : ""}` : "Perfect clear!", g.hits ? "#fde68a" : "#4ade80"); }
+        else { g.phase = "ready"; g.t = T.next; newPattern(); say(g.patHit ? "Pattern over" : "Clean!", g.patHit ? "#fff" : "#4ade80"); }
+      } else { g.phase = "warn"; g.t = T.warn * k; }
+    }
+    hud();
+  }
+
+  function zone(x, half, top, strength) {
+    const y0 = top ? 0 : FLOOR - 10, h = top ? FLOOR - 10 : cv.height - FLOOR + 10;
+    ctx.fillStyle = `rgba(${top ? "168,85,247" : "239,68,68"},${strength})`;
+    ctx.fillRect(x - half, y0, half * 2, h);
+  }
+  function leg(x, top, p) { // a simple spike that extends toward the floor as the strike lands (p 0..1)
+    ctx.fillStyle = top ? "#c084fc" : "#f87171";
+    const len = (FLOOR - 40) * p, w = 26;
+    ctx.beginPath();
+    if (top) { ctx.moveTo(x - w, 0); ctx.lineTo(x + w, 0); ctx.lineTo(x, len); }
+    else { ctx.moveTo(x - w, cv.height); ctx.lineTo(x + w, cv.height); ctx.lineTo(x, cv.height - (cv.height - FLOOR + 40) * p - 20); }
+    ctx.fill();
+  }
+  function draw() {
+    const crack = g.pat?.crack && g.phase !== "stopped";
+    ctx.fillStyle = crack ? "#1d0b1e" : "#120a24"; ctx.fillRect(0, 0, W, cv.height);
+    // floor and lane marks
+    ctx.fillStyle = crack ? "#6b213a" : "#2e1f55"; ctx.fillRect(0, FLOOR, W, 8);
+    ctx.fillStyle = "rgba(255,255,255,0.18)"; ctx.font = "bold 22px Nunito, sans-serif"; ctx.textAlign = "center";
+    for (const [n, x] of Object.entries(P)) { ctx.fillRect(x - 1, FLOOR + 8, 2, 16); ctx.fillText(n === "M" ? "mid" : "", x, FLOOR + 48); }
+    if (crack) { ctx.strokeStyle = "rgba(244,114,182,0.5)"; ctx.lineWidth = 3; ctx.beginPath(); for (let x = 60; x < W; x += 140) { ctx.moveTo(x, FLOOR + 8); ctx.lineTo(x + 40, FLOOR + 60); ctx.lineTo(x + 10, FLOOR + 110); } ctx.stroke(); }
+    if (g.pat && ["warn", "strike", "idle"].includes(g.phase)) {
+      const s = g.pat.strikes[g.wave], k = scale();
+      const p = g.phase === "warn" ? 0 : g.phase === "strike" ? Math.min(1, 1 - g.t / (T.strike * k) + 0.3) : 1;
+      const a = g.phase === "warn" ? 0.18 + 0.12 * Math.sin(performance.now() / 80) : 0.12;
+      s.top.forEach(x => zone(x, HIT_TOP, true, a)); s.bot.forEach(x => zone(x, HIT_BOT, false, a));
+      if (g.phase !== "warn") { s.top.forEach(x => leg(x, true, p)); s.bot.forEach(x => leg(x, false, p)); }
+      if ($("hints").checked) { const x = safeSpot(g.pat, s); ctx.fillStyle = "#4ade80"; ctx.beginPath(); ctx.moveTo(x, FLOOR - 70); ctx.lineTo(x - 14, FLOOR - 96); ctx.lineTo(x + 14, FLOOR - 96); ctx.fill(); }
+    }
+    // boss and player
+    ctx.fillStyle = "#334155"; ctx.fillRect(boss.x - 40, FLOOR - 120, 80, 120);
+    ctx.fillStyle = "#e2e8f0"; ctx.fillText("Will", boss.x, FLOOR - 130);
+    ctx.fillStyle = g.flash > 0 ? "#ef4444" : "#facc15"; ctx.fillRect(pl.x - 18, FLOOR - 64, 36, 64);
+    ctx.fillStyle = "#111"; ctx.fillRect(pl.x + (pl.face > 0 ? 6 : -14), FLOOR - 52, 8, 8);
+    if (g.flash > 0) { ctx.fillStyle = `rgba(239,68,68,${g.flash / 1500})`; ctx.fillRect(0, 0, W, cv.height); }
+  }
+  let last = performance.now();
+  function loop(now) { const dt = Math.min(50, now - last); last = now; step(dt); draw(); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+
+  addEventListener("keydown", e => { if (["ArrowLeft", "ArrowRight", "a", "d", "A", "D"].includes(e.key)) { keys[e.key] = true; if (g.phase !== "stopped") e.preventDefault(); } });
+  addEventListener("keyup", e => { keys[e.key] = false; });
+  for (const [id, k] of [["padL", "padL"], ["padR", "padR"]]) {
+    $(id).addEventListener("pointerdown", e => { e.preventDefault(); keys[k] = true; });
+    for (const ev of ["pointerup", "pointerleave", "pointercancel"]) $(id).addEventListener(ev, () => { keys[k] = false; });
+  }
+  $("start").onclick = () => { $("start").textContent = "Restart"; start(); };
+  $("pause").onclick = () => { if (g.phase === "stopped") return; g.paused = !g.paused; $("pause").textContent = g.paused ? "Resume" : "Pause"; say(g.paused ? "Paused" : ""); };
+  $("hints").onchange = hud;
+</script>
+</body>
+</html>

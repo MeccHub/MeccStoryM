@@ -1,0 +1,27 @@
+/* Shared look for calculator pages. */
+.cx-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.cx-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.cx-field { display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: 14px; color: var(--msm-ink); }
+.cx-field input, .cx-field select, .cx-in {
+  font: inherit; font-weight: 600; padding: 7px 9px; border: 1px solid var(--msm-field-line); border-radius: 8px; background: var(--msm-field); color: var(--msm-ink); min-width: 0;
+}
+.cx-sub { margin: 0 0 10px; font-family: "Fredoka One", "Nunito", sans-serif; font-size: 18px; color: var(--msm-ink); }
+.cx-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.cx-stat { background: var(--msm-soft); border-radius: 10px; padding: 8px 12px; }
+.cx-stat b { display: block; font-size: 18px; color: var(--msm-ink); }
+.cx-stat span { font-size: 13px; color: var(--msm-muted); font-weight: 600; }
+.cx-stat.bad { background: rgba(239,68,68,0.2); }
+.cx-stat.good { background: rgba(34,197,94,0.18); }
+.cx-table-wrap { overflow-x: auto; }
+table.cx-table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--msm-ink); }
+.cx-table th, .cx-table td { padding: 6px 9px; border-bottom: 1px solid var(--msm-line); text-align: right; white-space: nowrap; }
+.cx-table th:first-child, .cx-table td:first-child { text-align: left; }
+.cx-table th { background: var(--msm-soft); font-weight: 800; }
+.cx-table tr.is-current td { background: rgba(250,204,21,0.2); }
+.cx-btn { font: inherit; font-weight: 800; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--msm-field-line); background: var(--msm-soft); color: var(--msm-ink); cursor: pointer; }
+.cx-btn.on { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+.cx-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.cx-note { font-size: 13px; color: var(--msm-muted); margin: 8px 0 0; }
+.cx-step { display: inline-flex; align-items: center; gap: 4px; }
+.cx-step button { width: 28px; height: 28px; padding: 0; }
+.cx-step input { width: 52px; text-align: center; }
