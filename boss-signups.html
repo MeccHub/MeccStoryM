@@ -1569,7 +1569,7 @@ window.MSM_SITE = {
           <span class="boss-label">Party</span>
           <input class="boss-input boss-number" type="number" min="2" max="10" value="${partySize(boss)}" data-boss-party="${escapeAttr(boss.id)}">
         </label>
-        <button class="boss-btn danger" type="button" data-remove-boss="${boss.id}">Remove</button>
+        <button class="boss-btn danger" type="button" data-remove-boss="${escapeAttr(boss.id)}">Remove</button>
       </div>
     `).join("");
   }
@@ -1579,11 +1579,11 @@ window.MSM_SITE = {
       <tr>
         <td>
           <label class="boss-matrix-check">
-            <input type="checkbox" value="${boss.id}" data-need-boss>
+            <input type="checkbox" value="${escapeAttr(boss.id)}" data-need-boss>
             <span>${escapeHtml(boss.name)}</span>
           </label>
         </td>
-        <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-need-qty="${boss.id}"></td>
+        <td><input class="boss-input boss-number" type="number" min="0" max="20" value="0" data-need-qty="${escapeAttr(boss.id)}"></td>
       </tr>
     `).join("");
   }
@@ -1593,12 +1593,12 @@ window.MSM_SITE = {
       <tr>
         <td>
           <label class="boss-matrix-check">
-            <input type="checkbox" value="${boss.id}" data-carry-boss>
+            <input type="checkbox" value="${escapeAttr(boss.id)}" data-carry-boss>
             <span>${escapeHtml(boss.name)}</span>
           </label>
         </td>
-        <td><input class="boss-input boss-time-input" type="datetime-local" data-carry-time="${boss.id}"></td>
-        <td><input class="boss-input boss-number" type="number" min="2" max="${partySize(boss)}" value="${partySize(boss)}" data-carry-max="${boss.id}" aria-label="${escapeAttr(boss.name)} party size"></td>
+        <td><input class="boss-input boss-time-input" type="datetime-local" data-carry-time="${escapeAttr(boss.id)}"></td>
+        <td><input class="boss-input boss-number" type="number" min="2" max="${partySize(boss)}" value="${partySize(boss)}" data-carry-max="${escapeAttr(boss.id)}" aria-label="${escapeAttr(boss.name)} party size"></td>
       </tr>
     `).join("");
   }
@@ -1631,7 +1631,7 @@ window.MSM_SITE = {
         <td>${escapeHtml(bossName(need.bossId))}</td>
         <td><input class="boss-input boss-number" type="number" min="0" max="20" value="${Number(need.qty) || 1}" data-edit-need-qty="${escapeAttr(need.id)}" aria-label="${escapeAttr(need.player)} ${escapeAttr(bossName(need.bossId))} quantity"></td>
         <td>${escapeHtml(need.note || "")}</td>
-        <td><button class="boss-btn danger" type="button" data-remove-need="${need.id}">Remove</button></td>
+        <td><button class="boss-btn danger" type="button" data-remove-need="${escapeAttr(need.id)}">Remove</button></td>
       </tr>
     `).join("") || `<tr><td colspan="5"><div class="boss-empty">No alts yet.</div></td></tr>`;
 
@@ -1646,7 +1646,7 @@ window.MSM_SITE = {
         <td>${escapeHtml(carry.time || "Anytime")}</td>
         <td>${carry.bossIds.map(id => `<span class="boss-pill">${escapeHtml(bossName(id))}</span>`).join(" ")}</td>
         <td>${maxPartySize(carry.maxPartySize)}</td>
-        <td><button class="boss-btn danger" type="button" data-remove-carry="${carry.id}">Remove</button></td>
+        <td><button class="boss-btn danger" type="button" data-remove-carry="${escapeAttr(carry.id)}">Remove</button></td>
       </tr>
     `).join("") || `<tr><td colspan="5"><div class="boss-empty">No mains yet.</div></td></tr>`;
 
@@ -1819,7 +1819,7 @@ window.MSM_SITE = {
 
   function renderScheduleEditRow({ group, index }) {
     const boss = bossById(group.bossId) || {};
-    const bossOptions = state.bosses.map(item => `<option value="${item.id}" ${item.id === group.bossId ? "selected" : ""}>${escapeHtml(item.name)}</option>`).join("");
+    const bossOptions = state.bosses.map(item => `<option value="${escapeAttr(item.id)}" ${item.id === group.bossId ? "selected" : ""}>${escapeHtml(item.name)}</option>`).join("");
     const partyCap = groupMaxParty(group);
     const assignedPlayers = group.players || [];
     const playerCapacity = slotPlayerCapacity(group);

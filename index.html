@@ -2868,6 +2868,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
 </style>
 </head>
 <body>
+<script>try { localStorage.getItem('x'); } catch (e) { const m = new Map(); Object.defineProperty(window, 'localStorage', { value: { getItem: k => m.has(k) ? m.get(k) : null, setItem: (k, v) => m.set(k, String(v)), removeItem: k => m.delete(k), clear: () => m.clear() } }); } // storage blocked: keep settings in memory</script>
 <script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
 
 <!-- Background -->
@@ -4285,6 +4286,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
       <div class="df-panel">
         <div class="df-panel-title"><div class="df-dot dot-yellow-s"></div> Star Force Emulator</div>
         <div class="pr-controls" style="margin-bottom:10px;">
+          <div class="pr-ctrl-field"><div class="pr-ctrl-label">Gear</div><select class="pr-ctrl-input" id="sfGear" onchange="sfInit()"><option value="standard">Standard (max 36)</option><option value="raHatWeapon">Root Abyss hat / weapon (max 30)</option><option value="raTopBottom">Root Abyss top / bottom (max 21)</option></select></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Start SF</div><select class="pr-ctrl-input" id="sfStart"></select></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Target SF</div><select class="pr-ctrl-input" id="sfTarget"></select></div>
           <div class="pr-ctrl-field"><div class="pr-ctrl-label">Trials</div><input class="pr-ctrl-input" id="sfTrials" type="number" min="1" max="100000" value="1"></div>
@@ -4326,7 +4328,7 @@ body[data-theme="dark"] #tab-guide .gg-card {
             <div class="df-note">
               Practice Chaos Will Phase 2 mirror and spider-leg patterns in a standalone trainer.
             </div>
-            <a class="ev-nexon-link" style="display:inline-flex;align-items:center;justify-content:center;width:max-content;max-width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-weight:800;text-decoration:none;" href="assets/chaos-will-pattern-trainer/index.html">Open Pattern Trainer</a>
+            <a class="ev-nexon-link" style="display:inline-flex;align-items:center;justify-content:center;width:max-content;max-width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-weight:800;text-decoration:none;" href="pages/will-trainer.html">Open Pattern Trainer</a>
           </div>
         </details>
 
@@ -4825,19 +4827,6 @@ Boss ATK: 0.25 / 4.5 ≈ +5.56%</pre>
       </div>
     </div>
 
-    <!-- Path of Proof anchor date — hardcoded, hidden -->
-    <div class="rt-pop-settings" style="display:none;">
-      <div class="rt-pop-title"><span>🔵</span> Path of Proof — Anchor Date</div>
-      <div class="rt-pop-form">
-        <div class="rt-pop-field">
-          <div class="rt-pop-label">A known past reset date (UTC midnight)</div>
-          <input class="rt-pop-input" type="date" id="rtPopAnchor" />
-        </div>
-        <button class="rt-save-btn" onclick="rtSaveAnchor()">Save</button>
-      </div>
-      <div class="rt-save-note" id="rtPopNote">Set any past date when Path of Proof reset. The calculator will roll it forward in 28-day cycles automatically.</div>
-    </div>
-
     <!-- Reset cards -->
     <div class="rt-grid">
 
@@ -5221,10 +5210,12 @@ const HUB_TOOLS = [
   { href: 'pages/darknell-callouts.html', group: 'bossing', icon: '🔊', name: 'Darknell Callouts', desc: 'Spoken next-attack callouts per phase; tap an attack to resync.', keys: 'darknell callout audio voice pattern phase' },
   { href: 'pages/buff-watcher.html', group: 'bossing', icon: '👁️', name: 'Buff Watcher', desc: 'Screen-share the game and get spoken alerts when buffs drop. PC only.', keys: 'buff watcher alert screen share timer' },
   { href: 'pages/trade-capture.html', group: 'mesos', icon: '🏷️', name: 'Trade Capture (Beta)', desc: 'Beta. Screen-share Trade Station to save item prices and tag them. PC only.', keys: 'trade station price capture scan tag' },
-  { href: 'assets/chaos-will-pattern-trainer/index.html', group: 'bossing', icon: '🕷️', name: 'Chaos Will Trainer', desc: 'Practice Chaos Will patterns with timers.', keys: 'will chaos trainer pattern' },
+  { href: 'pages/will-trainer.html', group: 'bossing', icon: '🕷️', name: 'Chaos Will Trainer', desc: 'Dodge Will phase 2 spider legs in real time (pattern quiz included).', keys: 'will chaos trainer pattern' },
   { tab: 'starforce', group: 'gear',    icon: '⭐', name: 'Star Force Emulator',      desc: 'Simulate meso cost and destroy risk to a target SF.', keys: 'starforce star force sf enhance' },
   { tab: 'cube',      group: 'gear',    icon: '🧊', name: 'Cube Potential Simulator', desc: 'Potential cube rolls with rank-up and line targeting.', keys: 'cube potential roll' },
   { href: 'pages/upgrade-sims.html', group: 'gear', icon: '🎲', name: 'Upgrade Simulators', desc: 'Transcendence, crafting, emblem and accessory upgrade practice with real rates.', keys: 'transcendence transcend stone crafting necro absolab arcane umbra emblem accessory enhancement pitched dominator' },
+  { href: 'pages/hyper-stats.html', group: 'gear', icon: '📈', name: 'Hyper Stat Calculator', desc: 'Plan bossing and farming hyper stats: points and mesos.', keys: 'hyper stat points final damage boss crit ied mesos' },
+  { href: 'pages/symbols.html', group: 'gear', icon: '🔮', name: 'Symbol Calculator', desc: 'Arcane and Authentic symbols and mesos left to max, and days.', keys: 'arcane authentic symbol rune vanishing journey chu chu lachelein arcana morass esfera cernium' },
   { href: 'pages/mastercraft-scrolls.html', group: 'gear', icon: '🍀', name: 'Mastercraft Scroll Breakeven', desc: 'Which lucky scrolls are worth it per mastercraft attempt.', keys: 'mastercraft lucky scroll breakeven necro ancient absolab arcane umbra au reduction' },
   { tab: 'breakeven', group: 'mesos',   icon: '📈', name: 'Maple Points vs TS',       desc: 'Trade Station meso price vs the crystal route.', keys: 'maple points mp ts trade station crystal breakeven' },
   { tab: 'meso',      group: 'mesos',   icon: '💰', name: 'Meso/hr Calculator',       desc: 'Upload result screenshots and auto-calc mesos per hour.', keys: 'meso mesos per hour farming' },
@@ -5763,7 +5754,8 @@ function dfQuickBuildUnix(){
   const mins=dfQuickParseMinutes(); if(mins==null) return null;
   const now=new Date(); const src=(document.getElementById('dfQuickSource')?.value)||'igt';
   if(src==='igt'){
-    const y=now.getUTCFullYear(), mo=now.getUTCMonth(), d=now.getUTCDate();
+    const srv=new Date(now.getTime()-8*3600000); // server clock is UTC-8
+    const y=srv.getUTCFullYear(), mo=srv.getUTCMonth(), d=srv.getUTCDate();
     const hr=Math.floor(mins/60), mi=mins%60;
     return Math.floor(Date.UTC(y,mo,d,hr+8,mi,0,0)/1000);
   }
@@ -6670,7 +6662,7 @@ function rtNextWeekday(serverDay) {
 }
 
 // Path of Proof: known next reset is 2026-03-15 19:00 UTC, then every 28 days
-function rtNextPoP(anchorDateStr) {
+function rtNextPoP() {
   // Fixed known reset: March 15 23:59 server time (UTC-8) = March 16 07:59 UTC
   const knownReset = new Date('2026-03-16T07:59:00Z');
   const cycleMs = 28 * 24 * 3600 * 1000;
@@ -6679,22 +6671,6 @@ function rtNextPoP(anchorDateStr) {
   // Roll forward until we find the next future reset
   while (next <= now) next += cycleMs;
   return new Date(next);
-}
-
-// ── Anchor date persistence ───────────────────────────
-function rtLoadAnchor() {
-  const saved = localStorage.getItem('rt_pop_anchor');
-  if (saved) {
-    document.getElementById('rtPopAnchor').value = saved;
-    document.getElementById('rtPopNote').textContent = `Anchor set to ${saved}. Next reset auto-calculated.`;
-  }
-}
-
-function rtSaveAnchor() {
-  const val = document.getElementById('rtPopAnchor').value;
-  if (!val) return;
-  localStorage.setItem('rt_pop_anchor', val);
-  document.getElementById('rtPopNote').textContent = `Saved! Next Path of Proof reset auto-calculated from ${val}.`;
 }
 
 function rtShort(ms){
@@ -6774,7 +6750,6 @@ function rtTick() {
 }
 
 // Init
-rtLoadAnchor();
 setTimeout(() => { if (typeof evLoad === 'function') evLoad().then(hubTodayTick); }, 0);
 rtTick();
 setInterval(rtTick, 1000);
@@ -6973,6 +6948,9 @@ function evRender(data) {
   evTickAll(allEvents.filter(ev => ev.end_utc));
 }
 
+// Escaping for feed/user text, and only http(s) links.
+function evEsc(v){ return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function evUrl(u){ return /^https?:\/\//i.test(String(u || '')) ? evEsc(u) : '#'; }
 function evCardKey(ev){ return `${ev.board_id || 'x'}-${ev.thread_id || 'x'}`; }
 
 function evDiscordMessage(ev){
@@ -7023,7 +7001,7 @@ function evBuildCard(ev) {
   const endLocal   = hasTimer ? new Date(ev.end_utc).toLocaleString([], { weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' }) : 'Not scheduled';
   const startLocal = Number.isFinite(startMs) ? new Date(ev.start_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : (ev.posted_utc ? new Date(ev.posted_utc).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '—');
 
-  const title = (ev.title || '').replace(/&amp;/g, '&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  const title = evEsc((ev.title || '').replace(/&amp;/g, '&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')); // feed text, shown as text
   const idSafe = evCardKey(ev);
 
   return `
@@ -7031,7 +7009,7 @@ function evBuildCard(ev) {
       <div class="ev-card-stripe"></div>
       <div class="ev-card-body">
         ${badgeHtml}
-        <a class="ev-card-title" href="${ev.url || '#'}" target="_blank" rel="noopener">${title}</a>
+        <a class="ev-card-title" href="${evUrl(ev.url)}" target="_blank" rel="noopener">${title}</a>
 
         ${hasTimer ? `
         <div class="ev-progress-wrap">
@@ -7057,7 +7035,7 @@ function evBuildCard(ev) {
           ${ev.event_period_raw ? `<div>🧾 Source schedule: <span>${(ev.event_period_raw||'').replace(/</g,'&lt;')}</span></div>` : ''}
           ${ev.end_inferred ? `<div>ℹ️ End time inferred: <span>auto-hide 7 days after scrape</span></div>` : ''}
           <button id="evCopyBtn-${idSafe}" class="ev-nexon-link" style="border:none;cursor:pointer;text-align:left;display:inline-block;margin-top:6px;" onclick="evCopyDiscordMsg('${idSafe}')">📋 Copy Discord time message</button>
-          ${ev.url ? `<a class="ev-nexon-link" href="${ev.url}" target="_blank" rel="noopener">${ev.custom ? 'View link ↗' : 'View on Nexon forum ↗'}</a>` : ''}
+          ${ev.url ? `<a class="ev-nexon-link" href="${evUrl(ev.url)}" target="_blank" rel="noopener">${ev.custom ? 'View link ↗' : 'View on Nexon forum ↗'}</a>` : ''}
         </div>
       </div>
     </div>`;
@@ -7137,7 +7115,7 @@ function evRenderCustomList() {
       return `
         <div class="ev-custom-item">
           <div class="ev-custom-item-info">
-            <div class="ev-custom-item-name">${ev.title}</div>
+            <div class="ev-custom-item-name">${evEsc(ev.title)}</div>
             <div class="ev-custom-item-date">Ends ${end}</div>
           </div>
           <button class="ev-custom-delete" title="Delete" onclick="evDeleteCustom(${i})">✕</button>
@@ -7409,22 +7387,31 @@ setTimeout(flameInit, 0);
 setTimeout(sfInit, 0);
 
 // ===== Star Force Emulator =====
-const SF_TABLE = {
-  1:{s:100,m:100,d:100,x:100,c:10000},2:{s:95,m:100,d:100,x:100,c:15000},3:{s:90,m:100,d:100,x:100,c:20000},4:{s:85,m:100,d:100,x:100,c:55000},5:{s:80,m:100,d:100,x:100,c:100000},
-  6:{s:75,m:100,d:100,x:100,c:200000},7:{s:70,m:100,d:100,x:100,c:300000},8:{s:65,m:100,d:100,x:100,c:400000},9:{s:60,m:100,d:100,x:100,c:600000},10:{s:55,m:100,d:100,x:100,c:800000},
-  11:{s:50,m:85,d:95,x:100,c:1000000},12:{s:45,m:85,d:95,x:100,c:1400000},13:{s:40,m:80,d:95,x:100,c:1800000},14:{s:35,m:80,d:95,x:100,c:2200000},15:{s:30,m:75,d:95,x:100,c:2600000},
-  16:{s:25,m:75,d:95,x:100,c:3000000},17:{s:20,m:70,d:95,x:100,c:3500000},18:{s:15,m:70,d:95,x:100,c:4000000},19:{s:10,m:65,d:95,x:100,c:4500000},20:{s:5,m:65,d:95,x:100,c:5000000},
-  21:{s:1,m:50,d:90,x:100,c:6000000},22:{s:1,m:50,d:90,x:100,c:7000000},23:{s:1,m:50,d:90,x:100,c:8000000},24:{s:1,m:50,d:90,x:100,c:9000000},25:{s:1,m:50,d:90,x:100,c:10000000},
-  26:{s:1,m:40,d:85,x:100,c:11800000},27:{s:1,m:40,d:85,x:100,c:14900000},28:{s:1,m:40,d:85,x:100,c:18000000},29:{s:1,m:40,d:85,x:100,c:21100000},30:{s:1,m:40,d:85,x:100,c:24200000}
+// Success / +keep / +drop cumulative % per target star (rest is destroy). 31–36★ use the 26–30★ rates. Game data 2026/10.
+const SF_RATES = {1:[100,100,100],2:[95,100,100],3:[90,100,100],4:[85,100,100],5:[80,100,100],6:[75,100,100],7:[70,100,100],8:[65,100,100],9:[60,100,100],10:[55,100,100],11:[50,85,95],12:[45,85,95],13:[40,80,95],14:[35,80,95],15:[30,75,95],16:[25,75,95],17:[20,70,95],18:[15,70,95],19:[10,65,95],20:[5,65,95],21:[1,50,90],22:[1,50,90],23:[1,50,90],24:[1,50,90],25:[1,50,90],26:[1,40,85],27:[1,40,85],28:[1,40,85],29:[1,40,85],30:[1,40,85]};
+for (let k = 31; k <= 36; k++) SF_RATES[k] = SF_RATES[30];
+// Meso fee per attempt by target star, per gear type.
+const SF_COSTS = {
+  standard: [5000,10000,20000,35000,50000,80000,150000,200000,300000,400000,560000,640000,720000,800000,1200000,1600000,2000000,2400000,2800000,3200000,3600000,4000000,4800000,5600000,6400000,8100000,9000000,13500000,18000000,20700000,30000000,35000000,40000000,45000000,50000000,55000000],
+  raHatWeapon: [10000,15000,30000,55000,100000,180000,270000,360000,450000,540000,560000,640000,720000,800000,1200000,1600000,2000000,2400000,2800000,3200000,3600000,4000000,4800000,5600000,6400000,8100000,9000000,13500000,18000000,20700000],
+  raTopBottom: [10000,45000,90000,165000,300000,540000,1080000,1440000,1800000,2160000,2240000,3200000,3600000,4000000,6000000,8000000,12000000,14400000,16800000,19200000,21600000]
 };
+let SF_TABLE = {};
+function sfBuild(){
+  const costs = SF_COSTS[(document.getElementById('sfGear')||{}).value] || SF_COSTS.standard;
+  SF_TABLE = {};
+  costs.forEach((c, i) => { const [s, m, d] = SF_RATES[i + 1]; SF_TABLE[i + 1] = { s, m, d, x: 100, c }; });
+  return costs.length;
+}
 
 function sfInit(){
   const s=document.getElementById('sfStart'), e=document.getElementById('sfTarget');
   if(!s||!e) return;
+  const max = sfBuild(), keepS = s.value, keepE = e.value;
   s.innerHTML=''; e.innerHTML='';
-  for(let i=0;i<=29;i++){ s.add(new Option(String(i),String(i))); }
-  for(let i=1;i<=30;i++){ e.add(new Option(String(i),String(i))); }
-  s.value='0'; e.value='18';
+  for(let i=0;i<max;i++){ s.add(new Option(String(i),String(i))); }
+  for(let i=1;i<=max;i++){ e.add(new Option(String(i),String(i))); }
+  s.value = +keepS < max ? keepS || '0' : '0'; e.value = +keepE <= max ? keepE || '18' : String(max);
 }
 
 function sfAttempt(state, opts){
