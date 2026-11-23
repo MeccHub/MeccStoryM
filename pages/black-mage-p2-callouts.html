@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Mage P2 Callouts - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+<style>
+  .bm-now { font: 900 28px "Nunito", sans-serif; color: var(--msm-ink); margin: 6px 0 2px; }
+  .bm-next { font-weight: 800; color: var(--msm-muted); }
+  .bm-list { display: grid; gap: 4px; max-height: 420px; overflow: auto; }
+  .bm-list button { display: grid; grid-template-columns: 52px 1fr; gap: 8px; text-align: left; font: 700 14px "Nunito", sans-serif; padding: 6px 10px; border-radius: 8px; border: 2px solid transparent; background: var(--msm-soft); color: var(--msm-ink); cursor: pointer; }
+  .bm-list button.big { color: #f59e0b; }
+  .bm-list button.cur { border-color: #8b5cf6; }
+  .bm-list button.done { opacity: .5; }
+</style>
+</head>
+<body data-nav-active="blackmage">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Black Mage P2 Callouts</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Press Start when Phase 2 begins. The voice track calls every pattern on a fixed timeline. If it drifts, nudge it or tap a callout below to jump there.</p>
+    <div class="cx-row">
+      <button class="cx-btn" id="go" type="button" style="font-size:16px;padding:10px 18px">Start</button>
+      <button class="cx-btn" id="back" type="button">−1s</button>
+      <button class="cx-btn" id="fwd" type="button">+1s</button>
+    </div>
+    <div class="bm-now" id="now">Ready</div>
+    <div class="bm-next" id="next"></div>
+    <audio id="a" src="../assets/audio/black-mage-p2.mp3" preload="auto"></audio>
+  </section>
+  <section class="msm-panel">
+    <h2 class="cx-sub">Timeline</h2>
+    <div class="bm-list" id="list"></div>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Seconds into the voice track where each callout is spoken.
+  const CUES = [
+    [11.2, "Spike"], [18.4, "Cleanse"], [23.7, "Spike"], [28.1, "Marshmallow + Dog"], [36.3, "Spike"], [39.6, "Wait for Spike"],
+    [45.5, "Cleanse"], [48.6, "Spike"], [66.3, "Cleanse + Spike"], [70.2, "Full map attack: one person Origin binds boss after red eyes"],
+    [76.5, "Spike"], [83.7, "Marshmallow + Dog"], [85.6, "Spike"], [97.8, "Cleanse + Spike"], [104.0, "Spike"], [105.7, "Marshmallow"],
+    [113.9, "Cleanse + Spike"], [118.2, "Marshmallow"], [125.2, "Cleanse + Spike"], [131.7, "Dog"], [134.1, "Spike"],
+    [148.1, "Full map attack: i-frame up"], [164.0, "Cleanse + Spike"], [165.8, "Spike"], [173.6, "Cleanse"], [175.4, "Marshmallow"],
+    [176.7, "Cleanse"], [183.1, "Spike + Dog"], [188.6, "Spike"], [193.6, "Spike"], [203.7, "Cleanse + Spike"], [209.2, "Marshmallow"],
+    [217.5, "Spike"], [220.5, "Cleanse"], [228.2, "Full map attack: everyone Origin binds boss after red eyes"], [243.7, "Spike"],
+    [249.8, "Marshmallow"], [255.6, "Cleanse + Spike"], [269.1, "Spike"], [281.2, "Spike + Dog, then Cleanse"], [294.9, "Spike"],
+    [297.4, "Marshmallow"], [299.4, "Cleanse"], [307.1, "Full map attack: i-frame up"], [322.9, "Spike"], [336.0, "Cleanse + Dog + Marshmallow"],
+    [348.3, "Spike"], [357.3, "Cleanse + Spike"], [368.4, "Spike"], [371.9, "Spike"], [394.2, "Spike + Dog"], [397.9, "Spike + Marshmallow"],
+    [399.2, "Stop and wait for Origin"], [411.0, "Spike"], [413.3, "Cleanse"], [425.0, "Spike"], [428.9, "Go do damage"],
+  ];
+  const START = 2.5, $ = id => document.getElementById(id), a = $("a");
+  const mmss = t => { t = Math.max(0, Math.round(t - START)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); };
+  $("list").innerHTML = CUES.map(([t, s], i) => `<button type="button" data-i="${i}" class="${s.startsWith("Full map") || s.startsWith("Stop") ? "big" : ""}"><span>${mmss(t)}</span><span>${s}</span></button>`).join("");
+  const rows = [...$("list").children];
+  let last = -2;
+  function tick() {
+    const t = a.currentTime, i = CUES.findLastIndex(c => c[0] <= t + 0.05);
+    if (i !== last) {
+      rows.forEach((r, k) => { r.classList.toggle("cur", k === i); r.classList.toggle("done", k < i); });
+      if (rows[i]) rows[i].scrollIntoView({ block: "nearest" });
+      last = i;
+    }
+    $("now").textContent = a.paused ? (t > START ? "Paused" : "Ready") : i >= 0 ? CUES[i][1] : "Started";
+    const n = CUES[i + 1];
+    $("next").textContent = n ? `Next: ${n[1]} in ${Math.max(0, n[0] - t).toFixed(1)}s` : "";
+    $("go").textContent = a.paused ? (t > START ? "Resume" : "Start") : "Stop";
+    if (!a.paused) requestAnimationFrame(tick);
+  }
+  const seek = t => { a.currentTime = Math.max(0, Math.min(a.duration || 1e9, t)); tick(); };
+  $("go").onclick = () => {
+    if (!a.paused) { a.pause(); a.currentTime = 0; tick(); return; }
+    if (a.currentTime < START) a.currentTime = START;
+    a.play().then(tick);
+  };
+  a.onpause = a.onended = tick;
+  $("back").onclick = () => seek(a.currentTime - 1);
+  $("fwd").onclick = () => seek(a.currentTime + 1);
+  $("list").onclick = e => { const b = e.target.closest("[data-i]"); if (b) { seek(CUES[+b.dataset.i][0] - 0.3); if (a.paused) a.play().then(tick); } };
+  tick();
+</script>
+</body>
+</html>
