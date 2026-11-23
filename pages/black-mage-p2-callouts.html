@@ -12,11 +12,23 @@
 <style>
   .bm-now { font: 900 28px "Nunito", sans-serif; color: var(--msm-ink); margin: 6px 0 2px; }
   .bm-next { font-weight: 800; color: var(--msm-muted); }
-  .bm-list { display: grid; gap: 4px; max-height: 420px; overflow: auto; }
+  .bm-list { position: relative; display: grid; gap: 4px; max-height: 420px; overflow: auto; }
   .bm-list button { display: grid; grid-template-columns: 52px 1fr; gap: 8px; text-align: left; font: 700 14px "Nunito", sans-serif; padding: 6px 10px; border-radius: 8px; border: 2px solid transparent; background: var(--msm-soft); color: var(--msm-ink); cursor: pointer; }
   .bm-list button.big { color: #f59e0b; }
   .bm-list button.cur { border-color: #8b5cf6; }
   .bm-list button.done { opacity: .5; }
+  .bm-up { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+  .bm-up div { padding: 8px; border-radius: 10px; background: var(--msm-soft); font-weight: 800; font-size: 13px; color: var(--msm-ink); border-left: 6px solid #64748b; }
+  .bm-up div:first-child { outline: 2px solid #8b5cf6; }
+  .bm-up b { display: block; font-size: 20px; }
+  .bm-pads { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-top: 10px; }
+  .bm-pads button { font: 900 16px "Nunito", sans-serif; padding: 14px 8px; border-radius: 12px; border: 0; color: #fff; cursor: pointer; }
+  .k-spike { border-color: #ef4444 !important; } .bm-pads .k-spike { background: #dc2626; }
+  .k-cleanse { border-color: #22c55e !important; } .bm-pads .k-cleanse { background: #16a34a; }
+  .k-marshmallow { border-color: #ec4899 !important; } .bm-pads .k-marshmallow { background: #db2777; }
+  .k-dog { border-color: #3b82f6 !important; } .bm-pads .k-dog { background: #2563eb; }
+  .k-full { border-color: #f59e0b !important; } .bm-pads .k-full { background: #d97706; }
+  @media (max-width: 520px) { .bm-up { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body data-nav-active="blackmage">
@@ -34,6 +46,15 @@
     </div>
     <div class="bm-now" id="now">Ready</div>
     <div class="bm-next" id="next"></div>
+    <div class="bm-up" id="up"></div>
+    <p class="msm-muted" style="margin:12px 0 0;font-size:13px;font-weight:700">Resync: tap the pattern as it happens. It jumps to the nearest one on the timeline (and starts if stopped).</p>
+    <div class="bm-pads" id="pads">
+      <button type="button" class="k-spike" data-k="spike">Spike</button>
+      <button type="button" class="k-cleanse" data-k="cleanse">Cleanse</button>
+      <button type="button" class="k-marshmallow" data-k="marshmallow">Marshmallow</button>
+      <button type="button" class="k-dog" data-k="dog">Dog</button>
+      <button type="button" class="k-full" data-k="full">Full map attack</button>
+    </div>
     <audio id="a" src="../assets/audio/black-mage-p2.mp3" preload="auto"></audio>
   </section>
   <section class="msm-panel">
@@ -73,12 +94,13 @@
     const t = a.currentTime, i = CUES.findLastIndex(c => c[0] <= t + 0.05);
     if (i !== last) {
       rows.forEach((r, k) => { r.classList.toggle("cur", k === i); r.classList.toggle("done", k < i); });
-      if (rows[i]) rows[i].scrollIntoView({ block: "nearest" });
+      if (rows[i]) $("list").scrollTop = rows[i].offsetTop - 80; // scroll the list only, not the page
       last = i;
     }
     $("now").textContent = a.paused ? (t > START ? "Paused" : "Ready") : i >= 0 ? CUES[i][1] : "Started";
     const n = CUES[i + 1];
     $("next").textContent = n ? `Next: ${n[1]} in ${Math.max(0, n[0] - t).toFixed(1)}s` : "";
+    $("up").innerHTML = CUES.slice(i + 1, i + 5).map(([ct, txt]) => `<div class="k-${kind(txt)}"><b>${Math.max(0, ct - t).toFixed(0)}s</b>${txt}</div>`).join("");
     $("go").textContent = a.paused ? (t > START ? "Resume" : "Start") : "Stop";
     if (!a.paused) requestAnimationFrame(tick);
   }
@@ -91,6 +113,15 @@
   a.onpause = a.onended = tick;
   $("back").onclick = () => seek(a.currentTime - 1);
   $("fwd").onclick = () => seek(a.currentTime + 1);
+  const KINDS = ["full", "marshmallow", "dog", "cleanse", "spike"], kind = txt => KINDS.find(k => txt.toLowerCase().includes(k)) || "other";
+  // Tap a pattern when it happens: jump to the nearest cue with it (callouts are spoken a little before, so land just after the cue).
+  $("pads").onclick = e => {
+    const k = e.target.dataset.k; if (!k) return;
+    const t = a.paused && a.currentTime <= START ? START : a.currentTime;
+    const best = CUES.filter(c => c[1].toLowerCase().includes(k)).reduce((b, c) => Math.abs(c[0] - t) < Math.abs(b[0] - t) ? c : b);
+    seek(best[0] + 1);
+    if (a.paused) a.play().then(tick);
+  };
   $("list").onclick = e => { const b = e.target.closest("[data-i]"); if (b) { seek(CUES[+b.dataset.i][0] - 0.3); if (a.paused) a.play().then(tick); } };
   tick();
   window.bmAutoStart = () => { if (!a.paused) return false; a.currentTime = START; a.play().then(tick); return true; };
