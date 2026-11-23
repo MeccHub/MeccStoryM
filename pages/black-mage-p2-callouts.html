@@ -37,6 +37,12 @@
     <audio id="a" src="../assets/audio/black-mage-p2.mp3" preload="auto"></audio>
   </section>
   <section class="msm-panel">
+    <h2 class="cx-sub">🤖 Auto start (beta, PC only)</h2>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Share the game window. When the "Throne of Darkness" banner appears after the P2 cutscene, the voice track starts by itself.</p>
+    <button class="cx-btn" id="apShare" type="button">Share game window</button>
+    <p class="msm-muted" id="apStatus" style="margin:6px 0 0;font-size:13px;font-weight:700">Not sharing.</p>
+  </section>
+  <section class="msm-panel">
     <h2 class="cx-sub">Timeline</h2>
     <div class="bm-list" id="list"></div>
   </section>
@@ -87,6 +93,53 @@
   $("fwd").onclick = () => seek(a.currentTime + 1);
   $("list").onclick = e => { const b = e.target.closest("[data-i]"); if (b) { seek(CUES[+b.dataset.i][0] - 0.3); if (a.paused) a.play().then(tick); } };
   tick();
+  window.bmAutoStart = () => { if (!a.paused) return false; a.currentTime = START; a.play().then(tick); return true; };
+</script>
+<script type="module">
+  // Auto start: match the P2 banner text (cropped from a 2000×991 screenshot) on the shared screen.
+  import { toGray, prepBoth, prepFrame, find, frameSource } from "../assets/js/buffwatch-core.js";
+  const $ = id => document.getElementById(id), REF = { w: 2000, h: 991, x: 278, y: 360 }, THRESH = 0.6;
+  const grab = document.createElement("canvas"), g = grab.getContext("2d", { willReadFrequently: true });
+  const video = document.createElement("video"); video.muted = true;
+  let src = video, grabFrame, temps = [], hits = 0, firedAt = 0, busy = false;
+  const vw = () => src.width || video.videoWidth, vh = () => src.height || video.videoHeight;
+  const gray = (img, r) => { grab.width = r.w; grab.height = r.h; g.drawImage(img, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h); return toGray(g.getImageData(0, 0, r.w, r.h)); };
+  async function build() {
+    const im = await createImageBitmap(await (await fetch("../data/black-mage-banners/p2.png")).blob());
+    // The UI may scale with width or height (see the Darknell page), so try each; the banner is centred.
+    const scales = [...new Set([vw() / REF.w, vh() / REF.h, vh() / REF.h * 0.988].map(v => +v.toFixed(3)))];
+    return scales.map(sc => {
+      const w = Math.round(im.width * sc), h = Math.round(im.height * sc), x = Math.round(vw() / 2 + (REF.x + im.width / 2 - REF.w / 2) * sc - w / 2), y = Math.round(REF.y * sc);
+      const pad = 40, r = { x: Math.max(0, x - pad), y: Math.max(0, y - pad) }; r.w = Math.min(vw() - r.x, w + 2 * pad); r.h = Math.min(vh() - r.y, h + 2 * pad);
+      grab.width = w; grab.height = h; g.drawImage(im, 0, 0, w, h);
+      return { T: prepBoth(toGray(g.getImageData(0, 0, w, h))), r };
+    });
+  }
+  const ticker = new Worker(URL.createObjectURL(new Blob(["setInterval(() => postMessage(0), 150)"], { type: "text/javascript" })));
+  ticker.onmessage = async () => {
+    if (!temps.length || busy) return;
+    busy = true;
+    try {
+      src = await grabFrame();
+      const best = Math.max(...temps.map(t => find(prepFrame(gray(src, t.r)), t.T, null, THRESH).score));
+      hits = best >= THRESH ? hits + 1 : 0;
+      if (hits === 2 && performance.now() - firedAt > 60000) { // the banner stays up a few seconds: act once
+        firedAt = performance.now();
+        $("apStatus").textContent = window.bmAutoStart() ? "Banner seen: callouts started." : "Banner seen (already playing).";
+      } else if (!firedAt) $("apStatus").textContent = `Watching for the P2 banner… best match ${best.toFixed(2)} (needs ${THRESH}).`;
+    } finally { busy = false; }
+  };
+  $("apShare").onclick = async () => {
+    let stream;
+    try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 10 }, audio: false }); }
+    catch (e) { $("apStatus").textContent = "Screen share was cancelled."; return; }
+    video.srcObject = stream; video.play().catch(() => {});
+    grabFrame = frameSource(stream.getVideoTracks()[0], video);
+    for (let i = 0; i < 100 && !vw(); i++) { src = await grabFrame(); if (!vw()) await new Promise(r => setTimeout(r, 50)); }
+    stream.getVideoTracks()[0].onended = () => { temps = []; $("apStatus").textContent = "Screen share ended."; };
+    firedAt = 0; temps = await build();
+  };
+  if (!navigator.mediaDevices?.getDisplayMedia) { $("apShare").disabled = true; $("apStatus").textContent = "Needs Chrome or Edge on PC."; }
 </script>
 </body>
 </html>
