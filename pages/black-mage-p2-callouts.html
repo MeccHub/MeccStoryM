@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Mage P2 Callouts - MeccStoryM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/calc.css">
+<style>
+  .bm-now { font: 900 28px "Nunito", sans-serif; color: var(--msm-ink); margin: 6px 0 2px; }
+  .bm-next { font-weight: 800; color: var(--msm-muted); }
+  .bm-list { position: relative; display: grid; gap: 4px; max-height: 420px; overflow: auto; }
+  .bm-list button { display: grid; grid-template-columns: 52px 1fr; gap: 8px; text-align: left; font: 700 14px "Nunito", sans-serif; padding: 6px 10px; border-radius: 8px; border: 2px solid transparent; background: var(--msm-soft); color: var(--msm-ink); cursor: pointer; }
+  .bm-list button.big { color: #f59e0b; }
+  .bm-list button.cur { border-color: #8b5cf6; }
+  .bm-list button.done { opacity: .5; }
+  .bm-up { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+  .bm-up div { padding: 8px; border-radius: 10px; background: var(--msm-soft); font-weight: 800; font-size: 13px; color: var(--msm-ink); border-left: 6px solid #64748b; }
+  .bm-up div:first-child { outline: 2px solid #8b5cf6; }
+  .bm-up b { display: block; font-size: 20px; }
+  .bm-pads { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-top: 10px; }
+  .bm-pads button { font: 900 16px "Nunito", sans-serif; padding: 14px 8px; border-radius: 12px; border: 0; color: #fff; cursor: pointer; }
+  .k-spike { border-color: #ef4444 !important; } .bm-pads .k-spike { background: #dc2626; }
+  .k-cleanse { border-color: #22c55e !important; } .bm-pads .k-cleanse { background: #16a34a; }
+  .k-marshmallow { border-color: #ec4899 !important; } .bm-pads .k-marshmallow { background: #db2777; }
+  .k-dog { border-color: #3b82f6 !important; } .bm-pads .k-dog { background: #2563eb; }
+  .k-full { border-color: #f59e0b !important; } .bm-pads .k-full { background: #d97706; }
+  @media (max-width: 520px) { .bm-up { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body data-nav-active="blackmage">
+<script>document.body.dataset.theme = (function(){ try { return localStorage.getItem('msm_theme'); } catch (e) {} })() === 'light' ? 'light' : 'dark';</script>
+<div id="site-nav"></div>
+
+<main class="msm-page cx-grid">
+  <section class="msm-panel">
+    <h1 class="msm-section-title">Black Mage P2 Callouts</h1>
+    <p class="msm-muted" style="margin:0 0 10px;font-size:13px">Press Start when Phase 2 begins. The voice track calls every pattern on a fixed timeline. If it drifts, nudge it or tap a callout below to jump there.</p>
+    <div class="cx-row">
+      <button class="cx-btn" id="go" type="button" style="font-size:16px;padding:10px 18px">Start</button>
+      <button class="cx-btn" id="back" type="button">−1s</button>
+      <button class="cx-btn" id="fwd" type="button">+1s</button>
+    </div>
+    <div class="bm-now" id="now">Ready</div>
+    <div class="bm-next" id="next"></div>
+    <div class="bm-up" id="up"></div>
+    <p class="msm-muted" style="margin:12px 0 0;font-size:13px;font-weight:700">Resync: tap the pattern as it happens. It jumps to the nearest one on the timeline (and starts if stopped).</p>
+    <div class="bm-pads" id="pads">
+      <button type="button" class="k-spike" data-k="spike">Spike</button>
+      <button type="button" class="k-cleanse" data-k="cleanse">Cleanse</button>
+      <button type="button" class="k-marshmallow" data-k="marshmallow">Marshmallow</button>
+      <button type="button" class="k-dog" data-k="dog">Dog</button>
+      <button type="button" class="k-full" data-k="full">Full map attack</button>
+    </div>
+    <audio id="a" src="../assets/audio/black-mage-p2.mp3" preload="auto"></audio>
+  </section>
+  <section class="msm-panel">
+    <h2 class="cx-sub">🤖 Auto start (beta, PC only)</h2>
+    <p class="msm-muted" style="margin:0 0 8px;font-size:13px">Share the game window. When the "Throne of Darkness" banner appears after the P2 cutscene, the voice track starts by itself.</p>
+    <button class="cx-btn" id="apShare" type="button">Share game window</button>
+    <p class="msm-muted" id="apStatus" style="margin:6px 0 0;font-size:13px;font-weight:700">Not sharing.</p>
+  </section>
+  <section class="msm-panel">
+    <h2 class="cx-sub">Timeline</h2>
+    <div class="bm-list" id="list"></div>
+  </section>
+</main>
+
+<script src="../assets/js/site-nav.js"></script>
+<script>
+  // Seconds into the voice track where each callout is spoken.
+  const CUES = [
+    [11.2, "Spike"], [18.4, "Cleanse"], [23.7, "Spike"], [28.1, "Marshmallow + Dog"], [36.3, "Spike"], [39.6, "Wait for Spike"],
+    [45.5, "Cleanse"], [48.6, "Spike"], [66.3, "Cleanse + Spike"], [70.2, "Full map attack: one person Origin binds boss after red eyes"],
+    [76.5, "Spike"], [83.7, "Marshmallow + Dog"], [85.6, "Spike"], [97.8, "Cleanse + Spike"], [104.0, "Spike"], [105.7, "Marshmallow"],
+    [113.9, "Cleanse + Spike"], [118.2, "Marshmallow"], [125.2, "Cleanse + Spike"], [131.7, "Dog"], [134.1, "Spike"],
+    [148.1, "Full map attack: i-frame up"], [164.0, "Cleanse + Spike"], [165.8, "Spike"], [173.6, "Cleanse"], [175.4, "Marshmallow"],
+    [176.7, "Cleanse"], [183.1, "Spike + Dog"], [188.6, "Spike"], [193.6, "Spike"], [203.7, "Cleanse + Spike"], [209.2, "Marshmallow"],
+    [217.5, "Spike"], [220.5, "Cleanse"], [228.2, "Full map attack: everyone Origin binds boss after red eyes"], [243.7, "Spike"],
+    [249.8, "Marshmallow"], [255.6, "Cleanse + Spike"], [269.1, "Spike"], [281.2, "Spike + Dog, then Cleanse"], [294.9, "Spike"],
+    [297.4, "Marshmallow"], [299.4, "Cleanse"], [307.1, "Full map attack: i-frame up"], [322.9, "Spike"], [336.0, "Cleanse + Dog + Marshmallow"],
+    [348.3, "Spike"], [357.3, "Cleanse + Spike"], [368.4, "Spike"], [371.9, "Spike"], [394.2, "Spike + Dog"], [397.9, "Spike + Marshmallow"],
+    [399.2, "Stop and wait for Origin"], [411.0, "Spike"], [413.3, "Cleanse"], [425.0, "Spike"], [428.9, "Go do damage"],
+  ];
+  const START = 2.5, $ = id => document.getElementById(id), a = $("a");
+  const mmss = t => { t = Math.max(0, Math.round(t - START)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); };
+  $("list").innerHTML = CUES.map(([t, s], i) => `<button type="button" data-i="${i}" class="${s.startsWith("Full map") || s.startsWith("Stop") ? "big" : ""}"><span>${mmss(t)}</span><span>${s}</span></button>`).join("");
+  const rows = [...$("list").children];
+  let last = -2;
+  function tick() {
+    const t = a.currentTime, i = CUES.findLastIndex(c => c[0] <= t + 0.05);
+    if (i !== last) {
+      rows.forEach((r, k) => { r.classList.toggle("cur", k === i); r.classList.toggle("done", k < i); });
+      if (rows[i]) $("list").scrollTop = rows[i].offsetTop - 80; // scroll the list only, not the page
+      last = i;
+    }
+    $("now").textContent = a.paused ? (t > START ? "Paused" : "Ready") : i >= 0 ? CUES[i][1] : "Started";
+    const n = CUES[i + 1];
+    $("next").textContent = n ? `Next: ${n[1]} in ${Math.max(0, n[0] - t).toFixed(1)}s` : "";
+    $("up").innerHTML = CUES.slice(i + 1, i + 5).map(([ct, txt]) => `<div class="k-${kind(txt)}"><b>${Math.max(0, ct - t).toFixed(0)}s</b>${txt}</div>`).join("");
+    $("go").textContent = a.paused ? (t > START ? "Resume" : "Start") : "Stop";
+    if (!a.paused) requestAnimationFrame(tick);
+  }
+  const seek = t => { a.currentTime = Math.max(0, Math.min(a.duration || 1e9, t)); tick(); };
+  $("go").onclick = () => {
+    if (!a.paused) { a.pause(); a.currentTime = 0; tick(); return; }
+    if (a.currentTime < START) a.currentTime = START;
+    a.play().then(tick);
+  };
+  a.onpause = a.onended = tick;
+  $("back").onclick = () => seek(a.currentTime - 1);
+  $("fwd").onclick = () => seek(a.currentTime + 1);
+  const KINDS = ["full", "marshmallow", "dog", "cleanse", "spike"], kind = txt => KINDS.find(k => txt.toLowerCase().includes(k)) || "other";
+  // Tap a pattern when it happens: jump to the nearest cue with it (callouts are spoken a little before, so land just after the cue).
+  $("pads").onclick = e => {
+    const k = e.target.dataset.k; if (!k) return;
+    const t = a.paused && a.currentTime <= START ? START : a.currentTime;
+    const best = CUES.filter(c => c[1].toLowerCase().includes(k)).reduce((b, c) => Math.abs(c[0] - t) < Math.abs(b[0] - t) ? c : b);
+    seek(best[0] + 1);
+    if (a.paused) a.play().then(tick);
+  };
+  $("list").onclick = e => { const b = e.target.closest("[data-i]"); if (b) { seek(CUES[+b.dataset.i][0] - 0.3); if (a.paused) a.play().then(tick); } };
+  tick();
+  window.bmAutoStart = () => { if (!a.paused) return false; a.currentTime = START; a.play().then(tick); return true; };
+</script>
+<script type="module">
+  // Auto start: match the P2 banner text (cropped from a 2000×991 screenshot) on the shared screen.
+  import { toGray, prepBoth, prepFrame, find, frameSource } from "../assets/js/buffwatch-core.js";
+  const $ = id => document.getElementById(id), REF = { w: 2000, h: 991, x: 278, y: 360 }, THRESH = 0.6;
+  const grab = document.createElement("canvas"), g = grab.getContext("2d", { willReadFrequently: true });
+  const video = document.createElement("video"); video.muted = true;
+  let src = video, grabFrame, temps = [], hits = 0, firedAt = 0, busy = false;
+  const vw = () => src.width || video.videoWidth, vh = () => src.height || video.videoHeight;
+  const gray = (img, r) => { grab.width = r.w; grab.height = r.h; g.drawImage(img, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h); return toGray(g.getImageData(0, 0, r.w, r.h)); };
+  async function build() {
+    const im = await createImageBitmap(await (await fetch("../data/black-mage-banners/p2.png")).blob());
+    // The UI may scale with width or height (see the Darknell page), so try each; the banner is centred.
+    const scales = [...new Set([vw() / REF.w, vh() / REF.h, vh() / REF.h * 0.988].map(v => +v.toFixed(3)))];
+    return scales.map(sc => {
+      const w = Math.round(im.width * sc), h = Math.round(im.height * sc), x = Math.round(vw() / 2 + (REF.x + im.width / 2 - REF.w / 2) * sc - w / 2), y = Math.round(REF.y * sc);
+      const pad = 40, r = { x: Math.max(0, x - pad), y: Math.max(0, y - pad) }; r.w = Math.min(vw() - r.x, w + 2 * pad); r.h = Math.min(vh() - r.y, h + 2 * pad);
+      grab.width = w; grab.height = h; g.drawImage(im, 0, 0, w, h);
+      return { T: prepBoth(toGray(g.getImageData(0, 0, w, h))), r };
+    });
+  }
+  const ticker = new Worker(URL.createObjectURL(new Blob(["setInterval(() => postMessage(0), 150)"], { type: "text/javascript" })));
+  ticker.onmessage = async () => {
+    if (!temps.length || busy) return;
+    busy = true;
+    try {
+      src = await grabFrame();
+      const best = Math.max(...temps.map(t => find(prepFrame(gray(src, t.r)), t.T, null, THRESH).score));
+      hits = best >= THRESH ? hits + 1 : 0;
+      if (hits === 2 && performance.now() - firedAt > 60000) { // the banner stays up a few seconds: act once
+        firedAt = performance.now();
+        $("apStatus").textContent = window.bmAutoStart() ? "Banner seen: callouts started." : "Banner seen (already playing).";
+      } else if (!firedAt) $("apStatus").textContent = `Watching for the P2 banner… best match ${best.toFixed(2)} (needs ${THRESH}).`;
+    } finally { busy = false; }
+  };
+  $("apShare").onclick = async () => {
+    let stream;
+    try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 10 }, audio: false }); }
+    catch (e) { $("apStatus").textContent = "Screen share was cancelled."; return; }
+    video.srcObject = stream; video.play().catch(() => {});
+    grabFrame = frameSource(stream.getVideoTracks()[0], video);
+    for (let i = 0; i < 100 && !vw(); i++) { src = await grabFrame(); if (!vw()) await new Promise(r => setTimeout(r, 50)); }
+    stream.getVideoTracks()[0].onended = () => { temps = []; $("apStatus").textContent = "Screen share ended."; };
+    firedAt = 0; temps = await build();
+  };
+  if (!navigator.mediaDevices?.getDisplayMedia) { $("apShare").disabled = true; $("apStatus").textContent = "Needs Chrome or Edge on PC."; }
+</script>
+</body>
+</html>
