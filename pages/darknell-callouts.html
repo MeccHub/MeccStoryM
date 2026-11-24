@@ -17,7 +17,10 @@
   }
   .dk-btn.on { border-color: #8b5cf6; box-shadow: inset 0 0 0 1px #8b5cf6; }
   .dk-attacks .dk-btn { min-width: 72px; text-transform: capitalize; }
-  .dk-attacks .dk-btn.now { background: #8b5cf6; color: #fff; }
+  .dk-attacks .dk-btn { --c: #8b5cf6; border-left: 6px solid var(--c); background: color-mix(in srgb, var(--c) 18%, var(--msm-field)); }
+  .a-push { --c: #3b82f6 !important; } .a-dash { --c: #06b6d4 !important; } .a-buff { --c: #22c55e !important; }
+  .a-fly { --c: #ef4444 !important; } .a-meteor { --c: #f59e0b !important; } .a-charge { --c: #ec4899 !important; }
+  .dk-attacks .dk-btn.now { background: var(--c); color: #fff; }
   .dk-attacks .dk-btn.next { border-color: #f59e0b; box-shadow: inset 0 0 0 2px #f59e0b; }
   .dk-phase { display: flex; gap: 10px; align-items: center; padding: 10px; }
   .dk-phase > b { font-family: "Fredoka One", sans-serif; font-size: 18px; color: var(--msm-ink); }
@@ -34,7 +37,8 @@
   .dk-attacks .dk-btn { position: relative; overflow: hidden; isolation: isolate; }
   .dk-fill { position: absolute; inset: 0 auto 0 0; width: 0; z-index: -1; background: #8b5cf6; opacity: .45; }
   .dk-bar i.fly, .dk-fill.fly { background: #ef4444; }
-  .dk-bar i.meteor, .dk-bar i.charge, .dk-fill.meteor, .dk-fill.charge { background: #f59e0b; }
+  .dk-bar i.meteor, .dk-fill.meteor { background: #f59e0b; }
+  .dk-bar i.charge, .dk-fill.charge { background: #ec4899; }
   .dk-set { display: inline-block; margin: 8px 0 0 6px; vertical-align: top; }
   .dk-set summary { list-style: none; display: inline-block; }
   .dk-set[open] { display: grid; gap: 8px; margin: 8px 0 0; max-width: 360px; }
@@ -185,7 +189,7 @@
     $("phases").innerHTML = PHASES.map((list, p) => `<section class="msm-panel dk-phase"><b>P${p}</b><div class="dk-attacks">` +
       list.map(([name], i) => {
         const now = cur && cur[0] === p && cur[1] === i, next = cur && String(nx(cur)) === String([p, i]);
-        return `<button class="dk-btn${now ? " now" : ""}${next ? " next" : ""}" type="button" data-p="${p}" data-i="${i}">${name}</button>`;
+        return `<button class="dk-btn a-${name}${now ? " now" : ""}${next ? " next" : ""}" type="button" data-p="${p}" data-i="${i}">${name}</button>`;
       }).join("") + `</div></section>`).join("");
   }
 
